@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+use strict;
+
+system "nedit-nc -noask -group -- '" . (join "' '", sort map { s/[\:\n].*$//sgo; $_ } <STDIN>) . "'";
+
+__END__
+
+nc -noask -group --
+
+NEdit -> Preferences -> Default Settings -> Customize Menus -> Shell Menu
+Shell Menu:
+
+Menu Entry: 		Perl>Run
+Command Input: 	none
+Command Output: 	dialog
+
+Save file before executing command: 	true
+
+Shell Command to Execute:
+/home/holger/perl/cpan/Weed/nedit/perlrun '%'

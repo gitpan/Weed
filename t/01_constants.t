@@ -6,11 +6,11 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok('Weed');
+	use_ok 'Weed';
 }
 
-use_ok 'Weed' for 1 .. 10;
-
-do { use Weed } for 1 .. 10;
+ok (X3DConstants->TRUE);
+ok (! X3DConstants->FALSE);
 
 __END__
+

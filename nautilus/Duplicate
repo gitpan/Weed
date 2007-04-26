@@ -1,0 +1,21 @@
+#!/usr/bin/perl -w
+use strict;
+use File::Basename qw(basename dirname);
+
+sub dubname {
+	my ( $path, $n ) = @_;
+	my $dirname  = dirname $path;
+	my $basename = basename $path;
+	return "$dirname/Copy $n of $basename";
+}
+
+my $file = $ARGV[0];
+
+my $n       = "1";
+my $dubname = "";
+$n++ while -e ( $dubname = dubname( $file, $n ) );
+
+system "cp '$file' '$dubname'";
+
+1;
+__END__

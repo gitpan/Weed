@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+use strict;
+
+my $file    = shift @ARGV;
+my $command = "";
+
+if ( $file =~ m|(.*?/cpan/.*?/lib/)|o ) {
+	$command = qq|perl -w -I '$1' '$file' 2>&1|;
+} else {
+	$command = qq|perl -w -I ~/perl '$file' 2>&1|;
+}
+
+foreach (`$command`) {
+	s/(?:Constant )?[Ss]ubroutine.*?redefined.*\n//o; 
+	print $_;
+}
+
+
+__END__
+
+NEdit -> Preferences -> Default Settings -> Customize Menus -> Shell Menu
+Shell Menu:
+
+Menu Entry: 		Perl>Run
+Command Input: 	none
+Command Output: 	dialog
+
+Save file before executing command: 	true
+
+Shell Command to Execute:
+/home/holger/perl/cpan/Weed/nedit/perlrun '%'

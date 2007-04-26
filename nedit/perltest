@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+use strict;
+
+my $file = shift @ARGV;
+
+sub clean {
+	my $folder = shift;
+
+	chdir $folder;
+	system "perl Makefile.PL | grep OK";
+	system "make clean | grep OK";
+	system "rm Makefile.old 2>&1 | grep OK";
+	system "rm MANIFEST 2>&1 | grep OK";
+	system "rm MANIFEST.bak 2>&1 | grep OK";
+}
+
+sub test {
+	my ($folder, $package) = @_;
+
+	chdir $folder;
+	system "perl Makefile.PL | grep OK";
+	system "make test | grep -v -E '^cp'";
+	system "make manifest 2>&1 | grep OK";
+	system "perl Makefile.PL | grep OK";
+	system "make dist | grep OK";
+	system "mv '$package-'[0-9].[0-9]*.gz ../test/ | grep OK";
+}
+
+if ( $file =~ m|(.*?/cpan/(.*?))/|o ) {
+	my ($folder, $package) = ($1, $2);
+	clean($folder);
+	test($folder, $package);
+	clean($folder);
+}
+
+__END__
+
+NEdit -> Preferences -> Default Settings -> Customize Menus -> Shell Menu
+Shell Menu:
+
+Menu Entry: 		Perl>Test
+Command Input: 	none
+Command Output: 	dialog
+
+Save file before executing command: 	true
+
+Shell Command to Execute:
+/home/holger/perl/cpan/Weed/nedit/perltest '%'

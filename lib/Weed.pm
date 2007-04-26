@@ -2,38 +2,21 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0003';
+our $VERSION = '0.0006';
 
-=head1 NAME
+sub import {
+	my ( $class, %args ) = @_;
+	my $package = caller;
 
-Weed - ist ein englisches Wort für Unkraut
+	return unless Weed::Universal::IS_IN($package, __PACKAGE__);
 
-=head1 ÜBERSICHT
+	unshift @{ Weed::Universal::ARRAY($package, 'ISA') }, 'X3DObject';
 
-	use Weed;
+	#printf "import weed   *** %s\n", $package;
+}
 
-=head1 BAUM
-
--+- L<Weed>
-
-=head1 SIEHE AUCH
-
-L<Math::Vectors>
-
-L<Weed::Object>
-
-L<Weed::Field>, L<Weed::ArrayField>
-
-=head1 AUTHOR
-
-Holger Seelig  holger.seelig@yahoo.de
-
-=head1 COPYRIGHT
-
-Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
-nach den gleichen Bedingungen wie L<Perl|perl> selbst.
-
-=cut
+use Weed::Environment;
 
 1;
 __END__
+*setGreen = \&Math::Vec3::setY;

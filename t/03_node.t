@@ -1,0 +1,74 @@
+#!/usr/bin/perl -w
+use Test::More no_plan;
+use strict;
+
+BEGIN {
+	$| = 1;
+	chdir 't' if -d 't';
+	unshift @INC, '../lib';
+	use_ok 'Weed';
+}
+
+ok my $node1 = new X3DNode;
+ok $node1->isa("UNIVERSAL");
+ok $node1->isa("Weed::Private");
+ok $node1->isa("Weed::Seed");
+ok $node1->isa("X3DObject");
+ok $node1->isa("X3DNode");
+
+printf "isa %s\n", join ", ", @{ $node1->ARRAY("ISA") };
+printf "isa %s\n", join ", ", @{ X3DNode->ARRAY("ISA") };
+printf "isa %s\n", join ", ", @X3DNode::ISA;
+printf "isa %s\n", join ", ", @Weed::Component::Core::Node::ISA;
+
+printf "\n";
+printf "%s\n", join ", ", $node1->getHierarchy;
+
+is join( ", ", $node1->getHierarchy ), "X3DObject, X3DNode";
+print map { "ISA:  $_\n" } $node1->PATH;
+
+is $node1->SUPER, "Weed::Component::Core::Node";
+
+printf "\n";
+can_ok $node1, qw'
+  getId
+  getType
+  getTypeName
+  getName
+  ';
+
+printf "*** %s\n", join ", ", $_ foreach @{ $node1->getFieldDefinitions };
+
+ok $node1->getId;
+is $node1->getType,     'X3DNode';
+is $node1->getTypeName, 'X3DNode';
+is $node1->getName,     "";
+
+printf "\n";
+printf "%s\n", $node1->getId;
+printf "%s\n", $node1->getType;
+printf "%s\n", $node1->getTypeName;
+printf "%s\n", $node1->getName;
+printf "%s\n", $node1;
+
+is $node1->getName, "";
+ok $node1->getName !~ /Texture$/o;
+
+ok my $node2 = new X3DNode("nodeName");
+
+ok $node2->getId;
+is $node2->getType,     'X3DNode';
+is $node2->getTypeName, 'X3DNode';
+is $node2->getName,     "nodeName";
+
+printf "%s\n", $node2->getId;
+printf "%s\n", $node2->getType;
+printf "%s\n", $node2->getTypeName;
+printf "%s\n", $node2->getName;
+printf "%s\n", $node2;
+
+is $node2->getName, "nodeName";
+
+printf "VERSION      %s\n", $node2->VERSION;
+
+__END__

@@ -6,11 +6,9 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok('Weed');
+	use_ok 'Weed::Universal';
 }
 
-use_ok 'Weed' for 1 .. 10;
-
-do { use Weed } for 1 .. 10;
+ok ! @{ Weed::Universal->ARRAY('ISA') };
 
 __END__

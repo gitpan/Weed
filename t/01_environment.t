@@ -6,11 +6,11 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok('Weed');
+	use_ok 'Weed::Environment';
 }
 
-use_ok 'Weed' for 1 .. 10;
+ok my $core = new X3DComponent("Core");
 
-do { use Weed } for 1 .. 10;
+printf "%s\n", $core;
 
 __END__

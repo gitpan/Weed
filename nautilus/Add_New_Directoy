@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+use strict;
+my $directory = $ARGV[0];
+
+my $n = "1";
+$n++ while -e "$directory/empty.dir.$n";
+system "mkdir '$directory/empty.dir.$n'";
+
+1;
+__END__

@@ -1,16 +1,18 @@
 --- #YAML:1.0
 name:                Weed
-version:             0.0003
-abstract:            Contains some vector math
+version:             0.0006
+abstract:            Contains the Abstract that will be displayed on CPAN
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.32
 distribution_type:   module
 requires:     
-    Math::Quaternion:              0
-    Math::Trig:                    0
-    POSIX:                         0
+    Attribute::Overload:           0
+    base:                          0
+    Carp:                          0
+    Class::ISA:                    0
     Scalar::Util:                  0
     Test::More:                    0
+    Time::HiRes:                   0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.2.html
     version: 1.2

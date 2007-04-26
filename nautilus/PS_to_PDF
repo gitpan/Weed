@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+use strict;
+
+my $ps = shift @ARGV;
+my $pdf = $ps =~ /^(.*?)\.ps$/ ? $1 : exit;
+
+system "ps2pdf '$ps' '$pdf.pdf'";
+unlink $ps;
+
+__END__
