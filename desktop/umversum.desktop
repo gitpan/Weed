@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=-m'vers::um'
+Exec=perl -m'vers::um' -I '/home/holger/cpan/Weed/lib' '' 'a1' 'a2'
+GenericName=Perl Desktop Application
+Comment=-m'vers::um'
+Terminal=false
+Type=Application
+GenericName[de_DE]=Perl Desktop Application
+Icon=/home/holger/.icons/OSX/development/spare icons/gasbombcrate.png

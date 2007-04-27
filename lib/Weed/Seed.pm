@@ -2,7 +2,7 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0004';
+our $VERSION = '0.0007';
 
 use base 'Weed::Private';
 

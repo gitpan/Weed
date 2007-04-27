@@ -2,16 +2,15 @@ package Weed::Universal;
 use strict;
 use warnings;
 
-our $VERSION = '0.0003';
+our $VERSION = '0.0006';
 
 use Class::ISA;
 use Scalar::Util;
 use Attribute::Overload;
-
-use Time::HiRes qw(time);
-*main::time = \&Time::HiRes::time;
+use Time::HiRes 'time';
 
 use base 'UNIVERSAL';
+use package "X3DUniversal", 'time';
 
 sub NEW { bless $_[1], $_[0]->PACKAGE }
 
@@ -42,7 +41,7 @@ use strict 'refs';
 
 sub PACKAGE { ref( $_[0] ) || $_[0] }
 
-sub IS_IN { ! index( PACKAGE( $_[0] ), PACKAGE( $_[1] ) . '::' ) }
+sub IS_IN { !index( PACKAGE( $_[0] ), PACKAGE( $_[1] ) . '::' ) }
 
 sub PATH { reverse Class::ISA::self_and_super_path( PACKAGE( $_[0] ) ) }
 

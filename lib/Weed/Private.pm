@@ -2,7 +2,7 @@ package Weed::Private;
 use strict;
 use warnings;
 
-our $VERSION = '0.0003';
+our $VERSION = '0.0006';
 
 use Weed::Parser::Description;
 

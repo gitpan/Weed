@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w
+#package 03_node
 use Test::More no_plan;
 use strict;
 
@@ -24,8 +25,10 @@ printf "isa %s\n", join ", ", @Weed::Component::Core::Node::ISA;
 printf "\n";
 printf "%s\n", join ", ", $node1->getHierarchy;
 
-is join( ", ", $node1->getHierarchy ), "X3DObject, X3DNode";
+is join( ", ", $node1->getHierarchy ), "X3DObject, X3DNode"; # 8
 print map { "ISA:  $_\n" } $node1->PATH;
+print map { "Super:  $_\n" } ref $node1;
+ok $node1->isa("X3DNode");
 
 is $node1->SUPER, "Weed::Component::Core::Node";
 

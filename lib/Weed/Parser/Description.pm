@@ -1,11 +1,12 @@
 package Weed::Parser::Description;
 use strict;
 use warnings;
+use package;
 
 use Carp;
 $Carp::CarpLevel = 1;
 
-our $VERSION = '0.0103';
+our $VERSION = '0.0106';
 
 use Weed::Parser::Symbols qw($_ObjectDescription $_FieldDescription $_whitespace $_break);
 
@@ -14,14 +15,9 @@ sub parse ($\$) {
 
 	if ( $string =~ /$_ObjectDescription/gc ) {
 		my ( $name, $superclasses, $fieldDescriptions ) = ( $1, $2, $3 );
+		return unless $name;
 
-		my $expression = qq "
-			package $name;
-			use base '$package';
-			*VERSION = \\\$${package}::VERSION;
-		";
-
-		eval $expression;
+		package::use($package, $name);
 
 		if ($@) {
 			carp "Could not parse description in package '$package'\n\t$@";

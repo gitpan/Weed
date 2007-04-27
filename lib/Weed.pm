@@ -2,7 +2,7 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0006';
+our $VERSION = '0.0009';
 
 sub import {
 	my ( $class, %args ) = @_;

@@ -1,4 +1,13 @@
+bin/Add_New_Directoy
+bin/CPAN_Build
+bin/CPAN_Test
+bin/Duplicate_Directory
+bin/Perl_Run
+bin/PS_To_PDF
+desktop/umversum.desktop
 lib/FooBah.pm
+lib/package.pm
+lib/vers/um.pm
 lib/Weed.pm
 lib/Weed.pod
 lib/Weed/ArrayField.pm
@@ -28,13 +37,6 @@ lib/Weed/Universal.pm
 lib/Weed/Universum.pm
 Makefile.PL
 MANIFEST			This list of files
-nautilus/Add_New_Directoy
-nautilus/Duplicate
-nautilus/PS_to_PDF
-nedit/ncgroup
-nedit/perlbuild
-nedit/perlrun
-nedit/perltest
 t/00pod.t
 t/01_constants.t
 t/01_environment.t
