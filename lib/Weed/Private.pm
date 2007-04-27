@@ -2,7 +2,7 @@ package Weed::Private;
 use strict;
 use warnings;
 
-our $VERSION = '0.0006';
+our $VERSION = '0.0009';
 
 use Weed::Parser::Description;
 
@@ -13,9 +13,9 @@ use constant DESCRIPTION => '';
 sub import {
 	my ($package) = @_;
 
-	printf "import public *** %s\n", $package;
-
 	my $description = $package->DESCRIPTION;
+
+	#printf "import public *** %s -> %s\n", $package, $description;
 
 	return &Weed::Parser::Description::parse( $package, $description ) if $description;
 

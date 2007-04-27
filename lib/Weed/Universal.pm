@@ -2,7 +2,7 @@ package Weed::Universal;
 use strict;
 use warnings;
 
-our $VERSION = '0.0006';
+our $VERSION = '0.0009';
 
 use Class::ISA;
 use Scalar::Util;
@@ -41,8 +41,6 @@ use strict 'refs';
 
 sub PACKAGE { ref( $_[0] ) || $_[0] }
 
-sub IS_IN { !index( PACKAGE( $_[0] ), PACKAGE( $_[1] ) . '::' ) }
-
 sub PATH { reverse Class::ISA::self_and_super_path( PACKAGE( $_[0] ) ) }
 
 sub SUPER { $_[0]->ARRAY("ISA")->[0] }
@@ -69,3 +67,5 @@ sub SUB {
 	my ($this, $name) = (shift, shift);
 	return map { &$_( $this, @_ ) } $this->CAN($name);
 }
+
+#sub IS_IN { !index( PACKAGE( $_[0] ), PACKAGE( $_[1] ) . '::' ) }

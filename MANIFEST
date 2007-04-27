@@ -40,15 +40,19 @@ MANIFEST			This list of files
 t/00pod.t
 t/01_constants.t
 t/01_environment.t
+t/01_foobah.t
 t/01_universal.t
+t/01_vers_um.t
 t/01_weed.t
 t/02_field.t
 t/02_fieldDefinition.t
 t/02_fields.t
+t/02_foobah.t
 t/02_seed.t
+t/02_weed.t
+t/03_foobah.t
 t/03_generator.t
 t/03_node.t
 t/03_prototype
 t/04_childnode.t
-t/99_foobah.t
 META.yml                                 Module meta-data (added by MakeMaker)

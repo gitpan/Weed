@@ -2,7 +2,7 @@ package Weed::Constants;
 use strict;
 use warnings;
 
-our $VERSION = '0.0002';
+our $VERSION = '0.0005';
 
 use Weed;
 

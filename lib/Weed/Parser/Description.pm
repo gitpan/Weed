@@ -6,7 +6,7 @@ use package;
 use Carp;
 $Carp::CarpLevel = 1;
 
-our $VERSION = '0.0106';
+our $VERSION = '0.0109';
 
 use Weed::Parser::Symbols qw($_ObjectDescription $_FieldDescription $_whitespace $_break);
 
@@ -14,10 +14,10 @@ sub parse ($\$) {
 	my ( $package, $string ) = @_;
 
 	if ( $string =~ /$_ObjectDescription/gc ) {
-		my ( $name, $superclasses, $fieldDescriptions ) = ( $1, $2, $3 );
-		return unless $name;
+		my ( $alias, $superclasses, $fieldDescriptions ) = ( $1, $2, $3 );
+		return unless $alias;
 
-		package::use($package, $name);
+		package::alias($alias, $package);
 
 		if ($@) {
 			carp "Could not parse description in package '$package'\n\t$@";
