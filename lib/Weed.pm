@@ -2,23 +2,28 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0014';
+our $VERSION = '0.0016';
 
 use base 'UNIVERSAL';
 
 sub import {
-	#my ( $class ) = @_;
+	shift;
+	my ($description) = @_;
 
 	my $package = caller;
 
 	return if $package eq "main";
 
 	unshift @{ Weed::Universal::ARRAY( $package, 'ISA' ) }, 'X3DObject';
+	${ Weed::Universal::SCALAR( $package, 'DESCRIPTION' ) } = $description;
 
 	#printf "import weed   *** %s\n", $package;
 }
 
 use Weed::Environment;
+
+1;
+__END__
 
 =head1 NAME
 
@@ -96,6 +101,3 @@ Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
 nach den gleichen Bedingungen wie L<Perl|perl> selbst.
 
 =cut
-
-1;
-__END__

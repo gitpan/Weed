@@ -2,7 +2,7 @@ package Weed::Fields;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
 use Weed::Field::SFNode;
 

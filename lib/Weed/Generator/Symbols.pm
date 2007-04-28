@@ -2,7 +2,7 @@ package Weed::Generator::Symbols;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
 use Weed::Symbols;
 

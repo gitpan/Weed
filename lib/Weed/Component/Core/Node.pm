@@ -2,11 +2,9 @@ package Weed::Component::Core::Node;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
-use Weed;
-
-our $DESCRIPTION = '
+use Weed '
 X3DNode {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
 }
@@ -37,6 +35,14 @@ sub setFieldDescriptions {
 	$this->setFieldDefinitions( [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ] );
 }
 
+sub private::getFieldDescriptions {
+	my ($this) = @_;
+	my $fieldDescriptions =  ${ $this->SCALAR("FieldDescriptions") };
+	$fieldDescriptions = $this->SUPER->private::getFieldDescriptions
+	  unless ref $fieldDescriptions;
+	return $fieldDescriptions;
+}
+
 sub getFieldDescriptions { $_[0]->private::getFieldDescriptions }
 
 sub setFieldDefinitions {
@@ -45,6 +51,7 @@ sub setFieldDefinitions {
 }
 
 sub getFieldDefinitions { ${ $_[0]->SCALAR("FieldDefinitions") } }
+
 
 1;
 __END__

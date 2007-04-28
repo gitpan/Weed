@@ -2,16 +2,14 @@ package FooBah;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
-use Weed;
-
-our $DESCRIPTION = 'X3D : X3DUniversum { }';
+use Weed 'FooBah : X3DUniversum { }';
 
 sub initialize {
 	printf "%s\n", $_[0]->SUB;
 	
-	sleep 2;
+	sleep 1;
 }
 
 sub shutdown {
@@ -20,6 +18,9 @@ sub shutdown {
 
 printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
 printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
+
+1;
+__END__
 
 =head1 NAME
 
@@ -31,7 +32,7 @@ L<Weed>
 
 =head1 EXAMPLES
 
-	perl -m'FooBah' '' 'FooBah/ui.'
+	system qq=echo 'FooBah/ui.' | perl -M'FooBah' -I `pwd`'/../lib' -e 'new FooBah'=;
 
 =head1 SEE ALSO
 
@@ -47,6 +48,3 @@ Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
 nach den gleichen Bedingungen wie L<Perl|perl> selbst.
 
 =cut
-
-1;
-__END__

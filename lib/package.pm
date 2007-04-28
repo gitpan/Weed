@@ -2,7 +2,7 @@ package package;
 use strict;
 use warnings;
 
-our $VERSION = '0.001';
+our $VERSION = '0.0012';
 
 #printf "*** %s VERSION: %s\n", __PACKAGE__, $VERSION;
 

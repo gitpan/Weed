@@ -24,7 +24,7 @@ is $seed1->getComment, "";
 is join( ', ', $seed1->getHierarchy ), "X3DObject";
 is $seed1->PACKAGE, "X3DObject";
 is $seed1->SUPER,   "Weed::Seed";
-is join( ', ', $seed1->PATH ), "Weed::Universal, Weed::Private, Weed::Seed, X3DObject";
+is join( ', ', $seed1->PATH ), "Weed::Universal, Weed::Seed, X3DObject";
 ok $seed1->toString;
 
 is ref $seed1->SCALAR('xxx'), "SCALAR";

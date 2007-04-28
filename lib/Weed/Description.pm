@@ -1,4 +1,4 @@
-package Weed::Parser::Description;
+package Weed::Description;
 use strict;
 use warnings;
 use package;
@@ -6,7 +6,7 @@ use package;
 use Carp;
 $Carp::CarpLevel = 1;
 
-our $VERSION = '0.0111';
+our $VERSION = '0.0113';
 
 use Weed::Parser::Symbols qw($_ObjectDescription $_FieldDescription $_whitespace $_break);
 

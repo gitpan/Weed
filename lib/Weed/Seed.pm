@@ -2,9 +2,9 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0012';
+our $VERSION = '0.0014';
 
-use base 'Weed::Private';
+use base 'Weed::Universal';
 
 use Weed::Generator::Symbols;
 
@@ -13,7 +13,6 @@ use overload
   '!=' => sub { $_[1] != $_[0]->getId },
   'eq' => sub { $_[1] eq "$_[0]" },
   'ne' => sub { $_[1] ne "$_[0]" },
-  '""' => sub { $_[0]->toString },
   ;
 
 our $DESCRIPTION = 'X3DObject { }';
@@ -37,7 +36,7 @@ sub getComment { $_[0]->{comment} }
 
 sub getHierarchy { grep /^X3D/o, $_[0]->PATH }
 
-sub toString { sprintf $seed_, $_[0]->getType }
+sub toString : Overload("") { sprintf $seed_, $_[0]->getType }
 
 sub dispose {
 	my $this = shift;

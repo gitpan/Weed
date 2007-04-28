@@ -2,11 +2,9 @@ package Weed::Constants;
 use strict;
 use warnings;
 
-our $VERSION = '0.0007';
+our $VERSION = '0.0009';
 
-use Weed;
-
-our $DESCRIPTION = 'X3DConstants { }';
+use Weed 'X3DConstants { }';
 
 use constant TRUE  => 1;
 use constant FALSE => not TRUE;

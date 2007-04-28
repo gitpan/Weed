@@ -2,11 +2,9 @@ package Weed::FieldDefinition;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
-use Weed;
-
-our $DESCRIPTION = 'X3DFieldDefinition { }';
+use Weed 'X3DFieldDefinition { }';
 
 sub new {
 	my ( $self, $type, $in, $out, @args ) = @_;
@@ -44,7 +42,7 @@ sub createField {
 
 use Weed::Generator::Symbols;
 
-sub toString { sprintf $string_, $_[0]->getType }
+sub toString : Overload("") { sprintf $string_, $_[0]->getType }
 
 sub shutdown {
 	printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString($_[0]);

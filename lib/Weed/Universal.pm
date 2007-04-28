@@ -2,7 +2,7 @@ package Weed::Universal;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
 use Class::ISA;
 use Scalar::Util;
@@ -12,7 +12,23 @@ use Time::HiRes 'time';
 use base 'UNIVERSAL';
 use package "X3DUniversal", 'time';
 
-use Weed::Generator::Symbols;
+use Weed::Description;
+
+sub import {
+	my ($package) = @_;
+
+	my $description = $package->DESCRIPTION;
+
+	#printf "import public *** %s -> %s\n", $package, $description;
+
+	return &Weed::Description::parse( $package, $description ) if $description;
+
+	return;
+}
+
+our $DESCRIPTION = '';
+
+sub DESCRIPTION { ${ $_[0]->SCALAR("DESCRIPTION") } }
 
 sub NEW { bless $_[1], $_[0]->PACKAGE }
 
@@ -54,7 +70,7 @@ sub CAN {
 
 use strict 'refs';
 
-sub SUB { (caller(1))[3] }
+sub SUB { ( caller(1) )[3] }
 
 sub PACKAGE { ref( $_[0] ) || $_[0] }
 
@@ -65,11 +81,11 @@ sub SUPER { $_[0]->ARRAY("ISA")->[0] }
 *ID = \&Scalar::Util::refaddr;
 
 sub CALL {
-	my ($this, $name) = (shift, shift);
+	my ( $this, $name ) = ( shift, shift );
 	return map { &$_( $this, @_ ) } $this->CAN($name);
 }
 
-sub DESTROY { $_[0]->CALL("dispose");	0; }
+sub DESTROY { $_[0]->CALL("dispose"); 0; }
 
 1;
 __END__

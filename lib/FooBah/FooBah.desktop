@@ -2,7 +2,7 @@
 Version=1.0
 Encoding=UTF-8
 Name=-m'FooBah'
-Exec=perl -m'FooBah' -I '/home/holger/cpan/Weed/lib' '' 'FooBah/ui.'
+Exec=echo 'FooBah/ui.' | perl -M'FooBah' -I `pwd`'/../lib' -e 'FooBah->new->initialize'
 Terminal=false
 Type=Application
 Icon=/home/holger/.icons/OSX/scalable/apps/redhat-extras.png

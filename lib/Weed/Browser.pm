@@ -2,11 +2,9 @@ package Weed::Browser;
 use strict;
 use warnings;
 
-our $VERSION = '0.0011';
+our $VERSION = '0.0013';
 
-use Weed;
-
-our $DESCRIPTION = '
+use Weed '
 X3DBrowser : X3DGroupingNode {
   MFNode  [in]     addChildren
   MFNode  [in]     removeChildren
