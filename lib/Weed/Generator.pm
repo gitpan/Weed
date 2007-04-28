@@ -2,16 +2,11 @@ package Weed::Generator;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed;
-use Weed::Generator::Symbols;
 
-use constant DESCRIPTION => '
-X3DGenerator : X3DChildNode {
-  SFNode [in,out] metadata NULL [X3DMetadataObject]
-}
-';
+our $DESCRIPTION = 'X3DGenerator {}';
 
 sub new {
 	my ( $self, $name ) = @_;

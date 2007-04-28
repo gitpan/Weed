@@ -2,7 +2,7 @@ package Weed::Parser::Symbols;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed::Symbols;
 use base 'Weed::Symbols';

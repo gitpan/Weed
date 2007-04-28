@@ -6,7 +6,7 @@ use package;
 use Carp;
 $Carp::CarpLevel = 1;
 
-our $VERSION = '0.0109';
+our $VERSION = '0.0111';
 
 use Weed::Parser::Symbols qw($_ObjectDescription $_FieldDescription $_whitespace $_break);
 

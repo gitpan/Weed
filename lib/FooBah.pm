@@ -2,23 +2,51 @@ package FooBah;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed;
 
-use constant DESCRIPTION => 'X3D : X3DUniversum { }';
+our $DESCRIPTION = 'X3D : X3DUniversum { }';
+
+sub initialize {
+	printf "%s\n", $_[0]->SUB;
+	
+	sleep 2;
+}
+
+sub shutdown {
+	printf "%s\n", $_[0]->SUB;
+}
+
+printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
+printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
+
+=head1 NAME
+
+FooBah
+
+=head1 USES
+
+L<Weed>
+
+=head1 EXAMPLES
+
+	perl -m'FooBah' '' 'FooBah/ui.'
+
+=head1 SEE ALSO
+
+L<Weed>
+
+=head1 AUTHOR
+
+Holger Seelig  holger.seelig@yahoo.de
+
+=head1 COPYRIGHT
+
+Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
+nach den gleichen Bedingungen wie L<Perl|perl> selbst.
+
+=cut
 
 1;
 __END__
-
-use base 'Exporter';
-
-our @EXPORT = qw{
-  createBrowser
-  getBrowser
-};
-
-my $Universum = new X3DUniversum(__PACKAGE__);
-
-sub createBrowser { $Universum->createBrowser }
-sub getBrowser    { $Universum->getBrowser }

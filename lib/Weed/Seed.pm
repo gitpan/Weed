@@ -2,20 +2,21 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-our $VERSION = '0.001';
+our $VERSION = '0.0012';
 
 use base 'Weed::Private';
 
-use Weed::Generator::Symbols qw($seed_);
+use Weed::Generator::Symbols;
 
 use overload
   '==' => sub { $_[1] == $_[0]->getId },
   '!=' => sub { $_[1] != $_[0]->getId },
   'eq' => sub { $_[1] eq "$_[0]" },
   'ne' => sub { $_[1] ne "$_[0]" },
+  '""' => sub { $_[0]->toString },
   ;
 
-use constant DESCRIPTION => 'X3DObject { }';
+our $DESCRIPTION = 'X3DObject { }';
 
 sub new {
 	my ( $self, $type ) = @_;
@@ -36,7 +37,20 @@ sub getComment { $_[0]->{comment} }
 
 sub getHierarchy { grep /^X3D/o, $_[0]->PATH }
 
-sub toString : Overload("") { sprintf $seed_, $_[0]->getType }
+sub toString { sprintf $seed_, $_[0]->getType }
+
+sub dispose {
+	my $this = shift;
+	#X3DError::Debug ref $this, $this->getType;
+	$this->CALL("shutdown");
+	%$this = ();
+}
+
+#debug
+
+sub shutdown {
+	printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString($_[0]);
+}
 
 1;
 __END__

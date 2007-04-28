@@ -72,6 +72,6 @@ printf "%s\n", $node2;
 
 is $node2->getName, "nodeName";
 
-printf "VERSION      %s\n", $node2->VERSION;
+ok $node2->VERSION;
 
 __END__

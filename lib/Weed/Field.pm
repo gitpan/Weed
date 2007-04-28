@@ -2,11 +2,11 @@ package Weed::Field;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed;
 
-use constant DESCRIPTION => 'X3DField { }';
+our $DESCRIPTION = 'X3DField { }';
 
 use constant DefaultDefinition => new X3DFieldDefinition( "", "in", "out", undef, undef, undef );
 

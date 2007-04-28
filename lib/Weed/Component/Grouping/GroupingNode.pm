@@ -2,11 +2,11 @@ package Weed::Component::Grouping::GroupingNode;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed;
 
-use constant DESCRIPTION => '
+our $DESCRIPTION = '
 X3DGroupingNode : X3DChildNode, X3DBoundedObject { 
   MFNode  [in]     addChildren
   MFNode  [in]     removeChildren

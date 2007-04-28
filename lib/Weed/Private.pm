@@ -2,13 +2,14 @@ package Weed::Private;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed::Parser::Description;
 
 use base 'Weed::Universal';
 
-use constant DESCRIPTION => '';
+our $DESCRIPTION = '';
+sub DESCRIPTION { ${ $_[0]->SCALAR("DESCRIPTION") } }
 
 sub import {
 	my ($package) = @_;

@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package 02_weed
+#package 01_weed
 use Test::More no_plan;
 use strict;
 

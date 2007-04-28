@@ -2,15 +2,19 @@ package Weed::Generator::Symbols;
 use strict;
 use warnings;
 
-our $VERSION = '0.0009';
+our $VERSION = '0.0011';
 
 use Weed::Symbols;
 
 use base 'Exporter';
 
 our @EXPORT = qw(
+  $string_
   $seed_
 );
+
+our $space  = ' ';
+our $tspace = $space;
 
 # Terminal symbols
 our $period        = '.';
@@ -20,8 +24,8 @@ our $open_bracket  = '[';
 our $close_bracket = ']';
 our $colon         = ':';
 
-
-our $seed_ = "%s$open_brace$close_brace";
+our $string_ = "%s";
+our $seed_   = "%s$tspace$open_brace$tspace$close_brace";
 
 1;
 __END__

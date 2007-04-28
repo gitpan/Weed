@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package 02_foobah
+#package 01_foobah
 use Test::More no_plan;
 use strict;
 

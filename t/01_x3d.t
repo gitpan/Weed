@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package 03_foobah
+#package 01_x3d
 use Test::More no_plan;
 use strict;
 
@@ -10,7 +10,8 @@ BEGIN {
 	use_ok('FooBah');
 }
 
-ok my $fooBah = new X3D();
+ok new X3D;
+ok my $fooBah = new X3D("haBooF");
 isa_ok $fooBah, 'X3DObject';
 can_ok $fooBah, 'getName';
 can_ok $fooBah, 'getTypeName';
