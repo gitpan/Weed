@@ -2,8 +2,6 @@ package Weed::Universum;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
-
 use Weed '
 X3DUniversum : X3DGroupingNode {
   MFNode  [in]     addChildren
@@ -16,11 +14,11 @@ X3DUniversum : X3DGroupingNode {
 ';
 
 sub new {
-	my ($self, $name) = @_;
-	my  $this = $self->SUPER::new($name);
+	my ( $self, $name ) = @_;
+	my $this = $self->SUPER::new($name);
 
 	#$this->addChildren(new X3DBrowser);
-	
+
 	return $this;
 }
 

@@ -2,7 +2,7 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0016';
+our $VERSION = '0.0017';
 
 use base 'UNIVERSAL';
 
@@ -56,9 +56,7 @@ or
 
 	package MyPackage;
 	
-	use Weed;
-	
-	our $DESCIPTION = '
+	use Weed '
 	MyPackage : X3DNode {
 		MFString  [in,out]  string  ""
 	}

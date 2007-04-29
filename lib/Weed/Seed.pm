@@ -2,8 +2,6 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0014';
-
 use base 'Weed::Universal';
 
 use Weed::Generator::Symbols;

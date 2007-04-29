@@ -2,8 +2,6 @@ package Weed::Prototype;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
-
 use Weed '
 X3DPrototype : X3DChildNode {
   SFNode [in,out] metadata NULL [X3DMetadataObject]

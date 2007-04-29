@@ -2,8 +2,6 @@ package Weed::Component::Grouping::BoundedObject;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
-
 use Weed '
 X3DBoundedObject { 
   SFVec3f [] bboxCenter 0 0 0    (-\u221e,\u221e)

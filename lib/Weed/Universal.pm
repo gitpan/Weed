@@ -2,15 +2,14 @@ package Weed::Universal;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
-
 use Class::ISA;
 use Scalar::Util;
 use Attribute::Overload;
 use Time::HiRes 'time';
 
 use base 'UNIVERSAL';
-use package "X3DUniversal", 'time';
+
+use package "X3DUniversal", qw'time';
 
 use Weed::Description;
 

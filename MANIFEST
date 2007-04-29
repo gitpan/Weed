@@ -29,7 +29,6 @@ lib/Weed/Fields.pm
 lib/Weed/Generator.pm
 lib/Weed/Generator/Symbols.pm
 lib/Weed/Parser/Symbols.pm
-lib/Weed/Private.pm
 lib/Weed/Prototype.pm
 lib/Weed/Seed.pm
 lib/Weed/Symbols.pm

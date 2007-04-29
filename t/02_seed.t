@@ -38,7 +38,7 @@ printf "getHierarchy %s\n", join ', ', $seed1->getHierarchy;
 printf "PACKAGE      %s\n", $seed1->PACKAGE;
 printf "SUPER        %s\n", $seed1->SUPER;
 printf "ISA          %s\n", join ', ', $seed1->PATH;
-printf "VERSION      %s\n", $seed1->VERSION;
+#printf "VERSION      %s\n", $seed1->VERSION;
 printf "%s\n",              $seed1;
 
 ok my $seed2 = new X3DObject;

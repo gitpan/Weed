@@ -2,9 +2,15 @@ package FooBah;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
+our $VERSION = '0.0017';
 
 use Weed 'FooBah : X3DUniversum { }';
+
+sub create {
+	printf "%s\n", $_[0]->SUB;
+	printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
+	printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
+}
 
 sub initialize {
 	printf "%s\n", $_[0]->SUB;
@@ -16,8 +22,6 @@ sub shutdown {
 	printf "%s\n", $_[0]->SUB;
 }
 
-printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
-printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
 
 1;
 __END__

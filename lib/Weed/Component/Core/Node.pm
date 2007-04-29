@@ -2,8 +2,6 @@ package Weed::Component::Core::Node;
 use strict;
 use warnings;
 
-our $VERSION = '0.0013';
-
 use Weed '
 X3DNode {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
