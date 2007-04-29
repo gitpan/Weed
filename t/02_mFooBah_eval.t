@@ -10,6 +10,9 @@ BEGIN {
 }
 
 ok not eval qq * system qq = echo 'FooBah/ui.' | perl -M'FooBah' -I `pwd`'/../lib' -e 'new FooBah' = * ;
+
+print "\n";
+
 ok not eval qq * system qq = echo 'FooBah/ui.' | perl -M'FooBah' -I `pwd`'/../lib' -e 'new FooBah' 'a' 'c' 'd' = * ;
 
 1;

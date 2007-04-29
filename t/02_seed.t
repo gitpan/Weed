@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w
+#package 02_seed
 use Test::More no_plan;
 use strict;
 
@@ -21,10 +22,10 @@ ok my $seed1 = new X3DObject;
 ok $seed1->getId;
 is $seed1->getType,    "X3DObject";
 is $seed1->getComment, "";
-is join( ', ', $seed1->getHierarchy ), "X3DObject";
+is join( ', ', $seed1->getHierarchy ), "X3DUniversal, X3DObject";
 is $seed1->PACKAGE, "X3DObject";
 is $seed1->SUPER,   "Weed::Seed";
-is join( ', ', $seed1->PATH ), "Weed::Universal, Weed::Seed, X3DObject";
+is join( ', ', $seed1->PATH ), "Weed::Universal, X3DUniversal, Weed::Seed, X3DObject";
 ok $seed1->toString;
 
 is ref $seed1->SCALAR('xxx'), "SCALAR";

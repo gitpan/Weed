@@ -17,8 +17,8 @@ lib/Weed/Component/Core/ChildNode.pm
 lib/Weed/Component/Core/Node.pm
 lib/Weed/Component/Grouping/BoundedObject.pm
 lib/Weed/Component/Grouping/GroupingNode.pm
+lib/Weed/ConceptParser.pm
 lib/Weed/Constants.pm
-lib/Weed/Description.pm
 lib/Weed/Environment.pm
 lib/Weed/Field.pm
 lib/Weed/Field/MFNode.pm
@@ -28,6 +28,8 @@ lib/Weed/FieldDefinition.pm
 lib/Weed/Fields.pm
 lib/Weed/Generator.pm
 lib/Weed/Generator/Symbols.pm
+lib/Weed/Messages.pm
+lib/Weed/Parser.pm
 lib/Weed/Parser/Symbols.pm
 lib/Weed/Prototype.pm
 lib/Weed/Seed.pm
@@ -36,10 +38,12 @@ lib/Weed/Universal.pm
 lib/Weed/Universum.pm
 Makefile.PL
 MANIFEST			This list of files
-t/00pod.t
-t/01_constants.t
+t/00_concept.t
+t/00_pod.t
 t/01_environment.t
 t/01_foobah.t
+t/01_node.t
+t/01_seed.t
 t/01_universal.t
 t/01_weed.t
 t/02_field.t

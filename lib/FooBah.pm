@@ -2,7 +2,7 @@ package FooBah;
 use strict;
 use warnings;
 
-our $VERSION = '0.0017';
+our $VERSION = '0.0019';
 
 use Weed 'FooBah : X3DUniversum { }';
 

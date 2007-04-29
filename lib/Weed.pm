@@ -2,20 +2,16 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0017';
+our $VERSION = '0.0019';
 
 use base 'UNIVERSAL';
 
 sub import {
 	shift;
-	my ($description) = @_;
-
 	my $package = caller;
 
-	return if $package eq "main";
-
-	unshift @{ Weed::Universal::ARRAY( $package, 'ISA' ) }, 'X3DObject';
-	${ Weed::Universal::SCALAR( $package, 'DESCRIPTION' ) } = $description;
+	Weed::Universal::SUPERTYPES( $package, ['X3DObject'] );
+	Weed::Universal::DESCRIPTION( $package, @_ );
 
 	#printf "import weed   *** %s\n", $package;
 }

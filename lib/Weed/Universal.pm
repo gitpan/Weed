@@ -11,23 +11,39 @@ use base 'UNIVERSAL';
 
 use package "X3DUniversal", qw'time';
 
-use Weed::Description;
+use Weed::ConceptParser;
 
 sub import {
-	my ($package) = @_;
+	shift;
+	DESCRIPTION( (caller)[0], @_ );
+}
 
-	my $description = $package->DESCRIPTION;
+sub DESCRIPTION {
+	my ( $package, $string ) = @_;
 
-	#printf "import public *** %s -> %s\n", $package, $description;
+	return unless defined $string;
 
-	return &Weed::Description::parse( $package, $description ) if $description;
+	printf "import public *** %s\n", $package;
+
+	#printf "import public *** %s -> %s\n", $package, $string;
+
+	my $description = &Weed::ConceptParser::parse($string);
+	if ( ref $description ) {
+
+		package::alias( $description->{name}, $package );
+		$package->SUPERTYPES( $description->{supertypes} );
+
+		$package->setDescription($description)
+		  if $package->can("setDescription");
+	}
 
 	return;
 }
 
-our $DESCRIPTION = '';
-
-sub DESCRIPTION { ${ $_[0]->SCALAR("DESCRIPTION") } }
+sub SUPERTYPES {
+	my ( $package, $supertypes ) = @_;
+	unshift @{ ARRAY( $package, "ISA" ) }, @$supertypes;
+}
 
 sub NEW { bless $_[1], $_[0]->PACKAGE }
 

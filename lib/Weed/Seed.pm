@@ -2,7 +2,9 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-use base 'Weed::Universal';
+use Weed::Universal;
+use base 'X3DUniversal';
+use Weed::Universal 'X3DObject { }';
 
 use Weed::Generator::Symbols;
 
@@ -12,8 +14,6 @@ use overload
   'eq' => sub { $_[1] eq "$_[0]" },
   'ne' => sub { $_[1] ne "$_[0]" },
   ;
-
-our $DESCRIPTION = 'X3DObject { }';
 
 sub new {
 	my ( $self, $type ) = @_;

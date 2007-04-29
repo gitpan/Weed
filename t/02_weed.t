@@ -10,7 +10,6 @@ BEGIN {
 	use_ok('Weed');
 }
 
-eval { new main };
-ok ($@);
+ok eval { new main };
  
 __END__

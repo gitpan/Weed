@@ -2,12 +2,14 @@ package package;
 use strict;
 use warnings;
 
-our $VERSION = '0.0016';
+our $VERSION = '0.0018';
 
 #printf "*** %s VERSION: %s\n", __PACKAGE__, $VERSION;
 
 my $import = q|
 	package %s;
+	use strict;
+	use warnings;
 	use base "%s";
 #	*VERSION = \$%s::VERSION if defined $%s::VERSION;
 |;

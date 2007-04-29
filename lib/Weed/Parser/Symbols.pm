@@ -11,6 +11,7 @@ our @EXPORT = qw(
   $_header
   $_whitespace
   $_comment
+  $_space_break_space
 
   $_COMPONENT
   $_DEF
@@ -41,9 +42,12 @@ our @EXPORT = qw(
   $_period
   $_open_brace
   $_close_brace
+  $_close_brace_test
   $_open_bracket
   $_close_bracket
   $_brackets
+  $_colon
+  $_colon_test
 
   $_Id
   $_double
@@ -55,13 +59,14 @@ our @EXPORT = qw(
   $_nan
   $_inf
 
+  $_Body
+
   $_NodeTypeId
   $_ScriptNodeInterface_IS
 
   $_CosmoWorlds
   $_enum
 
-  $_ObjectDescription
   $_FieldDescription
 );
 #$Id
@@ -72,6 +77,7 @@ our @EXPORT = qw(
 #$double
 
 # General
+our $space      = "[\x20\t]";
 our $break      = "[\n\r]";
 our $header     = "#VRML V2.0 (utf8)([\x20\t]+(.*?)){0,1}[\n\r]";
 our $whitespace = '[\x20\n,\t\r]';
@@ -108,72 +114,78 @@ our $IdRestChars = '[^\x00-\x20\x22\x23\x27\x2c\x2e\x5b\x5c\x5d\x7b\x7d\x7f]';
 our $Id          = "$IdFirstChar$IdRestChars*";
 
 # General
-our $_break      = qr/$break/so;
-our $_header     = qr/\A$header/so;
-our $_comment    = qr/\G$whitespace*$comment/so;
-our $_whitespace = qr/$whitespace/so;
+our $_break             = qr.$break.so;
+our $_header            = qr.\A$header.so;
+our $_comment           = qr.\G$whitespace*$comment.so;
+our $_whitespace        = qr.$whitespace.so;
+
+our $_space_break_space = qr.$space*$break$space*.so;
 
 # VRML lexical elements
 # Keywords
-our $_COMPONENT      = qr/\G$whitespace*$_COMPONENT_/so;
-our $_DEF            = qr/\G$whitespace*$_DEF_$whitespace+/so;
-our $_EXPORT         = qr/\G$whitespace*$_EXPORT_/so;
-our $_EXTERNPROTO    = qr/\G$whitespace*$_EXTERNPROTO_$whitespace+/so;
-our $_FALSE          = qr/\G$whitespace*$_FALSE_/so;
-our $_IMPORT         = qr/\G$whitespace*$_IMPORT_/so;
-our $_IS             = qr/\G$whitespace*$_IS_$whitespace+/so;
-our $_META           = qr/\G$whitespace*$_META_/so;
-our $_NULL           = qr/\G$whitespace*$_NULL_/so;
-our $_PROFILE        = qr/\G$whitespace*$_PROFILE_/so;
-our $_PROTO          = qr/\G$whitespace*$_PROTO_$whitespace+/so;
-our $_ROUTE          = qr/\G$whitespace*$_ROUTE_$whitespace+/so;
-our $_TO             = qr/\G$whitespace+$_TO_$whitespace+/so;
-our $_TRUE           = qr/\G$whitespace*$_TRUE_/so;
-our $_USE            = qr/\G$whitespace*$_USE_/so;
-our $_inputOnly      = qr/\G$whitespace*$_inputOnly_$whitespace+/so;
-our $_outputOnly     = qr/\G$whitespace*$_outputOnly_$whitespace+/so;
-our $_inputOutput    = qr/\G$whitespace*$_inputOutput_$whitespace+/so;
-our $_initializeOnly = qr/\G$whitespace*$_initializeOnly_$whitespace+/so;
-our $_eventIn        = qr/\G$whitespace*$_eventIn_$whitespace+/so;
-our $_eventOut       = qr/\G$whitespace*$_eventOut_$whitespace+/so;
-our $_exposedField   = qr/\G$whitespace*$_exposedField_$whitespace+/so;
-our $_field          = qr/\G$whitespace*$_field_$whitespace+/so;
+our $_COMPONENT      = qr.\G$whitespace*$_COMPONENT_.so;
+our $_DEF            = qr.\G$whitespace*$_DEF_$whitespace+.so;
+our $_EXPORT         = qr.\G$whitespace*$_EXPORT_.so;
+our $_EXTERNPROTO    = qr.\G$whitespace*$_EXTERNPROTO_$whitespace+.so;
+our $_FALSE          = qr.\G$whitespace*$_FALSE_.so;
+our $_IMPORT         = qr.\G$whitespace*$_IMPORT_.so;
+our $_IS             = qr.\G$whitespace*$_IS_$whitespace+.so;
+our $_META           = qr.\G$whitespace*$_META_.so;
+our $_NULL           = qr.\G$whitespace*$_NULL_.so;
+our $_PROFILE        = qr.\G$whitespace*$_PROFILE_.so;
+our $_PROTO          = qr.\G$whitespace*$_PROTO_$whitespace+.so;
+our $_ROUTE          = qr.\G$whitespace*$_ROUTE_$whitespace+.so;
+our $_TO             = qr.\G$whitespace+$_TO_$whitespace+.so;
+our $_TRUE           = qr.\G$whitespace*$_TRUE_.so;
+our $_USE            = qr.\G$whitespace*$_USE_.so;
+our $_inputOnly      = qr.\G$whitespace*$_inputOnly_$whitespace+.so;
+our $_outputOnly     = qr.\G$whitespace*$_outputOnly_$whitespace+.so;
+our $_inputOutput    = qr.\G$whitespace*$_inputOutput_$whitespace+.so;
+our $_initializeOnly = qr.\G$whitespace*$_initializeOnly_$whitespace+.so;
+our $_eventIn        = qr.\G$whitespace*$_eventIn_$whitespace+.so;
+our $_eventOut       = qr.\G$whitespace*$_eventOut_$whitespace+.so;
+our $_exposedField   = qr.\G$whitespace*$_exposedField_$whitespace+.so;
+our $_field          = qr.\G$whitespace*$_field_$whitespace+.so;
 
 # Terminal symbols
-our $_period        = qr/\G$period/so;
-our $_open_brace    = qr/\G$whitespace*$open_brace/so;
-our $_close_brace   = qr/\G$whitespace*$close_brace/so;
-our $_open_bracket  = qr/\G$whitespace*$open_bracket/so;
-our $_close_bracket = qr/\G$whitespace*$close_bracket/so;
-our $_brackets      = qr/\G$whitespace*$open_bracket$whitespace*$close_bracket/so;
+our $_period           = qr.\G$period.so;
+our $_open_brace       = qr.\G$whitespace*$open_brace.so;
+our $_close_brace      = qr.\G$whitespace*$close_brace.so;
+our $_close_brace_test = qr.\G(?=$whitespace*$close_brace).so;
+our $_open_bracket     = qr.\G$whitespace*$open_bracket.so;
+our $_close_bracket    = qr.\G$whitespace*$close_bracket.so;
+our $_brackets         = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
+our $_colon            = qr.\G$whitespace*$colon.so;
+our $_colon_test       = qr.\G$whitespace+$colon$whitespace+.so;
 
 # Other Symbols
-our $_Id        = qr/\G$whitespace*($Id)/so;
-our $_double    = qr/\G$whitespace*($double)/so;
-our $_fieldType = qr/\G$whitespace*($fieldType)/so;
-our $_float     = qr/\G$whitespace*($float)/so;
-our $_int32     = qr/\G$whitespace*($int32)/so;
-our $_string    = qr/\G$whitespace*"($string?)(?<!\\)"/so;
+our $_Id        = qr.\G$whitespace*($Id).so;
+our $_double    = qr.\G$whitespace*($double).so;
+our $_fieldType = qr.\G$whitespace*($fieldType).so;
+our $_float     = qr.\G$whitespace*($float).so;
+our $_int32     = qr.\G$whitespace*($int32).so;
+our $_string    = qr.\G$whitespace*"($string?)(?<!\\)".so;
 
-our $_NodeTypeId = qr/\G$whitespace*($Id)(?=$whitespace*$open_brace)/so;
-our $_ScriptNodeInterface_IS = qr/\G$whitespace*($_eventIn_|$_eventOut_|$_field_)$whitespace+($fieldType)$whitespace+($Id)$whitespace+$_IS_/so;
+our $_Body = qr.\G$whitespace*($string?)$whitespace*(?=$close_brace).so;
+
+our $_NodeTypeId = qr.\G$whitespace*($Id)(?=$whitespace*$open_brace).so;
+our $_ScriptNodeInterface_IS = qr.\G$whitespace*($_eventIn_|$_eventOut_|$_field_)$whitespace+($fieldType)$whitespace+($Id)$whitespace+$_IS_.so;
 
 # CosmoWorlds
 our $CosmoWorlds = 'CosmoWorlds\x20V(.*)';
 
-our $_CosmoWorlds = qr/^$CosmoWorlds$/so;
-our $_enum        = qr/\G$whitespace*($enum)/so;
+our $_CosmoWorlds = qr.^$CosmoWorlds$.so;
+our $_enum        = qr.\G$whitespace*($enum).so;
 
-our $_nan = qr/\G$whitespace*($_nan_)/so;
-our $_inf = qr/\G$whitespace*($_inf_)/so;
+our $_nan = qr.\G$whitespace*($_nan_).so;
+our $_inf = qr.\G$whitespace*($_inf_).so;
 
 # Field type
 
 our $in  = "(?:in)";
 our $out = "(?:out)";
 
-our $_ObjectDescription = qr/^\G$whitespace*($Id)(?:$whitespace*$colon$whitespace*($string?))?$whitespace*$open_brace$whitespace*($string?)$whitespace*$close_brace$whitespace*$/so;
-our $_FieldDescription = qr/^\G$whitespace*($Id)$whitespace*$open_bracket($in?)$whitespace*($out?)$close_bracket$whitespace*($Id)$whitespace+($string)/so;
+our $_FieldDescription = qr.^\G$whitespace*($Id)$whitespace*$open_bracket($in?)$whitespace*($out?)$close_bracket$whitespace*($Id)$whitespace+($string).so;
 
 1;
 __END__

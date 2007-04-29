@@ -13,7 +13,7 @@ BEGIN {
 ok my $node1 = new X3DNode;
 ok $node1->isa("UNIVERSAL");
 ok $node1->isa("Weed::Universal");
-#ok $node1->isa("X3DUniversal");
+ok $node1->isa("X3DUniversal");
 ok $node1->isa("Weed::Seed");
 ok $node1->isa("X3DObject");
 ok $node1->isa("X3DNode");
@@ -26,7 +26,7 @@ printf "isa %s\n", join ", ", @Weed::Component::Core::Node::ISA;
 printf "\n";
 printf "%s\n", join ", ", $node1->getHierarchy;
 
-is join( ", ", $node1->getHierarchy ), "X3DObject, X3DNode"; # 8
+is join( ", ", $node1->getHierarchy ), "X3DUniversal, X3DObject, X3DNode"; # 8
 print map { "ISA:  $_\n" } $node1->PATH;
 print map { "Super:  $_\n" } ref $node1;
 ok $node1->isa("X3DNode");
@@ -41,7 +41,7 @@ can_ok $node1, qw'
   getName
   ';
 
-printf "*** %s\n", join ", ", $_ foreach @{ $node1->getFieldDefinitions };
+#printf "*** %s\n", join ", ", $_ foreach @{ $node1->getFieldDefinitions };
 
 ok $node1->getId;
 is $node1->getType,     'X3DNode';

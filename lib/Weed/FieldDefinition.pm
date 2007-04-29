@@ -9,7 +9,7 @@ sub new {
 	my $this = $self->SUPER::new($type);
 
 	$this->setInOut( $in, $out );
-	@$this{ "name", "value", "range" } = @args;
+	@$this{ qw'name value range' } = @args;
 
 	return $this;
 }

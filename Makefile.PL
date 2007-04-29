@@ -15,7 +15,9 @@ BEGIN {
 			Scalar::Util        => 0,
 			Class::ISA          => 0,
 			Time::HiRes         => 0,
+			LWP::Simple         => 0,
 			Math::Complex       => 0,
+			Data::Validate::URI => 0,
 		},                                  # e.g., Module::Name => 1.1
 
 		#ABSTRACT_FROM => 'lib/Math/Color.pm',
