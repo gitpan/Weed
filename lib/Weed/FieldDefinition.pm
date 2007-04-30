@@ -4,14 +4,15 @@ use warnings;
 
 use Weed 'X3DFieldDefinition { }';
 
-sub new {
-	my ( $self, $type, $in, $out, @args ) = @_;
-	my $this = $self->SUPER::new($type);
+sub create {
+	my ( $this, $type, $in, $out, @args ) = @_;
+
+	$this->{type} = $type;
 
 	$this->setInOut( $in, $out );
-	@$this{ qw'name value range' } = @args;
+	@$this{qw'name value range'} = @args;
 
-	return $this;
+	return;
 }
 
 sub isIn  { $_[0]->{in} }
@@ -19,11 +20,12 @@ sub isOut { $_[0]->{out} }
 
 sub setInOut {
 	my ( $this, $in, $out ) = @_;
-	$this->{in}  = $in  ? X3DConstants->TRUE : X3DConstants->FALSE;
-	$this->{out} = $out ? X3DConstants->TRUE : X3DConstants->FALSE;
+	$this->{in}  = $in  ? X3DConstants->TRUE: X3DConstants->FALSE;
+	$this->{out} = $out ? X3DConstants->TRUE: X3DConstants->FALSE;
+	return;
 }
 
-sub getAccessType { ($_[0]->{out} << 1) | $_[0]->{in} }
+sub getAccessType { ( $_[0]->{out} << 1 ) | $_[0]->{in} }
 
 sub getName { $_[0]->{name} }
 
@@ -43,7 +45,7 @@ use Weed::Generator::Symbols;
 sub toString : Overload("") { sprintf $string_, $_[0]->getType }
 
 sub shutdown {
-	printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString($_[0]);
+	printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, &toString( $_[0] );
 }
 
 1;

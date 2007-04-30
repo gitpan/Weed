@@ -2,7 +2,7 @@ package Weed::Constants;
 use strict;
 use warnings;
 
-use Weed 'X3DConstants { }';
+use package 'X3DConstants';
 
 use constant TRUE  => 1;
 use constant FALSE => not TRUE;
@@ -15,7 +15,6 @@ use constant inputOutput    => 3;
 
 1;
 __END__
-
 
 use enum qw(
   SFBool

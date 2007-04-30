@@ -18,4 +18,7 @@ is( ref( ( Weed::Universal->CAN( 'import' ) )[0] ), 'CODE' );
 ok ! Weed::Universal->CAN( 'blah' );
 ok ! Weed::Universal->can( 'blah' );
 
+ok (X3DUniversal::time);
+ok (&X3DUniversal::time);
+
 __END__

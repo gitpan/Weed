@@ -7,7 +7,6 @@ bin/PS_To_PDF
 lib/FooBah.pm
 lib/FooBah/FooBah.desktop
 lib/FooBah/ui.x3d
-lib/package.pm
 lib/Weed.pm
 lib/Weed/ArrayField.pm
 lib/Weed/Browser.pm
@@ -17,7 +16,6 @@ lib/Weed/Component/Core/ChildNode.pm
 lib/Weed/Component/Core/Node.pm
 lib/Weed/Component/Grouping/BoundedObject.pm
 lib/Weed/Component/Grouping/GroupingNode.pm
-lib/Weed/ConceptParser.pm
 lib/Weed/Constants.pm
 lib/Weed/Environment.pm
 lib/Weed/Field.pm
@@ -29,6 +27,8 @@ lib/Weed/Fields.pm
 lib/Weed/Generator.pm
 lib/Weed/Generator/Symbols.pm
 lib/Weed/Messages.pm
+lib/Weed/Parse/Concept.pm
+lib/Weed/Parse/FieldTypes.pm
 lib/Weed/Parser.pm
 lib/Weed/Parser/Symbols.pm
 lib/Weed/Prototype.pm
@@ -39,8 +39,12 @@ lib/Weed/Universum.pm
 Makefile.PL
 MANIFEST			This list of files
 t/00_concept.t
+t/00_constants.t
+t/00_parse_types.t
 t/00_pod.t
 t/01_environment.t
+t/01_field.t
+t/01_field_types.t
 t/01_foobah.t
 t/01_node.t
 t/01_seed.t

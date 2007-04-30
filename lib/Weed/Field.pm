@@ -6,12 +6,10 @@ use Weed 'X3DField { }';
 
 use constant DefaultDefinition => new X3DFieldDefinition( "", "in", "out", undef, undef, undef );
 
-sub new {
-	my ( $self, @value ) = @_;
-	my $this = $self->SUPER::new( $self->PACKAGE );
+sub create {
+	my $this = shift;
 	$this->setDefinition(DefaultDefinition);
-	$this->setValue(@value);
-	return $this;
+	$this->setValue(@_);
 }
 
 sub getDefinition { $_[0]->{definition} }

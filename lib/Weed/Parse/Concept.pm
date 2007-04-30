@@ -1,17 +1,15 @@
-package Weed::ConceptParser;
+package Weed::Parse::Concept;
 use strict;
 use warnings;
 
-use package;
-
-use Carp; $Carp::CarpLevel = 1;
+use Carp (); $Carp::CarpLevel = 1;
 use Perl6::Say;
 
 use Weed::Parser::Symbols;
 
 # Description
 
-sub parse {
+sub parse::Concept {
 	my ($string) = @_;
 	my $statement = eval { &conceptStatement( \$string ) };
 	return $statement;
@@ -30,13 +28,13 @@ sub conceptStatement {
 
 			$supertypes = &Ids($string);
 
-			croak "No supertypes after ':'" unless @$supertypes;
+			Carp::croak "No supertypes after ':'" unless @$supertypes;
 
 		} else {
 
 			$supertypes = [];
 
-			croak "Expected ' : '" if $$string =~ m.$_colon.gc;
+			Carp::croak "Expected ' : '" if $$string =~ m.$_colon.gc;
 		}
 
 		if ( $$string =~ m.$_open_brace.gc ) {
@@ -52,15 +50,15 @@ sub conceptStatement {
 				};
 
 			} else {
-				croak "Expected '}'";
+				Carp::croak "Expected '}'";
 			}
 
 		} else {
-			croak "Expected '{'";
+			Carp::croak "Expected '{'";
 		}
 
 	} else {
-		croak "Expected package name\n";
+		Carp::croak "Expected package name\n";
 	}
 
 	return;
@@ -90,7 +88,7 @@ sub body {
 
 	return [ split $_space_break_space, $1 ] if $$string =~ m.$_Body.gc;
 
-	croak "Expected '}'";
+	Carp::croak "Expected '}'";
 	return;
 }
 

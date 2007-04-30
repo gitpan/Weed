@@ -2,8 +2,6 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-use Weed::Universal;
-use base 'X3DUniversal';
 use Weed::Universal 'X3DObject { }';
 
 use Weed::Generator::Symbols;
@@ -16,12 +14,14 @@ use overload
   ;
 
 sub new {
-	my ( $self, $type ) = @_;
+	my $self = shift;
 	my $this = $self->NEW({});
 
 	$this->{id}      = $this->ID;
-	$this->{type}    = $type || $this->PACKAGE;
+	$this->{type}    = $this->PACKAGE;
 	$this->{comment} = '';
+
+	$this->REVERSE_CALL("create", @_);
 
 	return $this;
 }
@@ -43,7 +43,9 @@ sub dispose {
 	%$this = ();
 }
 
-#debug
+################################################################################
+# debug ########################################################################
+################################################################################
 
 sub shutdown {
 	printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString($_[0]);
@@ -51,3 +53,46 @@ sub shutdown {
 
 1;
 __END__
+
+=head1 NAME
+
+Weed::Seed
+
+=head1 SUPERTYPES
+
+-+- L<X3DUniversal|Weed::Universal>
+
+=head1 SYNOPSIS
+
+	use Weed::Seed;
+	
+	my $seed1 = new X3DObject;
+
+=head1 FUNCTIONS
+
+=head2 getId
+
+=head2 getType
+
+=head2 toString
+
+This method is used to overload the "" operator
+
+=head1 SEE ALSO
+
+L<Weed::Seed>
+
+L<Weed::Field>, L<Weed::ArrayField>
+
+L<Math::Vectors>
+
+=head1 AUTHOR
+
+Holger Seelig  holger.seelig@yahoo.de
+
+=head1 COPYRIGHT
+
+Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
+nach den gleichen Bedingungen wie L<Perl|perl> selbst.
+
+=cut

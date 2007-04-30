@@ -7,15 +7,26 @@ use Scalar::Util;
 use Attribute::Overload;
 use Time::HiRes 'time';
 
+use Weed::Constants;
+use Weed::Parse::Concept;
+
 use base 'UNIVERSAL';
-
 use package "X3DUniversal", qw'time';
-
-use Weed::ConceptParser;
 
 sub import {
 	shift;
-	DESCRIPTION( (caller)[0], @_ );
+	return unless @_;
+	my $package = caller;
+	IMPORT( $package, ['X3DUniversal'], @_ );
+}
+
+sub IMPORT {
+	my ( $package, $supertypes, $description ) = @_;
+
+	#printf "X3DUniversal import %s\n", $package;
+
+	SUPERTYPES( $package, $supertypes );
+	DESCRIPTION( $package, $description );
 }
 
 sub DESCRIPTION {
@@ -23,15 +34,15 @@ sub DESCRIPTION {
 
 	return unless defined $string;
 
-	printf "import public *** %s\n", $package;
+	#printf "DESCRIPTION *** %s\n", $package;
 
 	#printf "import public *** %s -> %s\n", $package, $string;
 
-	my $description = &Weed::ConceptParser::parse($string);
+	my $description = parse::Concept($string);
 	if ( ref $description ) {
 
 		package::alias( $description->{name}, $package );
-		$package->SUPERTYPES( $description->{supertypes} );
+		SUPERTYPES( $package, $description->{supertypes} );
 
 		$package->setDescription($description)
 		  if $package->can("setDescription");
@@ -45,7 +56,7 @@ sub SUPERTYPES {
 	unshift @{ ARRAY( $package, "ISA" ) }, @$supertypes;
 }
 
-sub NEW { bless $_[1], $_[0]->PACKAGE }
+sub NEW { bless $_[1], PACKAGE( $_[0] ) }
 
 no strict 'refs';
 no warnings;
@@ -77,7 +88,7 @@ sub CAN {
 	unless ( defined $$property ) {
 		$$property = [];
 		push @$$property, map { \&{"${_}::${name}"} }
-		  grep { exists &{"${_}::${name}"} } reverse $this->PATH;
+		  grep { exists &{"${_}::${name}"} } reverse PATH($this);
 	}
 
 	return @$$property;
@@ -91,16 +102,21 @@ sub PACKAGE { ref( $_[0] ) || $_[0] }
 
 sub PATH { reverse Class::ISA::self_and_super_path( PACKAGE( $_[0] ) ) }
 
-sub SUPER { $_[0]->ARRAY("ISA")->[0] }
+sub SUPER { ARRAY( $_[0], "ISA" )->[0] }
 
 *ID = \&Scalar::Util::refaddr;
 
 sub CALL {
 	my ( $this, $name ) = ( shift, shift );
-	return map { &$_( $this, @_ ) } $this->CAN($name);
+	return map { &$_( $this, @_ ) } CAN( $this, $name );
 }
 
-sub DESTROY { $_[0]->CALL("dispose"); 0; }
+sub REVERSE_CALL {
+	my ( $this, $name ) = ( shift, shift );
+	return map { &$_( $this, @_ ) } reverse CAN( $this, $name );
+}
+
+sub DESTROY { CALL( $_[0], "dispose" ); 0; }
 
 1;
 __END__

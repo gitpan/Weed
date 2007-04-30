@@ -1,3 +1,4 @@
+#package Makefile.PL
 use 5.006;
 use ExtUtils::MakeMaker;
 
@@ -9,16 +10,19 @@ BEGIN {
 		'VERSION_FROM' => 'lib/Weed.pm',    # finds $VERSION
 		'PREREQ_PM'    => {
 			Test::More          => 0,
+			Benchmark           => 0,
 			base                => 0,
 			Carp                => 0,
 			Attribute::Overload => 0,
 			Scalar::Util        => 0,
 			Class::ISA          => 0,
 			Time::HiRes         => 0,
-			LWP::Simple         => 0,
 			Math::Complex       => 0,
-			Data::Validate::URI => 0,
-		},                                  # e.g., Module::Name => 1.1
+			#LWP::Simple         => 0,
+			#Data::Validate::URI => 0,
+			package => 0,
+			Math    => 0,
+		},    # e.g., Module::Name => 1.1
 
 		#ABSTRACT_FROM => 'lib/Math/Color.pm',
 		ABSTRACT => 'Contains the Abstract that will be displayed on CPAN',

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Weed
-version:             0.0019
+version:             0.0021
 abstract:            Contains the Abstract that will be displayed on CPAN
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.32
@@ -8,11 +8,12 @@ distribution_type:   module
 requires:     
     Attribute::Overload:           0
     base:                          0
+    Benchmark:                     0
     Carp:                          0
     Class::ISA:                    0
-    Data::Validate::URI:           0
-    LWP::Simple:                   0
+    Math:                          0
     Math::Complex:                 0
+    package:                       0
     Scalar::Util:                  0
     Test::More:                    0
     Time::HiRes:                   0

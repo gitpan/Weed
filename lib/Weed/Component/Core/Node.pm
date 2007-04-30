@@ -14,13 +14,6 @@ sub setDescription {
 	#die;
 }
 
-sub new {
-	my ( $self, $name ) = @_;
-	my $this = $self->SUPER::new( $self->PACKAGE );
-	$this->create($name);
-	return $this;
-}
-
 sub create {
 	my ( $this, $name ) = @_;
 	$this->setName($name);

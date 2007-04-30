@@ -13,4 +13,10 @@ BEGIN {
 ok new Weed::Seed;
 ok new X3DObject;
 
+ok new Weed::Seed;
+ok my $seed1 = new X3DObject;
+
+isa_ok $seed1, 'X3DUniversal';
+isa_ok $seed1, 'X3DObject';
+
 __END__

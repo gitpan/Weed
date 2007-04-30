@@ -4,8 +4,6 @@ use warnings;
 
 use Weed::Seed;
 
-use Weed::Constants;
-
 use Weed::FieldDefinition;
 use Weed::Field;
 use Weed::ArrayField;

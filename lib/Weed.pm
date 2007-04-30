@@ -2,18 +2,14 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0019';
+our $VERSION = '0.0021';
 
 use base 'UNIVERSAL';
 
 sub import {
 	shift;
 	my $package = caller;
-
-	Weed::Universal::SUPERTYPES( $package, ['X3DObject'] );
-	Weed::Universal::DESCRIPTION( $package, @_ );
-
-	#printf "import weed   *** %s\n", $package;
+	Weed::Universal::IMPORT( $package, ['X3DObject'], @_ );
 }
 
 use Weed::Environment;
@@ -25,19 +21,11 @@ __END__
 
 Weed - ist ein englisches Wort für Unkraut
 
-=head1 BASIS
-
--+- L<UNIVERSAL>
-
-=head1 USES
-
-L<Weed::Environment>
-
 =head1 DESCRIPTION
 
 Alles was mindestens X3DObject sein will, importiert Weed.
 
-=head1 EXAMPLES
+=head1 SYNOPSIS
 
 	package MyPackage;
 	use Weed;
@@ -76,6 +64,14 @@ callback function names begin begin whith a underscore '_' followed by the field
 		my ($this, $value, $time) = @_;
 		printf "%s\n", $value;
 	}
+
+=head1 INTERFACE
+
+=head2 setDescription($package, $description)
+
+=head2 initialize($this)
+
+=head2 shutdown($this)
 
 =head1 SEE ALSO
 
