@@ -2,16 +2,20 @@ package Weed::Universal;
 use strict;
 use warnings;
 
-use Class::ISA;
+use Time::HiRes;
 use Scalar::Util;
-use Attribute::Overload;
-use Time::HiRes 'time';
+use Class::ISA;
+
+use Math;
 
 use Weed::Constants;
 use Weed::Parse::Concept;
+use Weed::Generator;
 
-use base 'UNIVERSAL';
-use package "X3DUniversal", qw'time';
+X3DUniversal->package::base( "Weed::Universal", 'time', { TIME => '&Time::HiRes::time' } );
+X3DUniversal->package::import("Weed::Universal");
+
+sub time { Time::HiRes::time }
 
 sub import {
 	shift;
@@ -21,16 +25,16 @@ sub import {
 }
 
 sub IMPORT {
-	my ( $package, $supertypes, $description ) = @_;
+	my ( $package, $supertypes, $description, @imports ) = @_;
 
 	#printf "X3DUniversal import %s\n", $package;
 
 	SUPERTYPES( $package, $supertypes );
-	DESCRIPTION( $package, $description );
+	DESCRIPTION( $package, $description, @imports );
 }
 
 sub DESCRIPTION {
-	my ( $package, $string ) = @_;
+	my ( $package, $string, @imports ) = @_;
 
 	return unless defined $string;
 
@@ -41,7 +45,7 @@ sub DESCRIPTION {
 	my $description = parse::Concept($string);
 	if ( ref $description ) {
 
-		package::alias( $description->{name}, $package );
+		package::alias( $description->{name}, $package, @imports );
 		SUPERTYPES( $package, $description->{supertypes} );
 
 		$package->setDescription($description)

@@ -1,4 +1,4 @@
-package Weed::Component::Grouping::GroupingNode;
+package Weed::Components::Grouping::GroupingNode;
 use strict;
 use warnings;
 

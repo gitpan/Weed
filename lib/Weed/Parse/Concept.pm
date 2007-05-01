@@ -3,9 +3,8 @@ use strict;
 use warnings;
 
 use Carp (); $Carp::CarpLevel = 1;
-use Perl6::Say;
 
-use Weed::Parser::Symbols;
+use Weed::RegularExpressions;
 
 # Description
 

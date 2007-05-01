@@ -1,4 +1,4 @@
-package Weed::Component::Core::Node;
+package Weed::Components::Core::Node;
 use strict;
 use warnings;
 

@@ -9,14 +9,11 @@ use Weed::Field;
 use Weed::ArrayField;
 use Weed::Fields;
 
-use Weed::Component::Core::Node;
-use Weed::Component::Core::ChildNode;
+use Weed::Components::Core::Node;
+use Weed::Components::Core::ChildNode;
 
-use Weed::Component;
-use Weed::Component::Core;
-
-use Weed::Component::Grouping::BoundedObject;
-use Weed::Component::Grouping::GroupingNode;
+use Weed::Components::Grouping::BoundedObject;
+use Weed::Components::Grouping::GroupingNode;
 
 use Weed::Prototype;
 use Weed::Generator;

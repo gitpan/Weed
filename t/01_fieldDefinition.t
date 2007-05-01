@@ -1,66 +1,30 @@
-package Weed::FieldDefinition;
+#!/usr/bin/perl -w
+#package 01_fieldDefinition
+use Test::More no_plan;
 use strict;
-use warnings;
 
-use Weed 'X3DFieldDefinition { }';
-
-#  exposedField SFFloat  maximumSpeed	299792.458 #[0,1]
-
-sub create {
-	my ( $this, $type, $in, $out, @args ) = @_;
-
-	$this->{type} = $type;
-
-	$this->setInOut( $in, $out );
-	@$this{qw'name value range'} = @args;
-
-	return;
+BEGIN {
+	$| = 1;
+	chdir 't' if -d 't';
+	unshift @INC, '../lib';
+	use_ok 'Weed';
 }
 
-sub isIn  { $_[0]->{in} }
-sub isOut { $_[0]->{out} }
+is (X3DConstants->initializeOnly, 0);
+is (X3DConstants->inputOnly,      1);
+is (X3DConstants->outputOnly,     2);
+is (X3DConstants->inputOutput,    3);
 
-sub setInOut {
-	my ( $this, $in, $out ) = @_;
-	$this->{in}  = $in  ? X3DConstants->TRUE: X3DConstants->FALSE;
-	$this->{out} = $out ? X3DConstants->TRUE: X3DConstants->FALSE;
-	return;
-}
-
-sub getAccessType { ( $_[0]->{out} << 1 ) | $_[0]->{in} }
-
-sub getName { $_[0]->{name} }
-
-sub getValue { $_[0]->{value} }
-
-sub getRange { $_[0]->{range} }
-
-sub createField {
-	my ( $this, $node ) = @_;
-	my $field = $this->getType->new( $this->{value} );
-	$field->setDefinition($this);
-	return $field;
-}
-
-sub shutdown {
-	#printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, &toString( $_[0] );
-}
+my $fieldDefinition1 = new X3DFieldDefinition( "SFNode", "in", "out", "name", "value", "range" );
+ok $fieldDefinition1->isIn;
+ok $fieldDefinition1->isOut;
+is $fieldDefinition1->getAccessType, X3DConstants->inputOutput;
+is $fieldDefinition1->getName, 'name';
+is $fieldDefinition1->getValue, 'value';
+is $fieldDefinition1->getRange, 'range';
 
 1;
 __END__
-
-sub toString {
-	my $this   = shift;
-	my $string = "";
-
-	$string .= $X3DGenerator::AccessTypes->[ $this->getAccessType ];
-	$string .= $X3DGenerator::SPACE;
-	$string .= $this->getType;
-	$string .= $X3DGenerator::SPACE;
-	$string .= $this->SUPER::toString;
-
-	return $string;
-}
 
 PROTO Particle [
   exposedField SFTime   cycleInterval	1
@@ -157,6 +121,5 @@ function initialize () {
   ROUTE Time.isActive TO _Particle.set_isActive
   ROUTE Time.time TO _Particle.set_time
 }
-
 
 

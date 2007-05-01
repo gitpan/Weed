@@ -1,4 +1,4 @@
-#package Makefile.PL
+#package Makefile
 use 5.006;
 use ExtUtils::MakeMaker;
 
@@ -13,7 +13,6 @@ BEGIN {
 			Benchmark           => 0,
 			base                => 0,
 			Carp                => 0,
-			Attribute::Overload => 0,
 			Scalar::Util        => 0,
 			Class::ISA          => 0,
 			Time::HiRes         => 0,

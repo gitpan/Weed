@@ -1,4 +1,4 @@
-package Weed::Component::Grouping::BoundedObject;
+package Weed::Components::Grouping::BoundedObject;
 use strict;
 use warnings;
 

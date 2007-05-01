@@ -31,7 +31,7 @@ print map { "ISA:  $_\n" } $node1->PATH;
 print map { "Super:  $_\n" } ref $node1;
 ok $node1->isa("X3DNode");
 
-is $node1->SUPER, "Weed::Component::Core::Node";
+is $node1->SUPER, "Weed::Components::Core::Node";
 
 printf "\n";
 can_ok $node1, qw'

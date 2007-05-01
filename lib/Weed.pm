@@ -2,7 +2,7 @@ package Weed;
 use strict;
 use warnings;
 
-our $VERSION = '0.0021';
+our $VERSION = '0.0022';
 
 use base 'UNIVERSAL';
 

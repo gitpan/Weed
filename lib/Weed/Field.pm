@@ -4,7 +4,7 @@ use warnings;
 
 use Weed 'X3DField { }';
 
-use constant DefaultDefinition => new X3DFieldDefinition( "", "in", "out", undef, undef, undef );
+use constant DefaultDefinition => new X3DFieldDefinition( "Default", "in", "out", undef, undef, undef );
 
 sub create {
 	my $this = shift;

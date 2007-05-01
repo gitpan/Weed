@@ -5,6 +5,21 @@ use warnings;
 use base 'Exporter';
 
 our @EXPORT = qw(
+  $_in_
+  $_out_
+
+  $_tab_
+  $_space_
+  $_break_
+
+  $_period_
+  $_open_brace_
+  $_close_brace_
+  $_open_bracket_
+  $_close_bracket_
+  $_colon_
+  $_comma_
+
   $_nan_
   $_inf_
 
@@ -34,6 +49,24 @@ our @EXPORT = qw(
   $_exposedField_
   $_field_
 );
+
+# concept
+our $_in_  = 'in';
+our $_out_ = 'out';
+
+# General
+our $_tab_   = ' ';
+our $_space_ = ' ';
+our $_break_ = "\n";
+
+# Terminal symbols
+our $_period_        = '.';
+our $_open_brace_    = '{';
+our $_close_brace_   = '}';
+our $_open_bracket_  = '[';
+our $_close_bracket_ = ']';
+our $_colon_         = ':';
+our $_comma_         = ',';
 
 # Field Values Symbols
 our $_nan_ = 'nan0x7ffffe00';

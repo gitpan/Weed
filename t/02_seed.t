@@ -8,16 +8,15 @@ BEGIN {
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
 	use_ok 'Weed';
-	use_ok 'Weed::Parser::Symbols';
+	use_ok 'Weed::RegularExpressions';
 }
 
-use Weed::Parser::Symbols qw($_float);
+use Weed::RegularExpressions qw($_float);
 
 is (X3DObject->SUPER, "Weed::Seed");
 
 ok new Weed::Seed;
 ok my $seed1 = new X3DObject;
-
 
 ok $seed1->getId;
 is $seed1->getType,    "X3DObject";
@@ -45,8 +44,6 @@ printf "%s\n",              $seed1;
 ok my $seed2 = new X3DObject;
 printf "%s\n", $seed2->getId;
 printf "%s\n", $seed2->getType;
-
-printf "time: %s\n", time;
 
 like time, $_float;
 

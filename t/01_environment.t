@@ -10,8 +10,4 @@ BEGIN {
 	use_ok 'Weed::Environment';
 }
 
-ok my $core = new X3DComponent("Core");
-
-printf "%s\n", $core;
-
 __END__

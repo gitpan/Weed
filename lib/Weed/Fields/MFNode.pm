@@ -1,4 +1,4 @@
-package Weed::Field::MFNode;
+package Weed::Fields::MFNode;
 use strict;
 use warnings;
 

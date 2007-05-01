@@ -1,4 +1,4 @@
-package Weed::Field::SFNode;
+package Weed::Fields::SFNode;
 use strict;
 use warnings;
 

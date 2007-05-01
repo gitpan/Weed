@@ -2,7 +2,7 @@ package Weed::Parse::FieldTypes;
 use strict;
 use warnings;
 
-use Weed::Parser::Symbols;
+use Weed::RegularExpressions;
 
 sub sfboolValue {
 	my ($string) = @_;

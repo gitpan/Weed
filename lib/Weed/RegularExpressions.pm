@@ -1,11 +1,13 @@
-package Weed::Parser::Symbols;
+package Weed::RegularExpressions;
 use strict;
 use warnings;
 
 use Weed::Symbols;
-use base 'Weed::Symbols';
+
+use base 'Exporter';
 
 our @EXPORT = qw(
+  $_X3D
 
   $_break
   $_header
@@ -76,6 +78,8 @@ our @EXPORT = qw(
 #$int32
 #$double
 
+our $_X3D = qr.^(?!Weed::|main).so;
+
 # General
 our $space      = "[\x20\t]";
 our $break      = "[\n\r]";
@@ -101,12 +105,12 @@ our $vrmlScriptFieldType  = join '|', @VrmlScriptFieldTypes;
 our $fieldType            = join '|', @FieldTypes;
 
 # Terminal symbols
-our $period        = '\.';
-our $open_brace    = '\{';
-our $close_brace   = '\}';
-our $open_bracket  = '\[';
-our $close_bracket = '\]';
-our $colon         = '\:';
+our $period        = '\\' . $_period_;
+our $open_brace    = '\\' . $_open_brace_;
+our $close_brace   = '\\' . $_close_brace_;
+our $open_bracket  = '\\' . $_open_bracket_;
+our $close_bracket = '\\' . $_close_bracket_;
+our $colon         = '\\' . $_colon_;
 
 # Other Symbols
 our $IdFirstChar = '[^\x30-\x39\x00-\x20\x22\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d\x7f]{1}';
@@ -114,10 +118,10 @@ our $IdRestChars = '[^\x00-\x20\x22\x23\x27\x2c\x2e\x5b\x5c\x5d\x7b\x7d\x7f]';
 our $Id          = "$IdFirstChar$IdRestChars*";
 
 # General
-our $_break             = qr.$break.so;
-our $_header            = qr.\A$header.so;
-our $_comment           = qr.\G$whitespace*$comment.so;
-our $_whitespace        = qr.$whitespace.so;
+our $_break      = qr.$break.so;
+our $_header     = qr.\A$header.so;
+our $_comment    = qr.\G$whitespace*$comment.so;
+our $_whitespace = qr.$whitespace.so;
 
 our $_space_break_space = qr.$space*$break$space*.so;
 

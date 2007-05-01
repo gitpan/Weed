@@ -2,39 +2,53 @@ package Weed::Seed;
 use strict;
 use warnings;
 
-use Weed::Universal 'X3DObject { }';
+our $VERSION = '0.0022';
 
-use Weed::Generator::Symbols;
+use Weed::RegularExpressions '$_X3D';
+use Weed::Universal 'X3DObject { }';
 
 use overload
   '==' => sub { $_[1] == $_[0]->getId },
   '!=' => sub { $_[1] != $_[0]->getId },
   'eq' => sub { $_[1] eq "$_[0]" },
   'ne' => sub { $_[1] ne "$_[0]" },
+  '0+' => \&getId,
+  '""' => sub { $_[0]->toString },
   ;
 
 sub new {
 	my $self = shift;
-	my $this = $self->NEW({});
+	my $this = $self->NEW( {} );
 
 	$this->{id}      = $this->ID;
 	$this->{type}    = $this->PACKAGE;
 	$this->{comment} = '';
 
-	$this->REVERSE_CALL("create", @_);
+	$this->REVERSE_CALL( "create", @_ );
 
 	return $this;
 }
 
-sub getId : Overload(0+) { $_[0]->{id} }
+sub getId { $_[0]->{id} }
 
 sub getType { $_[0]->{type} }
 
 sub getComment { $_[0]->{comment} }
 
-sub getHierarchy { grep /^X3D/o, $_[0]->PATH }
+sub getHierarchy { grep /$_X3D/, $_[0]->PATH }
 
-sub toString : Overload("") { sprintf $seed_, $_[0]->getType }
+sub toString {
+	my ($this) = @_;
+
+	my $string = '';
+	$string .= $this->getType;
+	$string .= X3DGenerator->nice_space;
+	$string .= X3DGenerator->open_brace;
+	$string .= X3DGenerator->nice_space;
+	$string .= X3DGenerator->close_brace;
+
+	return $string;
+}
 
 sub dispose {
 	my $this = shift;
@@ -48,7 +62,7 @@ sub dispose {
 ################################################################################
 
 sub shutdown {
-	printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString($_[0]);
+	#printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString( $_[0] );
 }
 
 1;
