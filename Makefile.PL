@@ -9,18 +9,17 @@ BEGIN {
 		'NAME'         => 'Weed',
 		'VERSION_FROM' => 'lib/Weed.pm',    # finds $VERSION
 		'PREREQ_PM'    => {
-			Test::More          => 0,
-			Benchmark           => 0,
-			base                => 0,
-			Carp                => 0,
-			Scalar::Util        => 0,
-			Class::ISA          => 0,
-			Time::HiRes         => 0,
-			Math::Complex       => 0,
+			Test::More     => 0,
+			Benchmark      => 0,
+			base           => 0,
+			Carp           => 0,
+			Package::Alias => 0,
+			Scalar::Util   => 0,
+			Time::HiRes    => 0,
+			Math::Complex  => 0,
+			File::Temp     => 0,
 			#LWP::Simple         => 0,
 			#Data::Validate::URI => 0,
-			package => 0,
-			Math    => 0,
 		},    # e.g., Module::Name => 1.1
 
 		#ABSTRACT_FROM => 'lib/Math/Color.pm',

@@ -1,6 +1,10 @@
 package Weed::Field;
-use strict;
-use warnings;
+
+sub setDescription {
+	my ( $this, $description ) = @_;
+	printf "%s %s\n", $this, $description;
+	#die;
+}
 
 use Weed 'X3DField { }';
 

@@ -1,6 +1,4 @@
 package Weed::Components::Grouping::GroupingNode;
-use strict;
-use warnings;
 
 use Weed '
 X3DGroupingNode : X3DChildNode, X3DBoundedObject { 

@@ -25,7 +25,7 @@ use Weed 'Weed : X3DNode {
 ';
 
 ok my $weed = new Weed;
-isa_ok $weed, $_ foreach $weed->PATH;
+isa_ok $weed, $_ foreach $weed->Weed::Package::superpath;
 ok $weed ;
 isa_ok $weed, $_ foreach $weed->getHierarchy;
 ok $weed ;

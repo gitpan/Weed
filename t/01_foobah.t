@@ -1,7 +1,6 @@
 #!/usr/bin/perl -w
 #package 01_foobah
 use Test::More no_plan;
-use strict;
 
 BEGIN {
 	$| = 1;
@@ -10,6 +9,7 @@ BEGIN {
 	use_ok('FooBah');
 }
 
+use Weed::Perl;
 ok new FooBah;
 ok my $fooBah = new FooBah("haBooF");
 isa_ok $fooBah, 'X3DObject';
@@ -20,6 +20,10 @@ can_ok $fooBah, 'getId';
 
 printf "%s\n", $fooBah;
 printf "%s\n", join ", ", $fooBah->getHierarchy;
+
+say $_ foreach $fooBah->Weed::Package::self_and_superpath;
+say;
+say $_ foreach $fooBah->Weed::Package::supertypes;
 
 1;
 __END__

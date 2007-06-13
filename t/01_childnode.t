@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package 04_childnode
+#package 01_childnode
 use Test::More no_plan;
 use strict;
 

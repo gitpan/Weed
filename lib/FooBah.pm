@@ -1,25 +1,22 @@
 package FooBah;
-use strict;
-use warnings;
-
-our $VERSION = '0.0022';
 
 use Weed 'FooBah : X3DUniversum { }';
 
-sub create {
-	printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, $_[0];
-	#printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
-	#printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
-}
+our $VERSION = '0.0034';
 
 sub initialize {
-	printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, $_[0];
+	my $this = shift;
+	#printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
+	#printf "*** %s -m'%s'\n", X3DUniversal::time, __PACKAGE__;
+	#printf "*** %s -m'%s' '%s'\n", X3DUniversal::time, __PACKAGE__, join "' '", @ARGV;
+	printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
 	
-	sleep 1;
+	#sleep 1;
 }
 
 sub shutdown {
-	printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, $_[0];
+	my $this = shift;
+	printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
 }
 
 1;

@@ -1,6 +1,4 @@
 package Weed::Universum;
-use strict;
-use warnings;
 
 use Weed '
 X3DUniversum : X3DGroupingNode {
@@ -13,13 +11,9 @@ X3DUniversum : X3DGroupingNode {
 }
 ';
 
-sub new {
-	my ( $self, $name ) = @_;
-	my $this = $self->SUPER::new($name);
-
-	#$this->addChildren(new X3DBrowser);
-
-	return $this;
+sub create {
+	my ( $this ) = @_;
+	$this->Weed::Package::reverse_call('initialize');
 }
 
 sub createBrowser {

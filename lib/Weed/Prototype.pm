@@ -1,6 +1,4 @@
 package Weed::Prototype;
-use strict;
-use warnings;
 
 use Weed '
 X3DPrototype : X3DChildNode {

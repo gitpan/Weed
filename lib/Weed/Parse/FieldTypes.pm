@@ -1,6 +1,5 @@
 package Weed::Parse::FieldTypes;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use Weed::RegularExpressions;
 

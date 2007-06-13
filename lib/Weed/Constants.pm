@@ -1,12 +1,11 @@
 package Weed::Constants;
-use strict;
-use warnings;
+use Weed::Perl;
 
-use package 'X3DConstants';
+use Package::Alias X3DConstants => __PACKAGE__;
 
-use constant TRUE  => 1;
-use constant FALSE => not TRUE;
 use constant NULL  => undef;
+use constant FALSE => NO;
+use constant TRUE  => YES;
 
 use constant initializeOnly => 0;
 use constant inputOnly      => 1;

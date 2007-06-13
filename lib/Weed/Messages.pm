@@ -1,6 +1,5 @@
 package Weed::Messages;
-use strict;
-use warnings;
+use Weed::Perl;
 
 sub Weed::UnknownObjectId { warn sprintf "Unknown object id '%s'", $_[0] }
 

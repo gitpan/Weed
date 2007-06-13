@@ -1,10 +1,8 @@
 package Weed::Fields::SFNumber;
-use strict;
-use warnings;
 
-use Weed 'SFNumber : X3DField { }';
+use Weed 'SFNumber : X3DField { 0 }';
 
-use Math::Complex 'time';
+use Math::Complex;
 
 sub _geheim {}
 

@@ -1,6 +1,4 @@
 package Weed::Components::Grouping::BoundedObject;
-use strict;
-use warnings;
 
 use Weed '
 X3DBoundedObject { 

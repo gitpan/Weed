@@ -1,6 +1,4 @@
 package Weed::Browser;
-use strict;
-use warnings;
 
 use Weed '
 X3DBrowser : X3DGroupingNode {
@@ -13,11 +11,8 @@ X3DBrowser : X3DGroupingNode {
 }
 ';
 
-sub new {
-	my ($self, $name) = @_;
-	my $this = $self->SUPER::new;
-	$this->setName($this->getType);
-	return $this;
+sub create {
+	my ($this) = @_;
 }
 
 1;

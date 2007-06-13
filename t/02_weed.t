@@ -10,6 +10,7 @@ BEGIN {
 	use_ok('Weed');
 }
 
-ok eval { new main };
+#ok eval { new main };
+is Weed::Package::stringify('main'), 'main []';
  
 __END__

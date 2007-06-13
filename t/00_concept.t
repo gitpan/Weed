@@ -10,56 +10,56 @@ BEGIN {
 	use_ok 'Weed::Parse::Concept';
 }
 
-ok parse::Concept('a{}');
-is ref parse::Concept('a{}'),   'HASH';
-is ref parse::Concept('a {}'),  'HASH';
-is ref parse::Concept('a { }'), 'HASH';
-is ref parse::Concept('a{ }'),  'HASH';
+ok parse::concept('a{}');
+is ref parse::concept('a{}'),   'HASH';
+is ref parse::concept('a {}'),  'HASH';
+is ref parse::concept('a { }'), 'HASH';
+is ref parse::concept('a{ }'),  'HASH';
 
-ok parse::Concept('X3DNode {}')->{name},         'X3DNode';
-ok parse::Concept('X3DChildNode {}')->{name},    'X3DChildNode';
-ok parse::Concept('X3DCh::ildNode {}')->{name},  'X3DCh::ildNode';
-ok parse::Concept('_X3DCh::ildNode {}')->{name}, '_X3DCh::ildNode';
+ok parse::concept('X3DNode {}')->{name},         'X3DNode';
+ok parse::concept('X3DChildNode {}')->{name},    'X3DChildNode';
+ok parse::concept('X3DCh::ildNode {}')->{name},  'X3DCh::ildNode';
+ok parse::concept('_X3DCh::ildNode {}')->{name}, '_X3DCh::ildNode';
 
-is parse::Concept('X3DChildNode:X3DNode{}')->{name},   'X3DChildNode:X3DNode';
-is parse::Concept('X3DChildNode : X3DNode{}')->{name}, 'X3DChildNode';
-is parse::Concept('X3DChildNode : X3DNode{}')->{supertypes}->[0], 'X3DNode';
-is parse::Concept('A : B C {}')->{name}, 'A';
-is parse::Concept('A : B C {}')->{name}, 'A';
-is parse::Concept('A : B C {}')->{supertypes}->[0],  'B';
-is parse::Concept('A : B C {}')->{supertypes}->[1],  'C';
-is parse::Concept('A : B C D{}')->{supertypes}->[2], 'D';
+is parse::concept('X3DChildNode:X3DNode{}')->{name},   'X3DChildNode:X3DNode';
+is parse::concept('X3DChildNode : X3DNode{}')->{name}, 'X3DChildNode';
+is parse::concept('X3DChildNode : X3DNode{}')->{supertypes}->[0], 'X3DNode';
+is parse::concept('A : B C {}')->{name}, 'A';
+is parse::concept('A : B C {}')->{name}, 'A';
+is parse::concept('A : B C {}')->{supertypes}->[0],  'B';
+is parse::concept('A : B C {}')->{supertypes}->[1],  'C';
+is parse::concept('A : B C D{}')->{supertypes}->[2], 'D';
 
-ok !parse::Concept('a :{}');
-ok !parse::Concept('a : {}');
-ok !parse::Concept('b :a {}');
-ok parse::Concept('b : a {}');
+ok !parse::concept('a :{}');
+ok !parse::concept('a : {}');
+ok !parse::concept('b :a {}');
+ok parse::concept('b : a {}');
 
-ok parse::Concept('b : a {0}');
-ok parse::Concept('b : a { 0 }')->{body}->[0] eq '0';
-is parse::Concept('b : a {0}')->{body}->[0],   '0';
-is parse::Concept('b : a {0 }')->{body}->[0],  '0';
-is parse::Concept('b : a { 0 }')->{body}->[0], '0';
-is parse::Concept('b : a { 0}')->{body}->[0],  '0';
+ok parse::concept('b : a {0}');
+ok parse::concept('b : a { 0 }')->{body}->[0] eq '0';
+is parse::concept('b : a {0}')->{body}->[0],   '0';
+is parse::concept('b : a {0 }')->{body}->[0],  '0';
+is parse::concept('b : a { 0 }')->{body}->[0], '0';
+is parse::concept('b : a { 0}')->{body}->[0],  '0';
 
-is parse::Concept('b : a { 0 0}')->{body}->[0],  '0 0';
-is parse::Concept('b : a { 0 0 }')->{body}->[0], '0 0';
-is parse::Concept('b : a {0 0 }')->{body}->[0],  '0 0';
-is parse::Concept("b : a {0 0 }")->{body}->[0],  "0 0";
-is parse::Concept("b : a {0 0 0}")->{body}->[0], "0 0 0";
-is parse::Concept("b : a {1 2 3}")->{body}->[0], "1 2 3";
+is parse::concept('b : a { 0 0}')->{body}->[0],  '0 0';
+is parse::concept('b : a { 0 0 }')->{body}->[0], '0 0';
+is parse::concept('b : a {0 0 }')->{body}->[0],  '0 0';
+is parse::concept("b : a {0 0 }")->{body}->[0],  "0 0";
+is parse::concept("b : a {0 0 0}")->{body}->[0], "0 0 0";
+is parse::concept("b : a {1 2 3}")->{body}->[0], "1 2 3";
 
-is parse::Concept( "b : a {
+is parse::concept( "b : a {
 0 0 0
 }" )->{body}->[0], "0 0 0";
 
-is parse::Concept( "b : a {
+is parse::concept( "b : a {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
   SFNode [in,out] metadata NULL [X3DMetadataObject]
 }" )->{body}->[0],
   "SFNode [in,out] metadata NULL [X3DMetadataObject]";
 
-is parse::Concept( '
+is parse::concept( '
 Anchor : X3DGroupingNode { 
   MFNode   [in]     addChildren
   MFNode   [in]     removeChildren
@@ -76,10 +76,10 @@ Anchor : X3DGroupingNode {
 
 __END__
 
-ok parse::Concept 'X3DNode{}';
-parse::Concept 'X3DNode { }';
+ok parse::concept 'X3DNode{}';
+parse::concept 'X3DNode { }';
 
-parse::Concept '
+parse::concept '
 X3DNode {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
 }

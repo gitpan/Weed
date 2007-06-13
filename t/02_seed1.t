@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package 02_seed
+#package 02_seed1
 use Test::More no_plan;
 use strict;
 
@@ -10,42 +10,45 @@ BEGIN {
 	use_ok 'Weed';
 	use_ok 'Weed::RegularExpressions';
 }
-
+use Weed::Perl;
 use Weed::RegularExpressions qw($_float);
 
-is (X3DObject->SUPER, "Weed::Seed");
+is (X3DObject->Weed::Package::supertype, "Weed::Seed");
 
-ok new Weed::Seed;
+ok new X3DObject;
 ok my $seed1 = new X3DObject;
 
 ok $seed1->getId;
 is $seed1->getType,    "X3DObject";
 is $seed1->getComment, "";
-is join( ', ', $seed1->getHierarchy ), "X3DUniversal, X3DObject";
-is $seed1->PACKAGE, "X3DObject";
-is $seed1->SUPER,   "Weed::Seed";
-is join( ', ', $seed1->PATH ), "Weed::Universal, X3DUniversal, Weed::Seed, X3DObject";
+is join( ', ', $seed1->getHierarchy ), "X3DObject, X3DUniversal";
+is $seed1->Weed::Package::name, "X3DObject";
+is $seed1->Weed::Package::supertype,   "Weed::Seed";
+is join( ' ', $seed1->Weed::Package::superpath ), "Weed::Seed X3DUniversal Weed::Universal";
 ok $seed1->toString;
 
-is ref $seed1->SCALAR('xxx'), "SCALAR";
-is ref $seed1->ARRAY('xxx'),  "ARRAY";
-is ref $seed1->HASH('xxx'),   "HASH";
+is ref $seed1->Weed::Package::scalar('xxx'), "SCALAR";
+is ref $seed1->Weed::Package::array('xxx'),  "ARRAY";
+is ref $seed1->Weed::Package::hash('xxx'),	"HASH";
 
 printf "getId        %s\n", $seed1->getId;
 printf "getType      %s\n", $seed1->getType;
 printf "getComment   %s\n", $seed1->getComment;
 printf "getHierarchy %s\n", join ', ', $seed1->getHierarchy;
-printf "PACKAGE      %s\n", $seed1->PACKAGE;
-printf "SUPER        %s\n", $seed1->SUPER;
-printf "ISA          %s\n", join ', ', $seed1->PATH;
+printf "PACKAGE      %s\n", $seed1->Weed::Package::name;
+printf "supertype        %s\n", $seed1->Weed::Package::supertype;
 #printf "VERSION      %s\n", $seed1->VERSION;
 printf "%s\n",              $seed1;
+
+is $seed1->Weed::Package::supertype, 'Weed::Seed';
 
 ok my $seed2 = new X3DObject;
 printf "%s\n", $seed2->getId;
 printf "%s\n", $seed2->getType;
 
-like time, $_float;
+like &time, $_float;
+ok Math::sum( map { ok( &time =~ m/\./ ) } 1 .. 170 );
+#ok $seed1->{startTime} =~ m/\./;
 
 ok $seed1;
 ok $seed2;

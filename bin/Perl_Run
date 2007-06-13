@@ -5,9 +5,9 @@ my $file    = shift @ARGV;
 my $command = "";
 
 if ( $file =~ m|(.*?/cpan/.*?/lib/)|o ) {
-	$command = qq|perl -w -I '$1' '$file' 2>&1|;
+	$command = qq|perl -I '$1' '$file' 2>&1|;
 } else {
-	$command = qq|perl -w -I ~/perl '$file' 2>&1|;
+	$command = qq|perl -I ~/perl '$file' 2>&1|;
 }
 
 foreach (`$command`) {

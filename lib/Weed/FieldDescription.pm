@@ -1,6 +1,4 @@
 package Weed::FieldDescription;
-use strict;
-use warnings;
 
 use Weed 'X3DFieldDescription { }';
 

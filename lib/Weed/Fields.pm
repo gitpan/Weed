@@ -1,6 +1,5 @@
 package Weed::Fields;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use Weed::Fields::SFNode;
 

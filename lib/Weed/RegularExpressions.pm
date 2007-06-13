@@ -1,6 +1,5 @@
 package Weed::RegularExpressions;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use Weed::Symbols;
 

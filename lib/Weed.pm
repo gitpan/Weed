@@ -1,15 +1,13 @@
 package Weed;
-use strict;
-use warnings;
+use Weed::Perl;
 
-our $VERSION = '0.0022';
-
-use base 'UNIVERSAL';
+our $VERSION = '0.0034';
 
 sub import {
 	shift;
-	my $package = caller;
-	Weed::Universal::IMPORT( $package, ['X3DObject'], @_ );
+	strict::import;
+	warnings::import;
+	Weed::Universal::createType( scalar caller, 'X3DObject', @_ );
 }
 
 use Weed::Environment;
@@ -19,11 +17,9 @@ __END__
 
 =head1 NAME
 
-Weed - ist ein englisches Wort für Unkraut
+Weed - 
 
 =head1 DESCRIPTION
-
-Alles was mindestens X3DObject sein will, importiert Weed.
 
 =head1 SYNOPSIS
 

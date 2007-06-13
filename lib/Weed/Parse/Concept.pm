@@ -1,6 +1,5 @@
 package Weed::Parse::Concept;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use Carp (); $Carp::CarpLevel = 1;
 
@@ -8,8 +7,9 @@ use Weed::RegularExpressions;
 
 # Description
 
-sub parse::Concept {
+sub parse::concept {
 	my ($string) = @_;
+	return unless defined $string;
 	my $statement = eval { &conceptStatement( \$string ) };
 	return $statement;
 }
@@ -98,20 +98,20 @@ __END__
 		my ( $alias, $superclasses, $fieldDescriptions ) = ( $1, $2, $3 );
 		return unless $alias;
 
-		package::alias( $alias, $package );
+		Weed::Package::alias( $alias, $package );
 
 		if ($@) {
 			COULD_NOT_PARSE_DESCRIPTION_IN_PACKAGE $package;
 		} else {
 
 			if ($superclasses) {
-				unshift @{ $package->ARRAY("ISA") }, &superClasses($superclasses);
+				unshift @{ $package->Weed::Package::arrray("ISA") }, &superClasses($superclasses);
 				return COULD_NOT_PARSE_DESCRIPTION_IN_PACKAGE $package if $@;
 			}
 
 			my $fieldDescriptions = &Descriptions($fieldDescriptions);
 			if (@$fieldDescriptions) {
-				${ $package->SCALAR("FieldDescriptions") } = $fieldDescriptions;
+				${ $package->Weed::Package::scalar("FieldDescriptions") } = $fieldDescriptions;
 			}
 		}
 	} else {

@@ -1,11 +1,10 @@
 package Weed::Generator;
-use strict;
-use warnings;
+use Weed::Perl;
 
-use Math;
+use Weed::Math;
 use Weed::Symbols;
 
-use package "X3DGenerator";
+use Weed::Package "X3DGenerator";
 
 our $TSPACE;
 our $TBREAK;

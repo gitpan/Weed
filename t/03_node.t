@@ -18,20 +18,22 @@ ok $node1->isa("Weed::Seed");
 ok $node1->isa("X3DObject");
 ok $node1->isa("X3DNode");
 
-printf "isa %s\n", join ", ", @{ $node1->ARRAY("ISA") };
-printf "isa %s\n", join ", ", @{ X3DNode->ARRAY("ISA") };
+printf "isa %s\n", join ", ", @{ $node1->Weed::Package::array("ISA") };
+printf "isa %s\n", join ", ", @{ X3DNode->Weed::Package::array("ISA") };
 printf "isa %s\n", join ", ", @X3DNode::ISA;
 printf "isa %s\n", join ", ", @Weed::Component::Core::Node::ISA;
 
 printf "\n";
 printf "%s\n", join ", ", $node1->getHierarchy;
 
-is join( ", ", $node1->getHierarchy ), "X3DUniversal, X3DObject, X3DNode"; # 8
-print map { "ISA:  $_\n" } $node1->PATH;
+isa_ok $node1, $_ foreach $node1->getHierarchy;
+
+is join( ", ", $node1->getHierarchy ), "X3DNode, X3DObject, X3DUniversal"; # 8
+print map { "ISA:  $_\n" } $node1->Weed::Package::superpath;
 print map { "Super:  $_\n" } ref $node1;
 ok $node1->isa("X3DNode");
 
-is $node1->SUPER, "Weed::Components::Core::Node";
+is $node1->Weed::Package::supertype, "Weed::Components::Core::Node";
 
 printf "\n";
 can_ok $node1, qw'

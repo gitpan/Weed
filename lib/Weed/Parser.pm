@@ -1,6 +1,5 @@
 package Weed::Parser;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use Carp qw(croak);
 

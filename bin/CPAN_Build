@@ -1,7 +1,8 @@
 #!/usr/bin/perl
+#package CPAN_Build
 use strict;
 
-my $file = shift @ARGV;
+build($_) foreach @ARGV;
 
 sub clean {
 	my $folder = shift;
@@ -15,7 +16,7 @@ sub clean {
 }
 
 sub dist {
-	my ($folder, $package) = @_;
+	my ( $folder, $package ) = @_;
 
 	chdir $folder;
 	system "perl Makefile.PL | grep OK";
@@ -23,14 +24,73 @@ sub dist {
 	system "cat MANIFEST | cpanversion+ +0.0001 | grep OK";
 	system "perl Makefile.PL | grep OK";
 	system "make test | grep OK";
+	
+	my ($tmp, @links) = remove_links($folder);
+	return unless $tmp;
+
 	system "make dist | grep OK";
+	insert_links($tmp, $folder, @links);
+	
 	system "mv '$package-'[0-9].[0-9]*.gz ../ | grep OK";
+
+	return 1;
 }
 
-if ( $file =~ m|(.*?/cpan/(.*?))/|o ) {
-	my ($folder, $package) = ($1, $2);
-	dist($folder, $package);
-	clean($folder);
+sub build {
+	my $file = shift;
+	$file = "$file/Makefile.PL" if -d $file;
+	return unless -e $file;
+
+	if ( $file =~ m|(.*?/cpan/(.*?))/|o ) {
+		my ( $folder, $package ) = ( $1, $2 );
+		
+		return unless dist( $folder, $package );
+		clean($folder);
+	}
+}
+
+use File::Temp 'mkdtemp';
+sub remove_links {
+	my ( $folder ) = @_;
+	my $lib = "$folder/lib";
+	return unless -e $lib;
+	return unless my $tmp = mkdtemp('/tmp/libXXXX');
+	#print "\nRemove_links\n";
+		
+	#print "$lib\n";
+	#print "$tmp\n";
+	
+	my @links;
+	
+	opendir DIR, $lib;
+	foreach (readdir DIR) {
+		next unless -l "$lib/$_";
+		push @links, $_;
+		
+		my $cmd = "mv '$lib/$_' '$tmp'";
+		system $cmd;
+		
+		#print "$cmd\n";
+	}
+	closedir DIR, $lib;
+	
+	#sleep 2;
+	return $tmp, @links;
+}
+
+sub insert_links {
+	my ( $tmp, $folder, @links ) = @_;
+	my $lib = "$folder/lib";
+	#print "\ninsert_links\n";
+	
+	foreach (@links) {		
+		my $cmd = "mv '$tmp/$_' '$lib'";
+		system $cmd;
+		
+		#print "$cmd\n";
+	}
+	
+	system "rmdir '$tmp'";
 }
 
 __END__

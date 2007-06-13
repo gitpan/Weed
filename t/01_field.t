@@ -47,6 +47,7 @@ is $mfnode1->getType,       "MFNode";
 is $mfnode1->getAccessType, X3DConstants->inputOutput;
 is $mfnode1->getName,       undef;
 
+ok  ref $fieldDefinition1;
 ok my $field1 = $fieldDefinition1->createField;
 is $field1->getAccessType, X3DConstants->inputOutput;
 #printf "createField:  %s\n", $field1->get;

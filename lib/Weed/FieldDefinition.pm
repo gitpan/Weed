@@ -1,6 +1,4 @@
 package Weed::FieldDefinition;
-use strict;
-use warnings;
 
 use Weed 'X3DFieldDefinition { }';
 
@@ -27,6 +25,8 @@ sub setInOut {
 	return;
 }
 
+sub getType { $_[0]->{type} }
+
 sub getAccessType { ( $_[0]->{out} << 1 ) | $_[0]->{in} }
 
 sub getName { $_[0]->{name} }
@@ -37,13 +37,14 @@ sub getRange { $_[0]->{range} }
 
 sub createField {
 	my ( $this, $node ) = @_;
+
 	my $field = $this->getType->new( $this->{value} );
 	$field->setDefinition($this);
 	return $field;
 }
 
 sub shutdown {
-	#printf "%s->%s %s\n", $_[0]->getType, $_[0]->SUB, &toString( $_[0] );
+	printf "%s->%s %s\n", $_[0]->getType, $_[0]->Weed::Package::sub, $_[0];
 }
 
 1;

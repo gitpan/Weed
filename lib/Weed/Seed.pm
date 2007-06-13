@@ -1,41 +1,19 @@
 package Weed::Seed;
-use strict;
-use warnings;
+use Weed::Perl;
 
-our $VERSION = '0.0022';
+our $VERSION = '0.0034';
 
-use Weed::RegularExpressions '$_X3D';
 use Weed::Universal 'X3DObject { }';
 
-use overload
-  '==' => sub { $_[1] == $_[0]->getId },
-  '!=' => sub { $_[1] != $_[0]->getId },
-  'eq' => sub { $_[1] eq "$_[0]" },
-  'ne' => sub { $_[1] ne "$_[0]" },
-  '0+' => \&getId,
-  '""' => sub { $_[0]->toString },
-  ;
+sub create {
+	my $this = shift;
 
-sub new {
-	my $self = shift;
-	my $this = $self->NEW( {} );
-
-	$this->{id}      = $this->ID;
-	$this->{type}    = $this->PACKAGE;
 	$this->{comment} = '';
 
-	$this->REVERSE_CALL( "create", @_ );
-
-	return $this;
+	#printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
 }
 
-sub getId { $_[0]->{id} }
-
-sub getType { $_[0]->{type} }
-
 sub getComment { $_[0]->{comment} }
-
-sub getHierarchy { grep /$_X3D/, $_[0]->PATH }
 
 sub toString {
 	my ($this) = @_;
@@ -52,17 +30,7 @@ sub toString {
 
 sub dispose {
 	my $this = shift;
-	#X3DError::Debug ref $this, $this->getType;
-	$this->CALL("shutdown");
 	%$this = ();
-}
-
-################################################################################
-# debug ########################################################################
-################################################################################
-
-sub shutdown {
-	#printf "%s->%s %s\n", $_[0]->PACKAGE, $_[0]->SUB, &toString( $_[0] );
 }
 
 1;

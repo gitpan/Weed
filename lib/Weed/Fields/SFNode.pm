@@ -1,8 +1,6 @@
 package Weed::Fields::SFNode;
-use strict;
-use warnings;
 
-use Weed 'SFNode : X3DField { }';
+use Weed 'SFNode : X3DField { NULL }';
 
 1;
 __END__

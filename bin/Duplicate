@@ -15,7 +15,7 @@ my $n       = "1";
 my $dubname = "";
 $n++ while -e ( $dubname = dubname( $file, $n ) );
 
-system "cp '$file' '$dubname'";
+system "cp -r '$file' '$dubname'";
 
 1;
 __END__

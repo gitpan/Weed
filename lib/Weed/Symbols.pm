@@ -1,6 +1,5 @@
 package Weed::Symbols;
-use strict;
-use warnings;
+use Weed::Perl;
 
 use base 'Exporter';
 
