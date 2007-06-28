@@ -1,43 +1,41 @@
 package Weed::Field;
+use Weed::Perl;
+use Weed::Parse::FieldValue;
 
 sub setDescription {
 	my ( $this, $description ) = @_;
-	printf "%s %s\n", $this, $description;
-	#die;
+
+	my $typeName = $description->{typeName};
+	my $initialValue = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
+
+	${ $this->Weed::Package::scalar("DefaultDefinition") } =
+	  new X3DFieldDefinition( $typeName, YES, YES, '', $initialValue, '' );
 }
 
 use Weed 'X3DField { }';
 
-use constant DefaultDefinition => new X3DFieldDefinition( "Default", "in", "out", undef, undef, undef );
+use overload
+  '=' => 'clone',
+  'bool' => sub { $_[0]->getValue ? YES: NO },
+  ;
 
 sub create {
 	my $this = shift;
-	$this->setDefinition(DefaultDefinition);
-	$this->setValue(@_);
+	$this->setDefinition( ${ $this->Weed::Package::scalar("DefaultDefinition") } );
+	$this->setValue( @_ ? @_ : $this->getInitialValue );
 }
+
+sub clone { $_[0]->new( $_[0]->getValue ) }
 
 sub getDefinition { $_[0]->{definition} }
-
-sub setDefinition {
-	$_[0]->{definition} = $_[1];
-	$_[0]->setAccessType( $_[1]->getAccessType );
-}
+sub setDefinition { $_[0]->{definition} = $_[1] }
 
 sub getInitialValue { $_[0]->getDefinition->getValue }
 
-sub getAccessType { $_[0]->{accessType} }
+sub getAccessType { $_[0]->getDefinition->getAccessType }
 
-sub setAccessType {
-	$_[0]->{accessType} = $_[1];
-	$_[0]->{isReadable} = $_[1] != X3DConstants->inputOnly;
-	$_[0]->{isWritable} = $_[1] & X3DConstants->inputOnly;
-}
-
-sub isReadable { $_[0]->{isReadable} }
-sub isWritable { $_[0]->{isWritable} }
-
-#sub isReadable { $_[0]->getAccessType != X3DConstants->inputOnly }
-#sub isWritable { $_[0]->getDefinition->getOut }
+sub isReadable { $_[0]->getAccessType != X3DConstants->inputOnly }
+sub isWritable { $_[0]->getAccessType & X3DConstants->inputOnly }
 
 sub getName { $_[0]->getDefinition->getName }
 
@@ -45,8 +43,13 @@ sub getValue { $_[0]->{value} }
 
 sub setValue {
 	my ( $this, $value ) = @_;
+
 	$this->{value} = $value;
+
+	return;
 }
+
+sub toString { sprintf "%s", $_[0]->getValue }
 
 1;
 __END__

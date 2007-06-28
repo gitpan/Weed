@@ -19,6 +19,8 @@ sub dist {
 	my ( $folder, $package ) = @_;
 
 	chdir $folder;
+	system "mv lib/auto /tmp/$$-auto" if -e "lib/auto";
+	
 	system "perl Makefile.PL | grep OK";
 	system "make manifest 2>&1 | grep OK";
 	system "cat MANIFEST | cpanversion+ +0.0001 | grep OK";
@@ -31,8 +33,10 @@ sub dist {
 	system "make dist | grep OK";
 	insert_links($tmp, $folder, @links);
 	
+	system "mv '../$package-'[0-9].[0-9]*.gz ../test | grep OK";
 	system "mv '$package-'[0-9].[0-9]*.gz ../ | grep OK";
 
+	system "mv /tmp/$$-auto lib/auto" if -e "/tmp/$$-auto";
 	return 1;
 }
 

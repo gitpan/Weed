@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'Weed';
 }
 
-ok my $sfnode1 = new SFNode, "t 2";
+ok !(my $sfnode1 = new SFNode);
 is $sfnode1->getType, "SFNode";
 is $sfnode1->getAccessType, X3DConstants->inputOutput;
 ok $sfnode1->isReadable;

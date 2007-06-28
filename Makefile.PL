@@ -9,15 +9,45 @@ BEGIN {
 		'NAME'         => 'Weed',
 		'VERSION_FROM' => 'lib/Weed.pm',    # finds $VERSION
 		'PREREQ_PM'    => {
-			Test::More     => 0,
-			Benchmark      => 0,
-			base           => 0,
+			Test::More => 0,
+			Benchmark  => 0,
+
+			UNIVERSAL => 0,
+
+			base     => 0,
+			constant => 0,
+			enum     => 0,
+			integer  => 0,
+			overload => 0,
+			strict   => 0,
+			warnings => 0,
+
+			#Universal
+			Exporter       => 0,
 			Carp           => 0,
+			Perl6::Say     => 0,
 			Package::Alias => 0,
+			Class::ISA     => 0,
 			Scalar::Util   => 0,
 			Time::HiRes    => 0,
-			Math::Complex  => 0,
-			File::Temp     => 0,
+			Want           => 0,
+
+			#Fields
+			Tie::Scalar     => 0,
+			Unicode::String => 0,
+
+			#Values
+			POSIX            => 0,
+			Math::Quaternion => 0,
+			Math::Trig       => 0,
+			Math::Complex    => 0,
+
+			#perl_BUILD
+			File::Temp => 0,
+
+			#test
+			Data::Dumper => 0,
+
 			#LWP::Simple         => 0,
 			#Data::Validate::URI => 0,
 		},    # e.g., Module::Name => 1.1

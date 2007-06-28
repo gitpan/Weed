@@ -4,20 +4,28 @@ use warnings;
 
 use base 'Exporter';
 
-use Perl6::Say;
 use Time::HiRes 'time';
+use Scalar::Util;
 
 use constant NO  => defined;
 use constant YES => not NO;
 
-our $VERSION = '0.0004';
-our @EXPORT  = qw.YES NO say time.;
+our $VERSION   = '0.0031';
+
+our @EXPORT    = qw.YES NO.;
+our @EXPORT_OK = qw.time.;
+
+#$, = " ";
+$\ = "\n";
 
 sub import {
-	my $package = caller;
+	my $pkg = shift;
+
 	strict->import;
 	warnings->import;
-	__PACKAGE__->export_to_level( 1, $package, @EXPORT );
+
+	$pkg->export( 'CORE::GLOBAL', @EXPORT_OK );
+	$pkg->export_to_level( 1 );
 }
 
 sub unimport {
@@ -27,3 +35,10 @@ sub unimport {
 
 1;
 __END__
+
+sub type { CORE::ref $_[0] }
+
+*id = \&Scalar::Util::refaddr;
+
+*stringify = \&overload::StrVal;
+

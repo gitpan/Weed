@@ -14,15 +14,6 @@ use_ok 'Weed' for 1 .. 10;
 
 do { use Weed } for 1 .. 10;
 
-
-ok my $universum = new X3DUniversum __PACKAGE__;
-printf "%s\n", $universum;
-
-use constant X3D => new X3DUniversum __PACKAGE__;
-
-printf "%s\n", X3D;
-
-
 ok 'Weed'->VERSION;
 
 __END__

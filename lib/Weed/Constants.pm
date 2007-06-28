@@ -1,16 +1,15 @@
 package Weed::Constants;
-use Weed::Perl;
 
-use Package::Alias X3DConstants => __PACKAGE__;
-
-use constant NULL  => undef;
-use constant FALSE => NO;
-use constant TRUE  => YES;
+use Weed 'X3DConstants { }';
 
 use constant initializeOnly => 0;
 use constant inputOnly      => 1;
 use constant outputOnly     => 2;
 use constant inputOutput    => 3;
+
+sub NULL ()  { new SFNode(undef) }
+sub FALSE () { new SFBool(NO) }
+sub TRUE ()  { new SFBool(YES) }
 
 1;
 __END__

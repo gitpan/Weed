@@ -1,6 +1,8 @@
 package Weed::Package;
 use Weed::Perl;
-use Carp;
+use Carp ();
+
+#Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
 
 use Class::ISA;
 
@@ -69,13 +71,23 @@ sub base {
 	eval $expression;
 	if ($@) {
 		#printf "%s\n", $expression;
-		croak $@;
-		croak "Syntax error";
+		Carp::croak $@;
+		Carp::croak "Syntax error";
 		return;
 	}
 
 	return YES;
 }
+
+# sub constants {
+# 	my $package   = Weed::Package::name(shift);
+# 	my %constants = @_;
+# 	no strict 'refs';
+# 	while ( my ( $name, $value ) = each %constants ) {
+# 		my $full_name = "${package}::$name";
+# 		*$full_name = sub () { $value };
+# 	}
+# }
 
 *alias = \&base;
 
@@ -131,8 +143,8 @@ sub _import {
 
 	if ($@) {
 		#printf "%s\n", $expression;
-		croak $@;
-		croak "Syntax error";
+		Carp::croak $@;
+		Carp::croak "Syntax error";
 		return;
 	}
 
@@ -161,7 +173,7 @@ sub statements {
 						$t = $1 if $1;
 						$expression .= get_rename_string( $a, $t, $original, $2 );
 					} else {
-						croak "Syntax error";
+						Carp::croak "Syntax error";
 					}
 				} else {
 					$expression .= get_rename_string( $a, '&', $original, $o );

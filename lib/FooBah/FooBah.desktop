@@ -1,8 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Name=-m'FooBah'
-Exec=perl -M'FooBah' -I `pwd`'/../lib' -e 'new FooBah' 'FooBah/ui.'
-Terminal=false
-Type=Application
-Icon=/home/holger/.icons/OSX/scalable/apps/redhat-extras.png

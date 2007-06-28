@@ -13,41 +13,41 @@ BEGIN {
 use Weed::Perl;
 use Weed::RegularExpressions qw($_float);
 
-is (X3DObject->Weed::Package::supertype, "Weed::Seed");
+is( X3DObject->Weed::Package::supertype, "Weed::Object" );
 
 ok new X3DObject;
 ok my $seed1 = new X3DObject;
 
 ok $seed1->getId;
-is $seed1->getType,    "X3DObject";
-is $seed1->getComment, "";
+is $seed1->getType, "X3DObject";
+is ref $seed1->getComments, 'ARRAY';
 is join( ', ', $seed1->getHierarchy ), "X3DObject, X3DUniversal";
-is $seed1->Weed::Package::name, "X3DObject";
-is $seed1->Weed::Package::supertype,   "Weed::Seed";
-is join( ' ', $seed1->Weed::Package::superpath ), "Weed::Seed X3DUniversal Weed::Universal";
+is $seed1->Weed::Package::name,      "X3DObject";
+is $seed1->Weed::Package::supertype, "Weed::Object";
+is join( ' ', $seed1->Weed::Package::superpath ), "Weed::Object X3DUniversal Weed::Universal";
 ok $seed1->toString;
 
 is ref $seed1->Weed::Package::scalar('xxx'), "SCALAR";
 is ref $seed1->Weed::Package::array('xxx'),  "ARRAY";
-is ref $seed1->Weed::Package::hash('xxx'),	"HASH";
+is ref $seed1->Weed::Package::hash('xxx'),   "HASH";
 
 printf "getId        %s\n", $seed1->getId;
 printf "getType      %s\n", $seed1->getType;
-printf "getComment   %s\n", $seed1->getComment;
+printf "getComments  %s\n", join ', ', $seed1->getComments;
 printf "getHierarchy %s\n", join ', ', $seed1->getHierarchy;
 printf "PACKAGE      %s\n", $seed1->Weed::Package::name;
-printf "supertype        %s\n", $seed1->Weed::Package::supertype;
+printf "supertype    %s\n", $seed1->Weed::Package::supertype;
 #printf "VERSION      %s\n", $seed1->VERSION;
-printf "%s\n",              $seed1;
+printf "%s\n", $seed1;
 
-is $seed1->Weed::Package::supertype, 'Weed::Seed';
+is $seed1->Weed::Package::supertype, 'Weed::Object';
 
 ok my $seed2 = new X3DObject;
 printf "%s\n", $seed2->getId;
 printf "%s\n", $seed2->getType;
 
-like &time, $_float;
-ok Math::sum( map { ok( &time =~ m/\./ ) } 1 .. 170 );
+like time, $_float;
+ok Math::sum( map { ok( time =~ m/\./ ) } 1 .. 170 );
 #ok $seed1->{startTime} =~ m/\./;
 
 ok $seed1;

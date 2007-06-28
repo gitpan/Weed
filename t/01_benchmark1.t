@@ -12,6 +12,6 @@ BEGIN {
 }
 
 my $v;
-timethis( 2, sub { $v = Weed::Seed->import } );
+timethis( 2, sub { $v = Weed::Object->import } );
 
 __END__

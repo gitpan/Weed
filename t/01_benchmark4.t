@@ -15,29 +15,29 @@ my $u = new X3DUniversal;
 my $o = new X3DObject;
 my $o2 = new X3DObject;
 
-say $u;
+print $u;
 
 ok $u->getType ne $o->getType;
 ok $o->getType eq $o2->getType;
 
-say $o;
-say $o2;
+print $o;
+print $o2;
 
-say $o->getType;
-say $o2->getType;
+print $o->getType;
+print $o2->getType;
 __END__
 
 my $v;
 
 timethis( 2, sub { $v = $u->getType } );
-say $v;
+print $v;
 
 timethis( 2, sub { $v = $o->getType } );
-say $v;
+print $v;
 
 
 timethis( 10_000_000, sub { $v = object::type($o) } );
-say $v;
+print $v;
 
 timethis( 10_000_000, sub { $v = $o->getType } );
-say $v;
+print $v;

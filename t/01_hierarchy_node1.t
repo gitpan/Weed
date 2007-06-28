@@ -11,14 +11,14 @@ BEGIN {
 }
 
 use Weed::Perl;
-ok my $seed = new X3DNode;
-isa_ok $seed, 'X3DNode';
-isa_ok $seed, 'Weed::Components::Core::Node';
+ok my $seed = new X3DBaseNode;
+isa_ok $seed, 'X3DBaseNode';
+isa_ok $seed, 'Weed::BaseNode';
 isa_ok $seed, 'X3DObject';
-isa_ok $seed, 'Weed::Seed';
+isa_ok $seed, 'Weed::Object';
 isa_ok $seed, 'X3DUniversal';
 isa_ok $seed, 'Weed::Universal';
-say $seed;
-say $seed->Weed::Package::stringify;
+print $seed;
+print $seed->Weed::Package::stringify;
 
 __END__

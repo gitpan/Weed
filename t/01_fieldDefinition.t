@@ -9,13 +9,14 @@ BEGIN {
 	unshift @INC, '../lib';
 	use_ok 'Weed';
 }
+use Weed::Perl;
 
 is (X3DConstants->initializeOnly, 0);
 is (X3DConstants->inputOnly,      1);
 is (X3DConstants->outputOnly,     2);
 is (X3DConstants->inputOutput,    3);
 
-my $fieldDefinition1 = new X3DFieldDefinition( "SFNode", "in", "out", "name", "value", "range" );
+my $fieldDefinition1 = new X3DFieldDefinition( "SFNode", YES, YES, "name", "value", "range" );
 ok $fieldDefinition1->isIn;
 ok $fieldDefinition1->isOut;
 is $fieldDefinition1->getAccessType, X3DConstants->inputOutput;

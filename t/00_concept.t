@@ -10,56 +10,56 @@ BEGIN {
 	use_ok 'Weed::Parse::Concept';
 }
 
-ok parse::concept('a{}');
-is ref parse::concept('a{}'),   'HASH';
-is ref parse::concept('a {}'),  'HASH';
-is ref parse::concept('a { }'), 'HASH';
-is ref parse::concept('a{ }'),  'HASH';
+ok Weed::Parse::Concept::parse('a{}');
+is ref Weed::Parse::Concept::parse('a{}'),   'HASH';
+is ref Weed::Parse::Concept::parse('a {}'),  'HASH';
+is ref Weed::Parse::Concept::parse('a { }'), 'HASH';
+is ref Weed::Parse::Concept::parse('a{ }'),  'HASH';
 
-ok parse::concept('X3DNode {}')->{name},         'X3DNode';
-ok parse::concept('X3DChildNode {}')->{name},    'X3DChildNode';
-ok parse::concept('X3DCh::ildNode {}')->{name},  'X3DCh::ildNode';
-ok parse::concept('_X3DCh::ildNode {}')->{name}, '_X3DCh::ildNode';
+ok Weed::Parse::Concept::parse('X3DNode {}')->{typeName},         'X3DNode';
+ok Weed::Parse::Concept::parse('X3DChildNode {}')->{typeName},    'X3DChildNode';
+ok Weed::Parse::Concept::parse('X3DCh::ildNode {}')->{typeName},  'X3DCh::ildNode';
+ok Weed::Parse::Concept::parse('_X3DCh::ildNode {}')->{typeName}, '_X3DCh::ildNode';
 
-is parse::concept('X3DChildNode:X3DNode{}')->{name},   'X3DChildNode:X3DNode';
-is parse::concept('X3DChildNode : X3DNode{}')->{name}, 'X3DChildNode';
-is parse::concept('X3DChildNode : X3DNode{}')->{supertypes}->[0], 'X3DNode';
-is parse::concept('A : B C {}')->{name}, 'A';
-is parse::concept('A : B C {}')->{name}, 'A';
-is parse::concept('A : B C {}')->{supertypes}->[0],  'B';
-is parse::concept('A : B C {}')->{supertypes}->[1],  'C';
-is parse::concept('A : B C D{}')->{supertypes}->[2], 'D';
+is Weed::Parse::Concept::parse('X3DChildNode:X3DNode{}')->{typeName},   'X3DChildNode:X3DNode';
+is Weed::Parse::Concept::parse('X3DChildNode : X3DNode{}')->{typeName}, 'X3DChildNode';
+is Weed::Parse::Concept::parse('X3DChildNode : X3DNode{}')->{supertypes}->[0], 'X3DNode';
+is Weed::Parse::Concept::parse('A : B C {}')->{typeName}, 'A';
+is Weed::Parse::Concept::parse('A : B C {}')->{typeName}, 'A';
+is Weed::Parse::Concept::parse('A : B C {}')->{supertypes}->[0],  'B';
+is Weed::Parse::Concept::parse('A : B C {}')->{supertypes}->[1],  'C';
+is Weed::Parse::Concept::parse('A : B C D{}')->{supertypes}->[2], 'D';
 
-ok !parse::concept('a :{}');
-ok !parse::concept('a : {}');
-ok !parse::concept('b :a {}');
-ok parse::concept('b : a {}');
+ok !Weed::Parse::Concept::parse('a :{}');
+ok !Weed::Parse::Concept::parse('a : {}');
+ok !Weed::Parse::Concept::parse('b :a {}');
+ok Weed::Parse::Concept::parse('b : a {}');
 
-ok parse::concept('b : a {0}');
-ok parse::concept('b : a { 0 }')->{body}->[0] eq '0';
-is parse::concept('b : a {0}')->{body}->[0],   '0';
-is parse::concept('b : a {0 }')->{body}->[0],  '0';
-is parse::concept('b : a { 0 }')->{body}->[0], '0';
-is parse::concept('b : a { 0}')->{body}->[0],  '0';
+ok Weed::Parse::Concept::parse('b : a {0}');
+ok Weed::Parse::Concept::parse('b : a { 0 }')->{body}->[0] eq '0';
+is Weed::Parse::Concept::parse('b : a {0}')->{body}->[0],   '0';
+is Weed::Parse::Concept::parse('b : a {0 }')->{body}->[0],  '0';
+is Weed::Parse::Concept::parse('b : a { 0 }')->{body}->[0], '0';
+is Weed::Parse::Concept::parse('b : a { 0}')->{body}->[0],  '0';
 
-is parse::concept('b : a { 0 0}')->{body}->[0],  '0 0';
-is parse::concept('b : a { 0 0 }')->{body}->[0], '0 0';
-is parse::concept('b : a {0 0 }')->{body}->[0],  '0 0';
-is parse::concept("b : a {0 0 }")->{body}->[0],  "0 0";
-is parse::concept("b : a {0 0 0}")->{body}->[0], "0 0 0";
-is parse::concept("b : a {1 2 3}")->{body}->[0], "1 2 3";
+is Weed::Parse::Concept::parse('b : a { 0 0}')->{body}->[0],  '0 0';
+is Weed::Parse::Concept::parse('b : a { 0 0 }')->{body}->[0], '0 0';
+is Weed::Parse::Concept::parse('b : a {0 0 }')->{body}->[0],  '0 0';
+is Weed::Parse::Concept::parse("b : a {0 0 }")->{body}->[0],  "0 0";
+is Weed::Parse::Concept::parse("b : a {0 0 0}")->{body}->[0], "0 0 0";
+is Weed::Parse::Concept::parse("b : a {1 2 3}")->{body}->[0], "1 2 3";
 
-is parse::concept( "b : a {
+is Weed::Parse::Concept::parse( "b : a {
 0 0 0
 }" )->{body}->[0], "0 0 0";
 
-is parse::concept( "b : a {
+is Weed::Parse::Concept::parse( "b : a {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
   SFNode [in,out] metadata NULL [X3DMetadataObject]
 }" )->{body}->[0],
   "SFNode [in,out] metadata NULL [X3DMetadataObject]";
 
-is parse::concept( '
+is Weed::Parse::Concept::parse( '
 Anchor : X3DGroupingNode { 
   MFNode   [in]     addChildren
   MFNode   [in]     removeChildren
@@ -76,10 +76,10 @@ Anchor : X3DGroupingNode {
 
 __END__
 
-ok parse::concept 'X3DNode{}';
-parse::concept 'X3DNode { }';
+ok Weed::Parse::Concept::parse 'X3DNode{}';
+Weed::Parse::Concept::parse 'X3DNode { }';
 
-parse::concept '
+Weed::Parse::Concept::parse '
 X3DNode {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
 }

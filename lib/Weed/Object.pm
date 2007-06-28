@@ -1,40 +1,80 @@
 package Weed::Object;
 use Weed::Perl;
 
-our $VERSION = '0.0031';
+our $VERSION = '0.0061';
 
-use Scalar::Util;
+use Weed::Universal 'X3DObject { }';
 
-sub type { CORE::ref $_[0] }
+sub create {
+	my $this = shift;
 
-*id = \&Scalar::Util::refaddr;
+	$this->{comments} = [];
 
-*stringify = \&overload::StrVal;
+	#printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
+}
+
+sub getComments { wantarray ? @{$_[0]->{comments}} : $_[0]->{comments} }
+
+sub toString {
+	my ($this) = @_;
+
+	my $string = '';
+	$string .= $this->getType;
+	$string .= X3DGenerator->tidy_space;
+	$string .= X3DGenerator->open_brace;
+	$string .= X3DGenerator->tidy_space;
+	$string .= X3DGenerator->close_brace;
+
+	return $string;
+}
+
+sub dispose {
+	my $this = shift;
+	%$this = ();
+}
 
 1;
 __END__
 
 =head1 NAME
 
-object - minimum object
+Weed::Seed
+
+=head1 SUPERTYPES
+
+-+- L<X3DUniversal|Weed::Universal>
 
 =head1 SYNOPSIS
 
-	use base 'object';
+	use Weed::Seed;
+	
+	my $seed1 = new X3DObject;
 
 =head1 FUNCTIONS
 
-=head2 say
+=head2 getId
 
-from L<Perl6::Say>
+=head2 getType
 
-=head2 time
+=head2 toString
 
-from L<Time::HiRes>
+This method is used to overload the "" operator
+
+=head1 SEE ALSO
+
+L<Weed::Seed>
+
+L<Weed::Field>, L<Weed::ArrayField>
+
+L<Math::Vectors>
+
+=head1 AUTHOR
+
+Holger Seelig  holger.seelig@yahoo.de
 
 =head1 COPYRIGHT
 
-This is free software; you can redistribute it and/or modify it
-under the same terms as L<Perl|perl> itself.
+Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
+nach den gleichen Bedingungen wie L<Perl|perl> selbst.
 
 =cut

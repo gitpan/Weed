@@ -1,0 +1,30 @@
+TYPEMAP
+SFRotation *		O_Inline_CPP_Class
+SFVec3f *		O_Inline_CPP_Class_SFVec3f
+
+OUTPUT
+O_Inline_CPP_Class
+    sv_setref_pv( $arg, "SFRotation", (void*)$var );
+
+O_Inline_CPP_Class_SFVec3f
+    sv_setref_pv( $arg, "SFVec3f", (void*)$var );
+
+INPUT
+O_Inline_CPP_Class
+    if (sv_isobject($arg) && (SvTYPE(SvRV($arg)) == SVt_PVMG)) {
+        $var = ($type)SvIV((SV*)SvRV( $arg ));
+    }
+    else {
+        warn ( \"SFRotation::() -- $var is not a blessed reference\" );
+        XSRETURN_UNDEF;
+    }
+
+O_Inline_CPP_Class_SFVec3f
+    if (sv_isobject($arg) && (SvTYPE(SvRV($arg)) == SVt_PVMG)) {
+        $var = ($type)SvIV((SV*)SvRV( $arg ));
+    }
+    else {
+        warn ( \"SFVec3f::() -- $var is not a blessed reference\" );
+        XSRETURN_UNDEF;
+    }
+

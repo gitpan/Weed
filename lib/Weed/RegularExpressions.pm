@@ -6,13 +6,16 @@ use Weed::Symbols;
 use base 'Exporter';
 
 our @EXPORT = qw(
-  $_X3D
+  $_supertype
 
   $_break
   $_header
   $_whitespace
   $_comment
   $_space_break_space
+
+  $_in
+  $_out
 
   $_COMPONENT
   $_DEF
@@ -68,7 +71,7 @@ our @EXPORT = qw(
   $_CosmoWorlds
   $_enum
 
-  $_FieldDescription
+  $_FieldDefinition
 );
 #$Id
 
@@ -77,7 +80,7 @@ our @EXPORT = qw(
 #$int32
 #$double
 
-our $_X3D = qr.^(?!Weed::|main).so;
+our $_supertype = qr.^(?!Weed::|main).so;
 
 # General
 our $space      = "[\x20\t]";
@@ -116,13 +119,20 @@ our $IdFirstChar = '[^\x30-\x39\x00-\x20\x22\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d
 our $IdRestChars = '[^\x00-\x20\x22\x23\x27\x2c\x2e\x5b\x5c\x5d\x7b\x7d\x7f]';
 our $Id          = "$IdFirstChar$IdRestChars*";
 
+#our $FieldName  = "[a-z]{1}[a-zA-Z_]*";
+#our $_FieldName = qr.\G($FieldName).so;
+
 # General
 our $_break      = qr.$break.so;
 our $_header     = qr.\A$header.so;
 our $_comment    = qr.\G$whitespace*$comment.so;
-our $_whitespace = qr.$whitespace.so;
+our $_whitespace = qr.$whitespace+.so;
 
 our $_space_break_space = qr.$space*$break$space*.so;
+
+# concept
+our $_in  = qr.\G$whitespace*$_in_.so;
+our $_out = qr.\G$whitespace*$_out_.so;
 
 # VRML lexical elements
 # Keywords
@@ -188,7 +198,7 @@ our $_inf = qr.\G$whitespace*($_inf_).so;
 our $in  = "(?:in)";
 our $out = "(?:out)";
 
-our $_FieldDescription = qr.^\G$whitespace*($Id)$whitespace*$open_bracket($in?)$whitespace*($out?)$close_bracket$whitespace*($Id)$whitespace+($string).so;
+our $_FieldDefinition = qr.^\G$whitespace*($Id)$whitespace*$open_bracket($in?)$whitespace*($out?)$close_bracket$whitespace*($Id)$whitespace+($string).so;
 
 1;
 __END__

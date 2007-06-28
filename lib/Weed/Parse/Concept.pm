@@ -4,10 +4,11 @@ use Weed::Perl;
 use Carp (); $Carp::CarpLevel = 1;
 
 use Weed::RegularExpressions;
+use Weed::Parse::Id;
 
 # Description
 
-sub parse::concept {
+sub parse {
 	my ($string) = @_;
 	return unless defined $string;
 	my $statement = eval { &conceptStatement( \$string ) };
@@ -43,7 +44,7 @@ sub conceptStatement {
 			if ( $$string =~ m.$_close_brace.gc ) {
 
 				return {
-					name       => $name,
+					typeName   => $name,
 					supertypes => $supertypes,
 					body       => $body,
 				};
@@ -60,23 +61,6 @@ sub conceptStatement {
 		Carp::croak "Expected package name\n";
 	}
 
-	return;
-}
-
-sub Ids {
-	my ($string) = @_;
-	my $Id       = &Id($string);
-	my $Ids      = [];
-	while ( defined $Id ) {
-		push @$Ids, $Id;
-		$Id = &Id($string);
-	}
-	return $Ids;
-}
-
-sub Id {
-	my $string = shift;
-	return $1 if $$string =~ m.$_Id.gc;
 	return;
 }
 

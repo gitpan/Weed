@@ -7,7 +7,7 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok 'Weed::Seed';
+	use_ok 'Weed::Object';
 }
 
 ok new X3DObject;

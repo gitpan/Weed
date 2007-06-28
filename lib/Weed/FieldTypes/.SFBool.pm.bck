@@ -1,0 +1,6 @@
+package Weed::Fields::SFBool;
+
+use Weed 'SFBool : X3DField { FALSE }';
+
+1;
+__END__

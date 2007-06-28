@@ -16,23 +16,23 @@ my $u = new X3DUniversal;
 my $o = new X3DObject;
 my $o2 = new X3DObject;
 
-say $u;
+print $u;
 
 ok $u->getId != $o->getId;
 ok $o->getId != $o2->getId;
 
-say $o;
-say $o2;
+print $o;
+print $o2;
 
-say $o->getId;
-say $o2->getId;
+print $o->getId;
+print $o2->getId;
 my $v;
 
 __END__
 
 timethis( 10_000_000, sub { $v = $o->perl::id } );
-say $v;
+print $v;
 
 timethis( 10_000_000, sub { $v = $o->getId } );
-say $v;
+print $v;
 

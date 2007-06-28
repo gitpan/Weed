@@ -23,11 +23,13 @@ can_ok 'X3DGenerator', 'indent';
 can_ok 'X3DGenerator', 'inc';
 can_ok 'X3DGenerator', 'dec';
 
-can_ok 'X3DGenerator', 'nice_space';
-can_ok 'X3DGenerator', 'nice_break';
+can_ok 'X3DGenerator', 'tidy_space';
+can_ok 'X3DGenerator', 'tidy_break';
 
-can_ok 'X3DGenerator', 'nice';
+can_ok 'X3DGenerator', 'tidy';
 can_ok 'X3DGenerator', 'clean';
 
+is (X3DGenerator->float_precision, 7);
+is (X3DGenerator->double_precision, 15);
 
 __END__

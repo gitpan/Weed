@@ -3,7 +3,20 @@ use Weed::Perl;
 
 use Package::Alias Math => __PACKAGE__;
 
-our $VERSION = '0.0004';
+our $VERSION = '0.0031';
+
+use Exporter 'import';
+
+use POSIX ();
+*acos  = \&POSIX::acos;
+*asin  = \&POSIX::asin;
+*atan  = \&POSIX::atan;
+*ceil  = \&POSIX::ceil;
+*floor = \&POSIX::floor;
+*fmod  = \&POSIX::fmod;
+*log10 = \&POSIX::log10;
+*pow   = \&POSIX::pow;
+*tan   = \&POSIX::tan;
 
 our @POSIX = qw(
   acos
@@ -16,10 +29,6 @@ our @POSIX = qw(
   pow
   tan
 );
-
-use POSIX @POSIX;
-
-use Exporter 'import';
 
 our @CONSTANTS = qw(
   E
@@ -313,7 +322,7 @@ sub random {
 }
 
 sub round {
-	return int( $_[0] + ( $_[0] < 0 ? -0.5 : 0.5 ) ) if @_ == 1 || $_[1] == 0; # @_ == 1 || $_[1] == 0;
+	return int( $_[0] + ( $_[0] < 0 ? -0.5 : 0.5 ) ) if @_ == 1 || $_[1] == 0;    # @_ == 1 || $_[1] == 0;
 	return sprintf "%.$_[1]f", $_[0] if $_[1] >= 0;
 
 	my $f = 10**-$_[1];

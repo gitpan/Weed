@@ -18,19 +18,4 @@ is( ref( ( Weed::Universal->Weed::Package::can('import') )[0] ), 'CODE' );
 
 ok !Weed::Universal->Weed::Package::can('blah');
 
-ok Math::sum( ok map { time =~ m/\./ } 0 .. 17 );
-ok Math::sum( ok map { &time =~ m/\./ } 0 .. 17 );
-
-#ok(X3DUniversal::time);
-#ok(&X3DUniversal::time);
-
-#ok( X3DUniversal->time );
-#ok( X3DUniversal->time );
-
-#ok Math::sum( ok map { &X3DUniversal::time =~ m/\./ } 0 .. 17 );
-#ok Math::sum( ok map { X3DUniversal::time =~ m/\./ } 0 .. 17 );
-#ok Math::sum( ok map { X3DUniversal->time =~ m/\./ } 0 .. 17 );
-#printf "%s\n", X3DUniversal->time;
-#printf "%s\n", X3DUniversal->time;
-
 __END__
