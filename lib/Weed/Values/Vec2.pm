@@ -7,7 +7,7 @@ use Weed::Math ();
 
 #use Exporter;
 
-our $VERSION = '0.3444';
+our $VERSION = '0.3448';
 
 use base 'Weed::Values::Vector';
 

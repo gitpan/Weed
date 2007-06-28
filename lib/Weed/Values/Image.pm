@@ -2,7 +2,7 @@ package Weed::Values::Image;
 use strict;
 use warnings;
 
-our $VERSION = '0.0204';
+our $VERSION = '0.0208';
 
 use UNIVERSAL;
 

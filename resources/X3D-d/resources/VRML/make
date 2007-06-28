@@ -1,6 +1,0 @@
-#!/bin/sh
-rm -r '../auto/VRML'
-perl -e "use AutoSplit; autosplit('../VRML/Browser', '../auto/', 0, 1, 1)"
-perl -e "use AutoSplit; autosplit('../VRML/Proto.pm', '../auto/', 0, 1, 1)"
-perl -e "use AutoSplit; autosplit('../VRML/BaseNode.pm', '../auto/', 0, 1, 1)"
-perl -e "use AutoSplit; autosplit('../VRML/Field/SFNode.pm', '../auto/', 0, 1, 1)"

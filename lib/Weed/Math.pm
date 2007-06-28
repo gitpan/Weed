@@ -3,7 +3,7 @@ use Weed::Perl;
 
 use Package::Alias Math => __PACKAGE__;
 
-our $VERSION = '0.0031';
+our $VERSION = '0.0035';
 
 use Exporter 'import';
 

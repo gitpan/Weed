@@ -3,7 +3,7 @@ package Weed::Values::Color;
 use strict;
 use warnings;
 
-our $VERSION = '0.3444';
+our $VERSION = '0.3448';
 
 use Weed::Math ();
 

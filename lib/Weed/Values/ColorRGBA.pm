@@ -3,7 +3,7 @@ package Weed::Values::ColorRGBA;
 use strict;
 use warnings;
 
-our $VERSION = '0.2544';
+our $VERSION = '0.2548';
 
 use Weed::Math ();
 use Weed::Values::Color;

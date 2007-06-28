@@ -16,7 +16,7 @@ foreach my $subpkg ( sort keys(%{*{"main::"}}) )
 	print "package main contains package '$subpkg'";
 }
 
-print;
+print '';
 
 foreach my $subpkg ( sort keys(%{*{"main::"}}) )
 {

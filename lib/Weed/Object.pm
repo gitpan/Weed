@@ -1,7 +1,7 @@
 package Weed::Object;
 use Weed::Perl;
 
-our $VERSION = '0.0061';
+our $VERSION = '0.0065';
 
 use Weed::Universal 'X3DObject { }';
 

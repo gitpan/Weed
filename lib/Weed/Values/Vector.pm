@@ -3,7 +3,7 @@ package Weed::Values::Vector;
 use strict;
 use warnings;
 
-our $VERSION = '1.7287';
+our $VERSION = '1.7291';
 
 use Carp       ();
 use Weed::Math ();

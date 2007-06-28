@@ -1,7 +1,7 @@
 package Weed;
 use Weed::Perl;
 
-our $VERSION = '0.0061';
+our $VERSION = '0.0064';
 
 sub import {
 	shift;
@@ -18,7 +18,6 @@ __END__
 
 =head1 NAME
 
-Weed - Don't use it. It's in development.
-Everything can change.
+Weed - Don't use it. It's in development. Everything can change.
 
 =cut

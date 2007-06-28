@@ -1,7 +1,0 @@
-package VRML::Parse::Error;
-use strict;
-use Carp;
-
-
-1;
-__END__
