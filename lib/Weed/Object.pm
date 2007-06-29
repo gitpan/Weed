@@ -1,7 +1,7 @@
 package Weed::Object;
 use Weed::Perl;
 
-our $VERSION = '0.0065';
+our $VERSION = '0.0066';
 
 use Weed::Universal 'X3DObject { }';
 
@@ -35,46 +35,3 @@ sub dispose {
 
 1;
 __END__
-
-=head1 NAME
-
-Weed::Seed
-
-=head1 SUPERTYPES
-
--+- L<X3DUniversal|Weed::Universal>
-
-=head1 SYNOPSIS
-
-	use Weed::Seed;
-	
-	my $seed1 = new X3DObject;
-
-=head1 FUNCTIONS
-
-=head2 getId
-
-=head2 getType
-
-=head2 toString
-
-This method is used to overload the "" operator
-
-=head1 SEE ALSO
-
-L<Weed::Seed>
-
-L<Weed::Field>, L<Weed::ArrayField>
-
-L<Math::Vectors>
-
-=head1 AUTHOR
-
-Holger Seelig  holger.seelig@yahoo.de
-
-=head1 COPYRIGHT
-
-Das ist freie Software; du kannsts sie weiter verteilen und/oder verändern
-nach den gleichen Bedingungen wie L<Perl|perl> selbst.
-
-=cut

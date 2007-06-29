@@ -3,121 +3,24 @@ package Weed::Values::Color;
 use strict;
 use warnings;
 
-our $VERSION = '0.3448';
+our $VERSION = '0.3449';
 
 use Weed::Math ();
 
 use base 'Weed::Values::Vec3';
 
-=head1 NAME
-
-Math::Color - Perl class to represent colors
-
-=head1 TREE
-
--+- L<Math::Vector> -+- L<Math::Vec3> -+- L<Math::Color>
-
-=head1 SEE ALSO
-
-L<PDL> for scientific and bulk numeric data processing and display
-
-L<Math>
-
-L<Math::Vectors>
-
-L<Math::Color>, L<Math::ColorRGBA>, L<Math::Image>, L<Math::Vec2>, L<Math::Vec3>, L<Math::Rotation>
-
-=head1 SYNOPSIS
-	
-	use Math::Vectors;
-	my $c = new Math::Color;  # Make a new Color
-
-	my $c1 = new Math::Color(0,1,0);
-
-=head1 DESCRIPTION
-
-=head2 DefaultValue
-
-	0 0 0
-
-=cut
-
 use overload
   '~' => 'inverse',
   ;
 
-=head1 METHODS
-
-=head2 new(r,g,b)
-
-r, g, b are given on [0, 1].
-
-	my $c = new Math::Color; 					  
-	my $c2 = new Math::Color(0, 0.5, 1);   
-	my $c3 = new Math::Color([0, 0.5, 1]); 
-
-=cut
-
-=head2 copy
-
-Makes a copy
-	
-	$c2 = $c1->copy;
-
-=cut
-
-=head2 setValue(r,g,b)
-
-Sets the value of the color.
-r, g, b are given on [0, 1].
-
-	$c1->setValue(0, 0.2, 1);
-
-=cut
-
-=head2 setRed(r)
-
-Sets the first value of the color
-r is given on [0, 1].
-
-	$c1->setRed(1);
-
-=cut
-
 *setRed = \&Weed::Values::Vec3::setX;
 *getRed = \&Weed::Values::Vec3::getX;
-
-=head2 setGreen(g)
-
-Sets the second value of the color.
-g is given on [0, 1].
-
-	$c1->setGreen(0.2);
-
-=cut
 
 *setGreen = \&Weed::Values::Vec3::setY;
 *getGreen = \&Weed::Values::Vec3::getY;
 
-=head2 setBlue(b)
-
-Sets the third value of the color.
-b is given on [0, 1].
-
-	$c1->setBlue(0.3);
-
-=cut
-
 *setBlue = \&Weed::Values::Vec3::setZ;
 *getBlue = \&Weed::Values::Vec3::getZ;
-
-=head2 getValue
-
-Returns the value of the color (r, g, b) as a 3 components array.
-
-	@v = $c1->getValue;
-
-=cut
 
 sub getValue { map { Math::clamp( $_, 0, 1 ) } $_[0]->SUPER::getValue }
 
@@ -126,39 +29,6 @@ sub setValue {
 	$this->SUPER::setValue( map { Math::clamp( $_, 0, 1 ) } @_ );
 	return;
 }
-
-=head2 getRed
-
-Returns the first value of the color.
-
-	$r = $c1->getRed;
-
-=cut
-
-=head2 getGreen
-
-Returns the second value of the color.
-
-	$g = $c1->getGreen;
-
-=cut
-
-=head2 getBlue
-
-Returns the third value of the color.
-
-	$b = $c1->getBlue;
-
-=cut
-
-=head2 setHSV(h,s,v)
-
-h is given on [0, 2 PI]. s, v are given on [0, 1].
-RGB are each returned on [0, 1].
-
-	$c->setHSV(1/12,1,1);  # 1 0.5 0
-
-=cut
 
 sub setHSV {
 	my ( $this, $h, $s, $v ) = @_;
@@ -189,14 +59,6 @@ sub setHSV {
 
 	return $this->setValue( $v, $t, $p );
 }
-
-=head2 getHSV
-
-h is in [0, 2 PI]. s, v are each returned on [0, 1].
-
-	@hsv = $c->getHSV;
-
-=cut
 
 sub getHSV {
 	my ($this) = @_;
@@ -312,17 +174,6 @@ sub _cross {
 	return $a;
 }
 
-=head2 inverse
-
-Returns the inverse of the color.
-This is used to overload the '~' operator.
-
-	$v = new Math::Color(0, 0.1, 1);
-	$v = $v1->inverse;  # 1 0.9 0
-	$v = -$v1;         # 1 0.9 0
-
-=cut
-
 sub inverse {
 	my ($a) = @_;
 	return $a->new( [
@@ -332,42 +183,4 @@ sub inverse {
 	] );
 }
 
-=head2 toString
-
-Returns a string representation of the color. This is used
-to overload the '""' operator, so that color may be
-freely interpolated in strings.
-
-	my $c = new Math::Color(0.1, 0.2, 0.3);
-	print $c->toString; # "0.1, 0.2, 0.3"
-	print "$c";         # "0.1, 0.2, 0.3"
-
-=cut
-
 1;
-
-=head1 SEE ALSO
-
-L<PDL> for scientific and bulk numeric data processing and display
-
-L<Math>
-
-L<Math::Vectors>
-
-L<Math::Color>, L<Math::ColorRGBA>, L<Math::Image>, L<Math::Vec2>, L<Math::Vec3>, L<Math::Rotation>
-
-=head1 BUGS & SUGGESTIONS
-
-If you run into a miscalculation or need some sort of feature please drop the author a note.
-
-=head1 ARRANGED BY
-
-Holger Seelig  holger.seelig@yahoo.de
-
-=head1 COPYRIGHT
-
-This is free software; you can redistribute it and/or modify it
-under the same terms as L<Perl|perl> itself.
-
-=cut
-
