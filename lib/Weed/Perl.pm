@@ -10,8 +10,6 @@ use Scalar::Util;
 use constant NO  => defined;
 use constant YES => not NO;
 
-our $VERSION   = '0.0036';
-
 our @EXPORT    = qw.YES NO.;
 our @EXPORT_OK = qw.time.;
 

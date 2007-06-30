@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #package 01_values_vec2
-use Test::More tests => 78;
+use Test::More no_plan;
 use strict;
 
 BEGIN {
@@ -15,7 +15,10 @@ my ( $v, $v1, $v2 );
 is( $v = join( " ", @{ Weed::Values::Vec2->getDefaultValue } ), "0 0", "$v getDefaultValue" );
 is( $v = @{ Weed::Values::Vec2->getDefaultValue }, 2, "$v getDefaultValue" );
 
+
 is( $v = new Weed::Values::Vec2(), "0 0", "$v new Weed::Values::Vec2()" );
+ok ! $v;
+is $v->size, 2;
 
 $v->setValue();  is( $v, "0 0", "$v new Weed::Values::Vec2()" );
 $v->setValue(1); is( $v, "1 0", "$v new Weed::Values::Vec2()" );
@@ -113,6 +116,8 @@ ok( ( $v2 <=> $v1 ) == 1,  "$v1 <=>" );
 $v1->setValue( 1, 0 );
 $v2->setValue( 2, 4 );
 
+is $v->size, 2;
+
 ok( !( $v1 gt $v2 ), "$v1 >" );
 ok( $v1 lt $v2, "$v1 <" );
 ok( ( $v1 cmp $v2 ) == -1, "$v1 <=>" );
@@ -169,5 +174,15 @@ is( $v1 % $v2, "0 2", "$v1 v" );
 #use Math::Rotation;
 #my $r = new Math::Rotation(2,3,4,5);
 #ok( $v = $r * $v1, "$v x ");
+
+
+$v->setValue(1, 2);
+is $v ** 2, "1 4";
+is 2 ** $v, "2 4";
+ok $v;
+is ! $v, '';
+
+is $v->size, 2;
+
 
 __END__

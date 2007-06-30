@@ -7,7 +7,7 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok 'TestNode';
+	use_ok 'TestNodeFields';
 }
 
 ok my $testNode  = new SFNode( new TestNode );

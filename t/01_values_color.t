@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #package 01_values_color
-use Test::More tests => 71;
+use Test::More no_plan;
 use strict;
 
 BEGIN {
@@ -16,11 +16,14 @@ use Math::Trig qw(pi);
 my ( $v, $v1, $v2 );
 
 is( $v = new Weed::Values::Color(), "0 0 0", "$v new Weed::Values::Color()" );
+ok ! $v;
 is( $v = ref $v, "Weed::Values::Color", "$v ref" );
 is( $v = new Weed::Values::Color( 0.1, 0.2, 0.3 ), "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( $v = new Weed::Values::Color( [ 0.1, 0.2, 0.3 ] ), "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( $v = $v->copy, "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( "$v", "0.1 0.2 0.3", "$v ''" );
+
+is $v->size, 3;
 
 is( $v = @{ Weed::Values::Color->getDefaultValue }, 3, "$v getDefaultValue" );
 
@@ -67,7 +70,7 @@ ok( $v != new Weed::Values::Color( 0, 0.2, 0.3 ), "$v !=" );
 is( $v1 = new Weed::Values::Color( 0.1, 0.2, 0.3 ), "0.1 0.2 0.3", "$v1 v1" );
 is( $v2 = new Weed::Values::Color( 0.2, 0.3, 0.4 ), "0.2 0.3 0.4", "$v2 v2" );
 
-is( $v = ~$v1,      "0.9 0.8 0.7",         "$v ~" );
+is( $v = -$v1,      "0.9 0.8 0.7",         "$v -" );
 is( $v = $v1 + $v2, "0.3 0.5 0.7",   "$v +" );
 is( $v = $v1 - $v2, "0 0 0",         "$v -" );
 is( $v = $v1 * 2,   "0.2 0.4 0.6",   "$v *" );
@@ -76,6 +79,8 @@ is( $v = $v1 . $v2, "0.2",           "$v ." );
 is( $v = $v1 x $v2, "0 0.02 0",      "$v x" );
 is( $v = $v1 . [ 2, 3, 4 ], "2",       "$v ." );
 is( $v = $v1 x [ 2, 3, 4 ], "0 0.2 0", "$v x" );
+
+is $v->size, 3;
 
 is( sprintf( "%0.0f", $v = $v1->length ), "0", "$v length" );
 
@@ -134,5 +139,14 @@ ok( $v eq $v1, "$v getHSV" );
 #use Weed::Values::Rotation;
 #my $r = new Weed::Values::Rotation(2,3,4,5);
 #ok( $v = $r * $v1, "$v x ");
+
+$v->setValue(0.1, 0.2, 0.3);
+is $v ** 2, "0.01 0.04 0.09";
+is 2 ** $v, "1 1 1";
+is 0.2 ** $v, "0.851339922520785 0.724779663677696 0.61703386272001";
+ok $v;
+is ! $v, '';
+
+is $v->size, 3;
 
 __END__

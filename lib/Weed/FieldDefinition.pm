@@ -2,16 +2,15 @@ package Weed::FieldDefinition;
 
 use Weed 'X3DFieldDefinition { }';
 
-use overload
-  'eq' => sub {
+use overload 'eq' => sub {
 	return YES unless defined( $_[0]->getValue ) && defined( $_[1]->getValue );
 	return $_[0]->getValue eq $_[1]->getValue;
-  },
-  ;
+};
 
-sub create {
-	my $this = shift;
+sub new {
+	my $this = shift->CREATE;
 	@$this{qw'type in out name value range'} = @_;
+	return $this;
 }
 
 sub getType { $_[0]->{type} }
@@ -31,8 +30,10 @@ sub getRange { $_[0]->{range} }
 sub createField {
 	my ( $this, $node ) = @_;
 
-	my $field = $this->{type}->new( $this->getValue );
-	$field->setDefinition($this);
+	my $field = $this->getType->new_from_definition($this);
+
+	$field->setValue( $this->getValue );
+
 	#$field->setParents( $node );
 
 	return $field;
@@ -65,7 +66,8 @@ sub toString {
 	my $value = $this->getValue;
 	if ( 'ARRAY' eq ref $value ) {
 		$string .= @$value ? join X3DGenerator->space, @$value : X3DGenerator->open_bracket . X3DGenerator->close_bracket;
-	} else {
+	}
+	else {
 		$string .= $value || X3DGenerator->NULL;
 	}
 

@@ -1,50 +1,9 @@
 package Weed::Values::Vec3;
-
-use strict;
-use warnings;
-
-use Weed::Math ();
-
-#use Exporter;
-
-our $VERSION = '0.3449';
+use Weed::Perl;
 
 use base 'Weed::Values::Vector';
 
-use overload
-  #"&", "^", "|",
-
-  #'>>=' => sub { @{ $_[0] } = CORE::reverse @{ $_[0] } if $_[1] & 1; $_[0] },
-  #'<<=' => sub { @{ $_[0] } = CORE::reverse @{ $_[0] } if $_[1] & 1; $_[0] },
-
-  #"!" => sub { !$_[0]->length },
-
-  '+='  => '_add',
-  '-='  => '_subtract',
-  '*='  => '_multiply',
-  '/='  => '_divide',
-  '**=' => '__pow',
-  '%='  => '__mod',
-  #".=", # not posible
-  "x=" => '_cross',
-
-  '+'  => 'add',
-  '-'  => 'subtract',
-  '*'  => 'multiply',
-  '/'  => 'divide',
-  '**' => '_pow',
-  '%'  => '_mod',
-  '.'  => 'dot',
-  "x"  => 'cross',
-
-  #"atan2", "cos", "sin", "exp", "log", "sqrt", "int"
-
-  #"<>"
-
-  #'${}', '@{}', '%{}', '&{}', '*{}'.
-
-  #"nomethod", "fallback",
-  ;
+use overload "x" => 'cross';
 
 use constant getDefaultValue => [ 0, 0, 0 ];
 
@@ -78,13 +37,13 @@ sub add {
 	] );
 }
 
-sub _add {
+use overload '+=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] += $b->[0];
 	$a->[1] += $b->[1];
 	$a->[2] += $b->[2];
 	return $a;
-}
+};
 
 sub subtract {
 	my ( $a, $b, $r ) = @_;
@@ -101,13 +60,13 @@ sub subtract {
 	  ;
 }
 
-sub _subtract {
+use overload '-=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] -= $b->[0];
 	$a->[1] -= $b->[1];
 	$a->[2] -= $b->[2];
 	return $a;
-}
+};
 
 sub multiply {
 	my ( $a, $b ) = @_;
@@ -125,7 +84,7 @@ sub multiply {
 	  ] );
 }
 
-sub _multiply {
+use overload '*=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] *= $b->[0];
@@ -137,7 +96,7 @@ sub _multiply {
 		$a->[2] *= $b;
 	}
 	return $a;
-}
+};
 
 sub divide {
 	my ( $a, $b, $r ) = @_;
@@ -159,7 +118,7 @@ sub divide {
 	  ] );
 }
 
-sub _divide {
+use overload '/=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] /= $b->[0];
@@ -171,11 +130,9 @@ sub _divide {
 		$a->[2] /= $b;
 	}
 	return $a;
-}
+};
 
-#mod
-#cut
-sub _mod {
+sub mod {
 	my ( $a, $b, $r ) = @_;
 	return ref $b ?
 	  $a->new( [
@@ -195,7 +152,8 @@ sub _mod {
 	  ] );
 }
 
-sub __mod {
+#cut
+use overload '%=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] = Math::fmod( $a->[0], $b->[0] );
@@ -207,24 +165,30 @@ sub __mod {
 		$a->[2] = Math::fmod( $a->[2], $b );
 	}
 	return $a;
-}
+};
 
-sub _pow {
-	my ( $a, $b ) = @_;
+sub pow {
+	my ( $a, $b, $r ) = @_;
 	return $a->new( [
-			$a->[0]**$b,
-			$a->[1]**$b,
-			$a->[2]**$b,
+			$r ? (
+				$b**$a->[0],
+				$b**$a->[1],
+				$b**$a->[2],
+			  ) : (
+				$a->[0]**$b,
+				$a->[1]**$b,
+				$a->[2]**$b,
+			  )
 	] );
 }
 
-sub __pow {
+use overload '**=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0]**= $b;
 	$a->[1]**= $b;
 	$a->[2]**= $b;
 	return $a;
-}
+};
 
 sub dot {
 	my ( $a, $b, $r ) = @_;
@@ -237,7 +201,8 @@ sub dot {
 }
 
 sub cross {
-	my ( $a, $b ) = @_;
+	my ( $a, $b, $r ) = @_;
+	( $a, $b ) = ( $b, $a ) if $r;
 
 	my ( $a0, $a1, $a2 ) = @$a;
 	my ( $b0, $b1, $b2 ) = @$b;
@@ -249,7 +214,7 @@ sub cross {
 	] );
 }
 
-sub _cross {
+use overload "x=" => sub {
 	my ( $a, $b ) = @_;
 
 	my ( $a0, $a1, $a2 ) = @$a;
@@ -260,7 +225,7 @@ sub _cross {
 	$a->[2] = $a0 * $b1 - $a1 * $b0;
 
 	return $a;
-}
+};
 
 sub length {
 	my ($a) = @_;

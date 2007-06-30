@@ -1,17 +1,7 @@
 package Weed::Values::Color;
-
-use strict;
-use warnings;
-
-our $VERSION = '0.3449';
-
-use Weed::Math ();
+use Weed::Perl;
 
 use base 'Weed::Values::Vec3';
-
-use overload
-  '~' => 'inverse',
-  ;
 
 *setRed = \&Weed::Values::Vec3::setX;
 *getRed = \&Weed::Values::Vec3::getX;
@@ -72,18 +62,18 @@ sub getHSV {
 
 	my $delta = $max - $min;
 
-	if ( $max != 0 && $delta != 0 ) {
-		$s = $delta / $max;    # s
-	} else {
-		# r = g = b = 0                            # s = 0, h is undefined
-		return ( 0, 0, 0 );
-	}
+	# r = g = b = 0								# s = 0, h is undefined
+	return ( 0, 0, 0 ) unless $max != 0 && $delta != 0;
+
+	$s = $delta / $max;    # s
 
 	if ( $r == $max ) {
 		$h = ( $g - $b ) / $delta;    # between yellow & magenta
-	} elsif ( $g == $max ) {
+	}
+	elsif ( $g == $max ) {
 		$h = 2 + ( $b - $r ) / $delta;    # between cyan & yellow
-	} else {
+	}
+	else {
 		$h = 4 + ( $r - $g ) / $delta;    # between magenta & cyan
 	}
 
@@ -95,23 +85,32 @@ sub getHSV {
 	return ( $h, $s, $v );
 }
 
-sub _add {
+sub negate {
+	my ($a) = @_;
+	return $a->new( [
+			1 - $a->[0],
+			1 - $a->[1],
+			1 - $a->[2],
+	] );
+}
+
+use overload "+=" => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] = Math::clamp( $a->[0] + $b->[0], 0, 1 );
 	$a->[1] = Math::clamp( $a->[1] + $b->[1], 0, 1 );
 	$a->[2] = Math::clamp( $a->[2] + $b->[2], 0, 1 );
 	return $a;
-}
+};
 
-sub _subtract {
+use overload "-=" => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] = Math::clamp( $a->[0] - $b->[0], 0, 1 );
 	$a->[1] = Math::clamp( $a->[1] - $b->[1], 0, 1 );
 	$a->[2] = Math::clamp( $a->[2] - $b->[2], 0, 1 );
 	return $a;
-}
+};
 
-sub _multiply {
+use overload "*=" => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] = Math::clamp( $a->[0] * $b->[0], 0, 1 );
@@ -123,9 +122,9 @@ sub _multiply {
 		$a->[2] = Math::clamp( $a->[2] * $b, 0, 1 );
 	}
 	return $a;
-}
+};
 
-sub _divide {
+use overload "/=" => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] = Math::clamp( $a->[0] / $b->[0], 0, 1 );
@@ -137,9 +136,9 @@ sub _divide {
 		$a->[2] = Math::clamp( $a->[2] / $b, 0, 1 );
 	}
 	return $a;
-}
+};
 
-sub __mod {
+use overload "%=" => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] = Math::clamp( Math::fmod( $a->[0], $b->[0] ), 0, 1 );
@@ -151,17 +150,17 @@ sub __mod {
 		$a->[2] = Math::clamp( Math::fmod( $a->[2], $b ), 0, 1 );
 	}
 	return $a;
-}
+};
 
-sub __pow {
+use overload "**=" => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] = Math::clamp( $a->[0]**$b, 0, 1 );
 	$a->[1] = Math::clamp( $a->[1]**$b, 0, 1 );
 	$a->[2] = Math::clamp( $a->[2]**$b, 0, 1 );
 	return $a;
-}
+};
 
-sub _cross {
+use overload "x=" => sub {
 	my ( $a, $b ) = @_;
 
 	my ( $a0, $a1, $a2 ) = @$a;
@@ -172,15 +171,6 @@ sub _cross {
 	$a->[2] = Math::clamp( $a0 * $b1 - $a1 * $b0, 0, 1 );
 
 	return $a;
-}
-
-sub inverse {
-	my ($a) = @_;
-	return $a->new( [
-			1 - $a->[0],
-			1 - $a->[1],
-			1 - $a->[2],
-	] );
-}
+};
 
 1;

@@ -3,8 +3,6 @@ use Weed::Perl;
 
 use Package::Alias Math => __PACKAGE__;
 
-our $VERSION = '0.0036';
-
 use Exporter 'import';
 
 use POSIX ();

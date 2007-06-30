@@ -7,7 +7,7 @@ BEGIN {
 	unshift @INC, '../lib';
 }
 
-use Weed 'Weed : X3DNode {
+use Weed 'Weed : X3DBaseNode {
   SFNode   [in,out] metadata    NULL    [X3DMetadataObject]
   MFString []       family      "SERIF"
   SFBool   []       horizontal  FALSE

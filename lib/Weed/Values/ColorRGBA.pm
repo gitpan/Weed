@@ -1,33 +1,11 @@
 package Weed::Values::ColorRGBA;
+use Weed::Perl;
 
-use strict;
-use warnings;
-
-our $VERSION = '0.2549';
-
-use Weed::Math ();
 use Weed::Values::Color;
+
 use base 'Weed::Values::Vec4';
 
 use constant getDefaultValue => [ 0, 0, 0, 0 ];
-
-use overload
-  '~' => 'inverse',
-
-  '+='  => \&_add,
-  '-='  => \&_subtract,
-  '*='  => \&_multiply,
-  '/='  => \&_divide,
-  '**=' => \&__pow,
-  '%='  => \&__mod,
-
-  '+'  => 'add',
-  '-'  => 'subtract',
-  '*'  => 'multiply',
-  '/'  => 'divide',
-  '**' => \&_pow,
-  '%'  => \&_mod,
-  ;
 
 sub setRGB { @{ $_[0] }[ 0, 1, 2 ] = @{ $_[1] }[ 0, 1, 2 ] }
 
@@ -65,7 +43,7 @@ sub setHSV {
 
 sub getHSV { ( $_[0]->getRGB->getHSV, 0 ) }
 
-sub inverse {
+sub negate {
 	my ($a) = @_;
 	return $a->new( [
 			1 - $a->[0],
@@ -85,7 +63,7 @@ sub add {
 	] );
 }
 
-*_add = \&Weed::Values::Color::_add;
+use overload '+=' => 'Weed::Values::Color::(+=';
 
 sub subtract {
 	my ( $a, $b, $r ) = @_;
@@ -104,7 +82,7 @@ sub subtract {
 	  ;
 }
 
-*_subtract = \&Weed::Values::Color::_subtract;
+use overload '-=' => 'Weed::Values::Color::(-=';
 
 sub multiply {
 	my ( $a, $b, $r ) = @_;
@@ -124,7 +102,7 @@ sub multiply {
 	  ] );
 }
 
-*_multiply = \&Weed::Values::Color::_multiply;
+use overload '*=' => 'Weed::Values::Color::(*=';
 
 sub divide {
 	my ( $a, $b, $r ) = @_;
@@ -149,11 +127,9 @@ sub divide {
 	  ] );
 }
 
-*_divide = \&Weed::Values::Color::_divide;
+use overload '/=' => 'Weed::Values::Color::(/=';
 
-#mod
-#cut
-sub _mod {
+sub mod {
 	my ( $a, $b, $r ) = @_;
 	return ref $b ?
 	  $a->new( [
@@ -176,22 +152,44 @@ sub _mod {
 	  ] );
 }
 
-*__mod = \&Weed::Values::Color::__mod;
+use overload '%=' => 'Weed::Values::Color::(%=';
 
-sub _pow {
-	my ( $a, $b ) = @_;
+sub pow {
+	my ( $a, $b, $r ) = @_;
 	return $a->new( [
-			$a->[0]**$b,
-			$a->[1]**$b,
-			$a->[2]**$b,
+			$r ? (
+				$b**$a->[0],
+				$b**$a->[1],
+				$b**$a->[2],
+				$a->[3],
+			  ) : (
+				$a->[0]**$b,
+				$a->[1]**$b,
+				$a->[2]**$b,
+				$a->[3],
+			  )
+	] );
+}
+
+use overload '**=' => 'Weed::Values::Color::(**=';
+
+use overload '.' => 'Weed::Values::Vec3::dot';
+
+sub cross {
+	my ( $a, $b, $r ) = @_;
+	( $a, $b ) = ( $b, $a ) if $r;
+
+	my ( $a0, $a1, $a2 ) = @$a;
+	my ( $b0, $b1, $b2 ) = @$b;
+
+	return $a->new( [
+			$a1 * $b2 - $a2 * $b1,
+			$a2 * $b0 - $a0 * $b2,
+			$a0 * $b1 - $a1 * $b0,
 			$a->[3],
 	] );
 }
 
-*__pow = \&Weed::Values::Color::__pow;
-
-*_dot = \&Weed::Values::Vec3::_dot;
-
-*_cross = \&Weed::Values::Color::_cross;
+use overload 'x=' => 'Weed::Values::Color::(x=';
 
 1;

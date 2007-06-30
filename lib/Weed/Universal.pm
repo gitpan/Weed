@@ -57,12 +57,9 @@ sub createType {
 	return;
 }
 
-sub new {
-	my $type = Weed::Package::name(shift);
-	my $this = bless {}, $type;
-	Weed::Package::reverse_call( $this, "create", @_ );
-	return $this;
-}
+sub NEW { bless {}, shift->Weed::Package::name }
+
+sub new { shift->NEW }
 
 sub getType { ref $_[0] }
 
@@ -72,10 +69,7 @@ sub getHierarchy { grep /$_supertype/, Weed::Package::self_and_superpath( $_[0] 
 
 *toString = \&overload::StrVal;
 
-sub DESTROY {    #X3DMessage->Debug(@_);
-	Weed::Package::call( $_[0], "dispose" );
-	0;
-}
+sub DESTROY { 0 }
 
 1;
 __END__

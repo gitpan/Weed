@@ -1,4 +1,4 @@
-package Weed::Components::Core::Node;
+package X3D::Components::Core::Node;
 
 use Weed '
 X3DNode : X3DBaseNode {

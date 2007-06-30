@@ -8,7 +8,7 @@ BEGIN {
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
 	use_ok 'Weed';
-	use_ok 'TestNode';
+	use_ok 'TestNodeFields';
 }
 
 X3DGenerator->tidy_fields(NO);

@@ -2,7 +2,7 @@ package Weed::Values::Image;
 use strict;
 use warnings;
 
-our $VERSION = '0.0209';
+our $VERSION = '0.0215';
 
 use UNIVERSAL;
 
@@ -24,19 +24,25 @@ sub new {
 
 	if ( 0 == @_ ) {
 		$this->setValue( 0, 0, 0, [] );
-	} elsif ( 1 == @_ ) {
+	}
+	elsif ( 1 == @_ ) {
 		my $arg = shift;
 		if ( 'ARRAY' eq ref $arg ) {
 			$this->setValue(@$arg);
-		} elsif ( UNIVERSAL::isa( $arg, __PACKAGE__ ) ) {
+		}
+		elsif ( UNIVERSAL::isa( $arg, __PACKAGE__ ) ) {
 			$this->setValue( @$arg{qw'width height components array'} );
 		}
-	} elsif ( 3 == @_ ) {
+	}
+	elsif ( 3 == @_ ) {
 		$this->setValue( @_, [] );
-	} elsif ( 4 == @_ ) {
+	}
+	elsif ( 4 == @_ ) {
 		$this->setValue(@_);
-	} else {
+	}
+	else {
 		warn("Don't understand arguments passed to new()");
+		return;
 	}
 
 	return $this;

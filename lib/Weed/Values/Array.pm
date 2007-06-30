@@ -11,7 +11,7 @@ sub new {
 	return bless shift || [], $class;
 }
 
-sub copy { $_[0]->new( $_[0]->getValue ) }
+sub copy { $_[0]->new( scalar $_[0]->getValue ) }
 
 sub getValue { [ @{ $_[0] } ] }
 
@@ -49,9 +49,6 @@ sub toString {
 
 1;
 __END__
-package Array;
-use strict;
-use warnings;
 
 # $index = binary_search( \@array, $word )
 #   @array is a list of lowercase strings in alphabetical order.
@@ -129,18 +126,6 @@ sub diff {
 	return $result;
 }
 
-sub ncmp {
-	return $_[1] <=> @{$_[0]} unless ref $_[1];
-	return $#{$_[1]} <=> $#{$_[0]}
-		unless $#{$_[0]} == $#{$_[1]};
-	for (my $c, my $i = 0; $i < $#{$_[0]} + 1; ++$i) {
-		return $c if $c = $_[0]->[$i] <=> $_[1]->[$i];
-	}
-	return 0;
-}
-
-1;
-__END__
 #######################################################################
 
 sub columns {

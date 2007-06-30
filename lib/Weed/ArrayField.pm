@@ -24,7 +24,8 @@ sub setValue {
 
 	if ( 1 == @value && ref $value[0] eq 'Weed::Values::Array' ) {
 		$this->{value} = $value[0];
-	} else {
+	}
+	else {
 		$this->{value} = new Weed::Values::Array( @value ? [@value] : [] );
 	}
 }
@@ -46,7 +47,8 @@ sub toString {
 		else {
 			$string .= $value->[0];
 		}
-	} else {
+	}
+	else {
 		$string .= X3DGenerator->open_bracket;
 		$string .= X3DGenerator->tidy_space;
 		$string .= X3DGenerator->close_bracket;

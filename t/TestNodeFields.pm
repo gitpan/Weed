@@ -1,4 +1,4 @@
-package TestNode;
+package TestNodeFields;
 use strict;
 
 BEGIN {
@@ -7,7 +7,7 @@ BEGIN {
 	unshift @INC, '../lib';
 }
 
-use Weed 'TestNode : X3DNode {
+use Weed 'TestNode : X3DBaseNode {
 	MFBool		[in,out] mfbool	   []
 	MFColor		[in,out] mfcolor	   []
 	MFColorRGBA	[in,out] mfcolorrgba []

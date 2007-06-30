@@ -31,10 +31,10 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 
 	die unless Want::want('LVALUE');
 
-	return ${ tied $node->private_getField($name) }
+	return ${ tied $node->getTiedField($name) }
 	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
 
-	$node->private_getField($name)
+	$node->getTiedField($name)
 }
 
 sub setValue {
@@ -44,7 +44,7 @@ sub setValue {
 	  if UNIVERSAL::isa( $value, 'SFNode' );
 
 	return $this->X3DField::setValue($value)
-	  if UNIVERSAL::isa( $value, 'X3DNode' ) || !defined $value;
+	  if UNIVERSAL::isa( $value, 'X3DBaseNode' ) || !defined $value;
 
 	X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(@_);
 }

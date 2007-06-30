@@ -4,12 +4,10 @@ use Weed::Parse::FieldValue;
 
 sub setDescription {
 	my ( $this, $description ) = @_;
-
-	my $typeName = $description->{typeName};
-	my $initialValue = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
-
-	${ $this->Weed::Package::scalar("DefaultDefinition") } =
-	  new X3DFieldDefinition( $typeName, YES, YES, '', $initialValue, '' );
+	my $typeName        = $description->{typeName};
+	my $initialValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
+	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $initialValue, '' );
+	${ $this->Weed::Package::scalar("DefaultDefinition") } = $fieldDefinition;
 }
 
 use Weed 'X3DField { }';
@@ -19,10 +17,23 @@ use overload
   'bool' => sub { $_[0]->getValue ? YES: NO },
   ;
 
-sub create {
-	my $this = shift;
-	$this->setDefinition( ${ $this->Weed::Package::scalar("DefaultDefinition") } );
-	$this->setValue( @_ ? @_ : $this->getInitialValue );
+sub new {
+	my $type = shift;
+	my $this = $type->new_from_definition( ${ $type->Weed::Package::scalar("DefaultDefinition") } );
+	$this->setValue(@_) if @_;
+	return $this;
+}
+
+sub new_from_definition {
+	my $this       = shift->CREATE;
+	my $definition = shift;
+
+	$this->setDefinition($definition);
+
+	$this->{value} = ref $this->getInitialValue ?
+	  $this->getInitialValue->copy : $this->getInitialValue;
+
+	return $this;
 }
 
 sub clone { $_[0]->new( $_[0]->getValue ) }

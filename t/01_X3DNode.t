@@ -8,6 +8,7 @@ BEGIN {
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
 	use_ok 'Weed';
+	use_ok 'X3D::Components::Core::Node';
 }
 
 ok my $node1 = new X3DNode("node");

@@ -1,52 +1,7 @@
 package Weed::Values::Vec2;
-
-use strict;
-use warnings;
-
-use Weed::Math ();
-
-#use Exporter;
-
-our $VERSION = '0.3449';
+use Weed::Perl;
 
 use base 'Weed::Values::Vector';
-
-use overload
-  #"&", "^", "|",
-
-  #'>>' => sub { $_[1] & 1 ? ~$_[0] : $_[0]->copy },
-  #'<<' => sub { $_[1] & 1 ? ~$_[0] : $_[0]->copy },
-  #'>>=' => sub { @{ $_[0] } = CORE::reverse @{ $_[0] } if $_[1] & 1; $_[0] },
-  #'<<=' => sub { @{ $_[0] } = CORE::reverse @{ $_[0] } if $_[1] & 1; $_[0] },
-
-  #"!" => sub { !$_[0]->length },
-
-  '+='  => \&_add,
-  '-='  => \&_subtract,
-  '*='  => \&_multiply,
-  '/='  => \&_divide,
-  '**=' => \&__pow,
-  '%='  => \&__mod,
-  #".=",
-
-  '+'  => 'add',
-  '-'  => 'subtract',
-  '*'  => 'multiply',
-  '/'  => 'divide',
-  '**' => \&_pow,
-  '%'  => \&_mod,
-  '.'  => 'dot',
-
-  #"x", "x=",
-
-  #"atan2", "cos", "sin", "exp", "log", "sqrt", "int"
-
-  #"<>"
-
-  #'${}', '@{}', '%{}', '&{}', '*{}'.
-
-  #"nomethod", "fallback",
-  ;
 
 use constant getDefaultValue => [ 0, 0 ];
 
@@ -74,12 +29,12 @@ sub add {
 	] );
 }
 
-sub _add {
+use overload '+=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] += $b->[0];
 	$a->[1] += $b->[1];
 	return $a;
-}
+};
 
 sub subtract {
 	my ( $a, $b, $r ) = @_;
@@ -93,13 +48,12 @@ sub subtract {
 			  ) ] )
 	  ;
 }
-
-sub _subtract {
+use overload '-=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] -= $b->[0];
 	$a->[1] -= $b->[1];
 	return $a;
-}
+};
 
 sub multiply {
 	my ( $a, $b ) = @_;
@@ -115,7 +69,7 @@ sub multiply {
 	  ] );
 }
 
-sub _multiply {
+use overload '*=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] *= $b->[0];
@@ -125,7 +79,7 @@ sub _multiply {
 		$a->[1] *= $b;
 	}
 	return $a;
-}
+};
 
 sub divide {
 	my ( $a, $b, $r ) = @_;
@@ -144,7 +98,7 @@ sub divide {
 	  ] );
 }
 
-sub _divide {
+use overload '/=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] /= $b->[0];
@@ -154,11 +108,9 @@ sub _divide {
 		$a->[1] /= $b;
 	}
 	return $a;
-}
+};
 
-#mod
-#cut
-sub _mod {
+sub mod {
 	my ( $a, $b, $r ) = @_;
 	return ref $b ?
 	  $a->new( [
@@ -175,7 +127,7 @@ sub _mod {
 	  ] );
 }
 
-sub __mod {
+use overload '%=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
 		$a->[0] = Math::fmod( $a->[0], $b->[0] );
@@ -185,22 +137,27 @@ sub __mod {
 		$a->[1] = Math::fmod( $a->[1], $b );
 	}
 	return $a;
-}
+};
 
-sub _pow {
-	my ( $a, $b ) = @_;
+sub pow {
+	my ( $a, $b, $r ) = @_;
 	return $a->new( [
-			$a->[0]**$b,
-			$a->[1]**$b
+			$r ? (
+				$b**$a->[0],
+				$b**$a->[1],
+			  ) : (
+				$a->[0]**$b,
+				$a->[1]**$b,
+			  )
 	] );
 }
 
-sub __pow {
+use overload '**=' => sub {
 	my ( $a, $b ) = @_;
 	$a->[0]**= $b;
 	$a->[1]**= $b;
 	return $a;
-}
+};
 
 sub dot {
 	my ( $a, $b, $r ) = @_;

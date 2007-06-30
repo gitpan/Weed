@@ -11,7 +11,7 @@ use Scalar::Util;
 
 #use Exporter;
 
-our $VERSION = '0.3449';
+our $VERSION = '0.3455';
 
 use overload
   '=' => 'copy',
@@ -42,7 +42,8 @@ sub new {
 		@{ $this->{axis} } = ( 0, 0, 1 );
 		$this->{angle}      = 0;
 		$this->{quaternion} = new Math::Quaternion();
-	} elsif ( 1 == @_ ) {
+	}
+	elsif ( 1 == @_ ) {
 
 		my $arg = shift;
 
@@ -50,13 +51,14 @@ sub new {
 
 			$this->setValue(@$arg);
 
-		} elsif ( UNIVERSAL::isa( $arg, __PACKAGE__ ) ) {
+		}
+		elsif ( UNIVERSAL::isa( $arg, __PACKAGE__ ) ) {
 
 			$this->setQuaternion( $arg->{quaternion} );
 
 		}
-
-	} elsif ( 2 == @_ ) {
+	}
+	elsif ( 2 == @_ ) {
 
 		my $arg1    = shift;
 		my $reftype = Scalar::Util::reftype($arg1);
@@ -76,13 +78,16 @@ sub new {
 				warn("Don't understand arguments passed to new()");
 				return;
 			}
-		} else {
+		}
+		else {
 			warn("Don't understand arguments passed to new()");
 			return;
 		}
-	} elsif ( 4 == @_ ) {    # x,y,z,angle
+	}
+	elsif ( 4 == @_ ) {    # x,y,z,angle
 		$this->setValue(@_);
-	} else {
+	}
+	else {
 		warn("Don't understand arguments passed to new()");
 		return;
 	}
@@ -113,7 +118,8 @@ sub setValue {
 	my $this = shift;
 	if ( $_[0] && $_[1] && $_[2] ) {
 		$this->private::setQuaternion( Math::Quaternion::rotation( [ @_[ 0, 1, 2 ] ], $_[3] ) );
-	} else {
+	}
+	else {
 		@{ $this->{axis} } = ( 0, 0, 1 );
 		$this->{angle}      = 0;
 		$this->{quaternion} = new Math::Quaternion();
@@ -199,12 +205,15 @@ sub multVec {
 		if ( $ref eq 'ARRAY' || $ref->isa("Weed::Values::Vec3") ) {
 			my @v = $this->{quaternion}->rotate_vector( @{ $_[0] } );
 			return ref( $_[0] ) eq "ARRAY" ? [@v] : $_[0]->new(@v);
-		} else {
+		}
+		else {
 			return $this->multiply( $_[0] );
 		}
-	} elsif ( @_ < 4 ) {
+	}
+	elsif ( @_ < 4 ) {
 		return $this->{quaternion}->rotate_vector(@_);
-	} else {
+	}
+	else {
 		return $this->multiply( $this->new(@_) );
 	}
 }

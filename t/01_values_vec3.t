@@ -16,6 +16,9 @@ is( $v = join( " ", @{ Weed::Values::Vec3->getDefaultValue } ), "0 0 0", "$v get
 is( $v = @{ Weed::Values::Vec3->getDefaultValue }, 3, "$v getDefaultValue" );
 
 is( $v = new Weed::Values::Vec3(), "0 0 0", "$v new Weed::Values::Vec3()" );
+ok ! $v;
+
+is $v->size, 3;
 
 $v->setValue();  is( $v, "0 0 0", "$v new Weed::Values::Vec3()" );
 $v->setValue(1); is( $v, "1 0 0", "$v new Weed::Values::Vec3()" );
@@ -85,6 +88,8 @@ is( $v2 = $v2 / $v1, "1 2 3", "$v2 **" );
 use_ok('Weed::Values::Rotation');
 my $r = new Weed::Values::Rotation( 2, 3, 4, 5 );
 ok( $v = $r * $v1, "$v x " );
+
+is $v->size, 3;
 
 is( $v = Weed::Values::Vec3->new( 1, 2, 3 )->rotate(0), "1 2 3", "$v >> 0" );
 is( $v = Weed::Values::Vec3->new( 1, 2, 3 )->rotate(1), "3 1 2", "$v >> 1" );
@@ -157,5 +162,12 @@ ok 4 > $v1;
 ok $v1 < 4;
 ok 1 < $v1;
 
+$v->setValue(1, 2, 3);
+is $v ** 2, "1 4 9";
+is 2 ** $v, "2 4 8";
+ok $v;
+is ! $v, '';
+
+is $v->size, 3;
 
 __END__

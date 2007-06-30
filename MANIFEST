@@ -9,7 +9,6 @@ bin/To_PNG
 lib/Weed.pm
 lib/Weed/ArrayField.pm
 lib/Weed/BaseNode.pm
-lib/Weed/Components/Core/Node.pm
 lib/Weed/Constants.pm
 lib/Weed/Environment.pm
 lib/Weed/Field.pm
@@ -75,6 +74,7 @@ lib/Weed/Values/Vec2.pm
 lib/Weed/Values/Vec3.pm
 lib/Weed/Values/Vec4.pm
 lib/Weed/Values/Vector.pm
+lib/X3D/Components/Core/Node.pm
 Makefile.PL
 MANIFEST			This list of files
 t/00_concept.t
@@ -156,6 +156,6 @@ t/06_nodefield_sfvec2d.t
 t/06_nodefield_sfvec2f.t
 t/06_nodefield_sfvec3d.t
 t/06_nodefield_sfvec3f.t
-t/TestNode.pm
+t/TestNodeFields.pm
 t/TestNodeWeed.pm
 META.yml                                 Module meta-data (added by MakeMaker)

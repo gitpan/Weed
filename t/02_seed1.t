@@ -20,7 +20,7 @@ ok my $seed1 = new X3DObject;
 
 ok $seed1->getId;
 is $seed1->getType, "X3DObject";
-is ref $seed1->getComments, 'ARRAY';
+#is ref $seed1->getComments, 'ARRAY';
 is join( ', ', $seed1->getHierarchy ), "X3DObject, X3DUniversal";
 is $seed1->Weed::Package::name,      "X3DObject";
 is $seed1->Weed::Package::supertype, "Weed::Object";
@@ -33,7 +33,7 @@ is ref $seed1->Weed::Package::hash('xxx'),   "HASH";
 
 printf "getId        %s\n", $seed1->getId;
 printf "getType      %s\n", $seed1->getType;
-printf "getComments  %s\n", join ', ', $seed1->getComments;
+#printf "getComments  %s\n", join ', ', $seed1->getComments;
 printf "getHierarchy %s\n", join ', ', $seed1->getHierarchy;
 printf "PACKAGE      %s\n", $seed1->Weed::Package::name;
 printf "supertype    %s\n", $seed1->Weed::Package::supertype;

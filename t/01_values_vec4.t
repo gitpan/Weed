@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #package 01_values_vec4
-use Test::More tests => 31;
+use Test::More no_plan;
 use strict;
 
 BEGIN {
@@ -13,9 +13,12 @@ BEGIN {
 my ( $v, $v1, $v2 );
 
 is( $v = new Weed::Values::Vec4(), "0 0 0 0", "$v new Weed::Values::Vec4()" );
+ok ! $v;
 is( $v = new Weed::Values::Vec4( 1, 2, 3, 4 ), "1 2 3 4", "$v new Weed::Values::Vec4()" );
 is( $v = new Weed::Values::Vec4( [ 1, 2, 3, 4 ] ), "1 2 3 4", "$v new Weed::Values::Vec4()" );
 #is( $v = new Weed::Values::Vec4( 1, 2, 3 ), "1 2 3 0", "$v new Weed::Values::Vec4()" );
+
+is $v->size, 4;
 
 $v = new Weed::Values::Vec4( 1, 0, 0, 0 );
 is( $v->normalize, "1 0 0 0", "$v new Weed::Values::Vec4()" );
@@ -35,6 +38,8 @@ ok( $v = $v1 / $v2, "$v new Weed::Values::Vec4()" );
 is( $v = $v1 . $v2, "40", "$v new Weed::Values::Vec4()" );
 is( $v = $v1 x $v2, "-4 -2 0 6", "$v new Weed::Values::Vec4()" );
 like( $v->length, "/^7\.4/", "$v new Weed::Values::Vec4()" );
+
+is $v->size, 4;
 
 $v->[0] = 2345;
 is( $v, "2345 -2 0 6", "$v new Weed::Values::Vec4()" );
@@ -57,4 +62,13 @@ is( $v = $v << 2, "4 8 12 16", "$v ^" );
 is( $v = $v >> 2, "1 2 3 4", "$v ^" );
 is( $v = $v << [2,2,2,2], "4 8 12 16", "$v ^" );
 is( $v = $v >> [2,2,2,2], "1 2 3 4", "$v ^" );
+
+$v->setValue(1, 2, 3, 4);
+is $v ** 2, "1 4 9 16";
+is 2 ** $v, "2 4 8 16";
+ok $v;
+is ! $v, '';
+
+is $v->size, 4;
+
 __END__

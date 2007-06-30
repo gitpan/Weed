@@ -25,7 +25,8 @@ sub import {
 	if ( $to eq __PACKAGE__ ) {    # use package 'newname', @import;
 		my $original = caller;
 		return Weed::Package::base( $alias, $original, @_ );
-	} else {                       # Weed::Package::import
+	}
+	else {                         # Weed::Package::import
 		return Weed::Package::_import( $to, $alias, @_ );
 	}
 }
@@ -50,7 +51,8 @@ sub supertypes {
 	if (@_) {
 		$package->Weed::Package::base($_) foreach @_;
 		return;
-	} else {
+	}
+	else {
 		return @{ Weed::Package::isa($package) };
 	}
 }
@@ -164,7 +166,8 @@ sub statements {
 
 			$expression .= Weed::Package::statements( $original, @$_ );
 
-		} elsif ( 'HASH' eq ref $_ ) {
+		}
+		elsif ( 'HASH' eq ref $_ ) {
 			while ( my ( $a, $o ) = each %$_ ) {
 				if ( $a =~ m.$_type_name.gc && $1 ) {
 					my $t = $1;
@@ -172,18 +175,22 @@ sub statements {
 					if ( $o =~ m.$_type_name.gc ) {
 						$t = $1 if $1;
 						$expression .= get_rename_string( $a, $t, $original, $2 );
-					} else {
+					}
+					else {
 						Carp::croak "Syntax error";
 					}
-				} else {
+				}
+				else {
 					$expression .= get_rename_string( $a, '&', $original, $o );
 				}
 			}
-		} else {
+		}
+		else {
 			foreach ( split /$_space/, $_ ) {
 				if ( m.$_type_name.gc && $1 ) {
 					$expression .= get_rename_string( $2, $1, $original, $2 );
-				} else {
+				}
+				else {
 					$expression .= get_rename_string( $_, '&', $original, $_ );
 				}
 			}
@@ -282,7 +289,8 @@ sub stringify {
 		if ($#$hierarchy) {
 			$string .= "\n";
 			$string .= '  ' x ( $level - 1 );
-		} else {
+		}
+		else {
 			$string .= ' ';
 		}
 	}

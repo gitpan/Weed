@@ -1,19 +1,17 @@
 package Weed::Object;
 use Weed::Perl;
 
-our $VERSION = '0.0066';
-
 use Weed::Universal 'X3DObject { }';
 
-sub create {
-	my $this = shift;
+sub new { shift->CREATE }
 
+sub CREATE {
+	my $this = shift->NEW;
 	$this->{comments} = [];
-
-	#printf "%s->%s %s\n", $this->getType, $this->Weed::Package::sub, $this;
+	return $this;
 }
 
-sub getComments { wantarray ? @{$_[0]->{comments}} : $_[0]->{comments} }
+sub getComments { wantarray ? @{ $_[0]->{comments} } : $_[0]->{comments} }
 
 sub toString {
 	my ($this) = @_;
@@ -28,10 +26,16 @@ sub toString {
 	return $string;
 }
 
-sub dispose {
+sub DESTROY {
 	my $this = shift;
 	%$this = ();
+	0;
 }
 
 1;
 __END__
+\$
+\@ []
+\% {}
+\&
+\*

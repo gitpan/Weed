@@ -4,16 +4,16 @@ use Weed::Parse::FieldDescription;
 
 sub setDescription {
 	my ( $this, $description ) = @_;
-	my $fieldDescription = Weed::Parse::FieldDescription::parse @{ $description->{body} };
-	${ $this->Weed::Package::scalar("FieldDefinitions") } = [ map { new X3DFieldDefinition(@$_) } @$fieldDescription ];
+	my $fieldDescriptions = Weed::Parse::FieldDescription::parse @{ $description->{body} };
+	my $fieldDefinitions = [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ];
+	${ $this->Weed::Package::scalar("FieldDefinitions") } = $fieldDefinitions;
 }
 
 use Weed 'X3DBaseNode { }';
 
-use Weed::Tie::Field;
-
-sub create {
-	my ( $this, $name ) = @_;
+sub new {
+	my $this = shift->CREATE;
+	my $name = shift;
 
 	$this->setName($name);
 
@@ -22,6 +22,8 @@ sub create {
 
 	# $this->{fields}->{sf[color|colorrgba|...]} *= 2 needs this
 	map { ref $this->{fields}->{ $_->getName } } $this->getFieldDefinitions;
+
+	return $this;
 }
 
 sub getTypeName { $_[0]->getType }
@@ -29,7 +31,7 @@ sub getTypeName { $_[0]->getType }
 sub setName { $_[0]->{name} = $_[1] || '' }
 sub getName { $_[0]->{name} }
 
-sub private_getField : lvalue {
+sub getTiedField : lvalue {
 	my ( $this, $name ) = @_;
 
 	X3DMessage->UnknownField(@_) unless exists $this->{fields}->{$name};
@@ -42,7 +44,7 @@ sub private_getField : lvalue {
 
 sub getField {
 	my ( $this, $name ) = @_;
-	return ${ tied $this->private_getField($name) };
+	return ${ tied $this->getTiedField($name) };
 }
 
 sub getFields {
@@ -108,7 +110,8 @@ sub toString {
 		}
 		X3DGenerator->dec;
 		$string .= X3DGenerator->indent;
-	} else {
+	}
+	else {
 		$string .= X3DGenerator->tidy_space;
 	}
 

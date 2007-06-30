@@ -20,13 +20,10 @@ use overload
   ;
 
 sub setValue {
-	my $this = shift;
-
+	my $this   = shift;
 	my $vector = $this->getValue;
-	$vector = ref( $this->getInitialValue )->new unless ref $vector;
-
 	$vector->setValue( Weed::FieldHelper::NumVal(@_) );
-	return $this->X3DField::setValue($vector);
+	$this->X3DField::setValue($vector);
 }
 
 sub length { $_[0]->getValue->length }

@@ -47,12 +47,12 @@ is TRUE, 'TRUE';
 
 is my $sfnode = NULL, NULL;
 is $sfnode, 'NULL';
-$sfnode->setValue( new X3DNode );
+$sfnode->setValue( new X3DBaseNode );
 
 ok $sfnode;
 is NULL, 'NULL';
 
-NULL->setValue( new X3DNode );
+NULL->setValue( new X3DBaseNode );
 
 ok NULL->getId != NULL->getId;
 ok FALSE->getId != FALSE->getId;
