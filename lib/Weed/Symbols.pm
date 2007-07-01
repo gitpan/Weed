@@ -9,6 +9,8 @@ our @EXPORT = qw(
   $_break_
 
   $_period_
+  $_open_parenthesis_
+  $_close_parenthesis_
   $_open_brace_
   $_close_brace_
   $_open_bracket_
@@ -56,14 +58,16 @@ our $_space_ = ' ';
 our $_break_ = "\n";
 
 # Terminal symbols
-our $_period_        = '.';
-our $_open_brace_    = '{';
-our $_close_brace_   = '}';
-our $_open_bracket_  = '[';
-our $_close_bracket_ = ']';
-our $_colon_         = ':';
-our $_comma_         = ',';
-our $_comment_       = '#';
+our $_period_            = '.';
+our $_open_parenthesis_  = '(';
+our $_close_parenthesis_ = ')';
+our $_open_brace_        = '{';
+our $_close_brace_       = '}';
+our $_open_bracket_      = '[';
+our $_close_bracket_     = ']';
+our $_colon_             = ':';
+our $_comma_             = ',';
+our $_comment_           = '#';
 
 # concept
 our $_in_  = 'in';

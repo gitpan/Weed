@@ -192,4 +192,14 @@ sub cross {
 
 use overload 'x=' => 'Weed::Values::Color::(x=';
 
+use overload 'cos' => sub { $_[0]->new( [ ( map { CORE::cos($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) };
+use overload 'sin' => sub { $_[0]->new( [ ( map { CORE::sin($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) };
+
+sub tan ($) { $_[0]->new( [ ( map { Math::Trig::tan($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) }
+
+use overload 'exp' => sub { $_[0]->new( [ ( map { CORE::exp($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) };
+use overload 'log' => sub { $_[0]->new( [ ( map { CORE::log($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) };
+
+use overload 'sqrt' => sub { $_[0]->new( [ ( map { CORE::sqrt($_) } @{ $_[0] }[ 0, 1, 2 ] ), $_[0]->[3] ] ) };
+
 1;

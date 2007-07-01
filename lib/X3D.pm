@@ -1,0 +1,27 @@
+package X3D;
+1;
+__END__
+package SbColor;
+1;
+package SbColorRGBA;
+1;
+package SbImage;
+1;
+package SbName;
+1;
+package SbRotation;
+1;
+package SbTime;
+1;
+package SbVec2;
+1;
+package SbVec3;
+1;
+package SbVec4;
+1;
+package SbVector;
+1;
+package SbMatrix3;
+1;
+package SbMatrix4;
+1;

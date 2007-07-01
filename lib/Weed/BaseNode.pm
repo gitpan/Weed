@@ -1,5 +1,6 @@
 package Weed::BaseNode;
-use Weed::Perl;
+use Weed;
+
 use Weed::Parse::FieldDescription;
 
 sub setDescription {
@@ -9,7 +10,7 @@ sub setDescription {
 	${ $this->Weed::Package::scalar("FieldDefinitions") } = $fieldDefinitions;
 }
 
-use Weed 'X3DBaseNode { }';
+use Weed 'X3DBaseNode : X3DObject { }';
 
 sub new {
 	my $this = shift->CREATE;
@@ -20,10 +21,20 @@ sub new {
 	tie $this->{fields}->{ $_->getName }, 'Weed::Tie::Field', $_->createField($this)
 	  foreach $this->getFieldDefinitions;
 
-	# $this->{fields}->{sf[color|colorrgba|...]} *= 2 needs this
+	# $this->{fields}->{sf[color|colorrgba|...]} *= 2 needs ref
 	map { ref $this->{fields}->{ $_->getName } } $this->getFieldDefinitions;
 
 	return $this;
+}
+
+sub getCopy {
+	my $this = shift;
+	my $copy = $this->new( $this->getName );
+
+	$copy->{fields}->{$_} = $this->getField($_)
+	  foreach map { $_->getName } $this->getFieldDefinitions;
+
+	return $copy;
 }
 
 sub getTypeName { $_[0]->getType }
@@ -122,7 +133,6 @@ sub toString {
 
 1;
 __END__
-
 
 sub private::getField : lvalue {
 	my ( $this, $name ) = @_;

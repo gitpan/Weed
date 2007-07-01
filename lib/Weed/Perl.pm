@@ -22,8 +22,8 @@ sub import {
 	strict->import;
 	warnings->import;
 
-	$pkg->export( 'CORE::GLOBAL', @EXPORT_OK );
-	$pkg->export_to_level( 1 );
+	Exporter::export( $pkg, 'CORE::GLOBAL', @EXPORT_OK );
+	Exporter::export_to_level( $pkg, 1 );
 }
 
 sub unimport {

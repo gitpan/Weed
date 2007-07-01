@@ -1,10 +1,5 @@
 package Weed::Values::Image;
-use strict;
-use warnings;
-
-our $VERSION = '0.0215';
-
-use UNIVERSAL;
+use Weed::Perl;
 
 #use PDL;
 

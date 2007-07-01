@@ -1,5 +1,6 @@
 package Weed::Field;
-use Weed::Perl;
+use Weed;
+
 use Weed::Parse::FieldValue;
 
 sub setDescription {
@@ -10,10 +11,10 @@ sub setDescription {
 	${ $this->Weed::Package::scalar("DefaultDefinition") } = $fieldDefinition;
 }
 
-use Weed 'X3DField { }';
+use Weed 'X3DField : X3DObject { }';
 
 use overload
-  '=' => 'clone',
+  '=' => 'getClone',
   'bool' => sub { $_[0]->getValue ? YES: NO },
   ;
 
@@ -36,7 +37,9 @@ sub new_from_definition {
 	return $this;
 }
 
-sub clone { $_[0]->new( $_[0]->getValue ) }
+sub getClone { $_[0]->new( $_[0]->getValue ) }
+
+sub getCopy { $_[0]->getClone }
 
 sub getDefinition { $_[0]->{definition} }
 sub setDefinition { $_[0]->{definition} = $_[1] }

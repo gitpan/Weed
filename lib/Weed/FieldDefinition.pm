@@ -1,9 +1,10 @@
 package Weed::FieldDefinition;
 
-use Weed 'X3DFieldDefinition { }';
+use Weed 'X3DFieldDefinition : X3DObject { }';
 
 use overload 'eq' => sub {
-	return YES unless defined( $_[0]->getValue ) && defined( $_[1]->getValue );
+	return YES if !defined( $_[0]->getValue ) && !defined( $_[1]->getValue );
+	return NO if defined( $_[0]->getValue ) ^ defined( $_[1]->getValue );
 	return $_[0]->getValue eq $_[1]->getValue;
 };
 
@@ -42,9 +43,10 @@ sub createField {
 #	MFNode   [in,out] children       []       [X3DChildNode]
 sub toString {
 	my ($this) = @_;
+	my $type = $this->getType;
 
 	my $string = '';
-	$string .= $this->getType;
+	$string .= $type;
 	$string .= X3DGenerator->space;
 
 	$string .= X3DGenerator->open_bracket;
@@ -64,11 +66,22 @@ sub toString {
 	$string .= X3DGenerator->space;
 
 	my $value = $this->getValue;
-	if ( 'ARRAY' eq ref $value ) {
+	if ( UNIVERSAL::isa( $value, 'X3DArray' ) ) {
 		$string .= @$value ? join X3DGenerator->space, @$value : X3DGenerator->open_bracket . X3DGenerator->close_bracket;
 	}
 	else {
-		$string .= $value || X3DGenerator->NULL;
+		if ( $type eq 'SFBool' ) {
+			$string .= $value ? X3DGenerator->TRUE: X3DGenerator->FALSE;
+		}
+		elsif ( $type eq 'SFString' ) {
+			$string .= sprintf X3DGenerator->STRING, $value;
+		}
+		elsif ( $type eq 'SFNode' ) {
+			$string .= $value || X3DGenerator->NULL;
+		}
+		else {
+			$string .= $value;
+		}
 	}
 
 	$string .= X3DGenerator->tab;

@@ -1,8 +1,9 @@
 package Weed::Package;
 use Weed::Perl;
-use Carp ();
 
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
+
+use Carp ();
 
 use Class::ISA;
 
@@ -67,6 +68,8 @@ sub base {
 	#Carp::carp ( "Weed::Package::alias" );
 	my $name = Weed::Package::name(shift);
 	my $base = shift;
+	
+	return if $name eq $base;
 
 	#unshift @{ Weed::Package::array( $name, "ISA" ) }, $base;
 	my $expression = Weed::Package::expression( $name, $base, @_ );
@@ -94,10 +97,6 @@ sub base {
 *alias = \&base;
 
 sub isa { Weed::Package::array( shift, 'ISA' ) }
-
-no warnings;
-sub say { Perl6::Say::say( Weed::Package::stringify(@_) ) }
-use warnings;
 
 sub expression {
 	my $alias    = shift;

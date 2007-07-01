@@ -6,8 +6,12 @@ use overload
   'int' => sub { $_[0]->getValue ? 1 : 0 },
   '0+'  => sub { $_[0]->getValue ? 1 : 0 },
 
-  '==' => sub { $_[0]->getId == $_[1] },
-  '!=' => sub { $_[0]->getId != $_[1] },
+  '==' => sub { $_[0] ? $_[0]->getValue == $_[1]->getValue : !$_[1] },
+  '!=' => sub { $_[0] ? $_[0]->getValue != $_[1]->getValue : $_[1] ? YES: NO },
+
+  'eq' => sub { "$_[0]" eq "$_[1]" },
+  'ne' => sub { "$_[0]" ne "$_[1]" },
+
   ;
 
 sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
@@ -20,8 +24,7 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 	if ( Want::want('RVALUE') ) {
 		my $field = $node->getField($name);
 		Want::rreturn $field if Want::want 'ARRAY';
-		#X3DMessage->Debug('clone');
-		Want::rreturn $field->clone;
+		Want::rreturn $field->getClone;
 	}
 
 	if ( Want::want('ASSIGN') ) {
@@ -35,6 +38,13 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
 
 	$node->getTiedField($name)
+}
+
+sub getCopy {
+	my ($this) = @_;
+	my $copy = $this->X3DField::getCopy;
+	$copy->setValue( $_[0]->getValue->getCopy ) if $copy;
+	return $copy;
 }
 
 sub setValue {

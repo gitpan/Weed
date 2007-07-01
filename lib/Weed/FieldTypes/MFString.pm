@@ -4,10 +4,10 @@ use Weed 'MFString : X3DArrayField { [] }';
 
 sub toString {
 	my $this = shift;
+	my $value = $this->getValue;
 
 	my $string = '';
 
-	my $value = $this->getValue;
 	if (@$value) {
 		if ($#$value) {
 			$string .= X3DGenerator->open_bracket;

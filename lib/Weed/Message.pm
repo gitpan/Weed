@@ -1,7 +1,8 @@
 package Weed::Message;
 
-use Weed 'X3DMessage { }';
+use Weed 'X3DMessage';
 
+use Carp ();
 $Carp::CarpLevel = 8;
 
 our $DEBUG = 1;

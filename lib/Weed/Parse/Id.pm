@@ -1,14 +1,11 @@
 package Weed::Parse::Id;
 use Weed::Perl;
 
-use Weed::RegularExpressions;
+use Weed::RegularExpressions '$_Id';
 
-use base 'Exporter';
+use Exporter 'import';
 
-our @EXPORT = qw(
-  Ids
-  Id
-);
+our @EXPORT_OK = qw.Ids Id.;
 
 sub Ids {
 	my ($string) = @_;

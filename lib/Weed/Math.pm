@@ -75,13 +75,13 @@ use constant PI2   => PI * 2;
 use constant SQRT1_2 => CORE::sqrt( 1 / 2 );
 use constant SQRT2   => CORE::sqrt(2);
 
-sub abs { CORE::abs( $_[0] ) }
+sub abs ($) { CORE::abs( $_[0] ) }
 sub atan2 { CORE::atan2( $_[0], $_[1] ) }
 
-sub cos { CORE::cos( $_[0] ) }
+sub cos ($) { CORE::cos( $_[0] ) }
 
-sub exp { CORE::exp( $_[0] ) }
-sub log { CORE::log( $_[0] ) }
+sub exp ($) { CORE::exp( $_[0] ) }
+sub log ($) { CORE::log( $_[0] ) }
 
 sub min {
 	@_ = sort { $a <=> $b } @_;
@@ -115,7 +115,7 @@ sub round {
 	return round( $_[0] / $f ) * $f;
 }
 
-sub sig { $_[0] ? ( $_[0] < 0 ? -1 : 1 ) : 0 }
+sub sig ($) { $_[0] ? ( $_[0] < 0 ? -1 : 1 ) : 0 }
 
 sub sum {
 	my $sum = 0;
@@ -123,11 +123,11 @@ sub sum {
 	return $sum;
 }
 
-sub sin  { CORE::sin( $_[0] ) }
-sub sqrt { CORE::sqrt( $_[0] ) }
+sub sin ($) { CORE::sin( $_[0] ) }
+sub sqrt($) { CORE::sqrt( $_[0] ) }
 
-sub even { $_[0] & 1 ? 0 : 1 }
-sub odd { $_[0] & 1 }
+sub even($) { $_[0] & 1 ? 0 : 1 }
+sub odd ($) { $_[0] & 1 }
 
 sub xsum {
 	my $Zahl  = shift;

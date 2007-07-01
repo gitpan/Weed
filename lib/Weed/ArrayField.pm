@@ -1,5 +1,4 @@
 package Weed::ArrayField;
-use Weed::Perl;
 
 use Weed 'X3DArrayField : X3DField { [] }';
 
@@ -20,13 +19,27 @@ use overload
 sub length { scalar @{ $_[0]->{value} } }
 
 sub setValue {
-	my ( $this, @value ) = @_;
+	my $this = shift;
 
-	if ( 1 == @value && ref $value[0] eq 'Weed::Values::Array' ) {
-		$this->{value} = $value[0];
+	if ( 0 == @_ ) {
+		$this->{value}->clear;
+	}
+	elsif ( 1 == @_ ) {
+		if ( ref( $_[0] ) eq 'ARRAY' ) {
+			$this->{value}->setValue( @{ $_[0] } );
+		}
+		elsif ( ref( $_[0] ) eq ref $this ) {
+			$this->{value} = $_[0]->getValue->copy;
+		}
+		elsif ( ref( $_[0] ) eq ref $this->{value} ) {
+			$this->{value} = $_[0]->copy;
+		}
+		else {
+			$this->{value}->setValue(@_);
+		}
 	}
 	else {
-		$this->{value} = new Weed::Values::Array( @value ? [@value] : [] );
+		$this->{value}->setValue(@_);
 	}
 }
 

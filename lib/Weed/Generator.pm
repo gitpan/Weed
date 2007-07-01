@@ -1,10 +1,8 @@
 package Weed::Generator;
-use Weed::Perl;
 
-use Weed::Math;
+use Weed 'X3DGenerator';
+
 use Weed::Symbols;
-
-use Weed::Package "X3DGenerator";
 
 our $TSPACE;
 our $TBREAK;

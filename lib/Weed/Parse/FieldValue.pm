@@ -1,8 +1,10 @@
 package Weed::Parse::FieldValue;
-use Weed::Perl;
+use Weed;
 
 use Weed::RegularExpressions;
-use Weed::Values;
+
+use Weed::Parse::String 'string';
+use Weed::Parse::Double 'double';
 
 sub parse {
 	my ( $fieldType, $string ) = @_;
@@ -105,7 +107,7 @@ sub float {
 sub sfimageValue {
 	my ($string) = @_;
 	my ( $width, $height, $components );
-	my $pixels = new Weed::Values::Array;
+	my $pixels = new X3DArray;
 
 	$width = &int32($string);
 	if ( defined $width ) {
@@ -131,13 +133,13 @@ sub mfimageValue {
 	my ($string) = @_;
 
 	my $sfimageValue = &sfimageValue($string);
-	return new Weed::Values::Array [$sfimageValue] if defined $sfimageValue;
+	return new X3DArray($sfimageValue) if defined $sfimageValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfimageValues = &sfimageValues($string);
-		return new Weed::Values::Array [$sfimageValues]
+		return new X3DArray($sfimageValues)
 		  if @$sfimageValues && $$string =~ m.$_close_bracket.gc;
 	}
 
@@ -147,7 +149,7 @@ sub mfimageValue {
 sub sfimageValues {
 	my ($string)      = @_;
 	my $sfimageValue  = &sfimageValue($string);
-	my $sfimageValues = new Weed::Values::Array;
+	my $sfimageValues = new X3DArray;
 	while ( defined $sfimageValue ) {
 		push @$sfimageValues, $sfimageValue;
 		$sfimageValue = &sfimageValue($string);
@@ -194,12 +196,6 @@ sub sfstringValue {
 	return &string($string);
 }
 
-sub string {
-	my ($string) = @_;
-	return $1 if $$string =~ m.$_string.gc;
-	return;
-}
-
 sub sftimeValue {
 	my ($string) = @_;
 	my $time = &double($string);
@@ -207,19 +203,13 @@ sub sftimeValue {
 	return;
 }
 
-sub double {
-	my ($string) = @_;
-	return $1 if $$string =~ m.$_double.gc;
-	return;
-}
-
 sub mftimeValue {
 	my ($string) = @_;
 
 	my $sftimeValue = &sftimeValue($string);
-	return new Weed::Values::Array [$sftimeValue] if defined $sftimeValue;
+	return new X3DArray($sftimeValue) if defined $sftimeValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sftimeValues = &sftimeValues($string);
@@ -233,7 +223,7 @@ sub mftimeValue {
 sub sftimeValues {
 	my ($string)     = @_;
 	my $sftimeValue  = &sftimeValue($string);
-	my $sftimeValues = new Weed::Values::Array;
+	my $sftimeValues = new X3DArray;
 	while ( defined $sftimeValue ) {
 		push @$sftimeValues, $sftimeValue;
 		$sftimeValue = &sftimeValue($string);
@@ -311,9 +301,9 @@ sub mfboolValue {
 	my ($string) = @_;
 
 	my $sfboolValue = &sfboolValue($string);
-	return new Weed::Values::Array [$sfboolValue] if defined $sfboolValue;
+	return new X3DArray($sfboolValue) if defined $sfboolValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfboolValues = &sfboolValues($string);
@@ -327,7 +317,7 @@ sub mfboolValue {
 sub sfboolValues {
 	my ($string)     = @_;
 	my $sfboolValue  = &sfboolValue($string);
-	my $sfboolValues = new Weed::Values::Array;
+	my $sfboolValues = new X3DArray;
 	while ( defined $sfboolValue ) {
 		push @$sfboolValues, $sfboolValue;
 		$sfboolValue = &sfboolValue($string);
@@ -339,9 +329,9 @@ sub mfcolorValue {
 	my ($string) = @_;
 
 	my $sfcolorValue = &sfcolorValue($string);
-	return new Weed::Values::Array [$sfcolorValue] if defined $sfcolorValue;
+	return new X3DArray($sfcolorValue) if defined $sfcolorValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfcolorValues = &sfcolorValues($string);
@@ -355,7 +345,7 @@ sub mfcolorValue {
 sub sfcolorValues {
 	my ($string)      = @_;
 	my $sfcolorValue  = &sfcolorValue($string);
-	my $sfcolorValues = new Weed::Values::Array;
+	my $sfcolorValues = new X3DArray;
 	while ( defined $sfcolorValue ) {
 		push @$sfcolorValues, $sfcolorValue;
 		$sfcolorValue = &sfcolorValue($string);
@@ -367,9 +357,9 @@ sub mfdoubleValue {
 	my ($string) = @_;
 
 	my $sfdoubleValue = &sfdoubleValue($string);
-	return new Weed::Values::Array [$sfdoubleValue] if defined $sfdoubleValue;
+	return new X3DArray($sfdoubleValue) if defined $sfdoubleValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfdoubleValues = &sfdoubleValues($string);
@@ -383,7 +373,7 @@ sub mfdoubleValue {
 sub sfdoubleValues {
 	my ($string)       = @_;
 	my $sfdoubleValue  = &sfdoubleValue($string);
-	my $sfdoubleValues = new Weed::Values::Array;
+	my $sfdoubleValues = new X3DArray;
 	while ( defined $sfdoubleValue ) {
 		push @$sfdoubleValues, $sfdoubleValue;
 		$sfdoubleValue = &sfdoubleValue($string);
@@ -395,9 +385,9 @@ sub mffloatValue {
 	my ($string) = @_;
 
 	my $sffloatValue = &sffloatValue($string);
-	return new Weed::Values::Array [$sffloatValue] if defined $sffloatValue;
+	return new X3DArray($sffloatValue) if defined $sffloatValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sffloatValues = &sffloatValues($string);
@@ -411,7 +401,7 @@ sub mffloatValue {
 sub sffloatValues {
 	my ($string)      = @_;
 	my $sffloatValue  = &sffloatValue($string);
-	my $sffloatValues = new Weed::Values::Array;
+	my $sffloatValues = new X3DArray;
 	while ( defined $sffloatValue ) {
 		push @$sffloatValues, $sffloatValue;
 		$sffloatValue = &sffloatValue($string);
@@ -423,9 +413,9 @@ sub mfint32Value {
 	my ($string) = @_;
 
 	my $sfint32Value = &sfint32Value($string);
-	return new Weed::Values::Array [$sfint32Value] if defined $sfint32Value;
+	return new X3DArray($sfint32Value) if defined $sfint32Value;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfint32Values = &sfint32Values($string);
@@ -439,7 +429,7 @@ sub mfint32Value {
 sub sfint32Values {
 	my ($string)      = @_;
 	my $sfint32Value  = &sfint32Value($string);
-	my $sfint32Values = new Weed::Values::Array;
+	my $sfint32Values = new X3DArray;
 	while ( defined $sfint32Value ) {
 		push @$sfint32Values, $sfint32Value;
 		$sfint32Value = &sfint32Value($string);
@@ -451,9 +441,9 @@ sub mfrotationValue {
 	my ($string) = @_;
 
 	my $sfrotationValue = &sfrotationValue($string);
-	return new Weed::Values::Array [$sfrotationValue] if defined $sfrotationValue;
+	return new X3DArray($sfrotationValue) if defined $sfrotationValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfrotationValues = &sfrotationValues($string);
@@ -467,7 +457,7 @@ sub mfrotationValue {
 sub sfrotationValues {
 	my ($string)         = @_;
 	my $sfrotationValue  = &sfrotationValue($string);
-	my $sfrotationValues = new Weed::Values::Array;
+	my $sfrotationValues = new X3DArray;
 	while ( defined $sfrotationValue ) {
 		push @$sfrotationValues, $sfrotationValue;
 		$sfrotationValue = &sfrotationValue($string);
@@ -479,9 +469,9 @@ sub mfstringValue {
 	my ($string) = @_;
 
 	my $sfstringValue = &sfstringValue($string);
-	return new Weed::Values::Array [$sfstringValue] if defined $sfstringValue;
+	return new X3DArray($sfstringValue) if defined $sfstringValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfstringValues = &sfstringValues($string);
@@ -495,7 +485,7 @@ sub mfstringValue {
 sub sfstringValues {
 	my ($string)       = @_;
 	my $sfstringValue  = &sfstringValue($string);
-	my $sfstringValues = new Weed::Values::Array;
+	my $sfstringValues = new X3DArray;
 	while ( defined $sfstringValue ) {
 		push @$sfstringValues, $sfstringValue;
 		$sfstringValue = &sfstringValue($string);
@@ -507,9 +497,9 @@ sub mfvec2dValue {
 	my ($string) = @_;
 
 	my $sfvec2dValue = &sfvec2dValue($string);
-	return new Weed::Values::Array [$sfvec2dValue] if defined $sfvec2dValue;
+	return new X3DArray($sfvec2dValue) if defined $sfvec2dValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfvec2dValues = &sfvec2dValues($string);
@@ -523,7 +513,7 @@ sub mfvec2dValue {
 sub sfvec2dValues {
 	my ($string)      = @_;
 	my $sfvec2dValue  = &sfvec2dValue($string);
-	my $sfvec2dValues = new Weed::Values::Array;
+	my $sfvec2dValues = new X3DArray;
 	while ( defined $sfvec2dValue ) {
 		push @$sfvec2dValues, $sfvec2dValue;
 		$sfvec2dValue = &sfvec2dValue($string);
@@ -535,13 +525,13 @@ sub mfvec2fValue {
 	my ($string) = @_;
 
 	my $sfvec2fValue = &sfvec2fValue($string);
-	return new Weed::Values::Array [$sfvec2fValue] if defined $sfvec2fValue;
+	return new X3DArray($sfvec2fValue) if defined $sfvec2fValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfvec2fValues = &sfvec2fValues($string);
-		return new Weed::Values::Array [$sfvec2fValues]
+		return new X3DArray($sfvec2fValues)
 		  if @$sfvec2fValues && $$string =~ m.$_close_bracket.gc;
 	}
 
@@ -551,7 +541,7 @@ sub mfvec2fValue {
 sub sfvec2fValues {
 	my ($string)      = @_;
 	my $sfvec2fValue  = &sfvec2fValue($string);
-	my $sfvec2fValues = new Weed::Values::Array;
+	my $sfvec2fValues = new X3DArray;
 	while ( defined $sfvec2fValue ) {
 		push @$sfvec2fValues, $sfvec2fValue;
 		$sfvec2fValue = &sfvec2fValue($string);
@@ -563,9 +553,9 @@ sub mfvec3dValue {
 	my ($string) = @_;
 
 	my $sfvec3dValue = &sfvec3dValue($string);
-	return new Weed::Values::Array [$sfvec3dValue] if defined $sfvec3dValue;
+	return new X3DArray($sfvec3dValue) if defined $sfvec3dValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfvec3dValues = &sfvec3dValues($string);
@@ -579,7 +569,7 @@ sub mfvec3dValue {
 sub sfvec3dValues {
 	my ($string)      = @_;
 	my $sfvec3dValue  = &sfvec3dValue($string);
-	my $sfvec3dValues = new Weed::Values::Array;
+	my $sfvec3dValues = new X3DArray;
 	while ( defined $sfvec3dValue ) {
 		push @$sfvec3dValues, $sfvec3dValue;
 		$sfvec3dValue = &sfvec3dValue($string);
@@ -591,9 +581,9 @@ sub mfvec3fValue {
 	my ($string) = @_;
 
 	my $sfvec3fValue = &sfvec3fValue($string);
-	return new Weed::Values::Array [$sfvec3fValue] if defined $sfvec3fValue;
+	return new X3DArray($sfvec3fValue) if defined $sfvec3fValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfvec3fValues = &sfvec3fValues($string);
@@ -607,7 +597,7 @@ sub mfvec3fValue {
 sub sfvec3fValues {
 	my ($string)      = @_;
 	my $sfvec3fValue  = &sfvec3fValue($string);
-	my $sfvec3fValues = new Weed::Values::Array;
+	my $sfvec3fValues = new X3DArray;
 	while ( defined $sfvec3fValue ) {
 		push @$sfvec3fValues, $sfvec3fValue;
 		$sfvec3fValue = &sfvec3fValue($string);
@@ -625,7 +615,7 @@ sub null {
 
 sub brackets {
 	my ($string) = @_;
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 	return;
 }
 
@@ -646,9 +636,9 @@ sub mfenumValue {
 	my ($string) = @_;
 
 	my $sfenumValue = &sfenumValue($string);
-	return new Weed::Values::Array [$sfenumValue] if defined $sfenumValue;
+	return new X3DArray($sfenumValue) if defined $sfenumValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfenumValues = &sfenumValues($string);
@@ -661,7 +651,7 @@ sub mfenumValue {
 sub sfenumValues {
 	my ($string)     = @_;
 	my $sfenumValue  = &sfenumValue($string);
-	my $sfenumValues = new Weed::Values::Array;
+	my $sfenumValues = new X3DArray;
 	while ( defined $sfenumValue ) {
 		push @$sfenumValues, $sfenumValue;
 		$sfenumValue = &sfenumValue($string);
@@ -693,9 +683,9 @@ sub mfcolorRGBAValue {
 	my ($string) = @_;
 
 	my $sfcolorRGBAValue = &sfcolorRGBAValue($string);
-	return new Weed::Values::Array [$sfcolorRGBAValue] if defined $sfcolorRGBAValue;
+	return new X3DArray($sfcolorRGBAValue) if defined $sfcolorRGBAValue;
 
-	return new Weed::Values::Array if $$string =~ m.$_brackets.gc;
+	return new X3DArray if $$string =~ m.$_brackets.gc;
 
 	if ( $$string =~ m.$_open_bracket.gc ) {
 		my $sfcolorRGBAValues = &sfcolorRGBAValues($string);
@@ -708,7 +698,7 @@ sub mfcolorRGBAValue {
 sub sfcolorRGBAValues {
 	my ($string)          = @_;
 	my $sfcolorRGBAValue  = &sfcolorRGBAValue($string);
-	my $sfcolorRGBAValues = new Weed::Values::Array;
+	my $sfcolorRGBAValues = new X3DArray;
 	while ( defined $sfcolorRGBAValue ) {
 		push @$sfcolorRGBAValues, $sfcolorRGBAValue;
 		$sfcolorRGBAValue = &sfcolorRGBAValue($string);

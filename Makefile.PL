@@ -25,7 +25,6 @@ BEGIN {
 			#Universal
 			Exporter       => 0,
 			Carp           => 0,
-			Perl6::Say     => 0,
 			Package::Alias => 0,
 			Class::ISA     => 0,
 			Scalar::Util   => 0,

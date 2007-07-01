@@ -1,10 +1,14 @@
 package Weed::Parse::Concept;
 use Weed::Perl;
 
-use Carp (); $Carp::CarpLevel = 1;
+use Carp ();
+$Carp::CarpLevel = 1;
 
 use Weed::RegularExpressions;
-use Weed::Parse::Id;
+
+use Weed::Parse::Id qw.Ids Id.;
+use Weed::Parse::String 'string';
+use Weed::Parse::Double 'double';
 
 # Description
 
@@ -12,6 +16,7 @@ sub parse {
 	my ($string) = @_;
 	return unless defined $string;
 	my $statement = eval { &conceptStatement( \$string ) };
+	#Carp::croak "Error Parse::Concept: '$string'\n", $@ if $@;
 	return $statement;
 }
 
@@ -30,7 +35,8 @@ sub conceptStatement {
 
 			Carp::croak "No supertypes after ':'" unless @$supertypes;
 
-		} else {
+		}
+		else {
 
 			$supertypes = [];
 
@@ -46,18 +52,66 @@ sub conceptStatement {
 				return {
 					typeName   => $name,
 					supertypes => $supertypes,
+					value      => sub { {} },
 					body       => $body,
 				};
 
-			} else {
+			}
+			else {
 				Carp::croak "Expected '}'";
 			}
 
-		} else {
-			Carp::croak "Expected '{'";
+		}
+		elsif ( $$string =~ m.$_open_bracket.gc ) {
+
+			#my $body = &body($string);
+
+			if ( $$string =~ m.$_close_bracket.gc ) {
+
+				return {
+					typeName   => $name,
+					supertypes => $supertypes,
+					value      => sub { [] },
+					#body       => $body,
+				};
+
+			}
+			else {
+				Carp::croak "Expected ']'";
+			}
+		}
+		elsif ( $$string =~ m.$_open_parenthesis.gc ) {
+			my $value;
+			$value = string($string);
+			$value = double($string) unless defined $value;
+
+			#$value = Weed::Parse::FieldValue::null( \"$$string" ) unless defined $value;
+			if ( $$string =~ m.$_close_parenthesis.gc ) {
+
+				return {
+					typeName   => $name,
+					supertypes => $supertypes,
+					value      => sub { my $scalar = $value; \$scalar },
+					#body  	  => $body,
+				};
+			}
+			else {
+				Carp::croak "Expected ')'";
+			}
 		}
 
-	} else {
+		return {
+			typeName   => $name,
+			supertypes => $supertypes,
+			#value     => sub {  },
+			#body  	  => $body,
+		} unless $@;
+		#		else {
+		#			Carp::croak "Expected '{' or '['";
+		#		}
+
+	}
+	else {
 		Carp::croak "Expected package name\n";
 	}
 
@@ -77,6 +131,41 @@ sub body {
 
 1;
 __END__
+
+
+
+
+
+
+#use Weed::Parse::Id qw.Ids Id.;
+#use Weed::Parse::String 'string';
+#use Weed::Parse::Double 'double';
+	  elsif ( $$string =~ m.$_open_parenthesis.gc ) {
+		  my $value;
+		  $value = string($string);
+		  $value = double($string) unless defined $value;
+ 
+		  #$value = Weed::Parse::FieldValue::null( \"$$string" ) unless defined $value;
+		  if ( $$string =~ m.$_close_parenthesis.gc ) {
+ 
+			  return {
+				  typeName   => $name,
+				  supertypes => $supertypes,
+				  value  	 => sub { my $scalar = $value; \$scalar },
+				  #body  	  => $body,
+			  };
+		  }
+		  else {
+			  Carp::croak "Expected ')'";
+		  }
+	  }
+
+
+
+
+
+
+
 
 	if ( $string =~ /$_ObjectDescription/gc ) {
 		my ( $alias, $superclasses, $fieldDescriptions ) = ( $1, $2, $3 );

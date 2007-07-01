@@ -1,12 +1,16 @@
 package Weed::Environment;
 use Weed::Perl;
 
-use Weed::Values;
-
 use Weed::Universal;
-use Weed::Object;
 
+use Weed::Generator;
 use Weed::Message;
+
+use Weed::Name;
+
+use Weed::Array;
+use Weed::Values;
+use Weed::Object;
 
 use Weed::FieldDefinition;
 use Weed::Field;

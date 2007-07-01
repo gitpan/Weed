@@ -44,6 +44,8 @@ our @EXPORT = qw(
   $_field
 
   $_period
+  $_open_parenthesis
+  $_close_parenthesis
   $_open_brace
   $_close_brace
   $_close_brace_test
@@ -107,12 +109,14 @@ our $vrmlScriptFieldType  = join '|', @VrmlScriptFieldTypes;
 our $fieldType            = join '|', @FieldTypes;
 
 # Terminal symbols
-our $period        = '\\' . $_period_;
-our $open_brace    = '\\' . $_open_brace_;
-our $close_brace   = '\\' . $_close_brace_;
-our $open_bracket  = '\\' . $_open_bracket_;
-our $close_bracket = '\\' . $_close_bracket_;
-our $colon         = '\\' . $_colon_;
+our $period            = '\\' . $_period_;
+our $open_parenthesis  = '\\' . $_open_parenthesis_;
+our $close_parenthesis = '\\' . $_close_parenthesis_;
+our $open_brace        = '\\' . $_open_brace_;
+our $close_brace       = '\\' . $_close_brace_;
+our $open_bracket      = '\\' . $_open_bracket_;
+our $close_bracket     = '\\' . $_close_bracket_;
+our $colon             = '\\' . $_colon_;
 
 # Other Symbols
 our $IdFirstChar = '[^\x30-\x39\x00-\x20\x22\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d\x7f]{1}';
@@ -161,15 +165,17 @@ our $_exposedField   = qr.\G$whitespace*$_exposedField_$whitespace+.so;
 our $_field          = qr.\G$whitespace*$_field_$whitespace+.so;
 
 # Terminal symbols
-our $_period           = qr.\G$period.so;
-our $_open_brace       = qr.\G$whitespace*$open_brace.so;
-our $_close_brace      = qr.\G$whitespace*$close_brace.so;
-our $_close_brace_test = qr.\G(?=$whitespace*$close_brace).so;
-our $_open_bracket     = qr.\G$whitespace*$open_bracket.so;
-our $_close_bracket    = qr.\G$whitespace*$close_bracket.so;
-our $_brackets         = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
-our $_colon            = qr.\G$whitespace*$colon.so;
-our $_colon_test       = qr.\G$whitespace+$colon$whitespace+.so;
+our $_period            = qr.\G$period.so;
+our $_open_parenthesis  = qr.\G$whitespace*$open_parenthesis.so;
+our $_close_parenthesis = qr.\G$whitespace*$close_parenthesis.so;
+our $_open_brace        = qr.\G$whitespace*$open_brace.so;
+our $_close_brace       = qr.\G$whitespace*$close_brace.so;
+our $_close_brace_test  = qr.\G(?=$whitespace*$close_brace).so;
+our $_open_bracket      = qr.\G$whitespace*$open_bracket.so;
+our $_close_bracket     = qr.\G$whitespace*$close_bracket.so;
+our $_brackets          = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
+our $_colon             = qr.\G$whitespace*$colon.so;
+our $_colon_test        = qr.\G$whitespace+$colon$whitespace+.so;
 
 # Other Symbols
 our $_Id        = qr.\G$whitespace*($Id).so;

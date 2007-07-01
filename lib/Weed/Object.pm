@@ -1,7 +1,6 @@
 package Weed::Object;
-use Weed::Perl;
 
-use Weed::Universal 'X3DObject { }';
+use Weed 'X3DObject { }';
 
 sub new { shift->CREATE }
 

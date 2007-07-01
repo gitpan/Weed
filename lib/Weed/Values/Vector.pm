@@ -2,14 +2,14 @@ package Weed::Values::Vector;
 use Weed::Perl;
 
 use Carp         ();
-use Weed::Math   ();
 use Scalar::Util ();
+use Weed::Math   ();
+use Math::Trig   ();
 
 use overload
   '=' => 'copy',
 
   "bool" => 'length',
-  'int'  => sub { $_[0]->new( [ map { CORE::int($_) } @{ $_[0] } ] ) },
   "0+"   => 'length',
 
   '==' => sub { "$_[0]" eq $_[1] },
@@ -33,8 +33,17 @@ use overload
   '.'  => 'dot',
 
   'abs' => sub { $_[0]->new( [ map { CORE::abs($_) } @{ $_[0] } ] ) },
+  'int' => sub { $_[0]->new( [ map { CORE::int($_) } @{ $_[0] } ] ) },
 
-  #"atan2", "cos", "sin", "exp", "log", "sqrt"
+  'cos' => sub { $_[0]->new( [ map { CORE::cos($_) } @{ $_[0] } ] ) },
+  'sin' => sub { $_[0]->new( [ map { CORE::sin($_) } @{ $_[0] } ] ) },
+
+  'exp' => sub { $_[0]->new( [ map { CORE::exp($_) } @{ $_[0] } ] ) },
+  'log' => sub { $_[0]->new( [ map { CORE::log($_) } @{ $_[0] } ] ) },
+
+  'sqrt' => sub { $_[0]->new( [ map { CORE::sqrt($_) } @{ $_[0] } ] ) },
+
+  #"atan2"
 
   #"<>"
 
@@ -65,7 +74,7 @@ sub new {
 	return $this;
 }
 
-sub copy { $_[0]->new( $_[0]->getValue ) }
+sub copy ($) { $_[0]->new( $_[0]->getValue ) }
 
 sub getValue { @{ $_[0] } }
 
@@ -157,7 +166,7 @@ use overload ">>" => sub {
 	  )
 };
 
-sub rotate {
+sub rotate ($$) {
 	my $n = -$_[1] % $_[0]->size;
 
 	if ($n) {
@@ -169,26 +178,28 @@ sub rotate {
 	return $_[0]->copy;
 }
 
-#sub sig { $_[0]->new( [ map { Math::sig($_) } @{ $_[0] } ] ) }
-sub sig { $_[0]->new( [ map { $_ ? ( $_ < 0 ? -1 : 1 ) : 0 } @{ $_[0] } ] ) }
+sub tan ($) { $_[0]->new( [ map { Math::Trig::tan($_) } @{ $_[0] } ] ) }
 
-sub sum {
+#sub sig { $_[0]->new( [ map { Math::sig($_) } @{ $_[0] } ] ) }
+sub sig ($) { $_[0]->new( [ map { $_ ? ( $_ < 0 ? -1 : 1 ) : 0 } @{ $_[0] } ] ) }
+
+sub sum ($) {
 	my $sum = 0;
 	$sum += $_ foreach @{ $_[0] };
 	return $sum;
 }
 
-sub squarednorm {
+sub squarednorm ($) {
 	my $squarednorm = 0;
 	$squarednorm += $_ * $_ foreach @{ $_[0] };
 	return $squarednorm;
 }
 
-sub normalize { $_[0] / $_[0]->length }
+sub normalize ($) { $_[0] / $_[0]->length }
 
-sub length { CORE::sqrt( $_[0]->squarednorm ) }
+sub length ($) { CORE::sqrt( $_[0]->squarednorm ) }
 
-sub size { scalar @{ $_[0]->getDefaultValue } }
+sub size ($) { scalar @{ $_[0]->getDefaultValue } }
 
 sub toString { join " ", $_[0]->getValue }
 

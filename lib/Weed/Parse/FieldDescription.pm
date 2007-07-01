@@ -1,11 +1,8 @@
 package Weed::Parse::FieldDescription;
-use Weed::Perl;
-
-use Carp ();
+use Weed;
 
 use Weed::RegularExpressions;
-use Weed::Parse::Id;
-use Weed::Parse::FieldValue;
+use Weed::Parse::Id qw.Ids Id.;
 
 # Definition
 # SFNode [in,out] metadata NULL [X3DMetadataObject]

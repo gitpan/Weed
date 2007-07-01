@@ -1,17 +1,8 @@
 package Weed::Values::Rotation;
-use strict;
-use warnings;
-
-use UNIVERSAL;
+use Weed::Perl;
 
 use Weed::Values::Vec3;
 use Math::Quaternion;
-
-use Scalar::Util;
-
-#use Exporter;
-
-our $VERSION = '0.3455';
 
 use overload
   '=' => 'copy',

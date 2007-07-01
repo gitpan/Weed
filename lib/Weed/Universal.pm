@@ -1,25 +1,18 @@
 package Weed::Universal;
 use Weed::Perl;
 
-use Weed::Package "X3DUniversal";
-
-use Weed::Math;
-
-use Weed::Parse::Concept;
-use Weed::Generator;
-
-use Weed::RegularExpressions '$_supertype';
-
+use Carp ();
 use Want ();
+
+use Weed::Package;
+use Weed::Math;
+use Weed::Parse::Concept;
+use Weed::RegularExpressions '$_supertype';
 
 use overload
   'bool' => sub { YES },
 
-  '==' => sub { &getId( $_[0] ) == $_[1] },
-  '!=' => sub { &getId( $_[0] ) != $_[1] },
-
-  'eq' => sub { "$_[0]" eq $_[1] },
-  'ne' => sub { "$_[0]" ne $_[1] },
+  '<=>' => sub { $_[2] ? &getId( $_[1] ) <=> &getId( $_[0] ) : &getId( $_[0] ) <=> &getId( $_[1] ) },
   'cmp' => sub { $_[2] ? $_[1] cmp "$_[0]" : "$_[0]" cmp $_[1] },
 
   '""' => 'toString',
@@ -49,15 +42,26 @@ sub createType {
 		);
 
 		#printf "X3DUniversal createType %s : %s %s\n", $typeName, $package, $base;
+		${ Weed::Package::scalar( $typeName, "Description" ) } = $description;
+
 		$typeName->setDescription($description)
 		  if $typeName->can('setDescription');
 
+	} else {
+		Carp::croak "Error Parse::Concept: '$declaration'\n", $@ if $@;
 	}
 
 	return;
 }
 
-sub NEW { bless {}, shift->Weed::Package::name }
+BEGIN {
+	Weed::Universal::createType( __PACKAGE__, 'X3DUniversal', 'X3DUniversal { }' );
+}
+
+sub NEW {
+	my $packageName = shift->Weed::Package::name;
+	bless &{ ${ Weed::Package::scalar( $packageName, "Description" ) }->{value} }, $packageName;
+}
 
 sub new { shift->NEW }
 

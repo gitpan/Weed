@@ -1,6 +1,6 @@
 package Weed::Constants;
 
-use Weed 'X3DConstants { }';
+use Weed 'X3DConstants';
 
 use constant initializeOnly => 0;
 use constant inputOnly      => 1;
