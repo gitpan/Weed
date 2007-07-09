@@ -5,7 +5,7 @@ use Weed 'X3DFieldDefinition : X3DObject { }';
 use overload 'eq' => sub {
 	return YES if !defined( $_[0]->getValue ) && !defined( $_[1]->getValue );
 	return NO if defined( $_[0]->getValue ) ^ defined( $_[1]->getValue );
-	return $_[0]->getValue eq $_[1]->getValue;
+	return $_[0]->getValue eq $_[1];
 };
 
 sub new {
@@ -33,9 +33,9 @@ sub createField {
 
 	my $field = $this->getType->new_from_definition($this);
 
-	$field->setValue( $this->getValue );
+	$field->getParents->add($node);
 
-	#$field->setParents( $node );
+	$field->setValue( $this->getValue );
 
 	return $field;
 }
@@ -66,8 +66,12 @@ sub toString {
 	$string .= X3DGenerator->space;
 
 	my $value = $this->getValue;
-	if ( UNIVERSAL::isa( $value, 'X3DArray' ) ) {
-		$string .= @$value ? join X3DGenerator->space, @$value : X3DGenerator->open_bracket . X3DGenerator->close_bracket;
+	if ( UNIVERSAL::isa( $value, 'X3DArray' ) )
+	{
+		$string .= @$value ?
+		  join X3DGenerator->space, @$value
+		  :
+		  X3DGenerator->open_bracket . X3DGenerator->close_bracket;
 	}
 	else {
 		if ( $type eq 'SFBool' ) {

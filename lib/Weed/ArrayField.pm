@@ -1,74 +1,68 @@
 package Weed::ArrayField;
+use Weed;
+
+sub setDescription {
+	my ( $this, $description ) = @_;
+	$this->X3DField::setDescription($description);
+	$_[0]->X3DPackage::Scalar("FieldType") = 'S' . substr $description->{typeName}, 1;
+}
 
 use Weed 'X3DArrayField : X3DField { [] }';
 
-use overload
-  'bool' => sub { @{ $_[0]->getValue } ? YES: NO },
+use base 'Weed::Array';
 
-  'int' => sub { $_[0]->length },
-  '0+'  => sub { $_[0]->length },
+use Weed::Tie::ArrayFieldValue;
+use Weed::Tie::Length;
 
-  '!' => sub { !$_[0]->length },
+use overload '@{}' => 'getValue';
 
-  '<=>' => sub { $_[2] ? $_[1]->getValue <=> $_[0]->getValue : $_[0]->getValue <=> $_[1]->getValue },
-  'cmp' => sub { $_[2] ? $_[1]->getValue cmp $_[0]->getValue : $_[0]->getValue cmp $_[1]->getValue },
+sub new { shift->X3DField::new(@_) }
 
-  '@{}' => sub { $_[0]->getValue },
-  ;
+sub new_from_definition {    # also in MFNode
+	my $this = shift->X3DField::new_from_definition(@_);
 
-sub length { scalar @{ $_[0]->{value} } }
+	tie @{ $this->getValue }, 'Weed::Tie::ArrayFieldValue', $this;
+	tie $this->length, 'Weed::Tie::Length', $this->getValue;
+
+	return $this;
+}
+
+sub getClone { $_[0]->X3DField::getClone }
+#sub getCopy  { $_[0]->X3DField::getCopy }
+
+sub getFieldType { $_[0]->X3DPackage::Scalar("FieldType") }
+
+sub getValue { shift->X3DField::getValue }
 
 sub setValue {
-	my $this = shift;
-
-	if ( 0 == @_ ) {
-		$this->{value}->clear;
-	}
-	elsif ( 1 == @_ ) {
-		if ( ref( $_[0] ) eq 'ARRAY' ) {
-			$this->{value}->setValue( @{ $_[0] } );
-		}
-		elsif ( ref( $_[0] ) eq ref $this ) {
-			$this->{value} = $_[0]->getValue->copy;
-		}
-		elsif ( ref( $_[0] ) eq ref $this->{value} ) {
-			$this->{value} = $_[0]->copy;
-		}
-		else {
-			$this->{value}->setValue(@_);
-		}
-	}
-	else {
-		$this->{value}->setValue(@_);
-	}
+	my $this  = shift;
+	my $array = $this->getValue;
+	$array->setValue(@_);
+	$this->X3DField::setValue($array);
 }
 
-sub toString {
-	my $this = shift;
-
-	my $string = '';
-
-	my $value = $this->getValue;
-	if (@$value) {
-		if ($#$value) {
-			$string .= X3DGenerator->open_bracket;
-			$string .= X3DGenerator->tidy_space;
-			$string .= join X3DGenerator->comma . X3DGenerator->tidy_space, @$value;
-			$string .= X3DGenerator->tidy_space;
-			$string .= X3DGenerator->close_bracket;
-		}
-		else {
-			$string .= $value->[0];
-		}
-	}
-	else {
-		$string .= X3DGenerator->open_bracket;
-		$string .= X3DGenerator->tidy_space;
-		$string .= X3DGenerator->close_bracket;
-	}
-
-	return $string;
+sub set1Value {
 }
+
+sub get1Value {
+}
+
+sub length : lvalue { $_[0]->{length} }
 
 1;
 __END__
+sub length : lvalue {
+	my $this = shift;
+
+	if ( Want::want('RVALUE') ) {
+		Want::rreturn $this->getLength;
+	}
+
+	if ( Want::want('ASSIGN') ) {
+		$this->setLength( Want::want('ASSIGN') );
+		Want::lnoreturn;
+	}
+
+	$this->{length};
+}
+

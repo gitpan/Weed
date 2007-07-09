@@ -21,7 +21,7 @@ sub setRGB { @{ $_[0] }[ 0, 1, 2 ] = @{ $_[1] }[ 0, 1, 2 ] }
 *setAlpha = \&Weed::Values::Vec4::setW;
 *getAlpha = \&Weed::Values::Vec4::getW;
 
-sub getValue { map { Math::clamp( $_, 0, 1 ) } $_[0]->SUPER::getValue }
+sub getValue { [ map { Math::clamp( $_, 0, 1 ) } @{ $_[0]->SUPER::getValue } ] }
 
 sub setValue {
 	my $this = shift;
@@ -55,19 +55,33 @@ sub negate {
 
 sub add {
 	my ( $a, $b, $r ) = @_;
-	return $a->new( [
-			$a->[0] + $b->[0],
-			$a->[1] + $b->[1],
-			$a->[2] + $b->[2],
-			$r ? $b->[3] : $a->[3],
-	] );
+	return ref $b ?
+	  $a->new( [
+			$r ? (
+				$b->[0] + $a->[0],
+				$b->[1] + $a->[1],
+				$b->[2] + $a->[2],
+				$b->[3],
+			  ) : (
+				$a->[0] + $b->[0],
+				$a->[1] + $b->[1],
+				$a->[2] + $b->[2],
+				$a->[3],
+			  ) ] )
+	  : $a->new( [
+			$a->[0] + $b,
+			$a->[1] + $b,
+			$a->[2] + $b,
+			$a->[3],
+	  ] );
 }
 
 use overload '+=' => 'Weed::Values::Color::(+=';
 
 sub subtract {
 	my ( $a, $b, $r ) = @_;
-	return $a->new( [
+	return ref $b ?
+	  $a->new( [
 			$r ? (
 				$b->[0] - $a->[0],
 				$b->[1] - $a->[1],
@@ -79,7 +93,12 @@ sub subtract {
 				$a->[2] - $b->[2],
 				$a->[3],
 			  ) ] )
-	  ;
+	  : $a->new( [
+			$a->[0] - $b,
+			$a->[1] - $b,
+			$a->[2] - $b,
+			$a->[3],
+	  ] );
 }
 
 use overload '-=' => 'Weed::Values::Color::(-=';

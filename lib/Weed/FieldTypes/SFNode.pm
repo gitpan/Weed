@@ -6,11 +6,11 @@ use overload
   'int' => sub { $_[0]->getValue ? 1 : 0 },
   '0+'  => sub { $_[0]->getValue ? 1 : 0 },
 
-  '==' => sub { $_[0] ? $_[0]->getValue == $_[1]->getValue : !$_[1] },
-  '!=' => sub { $_[0] ? $_[0]->getValue != $_[1]->getValue : $_[1] ? YES: NO },
+  '==' => sub { $_[0]->getValue ? $_[0]->getValue == $_[1] : !$_[1] },
+  '!=' => sub { $_[0]->getValue ? $_[0]->getValue != $_[1] : $_[1] ? YES: NO },
 
-  'eq' => sub { "$_[0]" eq "$_[1]" },
-  'ne' => sub { "$_[0]" ne "$_[1]" },
+  'eq' => sub { "$_[0]" eq $_[1] },
+  'ne' => sub { "$_[0]" ne $_[1] },
 
   ;
 
@@ -34,10 +34,18 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 
 	die unless Want::want('LVALUE');
 
+	#$node->getField($name)->setValue(@_) if @_;
+
 	return ${ tied $node->getTiedField($name) }
 	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
 
 	$node->getTiedField($name)
+}
+
+sub getClone {
+	my ($this) = @_;
+	my $clone = $this->X3DField::getClone;
+	return $clone;
 }
 
 sub getCopy {
@@ -50,22 +58,71 @@ sub getCopy {
 sub setValue {
 	my ( $this, $value ) = @_;
 
-	return $this->X3DField::setValue( $value->getValue )
+	my $node = $this->getValue;
+	if ($node) {
+		$node->getParents->remove($this);
+		$node->removeClone;
+		$node->dispose;
+	}
+
+	$value = $value->getValue
 	  if UNIVERSAL::isa( $value, 'SFNode' );
 
-	return $this->X3DField::setValue($value)
-	  if UNIVERSAL::isa( $value, 'X3DBaseNode' ) || !defined $value;
+	if ( UNIVERSAL::isa( $value, 'X3DBaseNode' ) )
+	{
+		$value->getParents->add($this);
+		$value->addClone;
+		$this->X3DField::setValue($value);
+	}
+	elsif ( !defined $value )
+	{
+		$this->X3DField::setValue($value)
+	}
+	else
+	{
+		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(@_);
+	}
 
-	X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(@_);
+	return;
 }
 
 sub toString { sprintf "%s", $_[0]->getValue || X3DGenerator->NULL }
+
+sub dispose { #print " SFNode::dispose ", $_[0]->getName;
+	my ( $this, $node ) = @_;
+
+	return;
+ 	
+ 
+# 	if ( $this == $node ) {
+# 		$this->setValue(undef);
+# 		return YES;
+# 	}
+# 
+# 	return;
+# 
+# 	my $parent = $this->getParent;
+# 	return unless $parent;
+# 
+# 	$parent->getParents or return;
+# 
+# 	if ( $parent != $node ) {
+# 		$parent->dispose($node) or return;
+# 	}
+}
+
+sub DESTROY {
+	my $this = shift;
+	#print " SFNode::DESTROY " . $this->getName;
+	$this->setValue(undef);
+	$this->X3DField::DESTROY;
+}
 
 1;
 __END__
 
 	print '';
-	print Want::wantref() if Want::wantref();
+	print 'wantref: ', Want::wantref() if Want::wantref();
 	print 'VOID'          if Want::want('VOID');
 	print 'SCALAR'        if Want::want('SCALAR');
 	print 'REF'           if Want::want('REF');

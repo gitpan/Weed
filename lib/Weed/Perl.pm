@@ -1,6 +1,7 @@
 package Weed::Perl;
 use strict;
 use warnings;
+#no warnings 'redefined';
 
 use base 'Exporter';
 

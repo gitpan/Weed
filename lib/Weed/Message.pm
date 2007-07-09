@@ -3,7 +3,7 @@ package Weed::Message;
 use Weed 'X3DMessage';
 
 use Carp ();
-$Carp::CarpLevel = 8;
+$Carp::CarpLevel = 2;
 
 our $DEBUG = 1;
 

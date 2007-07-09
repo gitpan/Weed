@@ -18,7 +18,16 @@ ok $testNode->getValue->isa('X3DBaseNode');
 #isa_ok $testNode->isa, '';
 #isa_ok $testNode->can, '';
 
-is $testNode, 'TestNode { }';
+is $testNode, 'DEF '.$testNode->getValue->getName.' TestNode { }';
+
+my $hash = {};
+ok 0 == scalar keys %$hash;
+
+
+ok my $parents = $testNode->sfbool->getParents;
+
+
+ok $testNode->sfbool->getParents == 1;
 
 1;
 __END__

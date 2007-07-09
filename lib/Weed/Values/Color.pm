@@ -12,7 +12,7 @@ use base 'Weed::Values::Vec3';
 *setBlue = \&Weed::Values::Vec3::setZ;
 *getBlue = \&Weed::Values::Vec3::getZ;
 
-sub getValue { map { Math::clamp( $_, 0, 1 ) } $_[0]->SUPER::getValue }
+sub getValue { [ map { Math::clamp( $_, 0, 1 ) } @{ $_[0]->SUPER::getValue } ] }
 
 sub setValue {
 	my $this = shift;
@@ -53,7 +53,7 @@ sub setHSV {
 sub getHSV {
 	my ($this) = @_;
 
-	my ( $r, $g, $b ) = $this->getValue;
+	my ( $r, $g, $b ) = @{ $this->getValue };
 	my ( $h, $s, $v );
 
 	my $min = Math::min( $r, $g, $b );

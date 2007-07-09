@@ -6,7 +6,7 @@ sub setValue {
 	my ( $this, @value ) = @_;
 
 	if ( UNIVERSAL::isa( $value[0], 'X3DField' ) ) {
-		return $this->X3DField::setValue( $value[0]->getValue->copy )
+		return $this->X3DField::setValue( $value[0]->getValue->getClone )
 		  if UNIVERSAL::isa( $value[0], 'SFImage' );
 
 		@value = map { 0 + $_ } @value;

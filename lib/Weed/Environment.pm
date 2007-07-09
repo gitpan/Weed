@@ -1,6 +1,7 @@
 package Weed::Environment;
 use Weed::Perl;
 
+use Weed::Math;
 use Weed::Universal;
 
 use Weed::Generator;
@@ -9,6 +10,10 @@ use Weed::Message;
 use Weed::Name;
 
 use Weed::Array;
+use Weed::Hash;
+use Weed::ObjectHash;
+use Weed::ParentHash;
+
 use Weed::Values;
 use Weed::Object;
 

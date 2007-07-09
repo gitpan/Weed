@@ -16,11 +16,14 @@ use Math::Trig qw(pi);
 my ( $v, $v1, $v2 );
 
 is( $v = new Weed::Values::Color(), "0 0 0", "$v new Weed::Values::Color()" );
+
+#is join( " ", @{ $v->getValue } ), '0 0 0';
+
 ok !$v;
 is( $v = ref $v, "Weed::Values::Color", "$v ref" );
 is( $v = new Weed::Values::Color( 0.1, 0.2, 0.3 ), "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( $v = new Weed::Values::Color( [ 0.1, 0.2, 0.3 ] ), "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
-is( $v = $v->copy, "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
+is( $v = $v->getClone, "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( "$v", "0.1 0.2 0.3", "$v ''" );
 
 is $v->size, 3;
@@ -60,7 +63,7 @@ ok( Weed::Values::Color->new( 0.1, 0.2, 0.3 ) eq "0.1 0.2 0.3", "$v eq" );
 
 is( $v = new Weed::Values::Color( 0.1, 0.2, 0.3 ), "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 
-is( $v->copy, "0.1 0.2 0.3", "$v copy" );
+is( $v->getClone, "0.1 0.2 0.3", "$v getClone" );
 
 ok( $v eq new Weed::Values::Color( 0.1, 0.2, 0.3 ), "$v eq" );
 ok( $v == new Weed::Values::Color( 0.1, 0.2, 0.3 ), "$v ==" );

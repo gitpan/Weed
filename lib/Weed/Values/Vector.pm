@@ -7,7 +7,7 @@ use Weed::Math   ();
 use Math::Trig   ();
 
 use overload
-  '=' => 'copy',
+  '=' => 'getClone',
 
   "bool" => 'length',
   "0+"   => 'length',
@@ -74,9 +74,9 @@ sub new {
 	return $this;
 }
 
-sub copy ($) { $_[0]->new( $_[0]->getValue ) }
+sub getClone ($) { $_[0]->new( $_[0]->getValue ) }
 
-sub getValue { @{ $_[0] } }
+sub getValue { [ @{ $_[0] } ] }
 
 sub setValue {
 	my $this = shift;
@@ -170,12 +170,12 @@ sub rotate ($$) {
 	my $n = -$_[1] % $_[0]->size;
 
 	if ($n) {
-		my $vec = [ $_[0]->getValue ];
+		my $vec = $_[0]->getValue;
 		splice @$vec, $_[0]->size - $n, $n, splice( @$vec, 0, $n );
 		return $_[0]->new($vec);
 	}
 
-	return $_[0]->copy;
+	return $_[0]->getClone;
 }
 
 sub tan ($) { $_[0]->new( [ map { Math::Trig::tan($_) } @{ $_[0] } ] ) }
@@ -201,7 +201,7 @@ sub length ($) { CORE::sqrt( $_[0]->squarednorm ) }
 
 sub size ($) { scalar @{ $_[0]->getDefaultValue } }
 
-sub toString { join " ", $_[0]->getValue }
+sub toString { join " ", @{ $_[0]->getValue } }
 
 1;
 __END__

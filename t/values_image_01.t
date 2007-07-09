@@ -17,7 +17,7 @@ is( $v = new Weed::Values::Image( 2, 2, 4, [ 0xABCDEFAB, 0xABCDEFAB, 0xABCDEABF,
 0xabcdefab 0xabcdefab
 0xabcdeabf 0xabcdabef", "new Weed::Values::Image()" );
 printf "%s\n", $v;
-is( $v->copy, "2 2 4
+is( $v->getClone, "2 2 4
 0xabcdefab 0xabcdefab
 0xabcdeabf 0xabcdabef", "new Weed::Values::Image()" );
 

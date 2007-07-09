@@ -11,7 +11,7 @@ BEGIN {
 }
 
 #ok eval { new main };
-is Weed::Package::stringify('main'), 'main []';
+is X3DPackage::toString('main'), 'main []';
  
 __END__
 

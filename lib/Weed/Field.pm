@@ -8,7 +8,7 @@ sub setDescription {
 	my $typeName        = $description->{typeName};
 	my $initialValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
 	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $initialValue, '' );
-	${ $this->Weed::Package::scalar("DefaultDefinition") } = $fieldDefinition;
+	$this->X3DPackage::Scalar("DefaultDefinition") = $fieldDefinition;
 }
 
 use Weed 'X3DField : X3DObject { }';
@@ -20,7 +20,7 @@ use overload
 
 sub new {
 	my $type = shift;
-	my $this = $type->new_from_definition( ${ $type->Weed::Package::scalar("DefaultDefinition") } );
+	my $this = $type->new_from_definition( $type->X3DPackage::Scalar("DefaultDefinition") );
 	$this->setValue(@_) if @_;
 	return $this;
 }
@@ -32,7 +32,9 @@ sub new_from_definition {
 	$this->setDefinition($definition);
 
 	$this->{value} = ref $this->getInitialValue ?
-	  $this->getInitialValue->copy : $this->getInitialValue;
+	  $this->getInitialValue->getClone : $this->getInitialValue;
+
+	$this->setTainted(NO);
 
 	return $this;
 }
@@ -45,6 +47,8 @@ sub getDefinition { $_[0]->{definition} }
 sub setDefinition { $_[0]->{definition} = $_[1] }
 
 sub getInitialValue { $_[0]->getDefinition->getValue }
+
+sub getParent { shift @{ $_[0]->getParents->getValues } if $_[0]->getParents }
 
 sub getAccessType { $_[0]->getDefinition->getAccessType }
 
@@ -61,6 +65,12 @@ sub setValue {
 	$this->{value} = $value;
 
 	return;
+}
+
+sub setTainted {
+# 	my ( $this, $value ) = @_;
+# 	$this->{tainted} = $value;
+# 	return;
 }
 
 sub toString { sprintf "%s", $_[0]->getValue }

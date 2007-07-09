@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package field_types_05
+#package fieldTypes_01
 use Test::More no_plan;
 use strict;
 
@@ -25,6 +25,8 @@ is new SFVec2d,     '0 0';
 is new SFVec2f,     '0 0';
 is new SFVec3d,     '0 0 0';
 is new SFVec3f,     '0 0 0';
+is new SFVec4d,     '0 0 0 0';
+is new SFVec4f,     '0 0 0 0';
 
 is new MFBool,      '[ ]';
 is new MFColor,     '[ ]';
@@ -41,6 +43,8 @@ is new MFVec2d,     '[ ]';
 is new MFVec2f,     '[ ]';
 is new MFVec3d,     '[ ]';
 is new MFVec3f,     '[ ]';
+is new MFVec4d,     '[ ]';
+is new MFVec4f,     '[ ]';
 
 __END__
 

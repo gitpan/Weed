@@ -23,6 +23,8 @@ use Weed 'TestNode : X3DBaseNode {
 	MFVec2f		[in,out] mfvec2f	   []
 	MFVec3d		[in,out] mfvec3d	   []
 	MFVec3f		[in,out] mfvec3f	   []
+	MFVec4d		[in,out] mfvec4d	   []
+	MFVec4f		[in,out] mfvec4f	   []
 	SFBool		[in,out] sfbool	   FALSE
 	SFColor		[in,out] sfcolor	   0 0 0
 	SFColorRGBA [in,out] sfcolorrgba 0 0 0 0
@@ -38,6 +40,8 @@ use Weed 'TestNode : X3DBaseNode {
 	SFVec2f		[in,out] sfvec2f	   0 0
 	SFVec3d		[in,out] sfvec3d	   0 0 0
 	SFVec3f		[in,out] sfvec3f	   0 0 0
+	SFVec4d		[in,out] sfvec4d	   0 0 0 0
+	SFVec4f		[in,out] sfvec4f	   0 0 0 0
 	
 	MFBool		[in,out] want	      []
 	MFString		[in,out] say	      []
@@ -52,6 +56,11 @@ use Weed 'TestNode : X3DBaseNode {
 	
 	MFDouble		[in,out] doubles     [1.2, 3.4, 5.6]
 	MFDouble		[in,out] doubles2    []
+
+	SFNode		[in,out] sfnode2	   NULL
+	MFNode		[in,out] mfnode2	   []
+
+#	MFNode		[in,out] mfnull	   [ NULL ]
 }
 ';
 

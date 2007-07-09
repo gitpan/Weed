@@ -27,7 +27,7 @@ $v->setValue( 1, 1, 1 ); is( $v, "1 1", "$v new Weed::Values::Vec2()" );
 is( $v = new Weed::Values::Vec2(), "0 0", "$v new Weed::Values::Vec2()" );
 is( $v = new Weed::Values::Vec2( 1, 2 ), "1 2", "$v new Weed::Values::Vec2()" );
 is( $v = new Weed::Values::Vec2( [ 1, 2 ] ), "1 2", "$v new Weed::Values::Vec2()" );
-is( $v = $v->copy, "1 2", "$v new Weed::Values::Vec2()" );
+is( $v = $v->getClone, "1 2", "$v new Weed::Values::Vec2()" );
 is( "$v", "1 2", "$v ''" );
 
 is( $v = Weed::Values::Vec2->new( 1, 2 )->getX, "1", "$v getX" );
@@ -47,7 +47,7 @@ ok( Weed::Values::Vec2->new( 1, 2 ) eq "1 2", "$v eq" );
 
 is( $v = new Weed::Values::Vec2( 1, 2 ), "1 2", "$v new Weed::Values::Vec2()" );
 
-is( $v->copy, "1 2", "$v copy" );
+is( $v->getClone, "1 2", "$v getClone" );
 
 ok( $v eq new Weed::Values::Vec2( 1, 2 ), "$v eq" );
 ok( $v == new Weed::Values::Vec2( 1, 2 ), "$v ==" );

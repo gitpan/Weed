@@ -24,7 +24,7 @@ is( $v = new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "0.1 0.2 0.3 0", "$v n
 is( $v = new Weed::Values::ColorRGBA( [ 0.1, 0.2, 0.3, 0 ] ), "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
 is( $v = new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 1 ), "0.1 0.2 0.3 1", "$v new Weed::Values::ColorRGBA()" );
 is( $v = new Weed::Values::ColorRGBA( [ 0.1, 0.2, 0.3, 0.0 ] ), "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
-is( $v = $v->copy, "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
+is( $v = $v->getClone, "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
 is( "$v", "0.1 0.2 0.3 0", "$v ''" );
 
 is $v->size, 4;
@@ -64,7 +64,7 @@ ok( Weed::Values::ColorRGBA->new( 0.1, 0.2, 0.3, 0 ) eq "0.1 0.2 0.3 0", "$v eq"
 
 is( $v = new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
 
-is( $v->copy, "0.1 0.2 0.3 0", "$v copy" );
+is( $v->getClone, "0.1 0.2 0.3 0", "$v getClone" );
 
 ok( $v eq new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "$v eq" );
 ok( $v == new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "$v ==" );

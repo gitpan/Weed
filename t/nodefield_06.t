@@ -158,7 +158,7 @@ ok $weed->size->getId != $field->getId;         #26
 $field->setValue(123);
 
 ok $weed->size = 2;                             #33
-is $weed, 'Weed {
+is $weed, 'DEF '.$weed->getValue->getName.' Weed {
   size 2
 }';                                             #34
 
@@ -171,7 +171,7 @@ is $weed->size++, 7;
 is $weed->size++, 8;
 is $weed->size, 9;
 
-is $weed, 'Weed {
+is $weed, 'DEF '.$weed->getValue->getName.' Weed {
   size 9
 }';
 

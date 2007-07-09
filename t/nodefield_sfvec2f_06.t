@@ -15,6 +15,10 @@ ok my $sfvec2fId = $testNode->sfvec2f->getId;
 is $sfvec2fId, $testNode->sfvec2f->getId;
 
 
+ok $testNode->sfvec2f = [ 3, 4 ];
+is $testNode->sfvec2f->length, sqrt( 3*3 + 4*4 );
+
+
 
 $testNode->sfvec2f = new SFVec2f(1/2, 1/4);
 is $testNode->sfvec2f, "0.5 0.25";

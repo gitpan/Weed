@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+
+for I in `echo $*`
+do
+	echo $I
+
+	foo=`gksudo -u root -k -m "enter your password for root terminal access" /bin/echo "got r00t?"`
+	echo $foo
+
+	folder=`dirname "$I"`/`basename "$I" ".iso"`
+	echo $folder
+	
+	sudo mkdir -p "$folder"
+	sudo mount -o loop -t iso9660 "$I" "$folder"
+	
+done
+exit 0

@@ -30,6 +30,8 @@ sub fieldValue {
 		return &sfvec2fValue($string)     if $fieldType eq 'SFVec2f';
 		return &sfvec3dValue($string)     if $fieldType eq 'SFVec3d';
 		return &sfvec3fValue($string)     if $fieldType eq 'SFVec3f';
+		return &sfvec4dValue($string)     if $fieldType eq 'SFVec4d';
+		return &sfvec4fValue($string)     if $fieldType eq 'SFVec4f';
 	} else {
 		return &mfboolValue($string)      if $fieldType eq 'MFBool';
 		return &mfcolorValue($string)     if $fieldType eq 'MFColor';
@@ -46,6 +48,8 @@ sub fieldValue {
 		return &mfvec2fValue($string)     if $fieldType eq 'MFVec2f';
 		return &mfvec3dValue($string)     if $fieldType eq 'MFVec3d';
 		return &mfvec3fValue($string)     if $fieldType eq 'MFVec3f';
+		return &mfvec4dValue($string)     if $fieldType eq 'MFVec4d';
+		return &mfvec4fValue($string)     if $fieldType eq 'MFVec4f';
 	}
 
 	#	if ( $this->{comment} =~ /$_CosmoWorlds/ ) {
@@ -290,6 +294,48 @@ sub sfvec3dValue {
 			$z = &double($string);
 			if ( defined $z ) {
 				return new Weed::Values::Vec3 [ $x, $y, $z ];
+			}
+		}
+	}
+
+	return;
+}
+
+sub sfvec4fValue {
+	my ($string) = @_;
+	my ( $x, $y, $z, $w );
+
+	$x = &float($string);
+	if ( defined $x ) {
+		$y = &float($string);
+		if ( defined $y ) {
+			$z = &float($string);
+			if ( defined $z ) {
+				$w = &float($string);
+				if ( defined $w ) {
+					return new Weed::Values::Vec4 [ $x, $y, $z, $w ];
+				}
+			}
+		}
+	}
+
+	return;
+}
+
+sub sfvec4dValue {
+	my ($string) = @_;
+	my ( $x, $y, $z, $w );
+
+	$x = &double($string);
+	if ( defined $x ) {
+		$y = &double($string);
+		if ( defined $y ) {
+			$z = &double($string);
+			if ( defined $z ) {
+				$w = &double($string);
+				if ( defined $w ) {
+					return new Weed::Values::Vec4 [ $x, $y, $z, $w ];
+				}
 			}
 		}
 	}
@@ -603,6 +649,63 @@ sub sfvec3fValues {
 		$sfvec3fValue = &sfvec3fValue($string);
 	}
 	return $sfvec3fValues;
+}
+
+#
+sub mfvec4dValue {
+	my ($string) = @_;
+
+	my $sfvec4dValue = &sfvec4dValue($string);
+	return new X3DArray($sfvec4dValue) if defined $sfvec4dValue;
+
+	return new X3DArray if $$string =~ m.$_brackets.gc;
+
+	if ( $$string =~ m.$_open_bracket.gc ) {
+		my $sfvec4dValues = &sfvec4dValues($string);
+		return $sfvec4dValues
+		  if @$sfvec4dValues && $$string =~ m.$_close_bracket.gc;
+	}
+
+	return;
+}
+
+sub sfvec4dValues {
+	my ($string)      = @_;
+	my $sfvec4dValue  = &sfvec4dValue($string);
+	my $sfvec4dValues = new X3DArray;
+	while ( defined $sfvec4dValue ) {
+		push @$sfvec4dValues, $sfvec4dValue;
+		$sfvec4dValue = &sfvec4dValue($string);
+	}
+	return $sfvec4dValues;
+}
+
+sub mfvec4fValue {
+	my ($string) = @_;
+
+	my $sfvec4fValue = &sfvec4fValue($string);
+	return new X3DArray($sfvec4fValue) if defined $sfvec4fValue;
+
+	return new X3DArray if $$string =~ m.$_brackets.gc;
+
+	if ( $$string =~ m.$_open_bracket.gc ) {
+		my $sfvec4fValues = &sfvec4fValues($string);
+		return $sfvec4fValues
+		  if @$sfvec4fValues && $$string =~ m.$_close_bracket.gc;
+	}
+
+	return;
+}
+
+sub sfvec4fValues {
+	my ($string)      = @_;
+	my $sfvec4fValue  = &sfvec4fValue($string);
+	my $sfvec4fValues = new X3DArray;
+	while ( defined $sfvec4fValue ) {
+		push @$sfvec4fValues, $sfvec4fValue;
+		$sfvec4fValue = &sfvec4fValue($string);
+	}
+	return $sfvec4fValues;
 }
 
 #

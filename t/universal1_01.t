@@ -12,7 +12,7 @@ BEGIN {
 
 use Weed::Perl;
 
-ok !@{ Weed::Universal->Weed::Package::array('ISA') };
+ok !Weed::Universal->Weed::Package::Array('ISA');
 
 is( ref( ( Weed::Universal->Weed::Package::can('import') )[0] ), 'CODE' );
 

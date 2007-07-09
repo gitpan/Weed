@@ -107,8 +107,8 @@ ok( ~$r1 ne $r1, "$r1 ne" );
 ok( ~$r1 != $r1, "$r1 ne" );
 
 print $r1;
-print $r1->copy;
-ok( $r1 eq $r1->copy, "$r1 copy" );
+print $r1->getClone;
+ok( $r1 eq $r1->getClone, "$r1 getClone" );
 
 ok( $r1 *= $r1, "$r1 *=" );
 

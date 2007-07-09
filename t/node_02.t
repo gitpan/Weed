@@ -23,14 +23,14 @@ ok $node1->can("getTypeName");
 ok $node1->can("getName");
 
 
-print $_ foreach 'Weed::Node'->Weed::Package::self_and_superpath;
+print $_ foreach 'Weed::Node'->X3DPackage::getSelfAndSuperpath;
 print '';
-print $_ foreach $node1->Weed::Package::self_and_superpath;
+print $_ foreach $node1->X3DPackage::getSelfAndSuperpath;
 print '';
-print $_ foreach $node1->Weed::Package::supertypes;
+print $_ foreach $node1->X3DPackage::getSupertypes;
 
 
-my @supertypes = $node1->Weed::Package::supertypes;
+my @supertypes = $node1->X3DPackage::getSupertypes;
 is shift @supertypes, 'Weed::BaseNode';
 is shift @supertypes, 'X3DObject';
 is shift @supertypes, undef;

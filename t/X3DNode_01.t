@@ -13,7 +13,7 @@ BEGIN {
 
 ok my $node1 = new X3DNode("node");
 ok my $node2 = new X3DNode("node2");
-is $node1, 'DEF node X3DNode { }';
+is $node1, 'DEF '.$node1->getName.' X3DNode { }';
 
 is $node1->getField('metadata'), X3DGenerator->NULL;
 is $node1->getField('metadata')->getType,         'SFNode';
@@ -38,15 +38,17 @@ print $node1;
 
 X3DGenerator->compact;
 X3DGenerator->tidy_fields(NO);
-is $node1, 'DEF node X3DNode { metadata NULL }';
+is $node1, 'DEF '.$node1->getName.' X3DNode { metadata NULL }';
 
 X3DGenerator->clean;
 X3DGenerator->tidy_fields(NO);
-is $node1, 'DEF node X3DNode{metadata NULL}';
+is $node1, 'DEF '.$node1->getName.' X3DNode{metadata NULL}';
 
 X3DGenerator->tidy_fields(YES);
-is $node1, 'DEF node X3DNode{}';
+is $node1, 'DEF '.$node1->getName.' X3DNode{}';
 
 print $node1;
+
+ok 0;
 
 __END__

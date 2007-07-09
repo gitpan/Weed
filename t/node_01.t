@@ -22,14 +22,14 @@ ok $node1->isa("X3DObject");
 ok $node1->isa("X3DBaseNode");
 
 ok $node1 = new X3DBaseNode('namedernode');
-is $node1->getName, 'namedernode';
+ok $node1->getName =~ /^namedernode/;
 
 #printf "*** %s\n", join ", ", $_ foreach @{ $node1->getFieldDefinitions };
 
-print $_ foreach $node1->Weed::Package::self_and_superpath;
+print $_ foreach $node1->X3DPackage::getSelfAndSuperpath;
 print '';
 
-my @path = $node1->Weed::Package::self_and_superpath;
+my @path = $node1->X3DPackage::getSelfAndSuperpath;
 is shift @path, 'X3DBaseNode';
 is shift @path, 'Weed::BaseNode';
 is shift @path, 'X3DObject';
@@ -38,7 +38,7 @@ is shift @path, 'X3DUniversal';
 is shift @path, 'Weed::Universal';
 is shift @path, undef;
 
-@path = $node1->Weed::Package::superpath;
+@path = $node1->X3DPackage::getSuperpath;
 is shift @path, 'Weed::BaseNode';
 is shift @path, 'X3DObject';
 is shift @path, 'Weed::Object';
@@ -46,10 +46,10 @@ is shift @path, 'X3DUniversal';
 is shift @path, 'Weed::Universal';
 is shift @path, undef;
 
-print $_ foreach $node1->Weed::Package::supertypes;
+print $_ foreach $node1->X3DPackage::getSupertypes;
 print '';
 
-my @supertypes = $node1->Weed::Package::supertypes;
+my @supertypes = $node1->X3DPackage::getSupertypes;
 is shift @supertypes, 'Weed::BaseNode';
 is shift @supertypes, 'X3DObject';
 is shift @supertypes, undef;

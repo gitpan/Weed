@@ -32,7 +32,7 @@ is my $bool2 = TRUE, TRUE;
 is $bool2, 'TRUE';
 
 isa_ok $bool2, 'SFBool';
-print $bool2->Weed::Package::stringify;
+print $bool2->X3DPackage::toString;
 
 ok $bool2 ? 1 : 0;
 

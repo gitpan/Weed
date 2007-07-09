@@ -19,12 +19,12 @@ is $testNode->sfbool, "FALSE";
 is $testNode->sfbool = 1, 1;
 is $testNode->sfbool, "TRUE";
 
-is ++$testNode->sfbool, 1;
-is ++$testNode->sfbool, 1;
+is ++$testNode->sfbool, "TRUE";
+is ++$testNode->sfbool, "TRUE";
 is $testNode->sfbool, "TRUE";
-is --$testNode->sfbool, '';
+is --$testNode->sfbool, 'FALSE';
 is $testNode->sfbool, "FALSE";
-is --$testNode->sfbool, 1;
+is --$testNode->sfbool, "TRUE";
 is $testNode->sfbool, "TRUE";
 
 is $testNode->sfbool = !$testNode->sfbool, "";

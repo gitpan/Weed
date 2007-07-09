@@ -16,6 +16,8 @@ use Weed::FieldTypes::SFVec2d;
 use Weed::FieldTypes::SFVec2f;
 use Weed::FieldTypes::SFVec3d;
 use Weed::FieldTypes::SFVec3f;
+use Weed::FieldTypes::SFVec4d;
+use Weed::FieldTypes::SFVec4f;
 
 use Weed::FieldTypes::MFBool;
 use Weed::FieldTypes::MFColor;
@@ -32,6 +34,8 @@ use Weed::FieldTypes::MFVec2d;
 use Weed::FieldTypes::MFVec2f;
 use Weed::FieldTypes::MFVec3d;
 use Weed::FieldTypes::MFVec3f;
+use Weed::FieldTypes::MFVec4d;
+use Weed::FieldTypes::MFVec4f;
 
 1;
 __END__

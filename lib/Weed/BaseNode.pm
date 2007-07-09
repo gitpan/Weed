@@ -7,7 +7,7 @@ sub setDescription {
 	my ( $this, $description ) = @_;
 	my $fieldDescriptions = Weed::Parse::FieldDescription::parse @{ $description->{body} };
 	my $fieldDefinitions = [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ];
-	${ $this->Weed::Package::scalar("FieldDefinitions") } = $fieldDefinitions;
+	$this->X3DPackage::Scalar("FieldDefinitions") = $fieldDefinitions;
 }
 
 use Weed 'X3DBaseNode : X3DObject { }';
@@ -17,6 +17,8 @@ sub new {
 	my $name = shift;
 
 	$this->setName($name);
+
+	$this->setCloneCount(0);
 
 	tie $this->{fields}->{ $_->getName }, 'Weed::Tie::Field', $_->createField($this)
 	  foreach $this->getFieldDefinitions;
@@ -31,7 +33,7 @@ sub getCopy {
 	my $this = shift;
 	my $copy = $this->new( $this->getName );
 
-	$copy->{fields}->{$_} = $this->getField($_)
+	$copy->getTiedField($_) = $this->getField($_)
 	  foreach map { $_->getName } $this->getFieldDefinitions;
 
 	return $copy;
@@ -39,9 +41,16 @@ sub getCopy {
 
 sub getTypeName { $_[0]->getType }
 
-sub setName { $_[0]->{name} = $_[1] || '' }
-sub getName { $_[0]->{name} }
+sub setName { $_[0]->{name} = new X3DName( $_[1] ) }
+sub getName { $_[0]->{name}->toString }
 
+# Clones
+sub addClone      { $_[0]->{clones}++ }
+sub removeClone   { $_[0]->{clones}-- }
+sub getCloneCount { $_[0]->{clones} }
+sub setCloneCount { $_[0]->{clones} = $_[1] }
+
+# Fields
 sub getTiedField : lvalue {
 	my ( $this, $name ) = @_;
 
@@ -76,10 +85,11 @@ sub getFields {
 
 sub getFieldDefinitions {
 	wantarray ?
-	  @${ $_[0]->Weed::Package::scalar("FieldDefinitions") } :
-	  ${ $_[0]->Weed::Package::scalar("FieldDefinitions") }
+	  @{ $_[0]->X3DPackage::Scalar("FieldDefinitions") } :
+	  $_[0]->X3DPackage::Scalar("FieldDefinitions")
 }
 
+# Basenode
 sub toString {
 	my $this   = shift;
 	my $string = "";
@@ -131,20 +141,52 @@ sub toString {
 	return $string;
 }
 
+sub canDispose {
+	my $this = shift;
+	my $node = shift || $this;
+
+	my $parents = $this->getParents->getValues;
+
+	my @parentNodes = grep { $node != $_ } map { $_->getParent } @$parents;
+
+	if (@parentNodes) {
+		foreach my $parentNode (@parentNodes) {
+			return YES if $parentNode->canDispose($node);
+		}
+	} else {
+		return YES;
+	}
+
+	return;
+}
+
+sub dispose { #print " BaseNode::dispose ", $_[0]->getName;
+	my $this = shift;
+	my $node = shift || $this;
+
+	return;
+
+# 	return unless $node->getCloneCount;
+# 	return unless $node->canDispose;
+# 
+# 	my $parents = $this->getParents->getValues;
+# 
+# 	foreach my $field (@$parents) {
+# 		$field->dispose($node);
+# 	}
+
+}
+
+sub DESTROY {
+	my $this = shift;
+	#print "BaseNode::DESTROY";
+	#print "BaseNode::DESTROY ", $this->getName;
+	#printf "BaseNode::DESTROY: %d\n", $this->getReferenceCount;
+	#print  "BaseNode::Clones:  ", $this->{clones};
+	$this->X3DObject::DESTROY;
+}
+
 1;
 __END__
-
-sub private::getField : lvalue {
-	my ( $this, $name ) = @_;
-	X3DMessage->UnknownField(@_) unless exists $this->{fields}->{$name};
-
-	return ${ tied $this->{fields}->{$name} } if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
-	$this->{fields}->{$name};
-}
-
-sub getField {
-	my ( $this, $name ) = @_;
-	X3DMessage->UnknownField(@_) unless exists $this->{fields}->{$name};
-	return ${ tied $this->{fields}->{ $_->getName } };
-}
+	#printf "BaseNode::dispose: %s, %d\n", $node->getName, $node->{clones};
 

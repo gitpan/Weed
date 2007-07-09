@@ -99,7 +99,7 @@ is $testNode->sfint32 &= 2, 2;
 is $testNode->sfint32 ^= 3, 1;
 is - $testNode->sfint32, -1;
 is $testNode->sfint32 = ~$testNode->sfint32, 4294967294;
-is ++$testNode->sfint32, 4294967295;
+is ++$testNode->sfint32, -1;
 
 is cos( $testNode->sfint32 ), cos(4294967295);
 is sin( $testNode->sfint32 ), sin(4294967295);

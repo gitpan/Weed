@@ -4,6 +4,12 @@ use UNIVERSAL 'isa';
 
 use base 'Weed::FieldTypes::BaseFieldTypes::SFVector';
 
+sub new_from_definition {
+	my $this = shift->X3DField::new_from_definition(@_);
+#	tie @{ $this->getValue }, 'Weed::Tie::VectorValue', $this;
+	return $this;
+}
+
 sub setValue {
 	my $this  = shift;
 	my $VALUE = ref( $this->getInitialValue );

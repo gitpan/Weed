@@ -28,7 +28,7 @@ $v->setValue( 1, 1, 1, 1 ); is( $v, "1 1 1", "$v new Weed::Values::Vec3()" );
 
 is( $v = new Weed::Values::Vec3( 1, 2, 3 ), "1 2 3", "$v new Weed::Values::Vec3()" );
 is( $v = new Weed::Values::Vec3( [ 1, 2, 3 ] ), "1 2 3", "$v new Weed::Values::Vec3()" );
-is( $v = $v->copy, "1 2 3", "$v new Weed::Values::Vec3()" );
+is( $v = $v->getClone, "1 2 3", "$v new Weed::Values::Vec3()" );
 is( "$v", "1 2 3", "$v ''" );
 
 is( $v = Weed::Values::Vec3->new( 1, 2, 3 )->getX, "1", "$v getX" );
@@ -52,7 +52,7 @@ ok( Weed::Values::Vec3->new( 1, 2, 3 ) eq "1 2 3", "$v eq" );
 
 is( $v = new Weed::Values::Vec3( 1, 2, 3 ), "1 2 3", "$v new Weed::Values::Vec3()" );
 
-is( $v->copy, "1 2 3", "$v copy" );
+is( $v->getClone, "1 2 3", "$v getClone" );
 
 ok( $v eq new Weed::Values::Vec3( 1, 2, 3 ), "$v eq" );
 ok( $v == new Weed::Values::Vec3( 1, 2, 3 ), "$v ==" );
@@ -180,6 +180,15 @@ is Math::log $v, log $v;
 is log $v, Math::log $v;
 
 is Math::sum(@$v), sum $v;
+
+is $v, '1 2 3';
+is $v++, '1 2 3';
+is $v++, '2 3 4';
+is $v++, '3 4 5';
+is $v, '4 5 6';
+is ++$v, '5 6 7';
+is ++$v, '6 7 8';
+is ++$v, '7 8 9';
 
 __END__
 

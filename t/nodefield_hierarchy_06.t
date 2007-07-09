@@ -25,12 +25,12 @@ isa_ok $testNode->getValue->getField("übe::lst"), 'X3DField';
 #is $testNode->YES, YES;
 #is $testNode->NO,  NO;
 
-is $testNode->sfdouble->Weed::Package::stringify,
-  'SFDouble [ 
+is $testNode->sfdouble->X3DPackage::toString,
+  'SFDouble [
   Weed::FieldTypes::SFDouble [ Weed::FieldTypes::BaseFieldTypes::SFNumber [] ]
-  X3DField [ 
+  X3DField [
     Weed::Field []
-    X3DObject [ 
+    X3DObject [
       Weed::Object []
       X3DUniversal [ Weed::Universal [] ]
     ]

@@ -14,7 +14,7 @@ ok my $testNode = new SFNode( new TestNode('TestNodeFields') );
 ok $testNode;
 ok $testNode->sfnode = new SFNode( new TestNode('TestNodeFieldsIn') );
 ok $testNode->sfnode;
-is $testNode->sfnode, 'DEF TestNodeFieldsIn TestNode { }';
+is $testNode->sfnode, 'DEF '.$testNode->sfnode->getValue->getName.' TestNode { }';
 
 ok my $sfnodeId = $testNode->sfnode->getId;
 is $sfnodeId, $testNode->sfnode->getId;
@@ -25,7 +25,7 @@ ok $testNode->getId != $testNode->getClone->getId;
 ok $testNode->getId != $testNode->getCopy->getId;
 
 ok $testNode->getId != $testNode->getCopy->getId;
-#ok $testNode ne $testNode->getCopy;
+ok $testNode ne $testNode->getCopy;
 
 ok my $clone = $testNode->getClone;
 ok my $copy  = $testNode->getCopy;
@@ -58,7 +58,7 @@ isa_ok $sfnode, 'X3DField';
 ok $testNode == $clone;
 ok $testNode != $copy;
 ok $testNode eq $clone;
-#ok $testNode ne $copy;
+ok $testNode ne $copy;
 
 is $sfnodeId, $testNode->sfnode->getId;
 

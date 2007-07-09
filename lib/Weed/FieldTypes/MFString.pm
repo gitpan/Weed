@@ -2,6 +2,8 @@ package Weed::FieldTypes::MFString;
 
 use Weed 'MFString : X3DArrayField { [] }';
 
+sub sort { $_[0]->new( [ sort { $a cmp $b } @{ $_[0] } ] ) }
+
 sub toString {
 	my $this = shift;
 	my $value = $this->getValue;

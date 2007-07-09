@@ -1,11 +1,16 @@
 package Weed::Array;
 
-use Weed 'X3DArray [ ]';
+use Weed 'X3DArray [ ]', 'isArray';
+#Array reference
 
 use Algorithm::Numerical::Shuffle;
+use Weed::Tie::Length;
 
 use overload
-  'bool' => 'length',
+  'bool' => 'getLength',
+
+  'int' => 'getLength',
+  '0+'  => 'getLength',
   ;
 
 sub new {
@@ -14,21 +19,44 @@ sub new {
 	return $this;
 }
 
-sub copy { $_[0]->new( $_[0]->getValue ) }
+sub getClone { $_[0]->new( scalar $_[0]->getValue ) }
 
-sub getValue { @{ $_[0] } }
+sub getValue { [ @{ $_[0] } ] }
 
 sub setValue {
 	my $this = shift;
-	@$this = @_;
-	return;
+
+	if ( 0 == @_ ) {
+		@$this = ();
+	}
+	elsif ( 1 == @_ )
+	{
+		my $value = shift;
+
+		if ( isArray($value) ) {
+			@$this = @$value;
+		}
+		else {
+			@$this = ($value);
+		}
+	}
+	else {
+		@$this = @_;
+	}
+}
+
+sub isArray {
+	UNIVERSAL::isa( $_[0], __PACKAGE__ )
+	  or
+	  ( ref $_[0] && Scalar::Util::reftype( $_[0] ) eq 'ARRAY' )
 }
 
 use overload '<=>' => sub {
 	my ( $a, $b, $r, $c ) = @_;
 	( $a, $b ) = ( $b, $a ) if $r;
 
-	return @$a <=> $b unless ref $b;    # [] <=> scalar
+	return $a <=> @$b unless isArray($a);    # [] <=> scalar
+	return @$a <=> $b unless isArray($b);    # [] <=> scalar
 
 	return $c if $c = $#$a <=> $#$b;
 
@@ -43,6 +71,9 @@ use overload 'cmp' => sub {
 	my ( $a, $b, $r, $c ) = @_;
 	( $a, $b ) = ( $b, $a ) if $r;
 
+	return $a cmp "$b" unless isArray($a);    # [] <=> scalar
+	return "$a" cmp $b unless isArray($b);    # [] <=> scalar
+
 	return $c if $c = $#$a <=> $#$b;
 
 	for ( my $i = 0 ; $i < @$a ; ++$i ) {
@@ -54,51 +85,57 @@ use overload 'cmp' => sub {
 
 sub clear { @{ $_[0] } = () }
 
-sub length { scalar @{ $_[0] } }
+sub getLength { scalar @{ $_[0] } }
+sub setLength { $#{ $_[0] } = $_[1] - 1; return }
 
-use Sort::ArbBiLex (
-	'schmancy_sort' =>
-	  "
-	  0 1 2 3 4 5 6 7 8 9
-     a A à À á Á â Â ã Ã ä Ä å Å æ Æ
-     b B
-     c C ç Ç
-     d D ð Ð
-     e E è È é É ê Ê ë Ë
-     f F
-     g G
-     h H
-     i I ì Ì í Í î Î ï Ï
-     j J
-     k K
-     l L
-     m M
-     n N ñ Ñ
-     o O ò Ò ó Ó ô Ô õ Õ ö Ö ø Ø
-     p P
-     q Q
-     r R
-     s S ß
-     t T þ Þ
-     u U ù Ù ú Ú û Û ü Ü
-     v V
-     w W
-     x X
-     y Y ý Ý ÿ
-     z Z
-    "
-);
+sub sort { $_[0]->new( [ sort { $a <=> $b } @{ $_[0] } ] ) }
 
-use overload 'neg' => sub {
-	$_[0]->new( schmancy_sort( @{ $_[0] } ) )
-};
+sub shuffle { $_[0]->new( scalar Algorithm::Numerical::Shuffle::shuffle( $_[0]->getValue ) ) }
 
-use overload '~' => sub { $_[0]->new( Algorithm::Numerical::Shuffle::shuffle( @{ $_[0] } ) ) };
+sub toString {
+	my $this = shift;
 
-sub toString { join ', ', @{ $_[0] } }
+	my $string = '';
+
+	if (@$this) {
+		if ($#$this) {
+			$string .= X3DGenerator->open_bracket;
+			$string .= X3DGenerator->tidy_space;
+			$string .= join X3DGenerator->comma . X3DGenerator->tidy_space, @$this;
+			$string .= X3DGenerator->tidy_space;
+			$string .= X3DGenerator->close_bracket;
+		}
+		else {
+			$string .= $this->[0];
+		}
+	}
+	else {
+		$string .= X3DGenerator->open_bracket;
+		$string .= X3DGenerator->tidy_space;
+		$string .= X3DGenerator->close_bracket;
+	}
+
+	return $string;
+}
 
 1;
 __END__
+sub length : lvalue {
+	my $this = shift;
+
+	if ( Want::want('RVALUE') ) {
+		Want::rreturn scalar @$this;
+	}
+
+	if ( Want::want('ASSIGN') ) {
+		$#$this = Math::max( 0, Want::want('ASSIGN') ) - 1;
+		Want::lnoreturn;
+	}
+
+	my $length = @$this;
+	$length;
+}
+
 
 # $index = binary_search( \@array, $word )
 #   @array is a list of lowercase strings in alphabetical order.

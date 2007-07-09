@@ -7,10 +7,13 @@ sub new { shift->CREATE }
 sub CREATE {
 	my $this = shift->NEW;
 	$this->{comments} = [];
+	$this->{parents}  = new X3DParentHash;
 	return $this;
 }
 
 sub getComments { wantarray ? @{ $_[0]->{comments} } : $_[0]->{comments} }
+
+sub getParents { $_[0]->{parents} }
 
 sub toString {
 	my ($this) = @_;
@@ -25,16 +28,12 @@ sub toString {
 	return $string;
 }
 
-sub DESTROY {
-	my $this = shift;
-	%$this = ();
-	0;
-}
+#sub DESTROY {
+#	my $this = shift;
+#	print "Object::DESTROY ", ref $this;
+#	%$this = ();
+#	0;
+#}
 
 1;
 __END__
-\$
-\@ []
-\% {}
-\&
-\*

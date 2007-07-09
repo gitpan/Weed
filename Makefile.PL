@@ -25,15 +25,25 @@ BEGIN {
 			#Universal
 			Exporter       => 0,
 			Carp           => 0,
+			Time::HiRes    => 0,
 			Package::Alias => 0,
 			Class::ISA     => 0,
 			Scalar::Util   => 0,
-			Time::HiRes    => 0,
+			Hash::NoRef    => 0,
 			Want           => 0,
 
 			#Fields
 			Tie::Scalar     => 0,
+			Tie::Array      => 0,
+			Tie::Hash       => 0,
 			Unicode::String => 0,
+
+			#Array
+			Algorithm::Numerical::Shuffle => 0,
+			Sort::ArbBiLex                => 0,
+
+			#
+			Object::MultiType => 0,
 
 			#Values
 			POSIX            => 0,

@@ -1,11 +1,11 @@
 package Weed::Parse::Id;
 use Weed::Perl;
 
-use Weed::RegularExpressions '$_Id';
+use Weed::RegularExpressions qw.$_Id $_RestrictedId.;
 
 use Exporter 'import';
 
-our @EXPORT_OK = qw.Ids Id.;
+our @EXPORT_OK = qw.Ids Id RestrictedIds RestrictedId.;
 
 sub Ids {
 	my ($string) = @_;
@@ -21,6 +21,23 @@ sub Ids {
 sub Id {
 	my $string = shift;
 	return $1 if $$string =~ m.$_Id.gc;
+	return;
+}
+
+sub RestrictedIds {
+	my ($string) = @_;
+	my $Id       = &RestrictedId($string);
+	my $Ids      = [];
+	while ( defined $Id ) {
+		push @$Ids, $Id;
+		$Id = &RestrictedId($string);
+	}
+	return $Ids;
+}
+
+sub RestrictedId {
+	my $string = shift;
+	return $1 if $$string =~ m.$_RestrictedId.gc;
 	return;
 }
 

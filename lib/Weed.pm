@@ -1,14 +1,17 @@
 package Weed;
 use Weed::Perl;
 
-our $VERSION = '0.0072';
+#use v5.6.1;
+use v5.8.8;
+
+our $VERSION = '0.0077';
 
 sub import {
 	shift;
 	strict::import;
 	warnings::import;
 	Weed::Perl->export_to_level(1);
-	Weed::Universal::createType( scalar caller, 'X3DUniversal', @_ );
+	Weed::Package::createType( scalar caller, 'X3DUniversal', @_ );
 }
 
 use Weed::Environment;

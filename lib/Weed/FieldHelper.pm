@@ -16,7 +16,7 @@ sub NumVal {
 		if ( isa( $_, 'X3DField' ) ) {
 			my $value = $_->getValue;
 			if ( isa( $value, VECTOR ) || isa( $value, ROTATION ) ) {
-				push @values, $value->getValue;
+				push @values, @{ $value->getValue };
 			}
 			else {    # Scalar
 				push @values, $value;
@@ -25,7 +25,7 @@ sub NumVal {
 			# SFNode
 		}
 		elsif ( isa( $_, VECTOR ) || isa( $_, ROTATION ) ) {
-			push @values, $_->getValue;
+			push @values, @{ $_->getValue };
 		}
 		elsif ( ref($_) eq 'ARRAY' ) {
 			push @values, NumVal(@$_);

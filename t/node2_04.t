@@ -21,7 +21,7 @@ ok my $node2 = new X3DBaseNode("nodeName");
 ok $node2->getId;
 is $node2->getType,     'X3DBaseNode';
 is $node2->getTypeName, 'X3DBaseNode';
-is $node2->getName,     "nodeName";
+ok $node2->getName =~ /^nodeName/;
 
 printf "%s\n", $node2->getId;
 printf "%s\n", $node2->getType;
@@ -29,7 +29,7 @@ printf "%s\n", $node2->getTypeName;
 printf "%s\n", $node2->getName;
 printf "%s\n", $node2;
 
-is $node2->getName, "nodeName";
+ok $node2->getName =~ /^nodeName/;
 __END__
 
 

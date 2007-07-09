@@ -1,8 +1,7 @@
 package Weed::FieldTypes::BaseFieldTypes::SFNumber;
 
 use overload
-  'int' => sub { int $_[0]->getValue },
-  '0+'  => sub { 0 + $_[0]->getValue },
+  '0+' => sub { 0 + $_[0]->getValue },
 
   '!' => sub { !$_[0]->getValue },
   '~' => sub { ~( 0 + $_[0]->getValue ) },
@@ -14,6 +13,10 @@ use overload
   '=='  => sub { $_[0]->getValue == $_[1] },
   '!='  => sub { $_[0]->getValue != $_[1] },
   '<=>' => sub { $_[2] ? $_[1] <=> $_[0]->getValue : $_[0]->getValue <=> $_[1] },
+
+  'eq' => sub { $_[0]->getValue eq $_[1] },
+  'ne' => sub { $_[0]->getValue ne $_[1] },
+  'cmp' => sub { $_[2] ? $_[1] cmp $_[0]->getValue : $_[0]->getValue cmp $_[1] },
 
   '<<' => sub { $_[2] ? $_[1] << $_[0]->getValue : $_[0]->getValue << $_[1] },
   '>>' => sub { $_[2] ? $_[1] >> $_[0]->getValue : $_[0]->getValue >> $_[1] },
@@ -29,6 +32,7 @@ use overload
 
   '**' => sub { $_[2] ? $_[1]**$_[0]->getValue : $_[0]->getValue**$_[1] },
 
+  'int'  => sub { int $_[0]->getValue },
   'cos'  => sub { cos $_[0]->getValue },
   'sin'  => sub { sin $_[0]->getValue },
   'exp'  => sub { exp $_[0]->getValue },

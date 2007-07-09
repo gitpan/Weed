@@ -10,7 +10,7 @@ sub parseInt { &Weed::Parse::FieldValue::int32( \$_[0] ) }
 
 sub setValue {
 	my ( $this, $value ) = @_;
-	$this->X3DField::setValue( parseInt("$value") );
+	$this->X3DField::setValue( defined $value ? parseInt("$value") : $this->getInitialValue );
 }
 
 sub toString {

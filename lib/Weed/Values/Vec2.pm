@@ -23,22 +23,34 @@ sub negate {
 
 sub add {
 	my ( $a, $b ) = @_;
-	return $a->new( [
+	return ref $b ?
+	  $a->new( [
 			$a->[0] + $b->[0],
 			$a->[1] + $b->[1],
-	] );
+		] )
+	  :
+	  $a->new( [
+			$a->[0] + $b,
+			$a->[1] + $b,
+	  ] );
 }
 
 use overload '+=' => sub {
 	my ( $a, $b ) = @_;
-	$a->[0] += $b->[0];
-	$a->[1] += $b->[1];
+	if ( ref $b ) {
+		$a->[0] += $b->[0];
+		$a->[1] += $b->[1];
+	} else {
+		$a->[0] += $b;
+		$a->[1] += $b;
+	}
 	return $a;
 };
 
 sub subtract {
 	my ( $a, $b, $r ) = @_;
-	return $a->new( [
+	return ref $b ?
+	  $a->new( [
 			$r ? (
 				$b->[0] - $a->[0],
 				$b->[1] - $a->[1],
@@ -46,12 +58,21 @@ sub subtract {
 				$a->[0] - $b->[0],
 				$a->[1] - $b->[1],
 			  ) ] )
-	  ;
+	  : $a->new( [
+			$a->[0] - $b,
+			$a->[1] - $b,
+	  ] );
 }
+
 use overload '-=' => sub {
 	my ( $a, $b ) = @_;
-	$a->[0] -= $b->[0];
-	$a->[1] -= $b->[1];
+	if ( ref $b ) {
+		$a->[0] -= $b->[0];
+		$a->[1] -= $b->[1];
+	} else {
+		$a->[0] -= $b;
+		$a->[1] -= $b;
+	}
 	return $a;
 };
 

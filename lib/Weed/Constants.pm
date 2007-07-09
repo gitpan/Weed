@@ -57,23 +57,3 @@ use enum qw(
   COMPLETE_STATE
   FAILED_STATE
 );
-
-use Benchmark;
-my $v;
-timethis( 8_000_000, sub { $v = MFBool } );
-timethis( 8_000_000, sub { $v = MFBool } );
-timethis( 8_000_000, sub { $v = TRUE } );
-timethis( 8_000_000, sub { $v = TRUE } );
-
-use Benchmark;
-my $v;
-timethis( 8_000_000, sub { $v = inputOnly } );
-timethis( 8_000_000, sub { $v = inputOnly } );
-timethis( 8_000_000, sub { $v = TRUE } );
-timethis( 8_000_000, sub { $v = TRUE } );
-
-timethis( 8_000_000, sub { $v = inputOnly } );
-timethis( 8_000_000, sub { $v = inputOnly } );
-timethis( 8_000_000, sub { $v = TRUE } );
-timethis( 8_000_000, sub { $v = TRUE } );
-

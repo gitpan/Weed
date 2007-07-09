@@ -28,6 +28,9 @@ ok !tied ${ tied $testNode->getValue->getTiedField('mfvec2d') };
 ok !tied ${ tied $testNode->getValue->getTiedField('mfvec2f') };
 ok !tied ${ tied $testNode->getValue->getTiedField('mfvec3d') };
 ok !tied ${ tied $testNode->getValue->getTiedField('mfvec3f') };
+ok !tied ${ tied $testNode->getValue->getTiedField('mfvec4d') };
+ok !tied ${ tied $testNode->getValue->getTiedField('mfvec4f') };
+
 ok !tied ${ tied $testNode->getValue->getTiedField('sfbool') };
 ok !tied ${ tied $testNode->getValue->getTiedField('sfcolor') };
 ok !tied ${ tied $testNode->getValue->getTiedField('sfcolorrgba') };
@@ -43,6 +46,8 @@ ok !tied ${ tied $testNode->getValue->getTiedField('sfvec2d') };
 ok !tied ${ tied $testNode->getValue->getTiedField('sfvec2f') };
 ok !tied ${ tied $testNode->getValue->getTiedField('sfvec3d') };
 ok !tied ${ tied $testNode->getValue->getTiedField('sfvec3f') };
+ok !tied ${ tied $testNode->getValue->getTiedField('sfvec4d') };
+ok !tied ${ tied $testNode->getValue->getTiedField('sfvec4f') };
 
 isa_ok ${ tied $testNode->getValue->getTiedField('mfbool') },      'MFBool';
 isa_ok ${ tied $testNode->getValue->getTiedField('mfcolor') },     'MFColor';
@@ -68,6 +73,9 @@ isa_ok ${ tied $testNode->getValue->getTiedField('mfvec2d') },     'MFVec2d';
 isa_ok ${ tied $testNode->getValue->getTiedField('mfvec2f') },     'MFVec2f';
 isa_ok ${ tied $testNode->getValue->getTiedField('mfvec3d') },     'MFVec3d';
 isa_ok ${ tied $testNode->getValue->getTiedField('mfvec3f') },     'MFVec3f';
+isa_ok ${ tied $testNode->getValue->getTiedField('mfvec4d') },     'MFVec4d';
+isa_ok ${ tied $testNode->getValue->getTiedField('mfvec4f') },     'MFVec4f';
+
 isa_ok ${ tied $testNode->getValue->getTiedField('sfbool') },      'SFBool';
 isa_ok ${ tied $testNode->getValue->getTiedField('sfcolor') },     'SFColor';
 isa_ok ${ tied $testNode->getValue->getTiedField('sfcolorrgba') }, 'SFColorRGBA';
@@ -104,6 +112,8 @@ isa_ok ${ tied $testNode->getValue->getTiedField('sfvec2d') },     'SFVec2d';
 isa_ok ${ tied $testNode->getValue->getTiedField('sfvec2f') },     'SFVec2f';
 isa_ok ${ tied $testNode->getValue->getTiedField('sfvec3d') },     'SFVec3d';
 isa_ok ${ tied $testNode->getValue->getTiedField('sfvec3f') },     'SFVec3f';
+isa_ok ${ tied $testNode->getValue->getTiedField('sfvec4d') },     'SFVec4d';
+isa_ok ${ tied $testNode->getValue->getTiedField('sfvec4f') },     'SFVec4f';
 
 isa_ok tied $testNode->getValue->getTiedField('mfbool'),      'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('mfcolor'),     'Weed::Tie::Field';
@@ -134,6 +144,10 @@ isa_ok tied $testNode->getValue->getTiedField('sftime'),      'Weed::Tie::Field'
 isa_ok tied $testNode->getValue->getTiedField('sfvec2d'),     'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('sfvec2f'),     'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('sfvec3d'),     'Weed::Tie::Field';
+isa_ok tied $testNode->getValue->getTiedField('sfvec3f'),     'Weed::Tie::Field';
+isa_ok tied $testNode->getValue->getTiedField('sfvec4d'),     'Weed::Tie::Field';
+isa_ok tied $testNode->getValue->getTiedField('sfvec4f'),     'Weed::Tie::Field';
+
 isa_ok tied $testNode->getValue->getTiedField('mfbool'),      'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('mfcolor'),     'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('mfcolorrgba'), 'Weed::Tie::Field';
@@ -164,7 +178,8 @@ isa_ok tied $testNode->getValue->getTiedField('sfvec2d'),     'Weed::Tie::Field'
 isa_ok tied $testNode->getValue->getTiedField('sfvec2f'),     'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('sfvec3d'),     'Weed::Tie::Field';
 isa_ok tied $testNode->getValue->getTiedField('sfvec3f'),     'Weed::Tie::Field';
-isa_ok tied $testNode->getValue->getTiedField('sfvec3f'),     'Weed::Tie::Field';
+isa_ok tied $testNode->getValue->getTiedField('sfvec4d'),     'Weed::Tie::Field';
+isa_ok tied $testNode->getValue->getTiedField('sfvec4f'),     'Weed::Tie::Field';
 
 #ok tied $weed->getValue->getTiedField('metadata');
 ok tied $testNode->getValue->getTiedField('mfbool');
@@ -182,6 +197,9 @@ ok tied $testNode->getValue->getTiedField('mfvec2d');
 ok tied $testNode->getValue->getTiedField('mfvec2f');
 ok tied $testNode->getValue->getTiedField('mfvec3d');
 ok tied $testNode->getValue->getTiedField('mfvec3f');
+ok tied $testNode->getValue->getTiedField('mfvec4d');
+ok tied $testNode->getValue->getTiedField('mfvec4f');
+
 ok tied $testNode->getValue->getTiedField('sfbool');
 ok tied $testNode->getValue->getTiedField('sfcolor');
 ok tied $testNode->getValue->getTiedField('sfcolorrgba');
@@ -197,6 +215,8 @@ ok tied $testNode->getValue->getTiedField('sfvec2d');
 ok tied $testNode->getValue->getTiedField('sfvec2f');
 ok tied $testNode->getValue->getTiedField('sfvec3d');
 ok tied $testNode->getValue->getTiedField('sfvec3f');
+ok tied $testNode->getValue->getTiedField('sfvec4d');
+ok tied $testNode->getValue->getTiedField('sfvec4f');
 
 #is ref $weed->getValue->getField('metadata'), 'SFNode';
 is ref $testNode->getValue->getField('mfbool'),      'MFBool';
@@ -214,6 +234,9 @@ is ref $testNode->getValue->getField('mfvec2d'),     'MFVec2d';
 is ref $testNode->getValue->getField('mfvec2f'),     'MFVec2f';
 is ref $testNode->getValue->getField('mfvec3d'),     'MFVec3d';
 is ref $testNode->getValue->getField('mfvec3f'),     'MFVec3f';
+is ref $testNode->getValue->getField('mfvec4d'),     'MFVec4d';
+is ref $testNode->getValue->getField('mfvec4f'),     'MFVec4f';
+
 is ref $testNode->getValue->getField('sfbool'),      'SFBool';
 is ref $testNode->getValue->getField('sfcolor'),     'SFColor';
 is ref $testNode->getValue->getField('sfcolorrgba'), 'SFColorRGBA';
@@ -229,6 +252,8 @@ is ref $testNode->getValue->getField('sfvec2d'),     'SFVec2d';
 is ref $testNode->getValue->getField('sfvec2f'),     'SFVec2f';
 is ref $testNode->getValue->getField('sfvec3d'),     'SFVec3d';
 is ref $testNode->getValue->getField('sfvec3f'),     'SFVec3f';
+is ref $testNode->getValue->getField('sfvec4d'),     'SFVec4d';
+is ref $testNode->getValue->getField('sfvec4f'),     'SFVec4f';
 
 isa_ok $testNode->getValue->getField('mfbool'),      'MFBool';
 isa_ok $testNode->getValue->getField('mfcolor'),     'MFColor';
@@ -245,6 +270,9 @@ isa_ok $testNode->getValue->getField('mfvec2d'),     'MFVec2d';
 isa_ok $testNode->getValue->getField('mfvec2f'),     'MFVec2f';
 isa_ok $testNode->getValue->getField('mfvec3d'),     'MFVec3d';
 isa_ok $testNode->getValue->getField('mfvec3f'),     'MFVec3f';
+isa_ok $testNode->getValue->getField('mfvec4d'),     'MFVec4d';
+isa_ok $testNode->getValue->getField('mfvec4f'),     'MFVec4f';
+
 isa_ok $testNode->getValue->getField('sfbool'),      'SFBool';
 isa_ok $testNode->getValue->getField('sfcolor'),     'SFColor';
 isa_ok $testNode->getValue->getField('sfcolorrgba'), 'SFColorRGBA';
@@ -260,6 +288,8 @@ isa_ok $testNode->getValue->getField('sfvec2d'),     'SFVec2d';
 isa_ok $testNode->getValue->getField('sfvec2f'),     'SFVec2f';
 isa_ok $testNode->getValue->getField('sfvec3d'),     'SFVec3d';
 isa_ok $testNode->getValue->getField('sfvec3f'),     'SFVec3f';
+isa_ok $testNode->getValue->getField('sfvec4d'),     'SFVec4d';
+isa_ok $testNode->getValue->getField('sfvec4f'),     'SFVec4f';
 
 #is ref $weed->metadata, 'SFNode';
 is ref $testNode->mfbool,      'MFBool';
@@ -277,6 +307,9 @@ is ref $testNode->mfvec2d,     'MFVec2d';
 is ref $testNode->mfvec2f,     'MFVec2f';
 is ref $testNode->mfvec3d,     'MFVec3d';
 is ref $testNode->mfvec3f,     'MFVec3f';
+is ref $testNode->mfvec4d,     'MFVec4d';
+is ref $testNode->mfvec4f,     'MFVec4f';
+
 is ref $testNode->sfbool,      'SFBool';
 is ref $testNode->sfcolor,     'SFColor';
 is ref $testNode->sfcolorrgba, 'SFColorRGBA';
@@ -292,6 +325,8 @@ is ref $testNode->sfvec2d,     'SFVec2d';
 is ref $testNode->sfvec2f,     'SFVec2f';
 is ref $testNode->sfvec3d,     'SFVec3d';
 is ref $testNode->sfvec3f,     'SFVec3f';
+is ref $testNode->sfvec4d,     'SFVec4d';
+is ref $testNode->sfvec4f,     'SFVec4f';
 
 #isa_ok $weed->metadata, 'X3DField';
 isa_ok $testNode->mfbool,      'X3DField';
@@ -309,6 +344,9 @@ isa_ok $testNode->mfvec2d,     'X3DField';
 isa_ok $testNode->mfvec2f,     'X3DField';
 isa_ok $testNode->mfvec3d,     'X3DField';
 isa_ok $testNode->mfvec3f,     'X3DField';
+isa_ok $testNode->mfvec4d,     'X3DField';
+isa_ok $testNode->mfvec4f,     'X3DField';
+
 isa_ok $testNode->sfbool,      'X3DField';
 isa_ok $testNode->sfcolor,     'X3DField';
 isa_ok $testNode->sfcolorrgba, 'X3DField';
@@ -324,6 +362,8 @@ isa_ok $testNode->sfvec2d,     'X3DField';
 isa_ok $testNode->sfvec2f,     'X3DField';
 isa_ok $testNode->sfvec3d,     'X3DField';
 isa_ok $testNode->sfvec3f,     'X3DField';
+isa_ok $testNode->sfvec4d,     'X3DField';
+isa_ok $testNode->sfvec4f,     'X3DField';
 
 isa_ok my $vec3f = $testNode->sfvec3f, 'SFVec3f';
 ok !tied $vec3f;
@@ -343,6 +383,9 @@ ok tied $testNode->mfvec2d;
 ok tied $testNode->mfvec2f;
 ok tied $testNode->mfvec3d;
 ok tied $testNode->mfvec3f;
+ok tied $testNode->mfvec4d;
+ok tied $testNode->mfvec4f;
+
 ok tied $testNode->sfbool;
 ok tied $testNode->sfcolor;
 ok tied $testNode->sfcolorrgba;
@@ -358,6 +401,8 @@ ok tied $testNode->sfvec2d;
 ok tied $testNode->sfvec2f;
 ok tied $testNode->sfvec3d;
 ok tied $testNode->sfvec3f;
+ok tied $testNode->sfvec4d;
+ok tied $testNode->sfvec4f;
 
 ok !tied ${ tied $testNode->mfbool };
 ok !tied ${ tied $testNode->mfcolor };
@@ -374,6 +419,9 @@ ok !tied ${ tied $testNode->mfvec2d };
 ok !tied ${ tied $testNode->mfvec2f };
 ok !tied ${ tied $testNode->mfvec3d };
 ok !tied ${ tied $testNode->mfvec3f };
+ok !tied ${ tied $testNode->mfvec4d };
+ok !tied ${ tied $testNode->mfvec4f };
+
 ok !tied ${ tied $testNode->sfbool };
 ok !tied ${ tied $testNode->sfcolor };
 ok !tied ${ tied $testNode->sfcolorrgba };
@@ -389,16 +437,8 @@ ok !tied ${ tied $testNode->sfvec2d };
 ok !tied ${ tied $testNode->sfvec2f };
 ok !tied ${ tied $testNode->sfvec3d };
 ok !tied ${ tied $testNode->sfvec3f };
-
-#is ++$weed->size, 3; #35
-#is ++$weed->size, 4; #36
-#is ++$weed->size, 5; #37
-#is ++$weed->size, 6; #38
-#is $weed->size++, 5;
-
-#is $weed, 'Weed {
-#  size 6
-#}';
+ok !tied ${ tied $testNode->sfvec4d };
+ok !tied ${ tied $testNode->sfvec4f };
 
 1;
 __END__

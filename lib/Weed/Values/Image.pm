@@ -43,7 +43,7 @@ sub new {
 	return $this;
 }
 
-sub copy { $_[0]->new( $_[0]->getValue ) }
+sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 sub setValue {
 	my ( $this, $width, $height, $components, $array ) = @_;
@@ -58,11 +58,12 @@ sub setValue {
 
 sub getValue {
 	my ($this) = @_;
-	return (
+	return [
 		$this->{width},
 		$this->{height},
 		$this->{components},
-		[ @{ $this->{array} } ] );
+		[ @{ $this->{array} } ]
+	];
 }
 
 sub getWidth { $_[0]->{width} }

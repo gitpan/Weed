@@ -5,7 +5,7 @@ use Weed::Values::Vec3;
 use Math::Quaternion;
 
 use overload
-  '=' => 'copy',
+  '=' => 'getClone',
 
   '~' => 'inverse',
 
@@ -100,7 +100,7 @@ sub private::new_from_quaternion {
 	return $this;
 }
 
-sub copy {
+sub getClone {
 	my $this = shift;
 	return $this->private::new_from_quaternion( $this->{quaternion} );
 }
@@ -165,10 +165,10 @@ sub getValue {
 
 	#$this->private::setQuaternion( $this->{quaternion} );
 
-	return (
+	return [
 		$this->getAxis,
 		$this->getAngle
-	);
+	];
 }
 
 sub getX { $_[0]->{axis}->[0] }
@@ -213,7 +213,7 @@ sub slerp { $_[0]->private::new_from_quaternion( $_[0]->{quaternion}->slerp( $_[
 
 sub toString {
 	my $this = shift;
-	return join " ", $this->getValue;
+	return join " ", @{ $this->getValue };
 }
 
 1;
