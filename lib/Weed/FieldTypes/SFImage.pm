@@ -1,5 +1,7 @@
 package Weed::FieldTypes::SFImage;
 
+our $VERSION = '0.0078';
+
 use Weed 'SFImage : X3DField { 0 0 0 }';
 
 sub setValue {

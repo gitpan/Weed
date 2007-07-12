@@ -16,7 +16,7 @@ is $sfvec3fId, $testNode->sfvec3f->getId;
 
 ok !$testNode->sfvec3f;
 
-$testNode->sfvec3f = new SFVec3d( 1, 2, 3 );
+$testNode->sfvec3f = new SFVec3f( 1, 2, 3 );
 is $testNode->sfvec3f, "1 2 3";
 
 $testNode->sfvec3f = new SFVec3f( 1 / 2, 1 / 4, 1 / 8 );

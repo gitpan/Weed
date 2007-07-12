@@ -1,6 +1,8 @@
 package Weed::Values::Vec2;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use base 'Weed::Values::Vector';
 
 use constant getDefaultValue => [ 0, 0 ];

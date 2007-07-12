@@ -1,6 +1,8 @@
 package Weed::Field;
 use Weed;
 
+our $VERSION = '0.0078';
+
 use Weed::Parse::FieldValue;
 
 sub setDescription {
@@ -46,6 +48,7 @@ sub getCopy { $_[0]->getClone }
 sub getDefinition { $_[0]->{definition} }
 sub setDefinition { $_[0]->{definition} = $_[1] }
 
+sub getDefaultValue { $_[0]->X3DPackage::Scalar("DefaultDefinition")->getValue }
 sub getInitialValue { $_[0]->getDefinition->getValue }
 
 sub getParent { shift @{ $_[0]->getParents->getValues } if $_[0]->getParents }
@@ -68,9 +71,9 @@ sub setValue {
 }
 
 sub setTainted {
-# 	my ( $this, $value ) = @_;
-# 	$this->{tainted} = $value;
-# 	return;
+	# 	my ( $this, $value ) = @_;
+	# 	$this->{tainted} = $value;
+	# 	return;
 }
 
 sub toString { sprintf "%s", $_[0]->getValue }

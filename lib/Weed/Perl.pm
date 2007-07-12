@@ -3,6 +3,8 @@ use strict;
 use warnings;
 #no warnings 'redefined';
 
+our $VERSION = '0.0079';
+
 use base 'Exporter';
 
 use Time::HiRes 'time';
@@ -20,8 +22,9 @@ $\ = "\n";
 sub import {
 	my $pkg = shift;
 
-	strict->import;
-	warnings->import;
+	strict::import;
+	warnings::import;
+	#warnings::unimport('redefine');
 
 	Exporter::export( $pkg, 'CORE::GLOBAL', @EXPORT_OK );
 	Exporter::export_to_level( $pkg, 1 );

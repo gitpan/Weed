@@ -18,13 +18,13 @@ is( $v = @{ Weed::Values::Vec3->getDefaultValue }, 3, "$v getDefaultValue" );
 is( $v = new Weed::Values::Vec3(), "0 0 0", "$v new Weed::Values::Vec3()" );
 ok !$v;
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
-$v->setValue();  is( $v, "0 0 0", "$v new Weed::Values::Vec3()" );
-$v->setValue(1); is( $v, "1 0 0", "$v new Weed::Values::Vec3()" );
-$v->setValue( 1, 1 ); is( $v, "1 1 0", "$v new Weed::Values::Vec3()" );
-$v->setValue( 1, 1, 1 ); is( $v, "1 1 1", "$v new Weed::Values::Vec3()" );
-$v->setValue( 1, 1, 1, 1 ); is( $v, "1 1 1", "$v new Weed::Values::Vec3()" );
+$v->setValue(); is( $v, "0 0 0", "$v new Weed::Values::Vec3()" );
+$v->setValue( [1] ); is( $v, "1 0 0", "$v new Weed::Values::Vec3()" );
+$v->setValue( [ 1, 1 ] ); is( $v, "1 1 0", "$v new Weed::Values::Vec3()" );
+$v->setValue( [ 1, 1, 1 ] ); is( $v, "1 1 1", "$v new Weed::Values::Vec3()" );
+$v->setValue( [ 1, 1, 1, 1 ] ); is( $v, "1 1 1", "$v new Weed::Values::Vec3()" );
 
 is( $v = new Weed::Values::Vec3( 1, 2, 3 ), "1 2 3", "$v new Weed::Values::Vec3()" );
 is( $v = new Weed::Values::Vec3( [ 1, 2, 3 ] ), "1 2 3", "$v new Weed::Values::Vec3()" );
@@ -89,7 +89,7 @@ use_ok('Weed::Values::Rotation');
 my $r = new Weed::Values::Rotation( 2, 3, 4, 5 );
 ok( $v = $r * $v1, "$v x " );
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
 is( $v = Weed::Values::Vec3->new( 1, 2, 3 )->rotate(0), "1 2 3", "$v >> 0" );
 is( $v = Weed::Values::Vec3->new( 1, 2, 3 )->rotate(1), "3 1 2", "$v >> 1" );
@@ -143,8 +143,8 @@ is( $v1**3,   "1 8 27",  "$v1 **" );
 is( $v1**= 2, "1 4 9",   "$v1 **" );
 is( $v1**= 2, "1 16 81", "$v1 **" );
 
-$v1->setValue( 2, 4, 1 );
-$v2->setValue( 8, 2, 6 );
+$v1->setValue( [ 2, 4, 1 ] );
+$v2->setValue( [ 8, 2, 6 ] );
 
 is( $v1, "2 4 1", "$v1 **" );
 is( $v2, "8 2 6", "$v1 **" );
@@ -155,20 +155,20 @@ ok( $v1->length < $v2->length,      "$v1 <" );
 ok( ( $v1 <=> $v2 ) == -1, "$v1 <=>" );
 ok( ( $v2 <=> $v1 ) == 1,  "$v1 <=>" );
 
-$v1->setValue( 3, 0, 0 );
+$v1->setValue( [ 3, 0, 0 ] );
 ok $v1 > 1;
 ok 4 > $v1;
 
 ok $v1 < 4;
 ok 1 < $v1;
 
-$v->setValue( 1, 2, 3 );
+$v->setValue( [ 1, 2, 3 ] );
 is $v**2, "1 4 9";
 is 2**$v, "2 4 8";
 ok $v;
 is !$v, '';
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
 is sqrt $v, $v**0.5;
 is tan $v, sin($v) / cos($v);

@@ -1,6 +1,8 @@
 package Weed::Values::Vec3;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use base 'Weed::Values::Vector';
 
 use overload "x" => 'cross';

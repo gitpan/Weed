@@ -93,14 +93,16 @@ is $testNode->sfcolor, "0.6 0.25 0.125";
 $testNode->sfcolor = new SFVec2f [1/16, 1/8];
 is $testNode->sfcolor, "0.0625 0.125 0.125";
 
+print new SFRotation;
+print "#"x23;
 $testNode->sfcolor = new SFRotation;
+print "#"x23;
 is $testNode->sfcolor, "0 0 1";
-
 $testNode->sfcolor = new SFRotation(1, 0, 0, 1);
 is $testNode->sfcolor, "0 0 1";
 
 $testNode->sfcolor = new SFRotation(1, 2, 3, 1);
-is $testNode->sfcolor, '0.267261241912424 0.534522483824849 0.801783725737273';
+is $testNode->sfcolor, '1 1 1';
 
 is ref $testNode->sfcolor->getValue->[0], '';
 

@@ -2,6 +2,8 @@ package Weed::Object;
 
 use Weed 'X3DObject { }';
 
+our $VERSION = '0.0078';
+
 sub new { shift->CREATE }
 
 sub CREATE {

@@ -3,6 +3,8 @@ package Weed::Array;
 use Weed 'X3DArray [ ]', 'isArray';
 #Array reference
 
+our $VERSION = '0.0078';
+
 use Algorithm::Numerical::Shuffle;
 use Weed::Tie::Length;
 

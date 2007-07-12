@@ -127,11 +127,52 @@ is $testNode->sfdouble = -1.3, -1.3;
 is abs( $testNode->sfdouble ), 1.3;
 is !$testNode->sfdouble, !1;
 is - $testNode->sfdouble, 1.3;
+is $testNode->sfdouble, -1.3;
+
+$testNode->sfdouble->setValue(undef);
+is $testNode->sfdouble, 0;
+$testNode->sfdouble->setValue("xxx");
+is $testNode->sfdouble, 0;
+
+is $testNode->sfdouble = undef, undef;
+is $testNode->sfdouble = "fdsfds", "fdsfds";
+is $testNode->sfdouble, 0;
 
 my $sfdouble = $testNode->sfdouble;
 isa_ok $sfdouble, 'X3DField';
 
 is $sfdoubleId, $testNode->sfdouble->getId;
+
+$testNode->sffloat->setValue("xxx");
+is $testNode->sffloat, 0;
+$testNode->sfint32->setValue("xxx");
+is $testNode->sfint32, 0;
+$testNode->sfstring->setValue(undef);
+is $testNode->sfstring, "";
+$testNode->sfdouble->setValue("xxx");
+is $testNode->sfdouble, 0;
+$testNode->sftime->setValue("xxx");
+is $testNode->sftime, 0;
+$testNode->sfbool->setValue(undef);
+is $testNode->sfbool, "FALSE";
+$testNode->sfnode->setValue(undef);
+is $testNode->sfnode, "NULL";
+
+$testNode->sffloat->setValue(undef);
+is $testNode->sffloat, 0;
+$testNode->sfint32->setValue(undef);
+is $testNode->sfint32, 0;
+$testNode->sfstring->setValue(undef);
+is $testNode->sfstring, "";
+$testNode->sfdouble->setValue(undef);
+is $testNode->sfdouble, 0;
+$testNode->sftime->setValue(undef);
+is $testNode->sftime, 0;
+$testNode->sfbool->setValue(undef);
+is $testNode->sfbool, "FALSE";
+$testNode->sfnode->setValue(undef);
+is $testNode->sfnode, "NULL";
+
 1;
 __END__
 

@@ -17,12 +17,12 @@ is( $v = @{ Weed::Values::Vec2->getDefaultValue }, 2, "$v getDefaultValue" );
 
 is( $v = new Weed::Values::Vec2(), "0 0", "$v new Weed::Values::Vec2()" );
 ok !$v;
-is $v->size, 2;
+is $v->elementCount, 2;
 
-$v->setValue();  is( $v, "0 0", "$v new Weed::Values::Vec2()" );
-$v->setValue(1); is( $v, "1 0", "$v new Weed::Values::Vec2()" );
-$v->setValue( 1, 1 ); is( $v, "1 1", "$v new Weed::Values::Vec2()" );
-$v->setValue( 1, 1, 1 ); is( $v, "1 1", "$v new Weed::Values::Vec2()" );
+$v->setValue(); is( $v, "0 0", "$v new Weed::Values::Vec2()" );
+$v->setValue( [1] ); is( $v, "1 0", "$v new Weed::Values::Vec2()" );
+$v->setValue( [ 1, 1 ] ); is( $v, "1 1", "$v new Weed::Values::Vec2()" );
+$v->setValue( [ 1, 1, 1 ] ); is( $v, "1 1", "$v new Weed::Values::Vec2()" );
 
 is( $v = new Weed::Values::Vec2(), "0 0", "$v new Weed::Values::Vec2()" );
 is( $v = new Weed::Values::Vec2( 1, 2 ), "1 2", "$v new Weed::Values::Vec2()" );
@@ -100,8 +100,8 @@ is( $v1**3,   "1 8",  "$v1 **" );
 is( $v1**= 2, "1 4",  "$v1 **" );
 is( $v1**= 2, "1 16", "$v1 **" );
 
-$v1->setValue( 2, 4 );
-$v2->setValue( 8, 2 );
+$v1->setValue( [ 2, 4 ] );
+$v2->setValue( [ 8, 2 ] );
 
 is( $v1, "2 4", "$v1 **" );
 is( $v2, "8 2", "$v1 **" );
@@ -112,10 +112,10 @@ ok( $v1->length < $v2->length,      "$v1 <" );
 ok( ( $v1 <=> $v2 ) == -1, "$v1 <=>" );
 ok( ( $v2 <=> $v1 ) == 1,  "$v1 <=>" );
 
-$v1->setValue( 1, 0 );
-$v2->setValue( 2, 4 );
+$v1->setValue( [ 1, 0 ] );
+$v2->setValue( [ 2, 4 ] );
 
-is $v->size, 2;
+is $v->elementCount, 2;
 
 ok( !( $v1 gt $v2 ), "$v1 >" );
 ok( $v1 lt $v2, "$v1 <" );
@@ -124,22 +124,22 @@ ok( ( $v2 cmp $v1 ) == 1,  "$v1 <=>" );
 
 is( $v2 / $v2, "1 1", "$v2 /" );
 
-$v1->setValue( -2, -2 );
+$v1->setValue( [ -2, -2 ] );
 is( $v1->sig, "-1 -1", "$v1 sig" );
 
-$v1->setValue( 2, -2 );
+$v1->setValue( [ 2, -2 ] );
 is( $v1->sig, "1 -1", "$v1 sig" );
 
-$v1->setValue( -2, 2 );
+$v1->setValue( [ -2, 2 ] );
 is( $v1->sig, "-1 1", "$v1 sig" );
 
-$v1->setValue( 2, 2 );
+$v1->setValue( [ 2, 2 ] );
 is( $v1->sig, "1 1", "$v1 sig" );
 
-$v1->setValue( 2, 0 );
+$v1->setValue( [ 2, 0 ] );
 is( $v1->sig, "1 0", "$v1 sig" );
 
-$v1->setValue( 0, 0 );
+$v1->setValue( [ 0, 0 ] );
 is( $v1->sig, "0 0", "$v1 sig" );
 
 $v1 += [ 1, 3 ];
@@ -167,20 +167,20 @@ is( [ 0, 0 ] -$v1, "-2 -6", "$v1 v" );
 # $v1 >>= 1;
 # is( $v1, "1 3", "$v1 v" );
 
-$v1->setValue( 54, 5454 );
+$v1->setValue( [ 54, 5454 ] );
 is( $v1 % $v2, "0 2", "$v1 v" );
 
 #use Math::Rotation;
 #my $r = new Math::Rotation(2,3,4,5);
 #ok( $v = $r * $v1, "$v x ");
 
-$v->setValue( 1, 2 );
+$v->setValue( [ 1, 2 ] );
 is $v**2, "1 4";
 is 2**$v, "2 4";
 ok $v;
 is !$v, '';
 
-is $v->size, 2;
+is $v->elementCount, 2;
 
 is sqrt $v, $v**0.5;
 is tan $v, sin($v) / cos($v);

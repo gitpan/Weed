@@ -1,5 +1,7 @@
 package Weed::FieldDefinition;
 
+our $VERSION = '0.0078';
+
 use Weed 'X3DFieldDefinition : X3DObject { }';
 
 use overload 'eq' => sub {

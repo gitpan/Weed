@@ -2,6 +2,8 @@ package Weed::ObjectHash;
 
 use Weed 'X3DObjectHash : X3DHash { }';
 
+our $VERSION = '0.0078';
+
 sub add {
 	my $this = shift;
 	$this->{ $_->getId } = $_ foreach @_;

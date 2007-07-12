@@ -1,19 +1,20 @@
 package Weed::Tie::VectorValue;
-use Weed::Perl;
+use Weed;
 
-use base 'Weed::Tie::ArrayFieldValue';
+our $VERSION = '0.008';
+
+use base 'Tie::Array';
 
 use Scalar::Util 'weaken';
 
-sub storeValue {
-	SFDouble->new( $_[1] )->getValue;
-}
+use Weed::Parse::Double 'double';
 
-sub fetchValue { $_[1] }
+sub getParent { $_[0]->{parent} }
+sub getArray  { $_[0]->{array} }
 
 sub TIEARRAY {
 	my $this = bless {
-		array  => $_[1]->getValue->getValue,
+		array  => $_[1]->getValue,
 		parent => $_[1],
 	  },
 	  $_[0];
@@ -23,10 +24,21 @@ sub TIEARRAY {
 	return $this;
 }
 
-sub STORE { shift->SUPER::STORE(@_) }
+sub STORE {
+	return X3DMessage->IndexOutOfRange( 3, @_ )
+	  unless defined $_[0]->{array}->set1Value( $_[1], double( \"$_[2]" ) || 0 );
+}
+
+sub FETCH {
+	return X3DMessage->IndexOutOfRange( 3, @_ ) unless $_[0]->EXISTS( $_[1] );
+	$_[0]->{array}->[ $_[1] ]
+}
+
+sub FETCHSIZE { $_[0]->{array}->elementCount }
+sub EXISTS    { exists $_[0]->{array}->[ $_[1] ] }
 
 sub STORESIZE { warn "STORESIZE" }
-sub CLEAR     { warn "CLEAR	 " }
+sub CLEAR     { $_[0]->{array}->clear }
 sub DELETE    { warn "DELETE   " }
 
 sub POP     { warn "POP 	" }
@@ -35,6 +47,6 @@ sub SHIFT   { warn "SHIFT  " }
 sub UNSHIFT { warn "UNSHIFT" }
 
 sub SPLICE { warn "SPLICE" }
- 
-1
+
+1;
 __END__

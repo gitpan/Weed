@@ -17,6 +17,13 @@ is $sfvec4dId, $testNode->sfvec4d->getId;
 
 ok !$testNode->sfvec4d;
 
+ok exists $testNode->sfvec4d->[0];
+ok exists $testNode->sfvec4d->[1];
+ok exists $testNode->sfvec4d->[2];
+ok exists $testNode->sfvec4d->[3];
+ok ! exists $testNode->sfvec4d->[4];
+
+
 $testNode->sfvec4d = new SFVec4d( 1, 2, 3, 4 );
 is $testNode->sfvec4d, "1 2 3 4";
 

@@ -1,5 +1,7 @@
 package Weed::Test::ArrayHash;
 
+our $VERSION = '0.0078';
+
 use Weed 'X3DArrayHash <>';
 
 use overload

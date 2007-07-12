@@ -1,6 +1,8 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Weed::Symbols;
 
 use base 'Exporter';

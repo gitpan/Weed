@@ -1,13 +1,13 @@
 package Weed::Values::ColorRGBA;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Weed::Values::Color;
 
 use base 'Weed::Values::Vec4';
 
 use constant getDefaultValue => [ 0, 0, 0, 0 ];
-
-sub setRGB { @{ $_[0] }[ 0, 1, 2 ] = @{ $_[1] }[ 0, 1, 2 ] }
 
 *setRed = \&Weed::Values::Vec4::setX;
 *getRed = \&Weed::Values::Vec4::getX;
@@ -21,13 +21,11 @@ sub setRGB { @{ $_[0] }[ 0, 1, 2 ] = @{ $_[1] }[ 0, 1, 2 ] }
 *setAlpha = \&Weed::Values::Vec4::setW;
 *getAlpha = \&Weed::Values::Vec4::getW;
 
-sub getValue { [ map { Math::clamp( $_, 0, 1 ) } @{ $_[0]->SUPER::getValue } ] }
+*getValue = \&Weed::Values::Color::getValue;
 
-sub setValue {
-	my $this = shift;
-	$this->SUPER::setValue( map { Math::clamp( $_, 0, 1 ) } @_ );
-	return;
-}
+*setValue = \&Weed::Values::Color::setValue;
+
+sub setRGB { @{ $_[0] }[ 0, 1, 2 ] = @{ $_[1] }[ 0, 1, 2 ] }
 
 sub getRGB { new Weed::Values::Color( map { Math::clamp( $_, 0, 1 ) } @{ $_[0] }[ 0, 1, 2 ] ) }
 
@@ -39,6 +37,8 @@ sub setHSV {
 
 	$this->setRGB($c);
 	$this->setAlpha($a) if defined $a;
+
+	return;
 }
 
 sub getHSV { ( $_[0]->getRGB->getHSV, 0 ) }

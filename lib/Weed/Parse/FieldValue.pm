@@ -1,10 +1,14 @@
 package Weed::Parse::FieldValue;
 use Weed;
 
+our $VERSION = '0.0079';
+
 use Weed::RegularExpressions;
 
-use Weed::Parse::String 'string';
+use Weed::Parse::Int32  'int32';
+use Weed::Parse::Float  'float';
 use Weed::Parse::Double 'double';
+use Weed::Parse::String 'string';
 
 sub parse {
 	my ( $fieldType, $string ) = @_;
@@ -98,16 +102,6 @@ sub sffloatValue {
 	return;
 }
 
-sub float {
-	my ($string) = @_;
-	return $1 if $$string =~ m.$_float.gc;
-	return 0  if $$string =~ m.$_nan.gc;
-
-	#return ...  if $$string =~ m.$_inf.gc;
-	#X3DError::Debug "VRML2::Parser::float undef\n";
-	return;
-}
-
 sub sfimageValue {
 	my ($string) = @_;
 	my ( $width, $height, $components );
@@ -165,12 +159,6 @@ sub sfint32Value {
 	my ($string) = @_;
 	my $int32 = &int32($string);
 	return $int32 if defined $int32;
-	return;
-}
-
-sub int32 {
-	my ($string) = @_;
-	return defined $2 ? hex($1) : $1 if $$string =~ m.$_int32.gc;
 	return;
 }
 

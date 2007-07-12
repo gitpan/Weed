@@ -23,14 +23,15 @@ BEGIN {
 			warnings => 0,
 
 			#Universal
-			Exporter       => 0,
-			Carp           => 0,
-			Time::HiRes    => 0,
-			Package::Alias => 0,
-			Class::ISA     => 0,
-			Scalar::Util   => 0,
-			Hash::NoRef    => 0,
-			Want           => 0,
+			Exporter        => 0,
+			Carp            => 0,
+			Time::HiRes     => 0,
+			Package::Alias  => 0,
+			Class::ISA      => 0,
+			Scalar::Util    => 0,
+			Hash::NoRef     => 0,
+			Want            => 0,
+			Sub::Signatures => 0,
 
 			#Fields
 			Tie::Scalar     => 0,

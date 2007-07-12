@@ -1,5 +1,7 @@
 package Weed::FieldTypes::SFNode;
 
+our $VERSION = '0.0079';
+
 use Weed 'SFNode : X3DField { NULL }';
 
 use overload
@@ -19,7 +21,7 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 	my $name = substr our $AUTOLOAD, rindex( $AUTOLOAD, ':' ) + 1;
 
 	my $node = $this->getValue;
-	X3DMessage->UnknownField( $this, $AUTOLOAD ) unless ref $node;
+	X3DMessage->UnknownField( 1, $this, $AUTOLOAD ) unless ref $node;
 
 	if ( Want::want('RVALUE') ) {
 		my $field = $node->getField($name);
@@ -80,7 +82,7 @@ sub setValue {
 	}
 	else
 	{
-		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(@_);
+		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(1, $this, $value);
 	}
 
 	return;

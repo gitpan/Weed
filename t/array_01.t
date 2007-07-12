@@ -13,7 +13,9 @@ BEGIN {
 ok !new X3DArray [];
 ok new X3DArray [ 1, 2, 3 ];
 is new X3DArray( [ 1, 2, 3 ] ), '[ 1, 2, 3 ]';
+is( X3DArray->new( 1, 2, 3 )->getLength, 3 );
 is( X3DArray->new( [ 1, 2, 3 ] )->getLength, 3 );
+is( X3DArray->new( [ 1, 2, 3 ], [ 1, 2, 3 ] )->getLength, 2 );
 
 ok my $array = new X3DArray [ 1, 2, 3, 4 ];
 is $array, '[ 1, 2, 3, 4 ]';
@@ -90,7 +92,6 @@ ok $array->shuffle->sort == $array;
 is $array->setLength(-23), undef;
 is $array->getLength, 0;
 ok X3DArray::isArray($array);
-
 
 ok $array = new X3DArray [ 'a10', 'a2', 'a1', 'a4', '1a', '10a', '5a', '2a' ];
 

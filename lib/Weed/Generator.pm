@@ -1,5 +1,7 @@
 package Weed::Generator;
 
+our $VERSION = '0.0078';
+
 use Weed 'X3DGenerator';
 
 use Weed::Symbols;

@@ -14,7 +14,7 @@ ok my $testNode = new SFNode( new TestNode('TestNodeFields') );
 ok $testNode;
 ok $testNode->sfnode = new SFNode( new TestNode('TestNodeFieldsIn') );
 ok $testNode->sfnode;
-is $testNode->sfnode, 'DEF '.$testNode->sfnode->getValue->getName.' TestNode { }';
+is $testNode->sfnode, 'DEF ' . $testNode->sfnode->getValue->getName . ' TestNode { }';
 
 ok my $sfnodeId = $testNode->sfnode->getId;
 is $sfnodeId, $testNode->sfnode->getId;
@@ -37,15 +37,15 @@ ok $copy->sfnode->getId != $testNode->sfnode->getId;
 ok $copy->sfnode->getValue->getId == $testNode->sfnode->getValue->getId;
 
 ok $clone->getValue->getField( $_->getName )->getId == $testNode->getValue->getField( $_->getName )->getId
-  foreach $testNode->getValue->getFieldDefinitions;
+  foreach @{ $testNode->getValue->getFieldDefinitions };
 ok $clone->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $_->getName )
-  foreach $testNode->getValue->getFieldDefinitions;
+  foreach @{ $testNode->getValue->getFieldDefinitions };
 
 ok $copy->getValue->getField( $_->getName )->getId != $testNode->getValue->getField( $_->getName )->getId
-  foreach $testNode->getValue->getFieldDefinitions;
+  foreach @{ $testNode->getValue->getFieldDefinitions };
 is Math::sum( map {
 		$copy->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $_->getName )
-	  } $testNode->getValue->getFieldDefinitions ),
+	  } @{ $testNode->getValue->getFieldDefinitions } ),
   scalar @{ $testNode->getValue->getFieldDefinitions };
 
 print $testNode;

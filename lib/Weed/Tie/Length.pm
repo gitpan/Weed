@@ -1,6 +1,8 @@
 package Weed::Tie::Length;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Tie::Scalar;
 use base 'Tie::StdScalar';
 

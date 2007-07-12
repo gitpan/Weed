@@ -1,6 +1,80 @@
 package Weed::Message;
 
+our $VERSION = '0.0079';
+
 use Weed 'X3DMessage';
+
+use Carp ();
+
+sub subroutine { ( caller(2) )[3] }
+sub subname { substr( $_[0], rindex( $_[0], ':' ) + 1 ) }
+
+sub warn {
+	shift;
+	$Carp::CarpLevel = shift;
+	Weed->warnings::warn(@_);
+	return;
+}
+
+sub die {
+	shift;
+	$Carp::CarpLevel = shift;
+	Carp::croak(@_);
+	return;
+}
+
+# Scalar Field
+# sub NotArrayReference {
+# 	shift->die( shift,
+# 		sprintf 'Not an ARRAY reference',
+# 		#UNIVERSAL::isa( $_[0], 'X3DUniversal' ) ? $_[0]->getType : $_[0]
+# 	);
+# }
+
+# Field
+sub CouldNotAssign {
+	shift->die( shift,
+		sprintf 'Could not assign %s',
+		UNIVERSAL::isa( $_[0], 'X3DUniversal' ) ? $_[0]->getType : $_[0]
+	);
+}
+
+# Vector Field, Array
+sub WrongElementCount {
+	shift->die( shift,
+		sprintf "Could not assign %s, wrong element count. Expected at least %d values",
+		UNIVERSAL::isa( $_[0], 'X3DUniversal' ) ? $_[0]->getType : $_[0],
+		$_[1]
+	);
+}
+
+sub IndexOutOfRange {
+	shift->die( shift,
+		sprintf 'Modification of non-creatable array value attempted, subscript %d',
+		$_[1]
+	);
+}
+
+# Node, SFNode
+sub UnknownField {
+	shift->die( shift,
+		sprintf "Unknown field '%s' in class '%s' named '%s'",
+		subname( $_[1] ),
+		$_[0]->getType,
+		$_[0]->getName
+	);
+}
+
+sub ValueHasToBeAtLeastOfTypeX3DNode {
+	shift->warn( shift,
+		sprintf "%s->setValue(%s), value has to be at least of type X3DNode",
+		$_[0]->getType,
+		overload::StrVal( $_[1] )
+	);
+}
+
+1;
+__END__
 
 use Carp ();
 $Carp::CarpLevel = 2;
@@ -20,7 +94,7 @@ sub filename   { ( caller(get_toplevel) )[1] }
 sub line       { ( caller(get_toplevel) )[2] }
 sub subroutine { ( caller(get_toplevel) )[3] }
 
-sub caller_line { ( caller(2) )[2] }
+sub caller_line       { ( caller(2) )[2] }
 sub caller_subroutine { ( caller(2) )[3] }
 
 sub Debug {
@@ -33,7 +107,7 @@ sub Debug {
  file: %s at line %s",
 	  join( ", ", @_ ),
 	  caller_subroutine, caller_line,
-	  filename, line
+	  filename,          line
 	  if @_;
 
 	return print sprintf "Something is wrong %s at line %s.", filename, line;
@@ -56,9 +130,6 @@ sub UnknownField { $_[0]->Error( sprintf "Unknown field '%s' in class '%s' named
 sub DontAssignToGetField { $_[0]->Error( sprintf "Dont assign to getField use %s->%s = \$value instead", $_[1]->getTypeName, $_[2] ) }
 
 sub ValueHasToBeAtLeastOfTypeX3DNode { $_[0]->Error( sprintf "%s->setValue(\$value), value has to be at least of type X3DNode", $_[1]->getType ) }
-
-1;
-__END__
 
 	
 my ( $package, $filename, $line, $subroutine, $hasargs, $wantarray, $evaltext, $is_require, $hints, $bitmask ) = caller(1);

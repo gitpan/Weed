@@ -1,6 +1,8 @@
 package Weed::Symbols;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use base 'Exporter';
 
 our @EXPORT = qw(

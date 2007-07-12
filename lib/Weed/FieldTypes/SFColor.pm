@@ -1,8 +1,10 @@
 package Weed::FieldTypes::SFColor;
 
+our $VERSION = '0.0078';
+
 use Weed 'SFColor : X3DField { 0 0 0 }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::SFVector';
+use base 'Weed::FieldTypes::BaseFieldTypes::Vector';
 
 sub r : lvalue { $_[0]->[0] }
 

@@ -1,6 +1,8 @@
 package Weed::Tie::MFNodeValue;
 use Weed;
 
+our $VERSION = '0.0078';
+
 use base 'Weed::Tie::ArrayFieldValue';
 
 sub storeValue {

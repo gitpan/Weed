@@ -1,6 +1,8 @@
 package Weed::Values::Image;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 #use PDL;
 
 #use constant getDefaultValue => [ 0, 0, 0 ];

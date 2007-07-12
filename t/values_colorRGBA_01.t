@@ -17,7 +17,7 @@ my ( $v, $v1, $v2 );
 is( $v = new Weed::Values::ColorRGBA(), "0 0 0 0", "$v new Weed::Values::ColorRGBA()" );
 ok !$v;
 
-is $v->size, 4;
+is $v->elementCount, 4;
 
 is( $v = new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
 is( $v = new Weed::Values::ColorRGBA( 0.1, 0.2, 0.3, 0 ), "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
@@ -27,7 +27,7 @@ is( $v = new Weed::Values::ColorRGBA( [ 0.1, 0.2, 0.3, 0.0 ] ), "0.1 0.2 0.3 0",
 is( $v = $v->getClone, "0.1 0.2 0.3 0", "$v new Weed::Values::ColorRGBA()" );
 is( "$v", "0.1 0.2 0.3 0", "$v ''" );
 
-is $v->size, 4;
+is $v->elementCount, 4;
 
 is( $v = Weed::Values::ColorRGBA->new( 0.1, 0.2, 0.3, 0 )->getX, "0.1", "$v getX" );
 is( $v = Weed::Values::ColorRGBA->new( 0.1, 0.2, 0.3, 0 )->getY, "0.2", "$v getY" );
@@ -42,7 +42,7 @@ $v->setRed(2);
 $v->setGreen(3);
 $v->setBlue(4);
 
-is $v->size, 4;
+is $v->elementCount, 4;
 
 ok( $v->getX == $v->getRed, "$v x" );
 ok( $v->getX == $v->getRed, "$v x" );
@@ -96,7 +96,7 @@ is( $v = $v1 x $v2, "0 0.02 0 0",      "$v x" );
 is( $v = $v1 . [ 2, 3, 4, 1 ], "2",         "$v ." );
 is( $v = $v1 x [ 2, 4, 4, 0 ], "0 0.2 0 0", "$v x" );
 
-is $v->size, 4;
+is $v->elementCount, 4;
 
 is( sprintf( "%0.0f", $v = $v1->length ), "0", "$v length" );
 
@@ -152,7 +152,7 @@ $v1->setHSV( 11 / 12 * 2 * pi, 1, 1 ); $v->setHSV( $v1->getHSV );
 is( $v1, "1 0 0.5 0", "$v1 setHSV" );
 ok( $v eq $v1, "$v getHSV" );
 
-$v1->setValue( 1, 2, 3, 4 );
+$v1->setValue( [ 1, 2, 3, 4 ] );
 is( $v1, "1 1 1 1", "$v1 setValue" );
 
 $v1->setAlpha(0.8);
@@ -176,13 +176,13 @@ is( $v = $v1 x [ 2, 4, 4, 0 ], "0 0.2 0 0.8", "$v x" );
 #my $r = new Weed::Values::Rotation(2,3,4,5);
 #ok( $v = $r * $v1, "$v x ");
 
-$v->setValue( 0.1, 0.2, 0.3, 0.4 );
+$v->setValue( [ 0.1, 0.2, 0.3, 0.4 ] );
 is $v**2, "0.01 0.04 0.09 0.4";
 is 2**$v, "1 1 1 0.4";
 ok $v;
 is !$v, '';
 
-is $v->size, 4;
+is $v->elementCount, 4;
 
 is sqrt $v, $v**0.5;
 is tan $v, sin($v) / cos($v);

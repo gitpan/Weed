@@ -1,4 +1,6 @@
-package Weed::FieldTypes::BaseFieldTypes::SFNumber;
+package Weed::FieldTypes::BaseFieldTypes::Number;
+
+our $VERSION = '0.0079';
 
 use overload
   '0+' => sub { 0 + $_[0]->getValue },
@@ -39,6 +41,8 @@ use overload
   'abs'  => sub { abs $_[0]->getValue },
   'log'  => sub { log $_[0]->getValue },
   'sqrt' => sub { sqrt $_[0]->getValue },
+  
+#  '@{}' => sub  { X3DMessage->NotArrayReference(2, @_) },
   ;
 
 1;

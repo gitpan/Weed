@@ -53,7 +53,7 @@ ok( $r1 = new Weed::Values::Rotation( 1, 2, 3, 4 ), "$r1 new Weed::Values::Rotat
 ok( $r2 = new Weed::Values::Rotation( 1, 2, 4, 8 ), "$r2 new Weed::Values::Rotation( 1, 2, 4, 8 )" );
 ok( $r = $r1->inverse, "$r inverse" );
 ok( $r = $r1->multiply($r2), "$r multiply" );
-ok( ( $x, $y, $z ) = $r1->multVec( 1, 1, 1 ), "$x, $y, $z multVec" );
+isa_ok( $r1->multVec( [ 1, 1, 1 ] ), "Weed::Values::Vec3" );
 ok( $r = $r1->slerp( $r2, 1 / 3 ), "$r slerp" );
 
 $r2->setX(2);
@@ -68,7 +68,7 @@ $r2->setZ(2);
 ok( $r = $r2, "$r2 setZ" );
 ok( $r = $r1->multiply($r2), "$r multiply" );
 
-$r2->setAxis( [2, 3, 4] );
+$r2->setAxis( [ 2, 3, 4 ] );
 ok( $r = $r2, "$r2 setAxis" );
 ok( $r = $r1->multiply($r2), "$r multiply" );
 
@@ -84,6 +84,16 @@ ok( $r = $r1 * $r2,          "$r multiply" );
 $r2->getValue;
 $r2->setValue( 5, 6, 7, 8 );
 $r2->setValue( 5, 6, 7, 8 );
+
+is ~~ $r2 eq $r2, !1;
+ok ~~ $r2 == $r2;
+ok ~$r2 ne $r2;
+ok ~$r2 != $r2;
+is $r2 eq ~~ $r2, !1;
+ok $r2 == ~~ $r2;
+ok $r2 ne ~$r2;
+ok $r2 != ~$r2;
+
 ok( $r = $r2,                "$r2 setValue" );
 ok( $r = $r1->multiply($r2), "$r multiply" );
 ok( $r = ~( $r1 * $r2 ),     "$r multiply" );
@@ -93,9 +103,9 @@ ok( $r = $r1 * $r2, "$r +" );
 ok( $v = $r2 * [ 1, 2, 3 ], "@$v *" );
 ok( $v = $r2 * [ 1, 2, 3 ], "@$v *" );
 ok( $v = $r2->multVec( [ 1, 2, 3 ] ), "@$v *" );
-ok( $v = [ $r2->multVec( 1, 2, 3 ) ], "@$v *" );
-ok( $v = [ $r2->multVec( 1, 2, 3, 4 ) ], "@$v *" );
-ok( $r = $r2->multVec($r1), "$r *" );
+ok( $v = [ $r2->multVec( new Weed::Values::Vec3( [ 1, 2, 3 ] ) ) ], "@$v *" );
+ok( $v = $r2->multVec( [ 1, 2, 3 ] ), "@$v *" );
+ok( $r = $r2->multiply($r1), "$r *" );
 #ok( $v = $r2->multVec( [ 1, 2, 3, 4 ] ), "@$v *" );
 #ok( $v = $r2 * [ 1, 2, 3, 4 ], "@$v *" );
 ok( $r = $r2 * $r1, "$r *" );
@@ -108,7 +118,7 @@ ok( ~$r1 != $r1, "$r1 ne" );
 
 print $r1;
 print $r1->getClone;
-ok( $r1 eq $r1->getClone, "$r1 getClone" );
+is $r1, $r1->getClone;
 
 ok( $r1 *= $r1, "$r1 *=" );
 
@@ -117,8 +127,8 @@ is $r2, "0 0 1 0";
 $r2->setValue( 0, 0, 0, 0 );
 is $r2, "0 0 1 0";
 
-$r2 = new Weed::Values::Rotation(1,2,3,4);
-is $r2, "0.267261241912424 0.534522483824849 0.801783725737273 4";
+$r2 = new Weed::Values::Rotation( 1, 2, 3, 4 );
+is $r2, "1 2 3 4";
 
 __END__
 foreach my $c ( 1 .. 3 )

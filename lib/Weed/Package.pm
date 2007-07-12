@@ -1,6 +1,8 @@
 package Weed::Package;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
 

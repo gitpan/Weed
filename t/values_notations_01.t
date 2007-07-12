@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #package values_notations_01
-use Test::More tests => 7;
+use Test::More no_plan;
 use strict;
 
 BEGIN {
@@ -16,15 +16,15 @@ BEGIN {
 	use_ok('Weed::Values::Rotation');
 }
 
-my $v2 = new Weed::Values::Vec2(1,2);
-my $v3 = new Weed::Values::Vec3(1,2,3);
-my $v4 = new Weed::Values::Vec4(2,4,3,4);
-my $c3 = new Weed::Values::Color($v3/11);
-my $c4 = new Weed::Values::ColorRGBA($v4/11);
-my $c41 = new Weed::Values::ColorRGBA($c3);
+ok my $v2 = new Weed::Values::Vec2(1,2);
+ok my $v3 = new Weed::Values::Vec3(1,2,3);
+ok my $v4 = new Weed::Values::Vec4(2,4,3,4);
+ok my $c3 = new Weed::Values::Color($v3/11);
+ok my $c4 = new Weed::Values::ColorRGBA($v4/11);
+ok my $c41 = new Weed::Values::ColorRGBA($c3);
 
-my $r1 = new Weed::Values::Rotation($c4 , $v3);
-my $r2 = new Weed::Values::Rotation($v3/11, $v3);
+ok my $r1 = new Weed::Values::Rotation($c4 , $v3);
+ok !( my $r2 = new Weed::Values::Rotation($v3/11, $v3));
 
 $v4->[1] = -2;
 
@@ -42,11 +42,16 @@ printf "%s\n", $c41;
 printf "%s\n", $r1;
 printf "%s\n", $r2;
 
-my $axis = $r1->getAxis * [1,4,5];
+ok my $axis = $r1->getAxis;
 printf "%s\n", $axis;
 
+
 $r2->setAxis($axis);
+print "xx\n"x2;
 $r2->setAngle(2);
+
+
+
 printf "%s\n", $r2->getAxis;
 printf "%s\n", $r2;
 

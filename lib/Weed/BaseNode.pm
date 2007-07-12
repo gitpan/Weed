@@ -1,6 +1,8 @@
 package Weed::BaseNode;
 use Weed;
 
+our $VERSION = '0.0079';
+
 use Weed::Parse::FieldDescription;
 
 sub setDescription {
@@ -51,10 +53,12 @@ sub getCloneCount { $_[0]->{clones} }
 sub setCloneCount { $_[0]->{clones} = $_[1] }
 
 # Fields
+sub existsField { exists $_[0]->{fields}->{ $_[1] } }
+
 sub getTiedField : lvalue {
 	my ( $this, $name ) = @_;
 
-	X3DMessage->UnknownField(@_) unless exists $this->{fields}->{$name};
+	X3DMessage->UnknownField( 2, @_ ), return unless exists $this->{fields}->{$name};
 
 	return ${ tied $this->{fields}->{$name} }
 	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
@@ -160,20 +164,20 @@ sub canDispose {
 	return;
 }
 
-sub dispose { #print " BaseNode::dispose ", $_[0]->getName;
+sub dispose {    #print " BaseNode::dispose ", $_[0]->getName;
 	my $this = shift;
 	my $node = shift || $this;
 
 	return;
 
-# 	return unless $node->getCloneCount;
-# 	return unless $node->canDispose;
-# 
-# 	my $parents = $this->getParents->getValues;
-# 
-# 	foreach my $field (@$parents) {
-# 		$field->dispose($node);
-# 	}
+	# 	return unless $node->getCloneCount;
+	# 	return unless $node->canDispose;
+	#
+	# 	my $parents = $this->getParents->getValues;
+	#
+	# 	foreach my $field (@$parents) {
+	# 		$field->dispose($node);
+	# 	}
 
 }
 

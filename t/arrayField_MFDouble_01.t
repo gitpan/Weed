@@ -29,6 +29,7 @@ is $mf1->length, 20;
 is ++$mf1->length, 21;
 is $mf1->length = 3, 3;
 is $mf1, '[ 123, 0, 0 ]';
+is $mf1->[4], undef;
 
 my $mf2 = $MFType->new(123, 234);
 ok $mf2;

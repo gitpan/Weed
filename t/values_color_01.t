@@ -26,7 +26,7 @@ is( $v = new Weed::Values::Color( [ 0.1, 0.2, 0.3 ] ), "0.1 0.2 0.3", "$v new We
 is( $v = $v->getClone, "0.1 0.2 0.3", "$v new Weed::Values::Color()" );
 is( "$v", "0.1 0.2 0.3", "$v ''" );
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
 is( $v = @{ Weed::Values::Color->getDefaultValue }, 3, "$v getDefaultValue" );
 
@@ -83,7 +83,7 @@ is( $v = $v1 x $v2, "0 0.02 0",      "$v x" );
 is( $v = $v1 . [ 2, 3, 4 ], "2",       "$v ." );
 is( $v = $v1 x [ 2, 3, 4 ], "0 0.2 0", "$v x" );
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
 is( sprintf( "%0.0f", $v = $v1->length ), "0", "$v length" );
 
@@ -143,14 +143,14 @@ ok( $v eq $v1, "$v getHSV" );
 #my $r = new Weed::Values::Rotation(2,3,4,5);
 #ok( $v = $r * $v1, "$v x ");
 
-$v->setValue( 0.1, 0.2, 0.3 );
+$v->setValue( [ 0.1, 0.2, 0.3 ] );
 is $v**2, "0.01 0.04 0.09";
 is 2**$v,   "1 1 1";
 is 0.2**$v, "0.851339922520785 0.724779663677696 0.61703386272001";
 ok $v;
 is !$v, '';
 
-is $v->size, 3;
+is $v->elementCount, 3;
 
 is sqrt $v, $v**0.5;
 is tan $v, sin($v) / cos($v);

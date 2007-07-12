@@ -1,5 +1,7 @@
 package Weed::Constants;
 
+our $VERSION = '0.0078';
+
 use Weed 'X3DConstants';
 
 use constant initializeOnly => 0;

@@ -1,5 +1,7 @@
 package Weed::Name;
 
+our $VERSION = '0.0078';
+
 use Weed 'X3DName ()';
 
 my $Hash = {};

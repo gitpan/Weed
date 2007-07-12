@@ -1,6 +1,8 @@
 package Weed::FieldTypes;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Weed::FieldTypes::SFBool;
 use Weed::FieldTypes::SFColor;
 use Weed::FieldTypes::SFColorRGBA;

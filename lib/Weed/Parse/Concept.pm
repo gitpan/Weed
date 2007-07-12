@@ -1,6 +1,8 @@
 package Weed::Parse::Concept;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Carp (); $Carp::CarpLevel = 1;
 use Object::MultiType;
 

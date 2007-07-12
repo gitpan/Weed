@@ -1,6 +1,8 @@
 package Weed::Parser;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Carp qw(croak);
 
 use Weed::Parser::Symbols;

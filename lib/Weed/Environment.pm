@@ -1,6 +1,8 @@
 package Weed::Environment;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Weed::Math;
 use Weed::Universal;
 

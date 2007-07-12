@@ -135,10 +135,10 @@ is $v->[4], '4323';
 
 $s = '[1 2 3 4, 2 3 4 5  6 7 8 9]';
 is ref( $v = Weed::Parse::FieldValue::mfrotationValue( \$s ) ), 'X3DArray';
-is $v->[0]->getX,     '0.267261241912424';
-is $v->[1]->getY,     '0.557086014531156';
-is $v->[2]->getZ,     '-0.655385536415232';
-is $v->[2]->getAngle, '3.56637061435917';
+is $v->[0]->getX,     '1';
+is $v->[1]->getY,     '3';
+is $v->[2]->getZ,     '8';
+is $v->[2]->getAngle, '9';
 
 $s = '[1 2 3, 2 3 4  6 7 8]';
 is ref( $v = Weed::Parse::FieldValue::mfvec3fValue( \$s ) ), 'X3DArray';

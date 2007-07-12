@@ -1,13 +1,3 @@
-bin/Add_New_Directoy
-bin/CPAN_Build
-bin/CPAN_Install
-bin/CPAN_Test
-bin/Duplicate
-bin/Mount_ISO
-bin/Perl_Run
-bin/PS_To_PDF
-bin/To_PNG
-bin/Unmount_ISO
 lib/weed.pl
 lib/Weed.pm
 lib/Weed/.BaseNode.pm.bck
@@ -21,9 +11,8 @@ lib/Weed/FieldDefinition.pm
 lib/Weed/FieldHelper.pm
 lib/Weed/FieldTypes.pm
 lib/Weed/FieldTypes/.SFBool.pm.bck
-lib/Weed/FieldTypes/BaseFieldTypes/SFNumber.pm
-lib/Weed/FieldTypes/BaseFieldTypes/SFRotation.pm
-lib/Weed/FieldTypes/BaseFieldTypes/SFVector.pm
+lib/Weed/FieldTypes/BaseFieldTypes/Number.pm
+lib/Weed/FieldTypes/BaseFieldTypes/Vector.pm
 lib/Weed/FieldTypes/MFBool.pm
 lib/Weed/FieldTypes/MFColor.pm
 lib/Weed/FieldTypes/MFColorRGBA.pm
@@ -71,7 +60,9 @@ lib/Weed/Parse/Concept.pm
 lib/Weed/Parse/Double.pm
 lib/Weed/Parse/FieldDescription.pm
 lib/Weed/Parse/FieldValue.pm
+lib/Weed/Parse/Float.pm
 lib/Weed/Parse/Id.pm
+lib/Weed/Parse/Int32.pm
 lib/Weed/Parse/String.pm
 lib/Weed/Parser.pm
 lib/Weed/Perl.pm
@@ -82,6 +73,7 @@ lib/Weed/Tie/ArrayFieldValue.pm
 lib/Weed/Tie/Field.pm
 lib/Weed/Tie/Length.pm
 lib/Weed/Tie/MFNodeValue.pm
+lib/Weed/Tie/RotationValue.pm
 lib/Weed/Tie/VectorValue.pm
 lib/Weed/Tie/WeakHash.pm
 lib/Weed/Universal.pm
@@ -114,7 +106,6 @@ t/field_02.t
 t/field_05.t
 t/field_sfbool_05.t
 t/field_sfint_05.t
-t/field_sfrotation_____________05.t
 t/fieldDefinition_01.t
 t/fieldDefinition_02.t
 t/fieldDefinition_03.t
@@ -122,6 +113,7 @@ t/fields_02.t
 t/fieldTypes_01.t
 t/fieldTypes_02.t
 t/generator_01.t
+t/get_orientation_01.t
 t/hash_01.t
 t/length_01.t
 t/math_01.t
@@ -142,6 +134,8 @@ t/node_03.t
 t/nodefield1_06.t
 t/nodefield_06.t
 t/nodefield_hierarchy_06.t
+t/nodefield_mfvec4d_06.t
+t/nodefield_mfvec4d_07.t
 t/nodefield_sfbool_06.t
 t/nodefield_sfcolor_06.t
 t/nodefield_sfcolorrgba_06.t

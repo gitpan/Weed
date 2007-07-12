@@ -1,6 +1,8 @@
 package Weed::Parse::FieldDescription;
 use Weed;
 
+our $VERSION = '0.0078';
+
 use Weed::RegularExpressions;
 use Weed::Parse::Id qw.Ids Id.;
 

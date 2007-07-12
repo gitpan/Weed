@@ -1,23 +1,24 @@
 package Weed::Hash;
 
+our $VERSION = '0.0079';
+
 use Weed 'X3DHash { }';
 
 use overload
   'bool' => 'getSize',
-  
-  'int'  => 'getSize',
-  '0+'   => 'getSize',
-   ;
 
-sub new {
-	my $this = shift->NEW;
-	return $this;
-}
+  'int' => 'getSize',
+  '0+'  => 'getSize',
+  ;
+
+sub new { shift->NEW }
 
 #sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 sub getKeys   { new X3DArray [ keys( %{ $_[0] } ) ] }
 sub getValues { new X3DArray [ values( %{ $_[0] } ) ] }
+
+sub exists { exists $_[0]->{ $_[1] } }
 
 sub clear { %{ $_[0] } = () }
 

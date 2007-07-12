@@ -1,5 +1,7 @@
 package Weed::FieldTypes::MFString;
 
+our $VERSION = '0.0078';
+
 use Weed 'MFString : X3DArrayField { [] }';
 
 sub sort { $_[0]->new( [ sort { $a cmp $b } @{ $_[0] } ] ) }

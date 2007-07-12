@@ -1,6 +1,8 @@
 package Weed::ArrayField;
 use Weed;
 
+our $VERSION = '0.0078';
+
 sub setDescription {
 	my ( $this, $description ) = @_;
 	$this->X3DField::setDescription($description);

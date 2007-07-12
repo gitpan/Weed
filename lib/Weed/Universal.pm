@@ -1,6 +1,8 @@
 package Weed::Universal;
 use Weed::Perl;
 
+our $VERSION = '0.0078';
+
 use Carp ();
 use Want ();
 use Hash::NoRef;

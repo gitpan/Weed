@@ -1,16 +1,20 @@
 package Weed::FieldTypes::SFInt32;
 
+our $VERSION = '0.008';
+
 use Weed 'SFInt32 : X3DField { 0 }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::SFNumber';
+use base 'Weed::FieldTypes::BaseFieldTypes::Number';
 
 use integer;
 
-sub parseInt { &Weed::Parse::FieldValue::int32( \$_[0] ) }
+use Weed::Parse::Int32;
 
 sub setValue {
 	my ( $this, $value ) = @_;
-	$this->X3DField::setValue( defined $value ? parseInt("$value") : $this->getInitialValue );
+	$this->X3DField::setValue(
+		defined $value ? Weed::Parse::Int32::int32( \"$value" ) || 0 : $this->getDefaultValue
+	);
 }
 
 sub toString {

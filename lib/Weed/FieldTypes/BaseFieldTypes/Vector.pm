@@ -1,9 +1,9 @@
-package Weed::FieldTypes::BaseFieldTypes::SFVector;
+package Weed::FieldTypes::BaseFieldTypes::Vector;
 use Weed::Perl;
 
-use base 'Weed::FieldTypes::BaseFieldTypes::SFNumber';
+our $VERSION = '0.008';
 
-use Weed::FieldHelper;
+use base 'Weed::FieldTypes::BaseFieldTypes::Number';
 
 use overload
   '0+' => 'length',
@@ -26,6 +26,9 @@ use overload
   '/' => sub { $_[0]->new( $_[2] ? $_[1] / $_[0]->getValue : $_[0]->getValue / $_[1] ) },
   '%' => sub { $_[0]->new( $_[2] ? $_[1] % $_[0]->getValue : $_[0]->getValue % $_[1] ) },
 
+  '.' => sub { $_[0]->getValue . $_[1] },
+  'x' => sub { $_[0]->new( $_[2] ? $_[1] x $_[0]->getValue : $_[0]->getValue x $_[1] ) },
+
   '**' => sub { $_[0]->new( $_[2] ? $_[1]**$_[0]->getValue : $_[0]->getValue**$_[1] ) },
 
   'int'  => sub { $_[0]->new( int $_[0]->getValue ) },
@@ -36,29 +39,29 @@ use overload
   'log'  => sub { $_[0]->new( log $_[0]->getValue ) },
   'sqrt' => sub { $_[0]->new( sqrt $_[0]->getValue ) },
 
-  '@{}' => sub { $_[0]->getValue },
+  '@{}' => sub { $_[0]->{array} },
   ;
 
 use Weed::Tie::VectorValue;
+use Weed::FieldHelper;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
-	tie @{ $this->getValue }, 'Weed::Tie::VectorValue', $this;
+	$this->{array} = [];
+	tie @{ $this->{array} }, 'Weed::Tie::VectorValue', $this;
 	return $this;
 }
 
 sub setValue {
 	my $this   = shift;
 	my $vector = $this->getValue;
-	$vector->setValue( Weed::FieldHelper::NumVal(@_) );
+	$vector->setValue( @_ ? Weed::FieldHelper::NumVal(scalar @$vector, @_) : $this->getDefaultValue );
 	$this->X3DField::setValue($vector);
 }
 
 sub length { $_[0]->getValue->length }
 
-sub toString {
-	return $_[0]->getValue->toString;
-}
+sub toString { $_[0]->getValue->toString }
 
 1;
 __END__

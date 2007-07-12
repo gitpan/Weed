@@ -1,6 +1,8 @@
 package Weed::Values::Color;
 use Weed::Perl;
 
+our $VERSION = '0.0079';
+
 use base 'Weed::Values::Vec3';
 
 *setRed = \&Weed::Values::Vec3::setX;
@@ -16,7 +18,13 @@ sub getValue { [ map { Math::clamp( $_, 0, 1 ) } @{ $_[0]->SUPER::getValue } ] }
 
 sub setValue {
 	my $this = shift;
-	$this->SUPER::setValue( map { Math::clamp( $_, 0, 1 ) } @_ );
+	$this->SUPER::setValue( [ map { Math::clamp( $_, 0, 1 ) } @{ $_[0] } ] );
+	return;
+}
+
+sub set1Value {
+	my ( $this, $index, $value ) = @_;
+	return $this->[$index] = Math::clamp( $value, 0, 1 ) if exists $this->[$index];
 	return;
 }
 
@@ -27,7 +35,7 @@ sub setHSV {
 	# RGB are each returned on [0, 1].
 
 	# achromatic (grey)
-	return $this->setValue( $v, $v, $v ) if $s == 0;
+	return $this->setValue( [ $v, $v, $v ] ) if $s == 0;
 
 	my ( $i, $f, $p, $q, $t );
 
@@ -40,14 +48,15 @@ sub setHSV {
 	$q = $v * ( 1 - $s * $f );
 	$t = $v * ( 1 - $s * ( 1 - $f ) );
 
-	return $this->setValue( $v, $t, $p ) if $i == 0;
-	return $this->setValue( $q, $v, $p ) if $i == 1;
-	return $this->setValue( $p, $v, $t ) if $i == 2;
-	return $this->setValue( $p, $q, $v ) if $i == 3;
-	return $this->setValue( $t, $p, $v ) if $i == 4;
-	return $this->setValue( $v, $p, $q ) if $i == 5;
+	return $this->setValue( [ $v, $t, $p ] ) if $i == 0;
+	return $this->setValue( [ $q, $v, $p ] ) if $i == 1;
+	return $this->setValue( [ $p, $v, $t ] ) if $i == 2;
+	return $this->setValue( [ $p, $q, $v ] ) if $i == 3;
+	return $this->setValue( [ $t, $p, $v ] ) if $i == 4;
+	return $this->setValue( [ $v, $p, $q ] ) if $i == 5;
 
-	return $this->setValue( $v, $t, $p );
+	$this->setValue( [ $v, $t, $p ] );
+	return;
 }
 
 sub getHSV {

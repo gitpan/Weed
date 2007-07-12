@@ -1,8 +1,11 @@
 package Weed::Tie::ArrayFieldValue;
-use Weed::Perl;
+use Weed;
+
+our $VERSION = '0.0079';
 
 use base 'Tie::Array';
 
+#use Contextual::Return;
 use Scalar::Util 'weaken';
 
 sub getArray  { $_[0]->{array} }
@@ -12,7 +15,13 @@ sub storeValue {
 	$_[0]->{fieldType}->new( $_[1] )->getValue;
 }
 
-sub fetchValue { $_[0]->{fieldType}->new( $_[1] ) }
+sub fetchValue {
+	my ( $this, $value ) = @_;
+
+	$this->{fieldType}->new(
+		defined $value ? $value : $this->{fieldType}->getDefaultValue
+	);
+}
 
 sub insertValues {
 	my $this = shift;
@@ -37,6 +46,15 @@ sub TIEARRAY {
 	return $this;
 }
 
+sub STORE { $_[0]->{array}->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
+
+sub FETCH {
+	#print 'ARRAY' if Want::want('ARRAY');
+	return if $_[1] > $#{ $_[0]->{array} };
+
+	$_[0]->fetchValue( $_[0]->{array}->[ $_[1] ] );
+}
+
 sub FETCHSIZE { scalar @{ $_[0]->{array} } }
 sub EXISTS    { exists $_[0]->{array}->[ $_[1] ] }
 
@@ -44,8 +62,6 @@ sub STORESIZE { $#{ $_[0]->{array} } = $_[1] - 1 }
 sub CLEAR { @{ $_[0]->{array} } = () }
 sub DELETE { delete $_[0]->{array}->[ $_[1] ] }
 
-sub STORE { $_[0]->{array}->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
-sub FETCH   { $_[0]->fetchValue( $_[0]->{array}->[ $_[1] ] ) }
 sub POP     { $_[0]->removeValues( pop( @{ $_[0]->{array} } ) ) }
 sub PUSH    { my $this = shift; my $o = $this->{array}; push( @$o, $this->insertValues(@_) ) }
 sub SHIFT   { $_[0]->removeValues( shift( @{ $_[0]->{array} } ) ) }
@@ -54,16 +70,29 @@ sub UNSHIFT { my $this = shift; my $o = $this->{array}; unshift( @$o, $this->ins
 sub SPLICE {
 	my $this = shift;
 	my $sz   = $this->FETCHSIZE;
-	my $off  = @_ ? shift: 0;
+	my $off  = @_ ? shift : 0;
 	$off += $sz if $off < 0;
-	my $len = @_ ? shift: $sz - $off;
+	my $len = @_ ? shift : $sz - $off;
 	return $this->removeValues( splice( @{ $this->{array} }, $off, $len, @_ ) );
 }
 
 sub UNTIE { $_[0]->CLEAR }
 
-1
+1;
 __END__
+	my $args = do{ package DB; ()=CORE::caller(0); \@DB::args };
+	print $_ foreach @$args;
+	
+	my ( $package, $filename, $line, $subroutine, $hasargs, $wantarray, $evaltext, $is_require, $hints, $bitmask ) = caller(0);
+	print "package:    ", $package    || "";
+	print "subroutine: ", $subroutine || "";
+	print "hasargs:    ", $hasargs    || "";
+	print "wantarray:  ", $wantarray  || "";
+	print "evaltext:   ", $evaltext   || "";
+	print "is_require: ", $is_require || "";
+	print "hints:      ", $hints      || "";
+	print "bitmask:    ", $bitmask    || "";
+
 
 package Tie::StdArray;
 use vars qw(@ISA);

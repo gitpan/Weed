@@ -1,6 +1,8 @@
 package Weed::Values::Vector;
 use Weed::Perl;
 
+our $VERSION = '0.0079';
+
 use Carp         ();
 use Scalar::Util ();
 use Weed::Math   ();
@@ -61,28 +63,35 @@ sub new {
 
 	if ( @_ == 1 && ref $_[0] ) {
 		if ( Scalar::Util::reftype( $_[0] ) eq 'ARRAY' ) {
-			$this->setValue( @{ $_[0] } );
+			$this->setValue( $_[0] );
 		}
 		else {
-			$this->setValue(@_);
+			$this->setValue( $_[0] );
 		}
 	}
 	elsif (@_) {
-		$this->setValue(@_);
+		$this->setValue( [@_] );
 	}
 
 	return $this;
 }
 
-sub getClone ($) { $_[0]->new( $_[0]->getValue ) }
+sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 sub getValue { [ @{ $_[0] } ] }
 
 sub setValue {
-	my $this = shift;
+	my $this  = shift;
+	my $value = shift;
 
-	$this->[$_] = $_[$_] foreach 0 .. Math::min( $#{ $this->getDefaultValue }, $#_ );
+	$this->[$_] = $value->[$_] foreach 0 .. Math::min( $#{ $this->getDefaultValue }, $#$value );
 
+	return;
+}
+
+sub set1Value {
+	my ($this, $index, $value) = @_;
+	return $this->[$index] = $value if exists $this->[$index];
 	return;
 }
 
@@ -166,40 +175,42 @@ use overload ">>" => sub {
 	  )
 };
 
-sub rotate ($$) {
-	my $n = -$_[1] % $_[0]->size;
+sub rotate {
+	my $n = -$_[1] % $_[0]->elementCount;
 
 	if ($n) {
 		my $vec = $_[0]->getValue;
-		splice @$vec, $_[0]->size - $n, $n, splice( @$vec, 0, $n );
+		splice @$vec, $_[0]->elementCount - $n, $n, splice( @$vec, 0, $n );
 		return $_[0]->new($vec);
 	}
 
 	return $_[0]->getClone;
 }
 
-sub tan ($) { $_[0]->new( [ map { Math::Trig::tan($_) } @{ $_[0] } ] ) }
+sub tan { $_[0]->new( [ map { Math::Trig::tan($_) } @{ $_[0] } ] ) }
 
 #sub sig { $_[0]->new( [ map { Math::sig($_) } @{ $_[0] } ] ) }
-sub sig ($) { $_[0]->new( [ map { $_ ? ( $_ < 0 ? -1 : 1 ) : 0 } @{ $_[0] } ] ) }
+sub sig { $_[0]->new( [ map { $_ ? ( $_ < 0 ? -1 : 1 ) : 0 } @{ $_[0] } ] ) }
 
-sub sum ($) {
+sub sum {
 	my $sum = 0;
 	$sum += $_ foreach @{ $_[0] };
 	return $sum;
 }
 
-sub squarednorm ($) {
+sub squarednorm {
 	my $squarednorm = 0;
 	$squarednorm += $_ * $_ foreach @{ $_[0] };
 	return $squarednorm;
 }
 
-sub normalize ($) { $_[0] / $_[0]->length }
+sub normalize { $_[0] / $_[0]->length }
 
-sub length ($) { CORE::sqrt( $_[0]->squarednorm ) }
+sub length { CORE::sqrt( $_[0]->squarednorm ) }
 
-sub size ($) { scalar @{ $_[0]->getDefaultValue } }
+sub elementCount { scalar @{ $_[0]->getDefaultValue } }
+
+sub clear { @{ $_[0] } = @{ $_[0]->getDefaultValue } }
 
 sub toString { join " ", @{ $_[0]->getValue } }
 
