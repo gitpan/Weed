@@ -11,6 +11,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
+X3DGenerator->compact;
 X3DGenerator->tidy_fields(NO);
 
 ok ! (my $nullNode = new SFNode);
@@ -40,7 +41,7 @@ is $testNode->doubles->[1]++, 3.4;
 is $testNode->doubles->[1]++, 4.4;
 is $testNode->doubles->[1]++, 5.4;
 is $testNode->doubles, '[ 4.2, 6.4, 5.6 ]';
-is $testNode->doubles->[2] = Math::PI, 3.14159265358979;
+is $testNode->doubles->[2] = X3DMath::PI, 3.14159265358979;
 is $testNode->doubles, '[ 4.2, 6.4, 3.14159265358979 ]';
 
 is $testNode->doubles2 = $testNode->doubles, '[ 4.2, 6.4, 3.14159265358979 ]';

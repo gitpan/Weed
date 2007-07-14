@@ -1,7 +1,7 @@
 package Weed::Package;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
@@ -38,7 +38,7 @@ sub import {
 	}
 }
 
-sub exists { UNIVERSAL::can( $_[0], 'can' ) ? YES: NO }
+sub exists { UNIVERSAL::can( $_[0], 'can' ) ? YES : NO }
 
 sub createType {
 	my ( $package, $base, $declaration, @imports ) = @_;
@@ -61,8 +61,8 @@ sub createType {
 		#printf "X3DUniversal createType %s : %s %s\n", $typeName, $package, $base;
 		X3DPackage::Scalar( $typeName, "Description" ) = $description;
 
-		$typeName->setDescription($description)
-		  if $typeName->can('setDescription');
+		$typeName->SET_DESCRIPTION($description)
+		  if $typeName->can('SET_DESCRIPTION');
 
 	} else {
 		Carp::croak "Error Parse::Concept: '$declaration'\n", $@ if $@;
@@ -73,7 +73,7 @@ sub createType {
 
 sub getName { ref( $_[0] ) || $_[0] }
 
-sub getSuperpath          { Class::ISA::super_path( X3DPackage::getName(shift) ) }
+sub getSuperpath        { Class::ISA::super_path( X3DPackage::getName(shift) ) }
 sub getSelfAndSuperpath { Class::ISA::self_and_super_path( X3DPackage::getName(shift) ) }
 
 #&\w(\w|::)*>|<\w(\w|::)*(?=\s*[\(\);])
@@ -108,6 +108,9 @@ sub setBase {
 	my $expression = X3DPackage::expression( $name, $base, @_ );
 	eval $expression;
 	if ($@) {
+		unless ( X3DPackage::exists($base) ) {
+			Carp::croak "Package $base does not exists or could not be loaded.";
+		}
 		#printf "%s\n", $expression;
 		Carp::croak $@;
 		Carp::croak "Syntax error";
@@ -268,13 +271,13 @@ sub Hash : lvalue {
 # sub can {
 # 	my ( $this, $name ) = @_;
 # 	my $property = sprintf "%s::%s::can::%s", __PACKAGE__, $this->X3DPackage::getName, $name;
-# 
+#
 # 	unless ( defined $$property ) {
 # 		$$property = [];
 # 		push @$$property, map { \&{"${_}::${name}"} }
 # 		  grep { exists &{"${_}::${name}"} } X3DPackage::getSelfAndSuperpath($this);
 # 	}
-# 
+#
 # 	return @$$property;
 # }
 
@@ -296,6 +299,10 @@ sub toString {
 	my $package = shift;
 	my $level   = shift || 1;
 	my $string  = '';
+
+	unless ( X3DPackage::exists($package) ) {
+		Carp::croak "Package $package does not exists.";
+	}
 
 	$string .= $package->X3DPackage::getName;
 

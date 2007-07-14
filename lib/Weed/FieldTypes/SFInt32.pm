@@ -1,12 +1,10 @@
 package Weed::FieldTypes::SFInt32;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed 'SFInt32 : X3DField { 0 }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::Number';
-
-use integer;
+use base 'Weed::BaseFieldTypes::Scalar';
 
 use Weed::Parse::Int32;
 

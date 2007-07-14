@@ -91,7 +91,8 @@ is $testNode->sftime |= 1, 3;
 is $testNode->sftime &= 2, 2;
 is $testNode->sftime ^= 3, 1;
 is - $testNode->sftime, -1;
-is $testNode->sftime = ~$testNode->sftime, 4294967294;
+is $testNode->sftime = ~$testNode->sftime, '4294967294';
+$testNode->sftime = 4294967294;
 is ++$testNode->sftime, 4294967295;
 
 is cos( $testNode->sftime ), cos(4294967295);

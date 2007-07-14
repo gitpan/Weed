@@ -1,11 +1,11 @@
 package Weed::FieldTypes::SFRotation;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed 'SFRotation : X3DField { 0 0 1 0 }';
 
 use overload
-  '~' => sub { $_[0]->new( ~$_[0]->getValue ) },
+  '~' => sub { ~$_[0]->getValue },
 
   '==' => sub { $_[0]->getValue == $_[1] },
   '!=' => sub { $_[0]->getValue != $_[1] },
@@ -17,13 +17,13 @@ use overload
   '@{}' => sub { $_[0]->{array} },
   ;
 
-use Weed::Tie::RotationValue;
+use Weed::Tie::Value::Rotation;
 use Weed::FieldHelper;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
 	$this->{array} = [];
-	tie @{ $this->{array} }, 'Weed::Tie::RotationValue', $this;
+	tie @{ $this->{array} }, 'Weed::Tie::Value::Rotation', $this;
 	return $this;
 }
 
@@ -41,16 +41,11 @@ sub y : lvalue     { $_[0]->{array}->[1] }
 sub z : lvalue     { $_[0]->{array}->[2] }
 sub angle : lvalue { $_[0]->{array}->[3] }
 
-sub getAxis { new SFVec3d( $_[0]->getValue->getAxis ) }
+sub getAxis { $_[0]->getValue->getAxis }
 
 sub inverse { }
 
-sub multiply {
-	my $r = $_[2] ? $_[1] * $_[0]->getValue : $_[0]->getValue * $_[1];
-	return $r             if UNIVERSAL::isa( $r, ref $_[0] );
-	return $_[0]->new($r) if UNIVERSAL::isa( $r, ref $_[0]->getValue );
-	return new SFVec3d($r);
-}
+sub multiply { $_[2] ? $_[1] * $_[0]->getValue : $_[0]->getValue * $_[1] }
 
 sub multVec { }
 
@@ -58,7 +53,7 @@ sub multVec { }
 
 sub slerp { }
 
-sub round { $_[0]->new( $_[0]->getValue->round( $_[1] ) ) }
+sub round { $_[0]->getValue->round( $_[1] ) }
 
 sub toString { $_[0]->getValue->toString }
 

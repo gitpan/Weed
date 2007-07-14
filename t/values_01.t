@@ -10,13 +10,13 @@ BEGIN {
 	use_ok('Weed::Values');
 }
 
-is (new Weed::Values::Color, "0 0 0");
-is (new Weed::Values::ColorRGBA, "0 0 0 0");
-is (new Weed::Values::Image, "0 0 0");
-is (new Weed::Values::Rotation, "0 0 1 0");
-is (new Weed::Values::Vec2, "0 0");
-is (new Weed::Values::Vec3, "0 0 0");
-is (new Weed::Values::Vec4, "0 0 0 0");
+is (new X3DColor, "0 0 0");
+is (new X3DColorRGBA, "0 0 0 0");
+is (new X3DImage, "0 0 0");
+is (new X3DRotation, "0 0 1 0");
+is (new X3DVec2, "0 0");
+is (new X3DVec3, "0 0 0");
+is (new X3DVec4, "0 0 0 0");
 
 1;
 __END__

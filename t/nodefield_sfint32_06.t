@@ -98,7 +98,14 @@ is $testNode->sfint32 |= 1, 3;
 is $testNode->sfint32 &= 2, 2;
 is $testNode->sfint32 ^= 3, 1;
 is - $testNode->sfint32, -1;
+
+is $testNode->sfint32, 1;
+is ~$testNode->sfint32, ~int(1);
 is $testNode->sfint32 = ~$testNode->sfint32, 4294967294;
+is ~$testNode->sfint32, 1;
+is ~~$testNode->sfint32, 4294967294;
+
+$testNode->sfint32 = 4294967294;
 is ++$testNode->sfint32, -1;
 
 is cos( $testNode->sfint32 ), cos(4294967295);
@@ -115,6 +122,10 @@ is - $testNode->sfint32, 1;
 
 my $sfint32 = $testNode->sfint32;
 isa_ok $sfint32, 'X3DField';
+
+$testNode->sfint32 = 0b10110;
+is $testNode->sfint32 & 0b10011, 0b10010;
+is ~$testNode->sfint32, ~0b10110;
 
 is $sfint32Id, $testNode->sfint32->getId;
 1;

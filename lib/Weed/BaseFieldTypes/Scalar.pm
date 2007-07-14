@@ -1,16 +1,11 @@
-package Weed::FieldTypes::BaseFieldTypes::Number;
+package Weed::BaseFieldTypes::Scalar;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use overload
   '0+' => sub { 0 + $_[0]->getValue },
 
   '!' => sub { !$_[0]->getValue },
-  '~' => sub { ~( 0 + $_[0]->getValue ) },
-
-  '&' => sub { $_[0]->getValue & $_[1] },
-  '|' => sub { $_[0]->getValue | $_[1] },
-  '^' => sub { $_[0]->getValue ^ $_[1] },
 
   '=='  => sub { $_[0]->getValue == $_[1] },
   '!='  => sub { $_[0]->getValue != $_[1] },
@@ -20,10 +15,16 @@ use overload
   'ne' => sub { $_[0]->getValue ne $_[1] },
   'cmp' => sub { $_[2] ? $_[1] cmp $_[0]->getValue : $_[0]->getValue cmp $_[1] },
 
+  '~' => sub { ~( $_[0]->getValue + 0 ) },
+
+  '&' => sub { $_[0]->getValue & $_[1] },
+  '|' => sub { $_[0]->getValue | $_[1] },
+  '^' => sub { $_[0]->getValue ^ $_[1] },
+
   '<<' => sub { $_[2] ? $_[1] << $_[0]->getValue : $_[0]->getValue << $_[1] },
   '>>' => sub { $_[2] ? $_[1] >> $_[0]->getValue : $_[0]->getValue >> $_[1] },
 
-  'neg' => sub { -( 0 + $_[0]->getValue ) },
+  'neg' => sub { -( $_[0]->getValue + 0 ) },
 
   '+' => sub { $_[0]->getValue + $_[1] },
   '-' => sub { $_[2] ? $_[1] - $_[0]->getValue : $_[0]->getValue - $_[1] },
@@ -41,8 +42,8 @@ use overload
   'abs'  => sub { abs $_[0]->getValue },
   'log'  => sub { log $_[0]->getValue },
   'sqrt' => sub { sqrt $_[0]->getValue },
-  
-#  '@{}' => sub  { X3DMessage->NotArrayReference(2, @_) },
+
+  #  '@{}' => sub  { X3DMessage->NotArrayReference(2, @_) },
   ;
 
 1;

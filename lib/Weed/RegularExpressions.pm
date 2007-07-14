@@ -1,7 +1,7 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed::Symbols;
 
@@ -9,15 +9,21 @@ use base 'Exporter';
 
 our @EXPORT = qw(
   $_supertype
+  $_RestrictedId
+  $_colon
+  $_colon_test
+  $_week_hash
+  $_open_parenthesis
+  $_close_parenthesis
+  $_FieldDefinition
+  $_space_break_space
+  $_in
+  $_out
 
   $_break
   $_header
   $_whitespace
   $_comment
-  $_space_break_space
-
-  $_in
-  $_out
 
   $_COMPONENT
   $_DEF
@@ -45,20 +51,13 @@ our @EXPORT = qw(
   $_exposedField
   $_field
 
-  $_open_parenthesis
-  $_close_parenthesis
   $_open_brace
   $_close_brace
   $_close_brace_test
   $_open_bracket
   $_close_bracket
-  $_open_angle_bracket
-  $_close_angle_bracket
-
-  $_period
   $_brackets
-  $_colon
-  $_colon_test
+  $_period
 
   $_Id
   $_double
@@ -77,20 +76,14 @@ our @EXPORT = qw(
 
   $_CosmoWorlds
   $_enum
-
-  $_FieldDefinition
-
-  $_RestrictedId
-  $_week_hash
 );
-#$Id
 
-#$hex
-#$float
-#$int32
-#$double
-
-our $_supertype = qr.^(?!Weed::|main).so;
+#Concept
+our $open_parenthesis    = '\\' . $_open_parenthesis_;
+our $close_parenthesis   = '\\' . $_close_parenthesis_;
+our $colon               = '\\' . $_colon_;
+our $swung_dash          = '\\' . $_swung_dash_;
+our $_supertype          = qr.^(?!Weed::|main).so;
 
 # General
 our $space      = "[\x20\t]";
@@ -117,21 +110,13 @@ our $vrmlScriptFieldType  = join '|', @VrmlScriptFieldTypes;
 our $fieldType            = join '|', @FieldTypes;
 
 # Terminal symbols
-our $open_parenthesis    = '\\' . $_open_parenthesis_;
-our $close_parenthesis   = '\\' . $_close_parenthesis_;
-our $open_brace          = '\\' . $_open_brace_;
-our $close_brace         = '\\' . $_close_brace_;
-our $open_bracket        = '\\' . $_open_bracket_;
-our $close_bracket       = '\\' . $_close_bracket_;
-our $open_angle_bracket  = '\\' . $_open_angle_bracket_;
-our $close_angle_bracket = '\\' . $_close_angle_bracket_;
-our $period              = '\\' . $_period_;
-our $colon               = '\\' . $_colon_;
+our $open_brace    = '\\' . $_open_brace_;
+our $close_brace   = '\\' . $_close_brace_;
+our $open_bracket  = '\\' . $_open_bracket_;
+our $close_bracket = '\\' . $_close_bracket_;
+our $period        = '\\' . $_period_;
 
 #
-our $exclamation_mark = '\\' . $_exclamation_mark_;
-our $swung_dash       = '\\' . $_swung_dash_;
-
 # Other Symbols
 our $IdFirstChar = '[^\x30-\x39\x00-\x20\x22\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d\x7f]{1}';
 our $IdRestChars = '[^\x00-\x20\x22\x23\x27\x2c\x2e\x5b\x5c\x5d\x7b\x7d\x7f]';
@@ -140,7 +125,10 @@ our $Id          = "$IdFirstChar$IdRestChars*";
 #Concept
 our $RestrictedIdFirstChar = '[^\x30-\x39\x00-\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d-\x7f()]{1}';
 our $RestrictedId          = "$RestrictedIdFirstChar$IdRestChars*";
+our $_space_break_space    = qr.$space*$break$space*.so;
 our $_week_hash            = qr.\G$whitespace*$swung_dash$open_brace.so;
+our $_in                   = qr.\G$whitespace*$_in_.so;
+our $_out                  = qr.\G$whitespace*$_out_.so;
 
 #our $FieldName  = "[a-z]{1}[a-zA-Z_]*";
 #our $_FieldName = qr.\G($FieldName).so;
@@ -151,11 +139,7 @@ our $_header     = qr.\A$header.so;
 our $_comment    = qr.\G$whitespace*$comment.so;
 our $_whitespace = qr.$whitespace+.so;
 
-our $_space_break_space = qr.$space*$break$space*.so;
-
 # concept
-our $_in  = qr.\G$whitespace*$_in_.so;
-our $_out = qr.\G$whitespace*$_out_.so;
 
 # VRML lexical elements
 # Keywords
@@ -184,20 +168,19 @@ our $_exposedField   = qr.\G$whitespace*$_exposedField_$whitespace+.so;
 our $_field          = qr.\G$whitespace*$_field_$whitespace+.so;
 
 # Terminal symbols
+our $_open_brace       = qr.\G$whitespace*$open_brace.so;
+our $_close_brace      = qr.\G$whitespace*$close_brace.so;
+our $_close_brace_test = qr.\G(?=$whitespace*$close_brace).so;
+our $_open_bracket     = qr.\G$whitespace*$open_bracket.so;
+our $_close_bracket    = qr.\G$whitespace*$close_bracket.so;
+our $_period           = qr.\G$period.so;
+our $_brackets         = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
+
+#Concept
 our $_open_parenthesis    = qr.\G$whitespace*$open_parenthesis.so;
 our $_close_parenthesis   = qr.\G$whitespace*$close_parenthesis.so;
-our $_open_brace          = qr.\G$whitespace*$open_brace.so;
-our $_close_brace         = qr.\G$whitespace*$close_brace.so;
-our $_close_brace_test    = qr.\G(?=$whitespace*$close_brace).so;
-our $_open_bracket        = qr.\G$whitespace*$open_bracket.so;
-our $_close_bracket       = qr.\G$whitespace*$close_bracket.so;
-our $_open_angle_bracket  = qr.\G$whitespace*$open_angle_bracket.so;
-our $_close_angle_bracket = qr.\G$whitespace*$close_angle_bracket.so;
-
-our $_period     = qr.\G$period.so;
-our $_brackets   = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
-our $_colon      = qr.\G$whitespace*$colon.so;
-our $_colon_test = qr.\G$whitespace+$colon$whitespace+.so;
+our $_colon               = qr.\G$whitespace*$colon.so;
+our $_colon_test          = qr.\G$whitespace+$colon$whitespace+.so;
 
 # Other Symbols
 our $_Id           = qr.\G$whitespace*($Id).so;

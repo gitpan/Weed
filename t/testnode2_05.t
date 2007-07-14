@@ -22,7 +22,8 @@ is $testNode, 'DEF '.$testNode->getValue->getName.' TestNode { }';
 
 my $hash = {};
 ok 0 == scalar keys %$hash;
-
+ok ! %$hash;
+print scalar %$hash;
 
 ok my $parents = $testNode->sfbool->getParents;
 

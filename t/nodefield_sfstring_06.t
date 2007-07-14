@@ -14,12 +14,20 @@ ok my $testNode  = new SFNode( new TestNode );
 ok my $sfstringId = $testNode->sfstring->getId;
 is $sfstringId, $testNode->sfstring->getId;
 
+$testNode->sfstring = "a~ha";
+is $testNode->sfstring, "a~ha";
+is ~$testNode->sfstring, ~"a~ha";
+is $testNode->sfstring .$testNode->sfstring , "a~haa~ha";
 
-
+$testNode->sfstring =~ s/~/-/;
+is $testNode->sfstring, "a-ha";
+$testNode->sfstring =~ s/-/~/;
+is $testNode->sfstring, "a~ha";
 
 my $sfstring = $testNode->sfstring;
 isa_ok $sfstring, 'X3DField';
 
+isa_ok $testNode->sfstring, 'X3DField';
 is $sfstringId, $testNode->sfstring->getId;
 1;
 __END__

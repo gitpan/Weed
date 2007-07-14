@@ -1,10 +1,9 @@
 package Weed::Parse::Concept;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Carp (); $Carp::CarpLevel = 1;
-use Object::MultiType;
 
 use Weed::Tie::WeakHash;
 
@@ -95,7 +94,7 @@ sub conceptStatement {
 				return {
 					typeName   => $name,
 					supertypes => $supertypes,
-					new        => sub { bless [], shift },
+					new        => sub { bless $_[1] || [], $_[0] },
 					#body       => $body,
 				};
 
@@ -123,24 +122,6 @@ sub conceptStatement {
 				Carp::croak "Expected ')'";
 			}
 		}
-		elsif ( $$string =~ m.$_open_angle_bracket.gc ) {
-
-			if ( $$string =~ m.$_close_angle_bracket.gc ) {
-
-				return {
-					typeName   => $name,
-					supertypes => $supertypes,
-					base       => 'Object::MultiType',
-					new        => sub {
-						bless Object::MultiType->new( array => [], hash => {} ), shift
-					},
-					#body  	  => $body,
-				};
-			}
-			else {
-				Carp::croak "Expected ')'";
-			}
-		}
 
 		return {
 			typeName   => $name,
@@ -154,7 +135,7 @@ sub conceptStatement {
 
 	}
 	else {
-		Carp::croak "Expected package name\n";
+		Carp::croak "Expected a package name\n";
 	}
 
 	return;

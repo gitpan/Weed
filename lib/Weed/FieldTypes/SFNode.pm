@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Weed 'SFNode : X3DField { NULL }';
 
@@ -117,7 +117,6 @@ sub DESTROY {
 	my $this = shift;
 	#print " SFNode::DESTROY " . $this->getName;
 	$this->setValue(undef);
-	$this->X3DField::DESTROY;
 }
 
 1;

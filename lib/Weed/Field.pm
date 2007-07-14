@@ -1,11 +1,11 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed::Parse::FieldValue;
 
-sub setDescription {
+sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
 	my $typeName        = $description->{typeName};
 	my $initialValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
@@ -17,7 +17,7 @@ use Weed 'X3DField : X3DObject { }';
 
 use overload
   '=' => 'getClone',
-  'bool' => sub { $_[0]->getValue ? YES: NO },
+  'bool' => sub { $_[0]->getValue ? YES : NO },
   ;
 
 sub new {

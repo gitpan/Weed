@@ -43,7 +43,7 @@ ok $clone->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $
 
 ok $copy->getValue->getField( $_->getName )->getId != $testNode->getValue->getField( $_->getName )->getId
   foreach @{ $testNode->getValue->getFieldDefinitions };
-is Math::sum( map {
+is X3DMath::sum( map {
 		$copy->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $_->getName )
 	  } @{ $testNode->getValue->getFieldDefinitions } ),
   scalar @{ $testNode->getValue->getFieldDefinitions };

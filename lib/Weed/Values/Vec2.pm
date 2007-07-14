@@ -1,9 +1,12 @@
 package Weed::Values::Vec2;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
-use base 'Weed::Values::Vector';
+use Package::Alias X3DVec2 => __PACKAGE__;
+
+use Weed::Values::Vector;
+use base 'X3DVector';
 
 use constant getDefaultValue => [ 0, 0 ];
 
@@ -138,26 +141,26 @@ sub mod {
 	return ref $b ?
 	  $a->new( [
 			$r ? (
-				Math::fmod( $b->[0], $a->[0] ),
-				Math::fmod( $b->[1], $a->[1] ),
+				X3DMath::fmod( $b->[0], $a->[0] ),
+				X3DMath::fmod( $b->[1], $a->[1] ),
 			  ) : (
-				Math::fmod( $a->[0], $b->[0] ),
-				Math::fmod( $a->[1], $b->[1] ),
+				X3DMath::fmod( $a->[0], $b->[0] ),
+				X3DMath::fmod( $a->[1], $b->[1] ),
 			  ) ] )
 	  : $a->new( [
-			Math::fmod( $a->[0], $b ),
-			Math::fmod( $a->[1], $b ),
+			X3DMath::fmod( $a->[0], $b ),
+			X3DMath::fmod( $a->[1], $b ),
 	  ] );
 }
 
 use overload '%=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
-		$a->[0] = Math::fmod( $a->[0], $b->[0] );
-		$a->[1] = Math::fmod( $a->[1], $b->[1] );
+		$a->[0] = X3DMath::fmod( $a->[0], $b->[0] );
+		$a->[1] = X3DMath::fmod( $a->[1], $b->[1] );
 	} else {
-		$a->[0] = Math::fmod( $a->[0], $b );
-		$a->[1] = Math::fmod( $a->[1], $b );
+		$a->[0] = X3DMath::fmod( $a->[0], $b );
+		$a->[1] = X3DMath::fmod( $a->[1], $b );
 	}
 	return $a;
 };
@@ -201,4 +204,7 @@ sub length {
 
 sub sum { $_[0]->[0] + $_[0]->[1] }
 
+use constant elementCount => 2;
+
 1;
+__END__

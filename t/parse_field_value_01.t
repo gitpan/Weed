@@ -12,13 +12,16 @@ BEGIN {
 
 my ( $s, $v );
 
-for (1..100) {
+$s = sprintf "%g %g %g", rand, rand, rand;
+print ref Weed::Parse::FieldValue::sfvec3fValue( \$s );
 
-		$s = sprintf "%g %g %g", rand, rand, rand;
-		ok Weed::Parse::FieldValue::sfvec3fValue( \$s );
+#use Benchmark ':hireswallclock';
+#timethis( 100_000, sub { pos($s) = undef; Weed::Parse::FieldValue::sfvec3fValue( \$s ) } );#3.78163
 
+for ( 1 .. 100 ) {
+	pos($s) = undef;
+	ok Weed::Parse::FieldValue::sfvec3fValue( \$s );
 }
 
-
+1;
 __END__
-

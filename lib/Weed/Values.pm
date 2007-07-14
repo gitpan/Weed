@@ -1,7 +1,7 @@
 package Weed::Values;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed::Values::Color;
 use Weed::Values::ColorRGBA;
@@ -17,5 +17,21 @@ __END__
 =head1 NAME
 
 Weed::Values - Bundle
+
+=head1 SEE ALSO
+
+L<Weed::Values::Color> 
+
+L<Weed::Values::ColorRGBA> 
+
+L<Weed::Values::Image> 
+
+L<Weed::Values::Rotation> 
+
+L<Weed::Values::Vec2> 
+
+L<Weed::Values::Vec3> 
+
+L<Weed::Values::Vec4> 
 
 =cut

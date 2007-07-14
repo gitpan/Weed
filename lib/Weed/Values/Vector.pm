@@ -1,12 +1,13 @@
 package Weed::Values::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.0082';
 
-use Carp         ();
-use Scalar::Util ();
-use Weed::Math   ();
-use Math::Trig   ();
+use Package::Alias X3DVector => __PACKAGE__;
+
+use Carp       ();
+use Math::Trig ();
+use Weed::Math ();
 
 use overload
   '=' => 'getClone',
@@ -57,41 +58,28 @@ use overload
   ;
 
 sub new {
-	my $self  = shift;
+	my $self  = $_[0];
 	my $class = ref($self) || $self;
-	my $this  = bless [ @{ $self->getDefaultValue } ], $class;
-
-	if ( @_ == 1 && ref $_[0] ) {
-		if ( Scalar::Util::reftype( $_[0] ) eq 'ARRAY' ) {
-			$this->setValue( $_[0] );
-		}
-		else {
-			$this->setValue( $_[0] );
-		}
-	}
-	elsif (@_) {
-		$this->setValue( [@_] );
-	}
-
-	return $this;
+	return bless $_[1] || [ @{ $class->getDefaultValue } ], $class;
 }
 
-sub getClone { $_[0]->new( $_[0]->getValue ) }
+sub getClone { $_[0]->new( [ @{ $_[0] } ] ) }
 
 sub getValue { [ @{ $_[0] } ] }
 
+sub get1Value {
+	return $_[0]->[ $_[1] ] if exists $_[0]->[ $_[1] ];
+	return;
+}
+
 sub setValue {
-	my $this  = shift;
-	my $value = shift;
-
-	$this->[$_] = $value->[$_] foreach 0 .. Math::min( $#{ $this->getDefaultValue }, $#$value );
-
+	$_[0]->[$_] = $_[1]->[$_]
+	  foreach 0 .. X3DMath::min( $_[0]->elementCount - 1, $#{ $_[1] } );
 	return;
 }
 
 sub set1Value {
-	my ($this, $index, $value) = @_;
-	return $this->[$index] = $value if exists $this->[$index];
+	return $_[0]->[ $_[1] ] = $_[2] if exists $_[0]->[ $_[1] ];
 	return;
 }
 
@@ -99,12 +87,12 @@ use overload "&" => sub {
 	my ( $a, $b, $r ) = @_;
 	$r ? (
 		ref $b ?
-		  $b->new( [ map { $b->[$_] & $a->[$_] } ( 0 .. $#{ $b->getDefaultValue } ) ] )
+		  $b->new( [ map { $b->[$_] & $a->[$_] } ( 0 .. ( $b->elementCount - 1 ) ) ] )
 		:
 		  $b->new( [ map { $_ & $a } @$b ] )
 	  ) : (
 		ref $b ?
-		  $a->new( [ map { $a->[$_] & $b->[$_] } ( 0 .. $#{ $a->getDefaultValue } ) ] )
+		  $a->new( [ map { $a->[$_] & $b->[$_] } ( 0 .. ( $a->elementCount - 1 ) ) ] )
 		:
 		  $a->new( [ map { $_ & $b } @$a ] )
 
@@ -115,12 +103,12 @@ use overload "|" => sub {
 	my ( $a, $b, $r ) = @_;
 	$r ? (
 		ref $b ?
-		  $b->new( [ map { $b->[$_] | $a->[$_] } ( 0 .. $#{ $b->getDefaultValue } ) ] )
+		  $b->new( [ map { $b->[$_] | $a->[$_] } ( 0 .. ( $b->elementCount - 1 ) ) ] )
 		:
 		  $b->new( [ map { $_ | $a } @$b ] )
 	  ) : (
 		ref $b ?
-		  $a->new( [ map { $a->[$_] | $b->[$_] } ( 0 .. $#{ $a->getDefaultValue } ) ] )
+		  $a->new( [ map { $a->[$_] | $b->[$_] } ( 0 .. ( $a->elementCount - 1 ) ) ] )
 		:
 		  $a->new( [ map { $_ | $b } @$a ] )
 
@@ -131,12 +119,12 @@ use overload "^" => sub {
 	my ( $a, $b, $r ) = @_;
 	$r ? (
 		ref $b ?
-		  $b->new( [ map { $b->[$_] ^ $a->[$_] } ( 0 .. $#{ $b->getDefaultValue } ) ] )
+		  $b->new( [ map { $b->[$_] ^ $a->[$_] } ( 0 .. ( $b->elementCount - 1 ) ) ] )
 		:
 		  $b->new( [ map { $_ ^ $a } @$b ] )
 	  ) : (
 		ref $b ?
-		  $a->new( [ map { $a->[$_] ^ $b->[$_] } ( 0 .. $#{ $a->getDefaultValue } ) ] )
+		  $a->new( [ map { $a->[$_] ^ $b->[$_] } ( 0 .. ( $a->elementCount - 1 ) ) ] )
 		:
 		  $a->new( [ map { $_ ^ $b } @$a ] )
 
@@ -147,12 +135,12 @@ use overload "<<" => sub {
 	my ( $a, $b, $r ) = @_;
 	$r ? (
 		ref $b ?
-		  $b->new( [ map { $b->[$_] << $a->[$_] } ( 0 .. $#{ $b->getDefaultValue } ) ] )
+		  $b->new( [ map { $b->[$_] << $a->[$_] } ( 0 .. ( $b->elementCount - 1 ) ) ] )
 		:
 		  $b->new( [ map { $_ << $a } @$b ] )
 	  ) : (
 		ref $b ?
-		  $a->new( [ map { $a->[$_] << $b->[$_] } ( 0 .. $#{ $a->getDefaultValue } ) ] )
+		  $a->new( [ map { $a->[$_] << $b->[$_] } ( 0 .. ( $a->elementCount - 1 ) ) ] )
 		:
 		  $a->new( [ map { $_ << $b } @$a ] )
 
@@ -163,12 +151,12 @@ use overload ">>" => sub {
 	my ( $a, $b, $r ) = @_;
 	$r ? (
 		ref $b ?
-		  $b->new( [ map { $b->[$_] >> $a->[$_] } ( 0 .. $#{ $b->getDefaultValue } ) ] )
+		  $b->new( [ map { $b->[$_] >> $a->[$_] } ( 0 .. ( $b->elementCount - 1 ) ) ] )
 		:
 		  $b->new( [ map { $_ >> $a } @$b ] )
 	  ) : (
 		ref $b ?
-		  $a->new( [ map { $a->[$_] >> $b->[$_] } ( 0 .. $#{ $a->getDefaultValue } ) ] )
+		  $a->new( [ map { $a->[$_] >> $b->[$_] } ( 0 .. ( $a->elementCount - 1 ) ) ] )
 		:
 		  $a->new( [ map { $_ >> $b } @$a ] )
 
@@ -189,7 +177,7 @@ sub rotate {
 
 sub tan { $_[0]->new( [ map { Math::Trig::tan($_) } @{ $_[0] } ] ) }
 
-#sub sig { $_[0]->new( [ map { Math::sig($_) } @{ $_[0] } ] ) }
+#sub sig { $_[0]->new( [ map { X3DMath::sig($_) } @{ $_[0] } ] ) }
 sub sig { $_[0]->new( [ map { $_ ? ( $_ < 0 ? -1 : 1 ) : 0 } @{ $_[0] } ] ) }
 
 sub sum {
@@ -207,6 +195,8 @@ sub squarednorm {
 sub normalize { $_[0] / $_[0]->length }
 
 sub length { CORE::sqrt( $_[0]->squarednorm ) }
+
+sub round { $_[0]->new( [ map { X3DMath::round( $_, $_[1] ) } @{ $_[0] } ] ) }
 
 sub elementCount { scalar @{ $_[0]->getDefaultValue } }
 

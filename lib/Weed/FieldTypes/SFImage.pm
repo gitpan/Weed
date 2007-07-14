@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFImage;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed 'SFImage : X3DField { 0 0 0 }';
 
@@ -14,7 +14,7 @@ sub setValue {
 		@value = map { 0 + $_ } @value;
 	}
 
-	$this->X3DField::setValue( new Weed::Values::Image(@value) );
+	$this->X3DField::setValue( new X3DImage(@value) );
 }
 
 sub toString {

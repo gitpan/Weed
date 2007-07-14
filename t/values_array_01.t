@@ -10,12 +10,15 @@ BEGIN {
 	use_ok 'Weed';
 }
 
+X3DGenerator->compact;
 ok my $array = new X3DArray [ 1, 2, 3 ];
 ok my $copy = $array->getClone;
 ok $array->[0] = 7;
 ok $copy->[1] = 9;
 is $array, '[ 7, 2, 3 ]';
 is $copy, '[ 1, 9, 3 ]';
+X3DGenerator->clean;
+is $copy, '[1 9 3]';
 
 1;
 __END__

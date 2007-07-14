@@ -13,12 +13,12 @@ BEGIN {
 package test;
 use Weed::Universal;
 
-Test::More::ok Math::sum( map { time =~ m/\./ } 1 .. 170 ) <= 170 foreach 1 .. 10;
+Test::More::ok X3DMath::sum( map { time =~ m/\./ } 1 .. 170 ) <= 170 foreach 1 .. 10;
 
 package main;
 use Weed::Perl;
 
-ok Math::sum( map { time =~ m/\./ } 1 .. 170 ) <= 170 foreach 1 .. 10;
+ok X3DMath::sum( map { time =~ m/\./ } 1 .. 170 ) <= 170 foreach 1 .. 10;
 
 __END__
 

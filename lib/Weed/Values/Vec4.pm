@@ -1,9 +1,12 @@
 package Weed::Values::Vec4;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
-use base 'Weed::Values::Vector';
+use Package::Alias X3DVec4 => __PACKAGE__;
+
+use Weed::Values::Vector;
+use base 'X3DVector';
 
 use overload "x" => 'cross';
 
@@ -17,7 +20,7 @@ sub setZ { $_[0]->[2] = $_[1]; return }
 
 sub setW { $_[0]->[3] = $_[1]; return }
 
-sub getReal { new Weed::Values::Vec3( [ @{ $_[0] }[ 0, 1, 2 ] ] ) }
+sub getReal { new X3DVec3( [ @{ $_[0] }[ 0, 1, 2 ] ] ) }
 
 sub getX { $_[0]->[0] }
 
@@ -188,36 +191,36 @@ sub mod {
 	return ref $b ?
 	  $a->new( [
 			$r ? (
-				Math::fmod( $b->[0], $a->[0] ),
-				Math::fmod( $b->[1], $a->[1] ),
-				Math::fmod( $b->[2], $a->[2] ),
-				Math::fmod( $b->[3], $a->[3] ),
+				X3DMath::fmod( $b->[0], $a->[0] ),
+				X3DMath::fmod( $b->[1], $a->[1] ),
+				X3DMath::fmod( $b->[2], $a->[2] ),
+				X3DMath::fmod( $b->[3], $a->[3] ),
 			  ) : (
-				Math::fmod( $a->[0], $b->[0] ),
-				Math::fmod( $a->[1], $b->[1] ),
-				Math::fmod( $a->[2], $b->[2] ),
-				Math::fmod( $a->[3], $b->[3] ),
+				X3DMath::fmod( $a->[0], $b->[0] ),
+				X3DMath::fmod( $a->[1], $b->[1] ),
+				X3DMath::fmod( $a->[2], $b->[2] ),
+				X3DMath::fmod( $a->[3], $b->[3] ),
 			  ) ] )
 	  : $a->new( [
-			Math::fmod( $a->[0], $b ),
-			Math::fmod( $a->[1], $b ),
-			Math::fmod( $a->[2], $b ),
-			Math::fmod( $a->[3], $b ),
+			X3DMath::fmod( $a->[0], $b ),
+			X3DMath::fmod( $a->[1], $b ),
+			X3DMath::fmod( $a->[2], $b ),
+			X3DMath::fmod( $a->[3], $b ),
 	  ] );
 }
 
 use overload '%=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
-		$a->[0] = Math::fmod( $a->[0], $b->[0] );
-		$a->[1] = Math::fmod( $a->[1], $b->[1] );
-		$a->[2] = Math::fmod( $a->[2], $b->[2] );
-		$a->[3] = Math::fmod( $a->[3], $b->[3] );
+		$a->[0] = X3DMath::fmod( $a->[0], $b->[0] );
+		$a->[1] = X3DMath::fmod( $a->[1], $b->[1] );
+		$a->[2] = X3DMath::fmod( $a->[2], $b->[2] );
+		$a->[3] = X3DMath::fmod( $a->[3], $b->[3] );
 	} else {
-		$a->[0] = Math::fmod( $a->[0], $b );
-		$a->[1] = Math::fmod( $a->[1], $b );
-		$a->[2] = Math::fmod( $a->[2], $b );
-		$a->[3] = Math::fmod( $a->[3], $b );
+		$a->[0] = X3DMath::fmod( $a->[0], $b );
+		$a->[1] = X3DMath::fmod( $a->[1], $b );
+		$a->[2] = X3DMath::fmod( $a->[2], $b );
+		$a->[3] = X3DMath::fmod( $a->[3], $b );
 	}
 	return $a;
 };
@@ -265,12 +268,12 @@ sub cross {
 	my ( $a0, $a1, $a2, $a3 ) = @$a;
 	my ( $b0, $b1, $b2, $b3 ) = @$b;
 
-	return $a->new(
-		( $a0 * $b1 - $a1 * $b0 ) + ( $a0 * $b2 - $a2 * $b0 ) + ( $a1 * $b2 - $a2 * $b1 ),
-		( $a2 * $b1 - $a1 * $b2 ) + ( $a1 * $b3 - $a3 * $b1 ) + ( $a2 * $b3 - $a3 * $b2 ),
-		( $a0 * $b2 - $a2 * $b0 ) + ( $a3 * $b0 - $a0 * $b3 ) + ( $a2 * $b3 - $a3 * $b2 ),
-		( $a1 * $b0 - $a0 * $b1 ) + ( $a3 * $b0 - $a0 * $b3 ) + ( $a3 * $b1 - $a1 * $b3 ),
-	);
+	return $a->new( [
+			( $a0 * $b1 - $a1 * $b0 ) + ( $a0 * $b2 - $a2 * $b0 ) + ( $a1 * $b2 - $a2 * $b1 ),
+			( $a2 * $b1 - $a1 * $b2 ) + ( $a1 * $b3 - $a3 * $b1 ) + ( $a2 * $b3 - $a3 * $b2 ),
+			( $a0 * $b2 - $a2 * $b0 ) + ( $a3 * $b0 - $a0 * $b3 ) + ( $a2 * $b3 - $a3 * $b2 ),
+			( $a1 * $b0 - $a0 * $b1 ) + ( $a3 * $b0 - $a0 * $b3 ) + ( $a3 * $b1 - $a1 * $b3 ),
+	] );
 }
 
 use overload "x=" => sub {
@@ -297,4 +300,7 @@ use overload "x=" => sub {
 # 	);
 # }
 
+use constant elementCount => 4;
+
 1;
+__END__

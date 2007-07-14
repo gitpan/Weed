@@ -11,11 +11,11 @@ BEGIN {
 	use_ok 'Weed::Object';
 }
 
-ok new X3DObject;
-ok new X3DObject;
+ok CREATE X3DObject;
+ok CREATE X3DObject;
 
-ok new X3DObject;
-ok my $seed1 = new X3DObject;
+ok CREATE X3DObject;
+ok my $seed1 = CREATE X3DObject;
 
 isa_ok $seed1, 'X3DUniversal';
 isa_ok $seed1, 'X3DObject';

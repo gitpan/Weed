@@ -31,8 +31,8 @@ is new SFVec4f(),     '0 0 0 0';
 is new SFBool(YES), 'TRUE';
 is new SFColor( 0.1, 0.2, 0.3 ), '0.1 0.2 0.3';
 is new SFColorRGBA( 0.1, 0.2, 0.3, 0.4 ), '0.1 0.2 0.3 0.4';
-is new SFDouble(Math::PI), '3.14159265358979';
-is new SFFloat(Math::PI),  '3.1415927';
+is new SFDouble(X3DMath::PI), '3.14159265358979';
+is new SFFloat(X3DMath::PI),  '3.1415927';
 is new SFImage( 2, 2, 3, [ 0xffffff, 0, 0xffffff, 0 ] ), '2 2 3
 0xffffff 0x0
 0xffffff 0x0';
@@ -47,8 +47,8 @@ is new SFVec3d( 3.4, 2.5, 6.7 ), '3.4 2.5 6.7';
 is new SFVec3f( 13.4, 12.5, 16.7 ), '13.4 12.5 16.7';
 is new SFVec4d( 3.4, 2.5, 6.7, 6.9 ), '3.4 2.5 6.7 6.9';
 is new SFVec4f( 13.4, 12.5, 16.7, 7.8 ), '13.4 12.5 16.7 7.8';
-is new SFDouble( new SFString(Math::PI) ), '3.14159265358979';
-is ref SFDouble->new( new SFString(Math::PI) )->getValue, NO;
+is new SFDouble( new SFString(X3DMath::PI) ), '3.14159265358979';
+is ref SFDouble->new( new SFString(X3DMath::PI) )->getValue, NO;
 
 my $value;
 is $value = new MFBool( new SFBool ), 'FALSE';

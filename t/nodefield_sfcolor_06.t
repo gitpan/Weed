@@ -21,7 +21,7 @@ $testNode->sfcolor = [ 1, 0, 0 ];
 is $testNode->sfcolor, "1 0 0";
 ok $testNode->sfcolor;
 
-isa_ok $testNode->sfcolor + [ 1, 0.2, 0 ], 'SFColor';
+isa_ok $testNode->sfcolor + [ 1, 0.2, 0 ], 'X3DColor';
 $testNode->sfcolor = $testNode->sfcolor + [ 1, 0.2, 0 ];
 is $testNode->sfcolor, "1 0.2 0";
 
@@ -29,7 +29,7 @@ $testNode->sfcolor = $testNode->sfcolor + [ 1, 0, 0 ];
 $testNode->sfcolor = [ -0.2, 0.2, 0.4 ] +$testNode->sfcolor;
 is $testNode->sfcolor, "0.8 0.4 0.4";
 
-is ref( $testNode->sfcolor + [ 1, 0, 0 ] ), 'SFColor';
+isa_ok $testNode->sfcolor + [ 1, 0, 0 ], 'X3DColor';
 
 
 #$this->{fields}->{$name};
@@ -62,7 +62,7 @@ $testNode->sfcolor = new SFVec3d(1/2, 1/4, 1/8);
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
 $testNode->sfcolor = new SFVec2d(1/2, 1/4);
-isa_ok $testNode->sfcolor->getValue, 'Weed::Values::Color';
+isa_ok $testNode->sfcolor->getValue, 'X3DColor';
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
 $testNode->sfcolor = new SFVec2f(1/4, 1/2);

@@ -1,6 +1,6 @@
 package Weed::Generator;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed 'X3DGenerator';
 
@@ -8,6 +8,7 @@ use Weed::Symbols;
 
 our $TSPACE;
 our $TBREAK;
+our $TCOMMA;
 
 our $INT32  = "%d";
 our $FLOAT  = "%g";
@@ -23,32 +24,35 @@ our $INDENT_INDEX = 0;
 
 our $TidyFields = YES;
 
-our $AccessTypes = [ $_initializeOnly_, $_inputOnly_, $_outputOnly_, $_inputOutput_ ];
+our $AccessTypesX3D  = [ $_initializeOnly_, $_inputOnly_, $_outputOnly_, $_inputOutput_ ];
+our $AccessTypesVRML = [ $_field_,          $_eventIn_,   $_eventOut_,   $_exposedField_ ];
 
-sub TRUE  { $_TRUE_ }
-sub FALSE { $_FALSE_ }
-sub NULL  { $_NULL_ }
+use constant TRUE  => $_TRUE_;
+use constant FALSE => $_FALSE_;
+use constant NULL  => $_NULL_;
 
-sub DEF { $_DEF_ }
+use constant DEF => $_DEF_;
 
-sub tab   { $_tab_ }
-sub space { $_space_ }
-sub break { $_break_ }
+use constant tab   => $_tab_;
+use constant space => $_space_;
+use constant break => $_break_;
 
-sub period        { $_period_ }
-sub open_brace    { $_open_brace_ }
-sub close_brace   { $_close_brace_ }
-sub open_bracket  { $_open_bracket_ }
-sub close_bracket { $_close_bracket_ }
-sub colon         { $_colon_ }
-sub comma         { $_comma_ }
-sub comment       { $_comment_ }
+use constant period        => $_period_;
+use constant open_brace    => $_open_brace_;
+use constant close_brace   => $_close_brace_;
+use constant open_bracket  => $_open_bracket_;
+use constant close_bracket => $_close_bracket_;
 
-sub in  { $_in_ }
-sub out { $_out_ }
+use constant colon   => $_colon_;
+use constant comma   => $_comma_;
+use constant comment => $_comment_;
+
+use constant in  => $_in_;
+use constant out => $_out_;
 
 sub tidy_space  { $TSPACE }
 sub tidy_break  { $TBREAK }
+sub tidy_comma  { $TCOMMA }
 sub tidy_fields { $#_ ? $TidyFields = $_[1] : $TidyFields }
 
 sub INT32  { $INT32 }
@@ -56,66 +60,80 @@ sub FLOAT  { $FLOAT }
 sub DOUBLE { $DOUBLE }
 sub STRING { $STRING }
 
-sub float_precision  { $PRECISION - 1 }
-sub double_precision { $DPRECISION - 1 }
+sub getPrecisionOfFloat  { $PRECISION - 1 }
+sub getPrecisionOfDouble { $DPRECISION - 1 }
+
+# indent
+sub _INDENT { $INDENT_CHAR x $INDENT_INDEX }
+
+sub _INDENT_INDEX {
+	$INDENT_INDEX = $_[0];
+	$INDENT       = &_INDENT;
+}
+
+sub _INDENT_CHAR {
+	$INDENT_CHAR = $_[0];
+	$INDENT      = &_INDENT;
+}
 
 sub indent { $INDENT }
 
 sub inc {
 	++$INDENT_INDEX;
-	$INDENT = $INDENT_CHAR x $INDENT_INDEX;
+	$INDENT = &_INDENT;
 }
 
 sub dec {
 	--$INDENT_INDEX;
-	$INDENT = $INDENT_CHAR x $INDENT_INDEX;
+	$INDENT = &_INDENT;
 }
 
-sub INDENT_INDEX {
-	$INDENT_INDEX = shift;
-	$INDENT       = $INDENT_CHAR x $INDENT_INDEX;
+# precision
+use constant maxPrecision         => 17;
+use constant minPrecisionOfFloat  => 6;
+use constant minPrecisionOfDouble => 14;
+
+sub setPrecisionOfFloat {
+	$PRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
+	$FLOAT = "%0.${PRECISION}g";
 }
 
-sub INDENT_CHAR {
-	$INDENT_CHAR = shift;
-	$INDENT      = $INDENT_CHAR x $INDENT_INDEX;
-}
-
-sub precision {
-	shift;
-	$PRECISION  = Math::min( 17, shift() + 1 );
-	$DPRECISION = Math::min( 17, 2 * $PRECISION );
-
-	$FLOAT  = "%0.${PRECISION}g";
+sub setPrecisionOfDouble {
+	$DPRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
 	$DOUBLE = "%0.${DPRECISION}g";
 }
 
+# output
 sub tidy {
 	$TSPACE = &space;
 	$TBREAK = &break;
+	$TCOMMA = &comma;
 
-	INDENT_INDEX 0;
-	INDENT_CHAR $_space_ x 2;
+	_INDENT_INDEX 0;
+	_INDENT_CHAR &space x 2;
 }
 
 sub compact {
 	$TSPACE = &space;
 	$TBREAK = &space;
+	$TCOMMA = &comma;
 
-	INDENT_INDEX 0;
-	INDENT_CHAR "";
+	_INDENT_INDEX 0;
+	_INDENT_CHAR NO;
 }
 
 sub clean {
-	$TSPACE = "";
-	$TBREAK = "";
+	$TSPACE = NO;
+	$TBREAK = NO;
+	$TCOMMA = &space;
 
-	INDENT_INDEX 0;
-	INDENT_CHAR "";
+	_INDENT_INDEX 0;
+	_INDENT_CHAR NO;
 }
 
 # STANDARD
-__PACKAGE__->precision(7);
+__PACKAGE__->setPrecisionOfFloat(7);
+__PACKAGE__->setPrecisionOfDouble(15);
 __PACKAGE__->tidy;
 
 1;

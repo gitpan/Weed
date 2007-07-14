@@ -1,9 +1,9 @@
 package Weed::Math;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
-use Package::Alias Math => __PACKAGE__;
+use Package::Alias X3DMath => __PACKAGE__;
 
 use Exporter 'import';
 
@@ -110,8 +110,10 @@ sub random {
 }
 
 sub round {
-	return int( $_[0] + ( $_[0] < 0 ? -0.5 : 0.5 ) ) if @_ == 1 || $_[1] == 0;    # @_ == 1 || $_[1] == 0;
-	return sprintf "%.$_[1]f", $_[0] if $_[1] >= 0;
+	return int( $_[0] + ( $_[0] < 0 ? -0.5 : 0.5 ) )
+		if @_ == 1 || $_[1] == 0;
+
+	return 0+ sprintf "%.$_[1]f", $_[0] if $_[1] >= 0;
 
 	my $f = 10**-$_[1];
 	return round( $_[0] / $f ) * $f;
@@ -179,8 +181,8 @@ Weed::Math - constants and functions
 
 	use Math;
 
-	printf "%s\n", Math::PI;
-	printf "%s\n", Math::round(0.5);
+	printf "%s\n", X3DMath::PI;
+	printf "%s\n", X3DMath::round(0.5);
 
 =head1 SEE ALSO
 
@@ -310,21 +312,21 @@ You can also use the ** operator, see L<perlop>.
 
 Returns a pseudo-random number between 0 and 1.
 
-	$ret = Math::random();
+	$ret = random();
 
 Returns a pseudo-random number between 0 and $number1.
 
-	$ret = Math::random($number1);
+	$ret = random($number1);
 
 Returns a pseudo-random number between number1 and number2.
 
-	$ret = Math::random($number1, $number2);
+	$ret = random($number1, $number2);
 
 =head2 round
 
 Returns the value of $number rounded to the nearest integer
 
-	$ret = Math::round($number);
+	$ret = round($number);
 
 Returns the value of $number rounded to the nearest float point number.
 

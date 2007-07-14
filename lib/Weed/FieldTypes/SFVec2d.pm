@@ -1,10 +1,10 @@
 package Weed::FieldTypes::SFVec2d;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed 'SFVec2d : X3DField { 0 0 }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::Vector';
+use base 'Weed::BaseFieldTypes::Vector';
 
 sub x : lvalue { $_[0]->[0] }
 

@@ -1,15 +1,15 @@
 package Weed::FieldTypes::MFNode;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.008';
 
 use Weed 'MFNode : X3DArrayField { [] }';
 
-use Weed::Tie::MFNodeValue;
+use Weed::Tie::Value::BaseNodeArray;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
-	tie @{ $this->getValue }, 'Weed::Tie::MFNodeValue', $this;
-	tie $this->length, 'Weed::Tie::Length', $this->getValue;
+	tie @{ $this->getValue }, 'Weed::Tie::Value::BaseNodeArray', $this;
+	tie $this->length, 'Weed::Tie::ArrayLength', $this->getValue;
 	return $this;
 }
 
@@ -66,7 +66,6 @@ sub dispose {
 sub DESTROY {
 	my $this = shift;
 	$this->setValue( [] );
-	$this->X3DArrayField::DESTROY;
 }
 
 1;

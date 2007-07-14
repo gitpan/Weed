@@ -1,11 +1,11 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.0081';
 
 use Weed::Parse::FieldDescription;
 
-sub setDescription {
+sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
 	my $fieldDescriptions = Weed::Parse::FieldDescription::parse @{ $description->{body} };
 	my $fieldDefinitions = [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ];
@@ -187,7 +187,6 @@ sub DESTROY {
 	#print "BaseNode::DESTROY ", $this->getName;
 	#printf "BaseNode::DESTROY: %d\n", $this->getReferenceCount;
 	#print  "BaseNode::Clones:  ", $this->{clones};
-	$this->X3DObject::DESTROY;
 }
 
 1;

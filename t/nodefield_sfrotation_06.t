@@ -19,7 +19,7 @@ is new SFRotation( 0.267261241912424, 0.534522483824849, 0.801783725737273, 0.4 
 #$testNode->sfrotation = new SFRotation(new SFVec3f(1,0,0), new SFVec3f(0,1,0));
 #is $testNode->sfrotation, "0 0 1 0";
 
-my $r = new Weed::Values::Rotation();
+my $r = new X3DRotation();
 is $r, "0 0 1 0";
 
 is new SFRotation( 0, 0, 0, 0 ), "0 0 1 0";
@@ -54,8 +54,8 @@ is $testNode->sfrotation->[3] = 45, 45;
 is $testNode->sfrotation, "0 0 1 45";
 
 ok $testNode->sfrotation;
-isa_ok $testNode->sfrotation->getAxis, 'SFVec3d';
-isa_ok $testNode->sfrotation->getAxis, 'SFVec3d';
+isa_ok $testNode->sfrotation->getAxis, 'X3DVec3';
+isa_ok $testNode->sfrotation->getAxis, 'X3DVec3';
 
 $r->setAngle(45);
 is $r, "0 0 1 45";
@@ -74,10 +74,10 @@ ok $testNode->sfrotation = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ];
 ok $testNode->sfrotation = $testNode->sfrotation;
 is $testNode->sfrotation, $r;
 
-ok $testNode->sfrotation = [ new Weed::Values::Vec3( [ 1, 2, 3 ] ), [ 4, 5, 6 ] ];
+ok $testNode->sfrotation = [ new X3DVec3( [ 1, 2, 3 ] ), [ 4, 5, 6 ] ];
 is $testNode->sfrotation, $r;
 
-ok $testNode->sfrotation = [ [ 1, 2, 3 ], new Weed::Values::Vec3( [ 4, 5, 6 ] ) ];
+ok $testNode->sfrotation = [ [ 1, 2, 3 ], new X3DVec3( [ 4, 5, 6 ] ) ];
 is $testNode->sfrotation, $r;
 
 ok $testNode->sfrotation = [ new SFVec3f( [ 1, 2, 3 ] ), [ 4, 5, 6 ] ];

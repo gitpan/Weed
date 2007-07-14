@@ -1,9 +1,12 @@
 package Weed::Values::Vec3;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
-use base 'Weed::Values::Vector';
+use Package::Alias X3DVec3 => __PACKAGE__;
+
+use Weed::Values::Vector;
+use base 'X3DVector';
 
 use overload "x" => 'cross';
 
@@ -163,18 +166,18 @@ sub mod {
 	return ref $b ?
 	  $a->new( [
 			$r ? (
-				Math::fmod( $b->[0], $a->[0] ),
-				Math::fmod( $b->[1], $a->[1] ),
-				Math::fmod( $b->[2], $a->[2] ),
+				X3DMath::fmod( $b->[0], $a->[0] ),
+				X3DMath::fmod( $b->[1], $a->[1] ),
+				X3DMath::fmod( $b->[2], $a->[2] ),
 			  ) : (
-				Math::fmod( $a->[0], $b->[0] ),
-				Math::fmod( $a->[1], $b->[1] ),
-				Math::fmod( $a->[2], $b->[2] ),
+				X3DMath::fmod( $a->[0], $b->[0] ),
+				X3DMath::fmod( $a->[1], $b->[1] ),
+				X3DMath::fmod( $a->[2], $b->[2] ),
 			  ) ] )
 	  : $a->new( [
-			Math::fmod( $a->[0], $b ),
-			Math::fmod( $a->[1], $b ),
-			Math::fmod( $a->[2], $b ),
+			X3DMath::fmod( $a->[0], $b ),
+			X3DMath::fmod( $a->[1], $b ),
+			X3DMath::fmod( $a->[2], $b ),
 	  ] );
 }
 
@@ -182,13 +185,13 @@ sub mod {
 use overload '%=' => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
-		$a->[0] = Math::fmod( $a->[0], $b->[0] );
-		$a->[1] = Math::fmod( $a->[1], $b->[1] );
-		$a->[2] = Math::fmod( $a->[2], $b->[2] );
+		$a->[0] = X3DMath::fmod( $a->[0], $b->[0] );
+		$a->[1] = X3DMath::fmod( $a->[1], $b->[1] );
+		$a->[2] = X3DMath::fmod( $a->[2], $b->[2] );
 	} else {
-		$a->[0] = Math::fmod( $a->[0], $b );
-		$a->[1] = Math::fmod( $a->[1], $b );
-		$a->[2] = Math::fmod( $a->[2], $b );
+		$a->[0] = X3DMath::fmod( $a->[0], $b );
+		$a->[1] = X3DMath::fmod( $a->[1], $b );
+		$a->[2] = X3DMath::fmod( $a->[2], $b );
 	}
 	return $a;
 };
@@ -262,4 +265,7 @@ sub length {
 	);
 }
 
+use constant elementCount => 3;
+
 1;
+__END__

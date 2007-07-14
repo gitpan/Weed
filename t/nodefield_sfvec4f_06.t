@@ -10,6 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
+X3DGenerator->compact;
 ok my $testNode = new SFNode( new TestNode );
 is $testNode->sfvec4f, "0 0 0 0";
 is $testNode->doubles, "[ 1.2, 3.4, 5.6 ]";
@@ -27,7 +28,7 @@ is $testNode->sfvec4f, "0.5 0.25 0.125 0.5";
 is $testNode->sfvec4f *= 2, "1 0.5 0.25 1";
 is $testNode->sfvec4f, "1 0.5 0.25 1";
 is int $testNode->sfvec4f,     "1 0 0 1";
-isa_ok int $testNode->sfvec4f, 'X3DField';
+isa_ok int $testNode->sfvec4f, 'X3DVec4';
 is $testNode->sfvec4f**2, "1 0.25 0.0625 1";
 
 my $sfvec4f = $testNode->sfvec4f;
@@ -76,7 +77,7 @@ is $sfvec4f, "3 2.5 2.25 3";
 is ++$sfvec4f, "4 3.5 3.25 4";
 is ++$sfvec4f, "5 4.5 4.25 5";
 is $sfvec4f,     "5 4.5 4.25 5";
-isa_ok $sfvec4f, "X3DField";
+isa_ok $sfvec4f, "X3DVec4";
 
 ok $testNode->sfvec4f = [ 3, 4, 5, 6 ];
 is $testNode->sfvec4f, "3 4 5 6";
@@ -101,9 +102,9 @@ is $testNode->sfvec4f->[3], 4;
 is $testNode->sfvec4f, "1 2 3 4";
 
 is $sfvec4f += [ 0, 0.5, 0.75, 0 ], "5 5 5 5";
-isa_ok $sfvec4f + [ 0, 0.5, 0.75, 0 ], "X3DField";
+isa_ok $sfvec4f + [ 0, 0.5, 0.75, 0 ], "X3DVec4";
 
-isa_ok $sfvec4f, "X3DField";
+isa_ok $sfvec4f, "X3DVec4";
 is $sfvec4fId,   $testNode->sfvec4f->getId;
 
 1;

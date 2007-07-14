@@ -1,15 +1,12 @@
 package Weed::FieldHelper;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use UNIVERSAL 'isa';
 use overload;
 
 use Weed::Parse::Double 'double';
-
-use constant VECTOR   => "Weed::Values::Vector";
-use constant ROTATION => "Weed::Values::Rotation";
 
 # NumVal($count, ...)
 # returns a list of numbers as array ref with at most $count values
@@ -26,11 +23,11 @@ sub NumVal {
 			{
 				my $value = $_->getValue;
 
-				if ( isa( $value, VECTOR ) )
+				if ( isa( $value, "X3DVector" ) )
 				{
 					push @$values, @{ $value->getValue };
 				}
-				elsif ( isa( $value, ROTATION ) )
+				elsif ( isa( $value, "X3DRotation" ) )
 				{
 					push @$values, @{ $value->getValue };
 				}
@@ -51,11 +48,11 @@ sub NumVal {
 					push @$values, $value;
 				}
 			}
-			elsif ( isa( $_, VECTOR ) )
+			elsif ( isa( $_, "X3DVector" ) )
 			{
 				push @$values, @{ $_->getValue };
 			}
-			elsif ( isa( $_, ROTATION ) )
+			elsif ( isa( $_, "X3DRotation" ) )
 			{
 				push @$values, @{ $_->getValue };
 			}
@@ -91,7 +88,7 @@ sub RotVal {
 
 	# Rotation (rotation)
 	return $_[0]->getValue if isa( $_[0], 'SFRotation' );
-	return $_[0]           if isa( $_[0], ROTATION );
+	return $_[0]           if isa( $_[0], "X3DRotation" );
 
 	if ( 1 == @_ && isa( $_[0], 'ARRAY' ) )
 	{
@@ -101,8 +98,8 @@ sub RotVal {
 	else
 	{
 		my $value = NumVal( 6, @_ );
-		return $value if @$value <= 4;    # Rotation (x,y,z,angle,...)
-		return ( [ @$value[ 0 .. 2 ] ], [ @$value[ 3 .. 5 ] ] );    # Rotation (vector, vector)
+		return ( [ @$value[ 0, 1, 2 ] ], $value->[3] ) if @$value <= 4;    # Rotation (axis, angle)
+		return ( [ @$value[ 0, 1, 2 ] ], [ @$value[ 3, 4, 5 ] ] );         # Rotation (vector, vector)
 	}
 }
 

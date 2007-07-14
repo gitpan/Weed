@@ -15,8 +15,8 @@ use Weed::RegularExpressions qw($_float);
 
 is( X3DObject->X3DPackage::getSupertype, "Weed::Object" );
 
-ok new X3DObject;
-ok my $seed1 = new X3DObject;
+ok CREATE X3DObject;
+ok my $seed1 = CREATE X3DObject;
 
 ok $seed1->getId;
 is $seed1->getType, "X3DObject";
@@ -42,12 +42,12 @@ printf "%s\n", $seed1;
 
 is $seed1->X3DPackage::getSupertype, 'Weed::Object';
 
-ok my $seed2 = new X3DObject;
+ok my $seed2 = CREATE X3DObject;
 printf "%s\n", $seed2->getId;
 printf "%s\n", $seed2->getType;
 
 like time, $_float;
-ok Math::sum( map { ok( time =~ m/\./ ) } 1 .. 170 );
+ok X3DMath::sum( map { ok( time =~ m/\./ ) } 1 .. 170 );
 #ok $seed1->{startTime} =~ m/\./;
 
 ok $seed1;

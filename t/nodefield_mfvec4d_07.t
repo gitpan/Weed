@@ -11,6 +11,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
+X3DGenerator->compact;
 ok my $testNode = new SFNode( new TestNode );
 
 $testNode->mfvec4d->[0] = [ 1, 2, 3, 4 ];

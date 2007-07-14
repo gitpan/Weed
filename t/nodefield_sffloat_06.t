@@ -89,7 +89,8 @@ is $testNode->sffloat |= 1, 3;
 is $testNode->sffloat &= 2, 2;
 is $testNode->sffloat ^= 3, 1;
 is - $testNode->sffloat, -1;
-is $testNode->sffloat = ~$testNode->sffloat, 4294967294;
+is $testNode->sffloat = ~$testNode->sffloat, '4294967294';
+ok $testNode->sffloat = 4294967294;
 is ++$testNode->sffloat, '4.2949673e+09';
 
 is cos( $testNode->sffloat ), cos(4294967295);

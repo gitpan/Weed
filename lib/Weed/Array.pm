@@ -3,10 +3,10 @@ package Weed::Array;
 use Weed 'X3DArray [ ]', 'isArray';
 #Array reference
 
-our $VERSION = '0.0078';
+our $VERSION = '0.008';
 
 use Algorithm::Numerical::Shuffle;
-use Weed::Tie::Length;
+#Set::Array;
 
 use overload
   'bool' => 'getLength',
@@ -14,44 +14,6 @@ use overload
   'int' => 'getLength',
   '0+'  => 'getLength',
   ;
-
-sub new {
-	my $this = shift->NEW;
-	$this->setValue(@_);
-	return $this;
-}
-
-sub getClone { $_[0]->new( scalar $_[0]->getValue ) }
-
-sub getValue { [ @{ $_[0] } ] }
-
-sub setValue {
-	my $this = shift;
-
-	if ( 0 == @_ ) {
-		@$this = ();
-	}
-	elsif ( 1 == @_ )
-	{
-		my $value = shift;
-
-		if ( isArray($value) ) {
-			@$this = @$value;
-		}
-		else {
-			@$this = ($value);
-		}
-	}
-	else {
-		@$this = @_;
-	}
-}
-
-sub isArray {
-	UNIVERSAL::isa( $_[0], __PACKAGE__ )
-	  or
-	  ( ref $_[0] && Scalar::Util::reftype( $_[0] ) eq 'ARRAY' )
-}
 
 use overload '<=>' => sub {
 	my ( $a, $b, $r, $c ) = @_;
@@ -85,14 +47,32 @@ use overload 'cmp' => sub {
 	return 0;
 };
 
-sub clear { @{ $_[0] } = () }
+sub new {
+	my $self = $_[0];
+	my $type = ref($self) || $self;
+	return bless $_[1] || [], $type;
+}
+
+sub getClone {
+	my $clone = $_[0]->new;
+	@$clone = @{ $_[0] };
+	return $clone;
+}
 
 sub getLength { scalar @{ $_[0] } }
 sub setLength { $#{ $_[0] } = $_[1] - 1; return }
 
+sub isArray {
+	UNIVERSAL::isa( $_[0], __PACKAGE__ )
+	  or
+	  UNIVERSAL::isa( $_[0], 'ARRAY' )
+}
+
 sub sort { $_[0]->new( [ sort { $a <=> $b } @{ $_[0] } ] ) }
 
-sub shuffle { $_[0]->new( scalar Algorithm::Numerical::Shuffle::shuffle( $_[0]->getValue ) ) }
+sub random { $_[0]->new( scalar Algorithm::Numerical::Shuffle::shuffle( [ @{ $_[0] } ] ) ) }
+
+sub clear { @{ $_[0] } = () }
 
 sub toString {
 	my $this = shift;
@@ -102,9 +82,17 @@ sub toString {
 	if (@$this) {
 		if ($#$this) {
 			$string .= X3DGenerator->open_bracket;
-			$string .= X3DGenerator->tidy_space;
-			$string .= join X3DGenerator->comma . X3DGenerator->tidy_space, @$this;
-			$string .= X3DGenerator->tidy_space;
+			X3DGenerator->inc;
+			$string .= X3DGenerator->tidy_break;
+			$string .= X3DGenerator->indent;
+			$string .= join
+			  X3DGenerator->tidy_comma .
+			  X3DGenerator->tidy_break .
+			  X3DGenerator->indent,
+			  @$this;
+			X3DGenerator->dec;
+			$string .= X3DGenerator->tidy_break;
+			$string .= X3DGenerator->indent;
 			$string .= X3DGenerator->close_bracket;
 		}
 		else {
@@ -130,7 +118,7 @@ sub length : lvalue {
 	}
 
 	if ( Want::want('ASSIGN') ) {
-		$#$this = Math::max( 0, Want::want('ASSIGN') ) - 1;
+		$#$this = X3DMath::max( 0, Want::want('ASSIGN') ) - 1;
 		Want::lnoreturn;
 	}
 

@@ -1,7 +1,7 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.008';
 
 use Carp ();
 use Want ();
@@ -33,12 +33,10 @@ BEGIN {
 	X3DPackage::createType( __PACKAGE__, 'X3DUniversal', 'X3DUniversal { }', 'getReferenceCount' );
 }
 
-sub NEW {
+sub _new {
 	my $packageName = shift->X3DPackage::getName;
-	X3DPackage::Scalar( $packageName, "Description" )->{new}->($packageName);
+	$packageName->X3DPackage::Scalar("Description")->{new}->( $packageName, @_ );
 }
-
-#*new = \&NEW;
 
 sub getType { ref $_[0] }
 
@@ -49,8 +47,6 @@ sub getType { ref $_[0] }
 sub getHierarchy { grep /$_supertype/, X3DPackage::getSelfAndSuperpath( $_[0] ) }
 
 *toString = \&overload::StrVal;
-
-sub DESTROY () { 0 }
 
 1;
 __END__

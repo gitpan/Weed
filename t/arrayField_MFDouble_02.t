@@ -11,6 +11,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
+X3DGenerator->compact;
 my $MFType = "MFDouble";
 my $SFType = "SFDouble";
 
@@ -39,7 +40,7 @@ is $#$mfX, 29;
 
 ok my $tn = new SFNode( new TestNode );
 is ref tied $tn->doubles, 'Weed::Tie::Field';
-is ref tied @{ $tn->doubles }, 'Weed::Tie::ArrayFieldValue';
+is ref tied @{ $tn->doubles }, 'Weed::Tie::Value::Array';
 is ref $tn->doubles, 'MFDouble';
 ok my $doubles = $tn->doubles;
 is $tn->doubles, '[ 1.2, 3.4, 5.6 ]';

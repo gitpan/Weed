@@ -1,10 +1,10 @@
 package Weed::FieldTypes::SFBool;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed 'SFBool : X3DField { FALSE }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::Number';
+use base 'Weed::BaseFieldTypes::Scalar';
 
 sub setValue {
 	my ( $this, $value ) = @_;

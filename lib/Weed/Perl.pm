@@ -3,20 +3,18 @@ use strict;
 use warnings;
 #no warnings 'redefined';
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use base 'Exporter';
 
-use Time::HiRes 'time';
-use Scalar::Util;
+use Weed::Time;
 
 use constant NO  => defined;
 use constant YES => not NO;
 
-our @EXPORT    = qw.YES NO.;
-our @EXPORT_OK = qw.time.;
+our @EXPORT = qw.YES NO.;
 
-#$, = " ";
+$, = " ";
 $\ = "\n";
 
 sub import {
@@ -26,7 +24,6 @@ sub import {
 	warnings::import;
 	#warnings::unimport('redefine');
 
-	Exporter::export( $pkg, 'CORE::GLOBAL', @EXPORT_OK );
 	Exporter::export_to_level( $pkg, 1 );
 }
 
@@ -37,10 +34,3 @@ sub unimport {
 
 1;
 __END__
-
-sub type { CORE::ref $_[0] }
-
-*id = \&Scalar::Util::refaddr;
-
-*stringify = \&overload::StrVal;
-

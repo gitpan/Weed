@@ -29,8 +29,8 @@ can_ok 'X3DGenerator', 'tidy_break';
 can_ok 'X3DGenerator', 'tidy';
 can_ok 'X3DGenerator', 'clean';
 
-is (X3DGenerator->float_precision, 7);
-is (X3DGenerator->double_precision, 15);
+is (X3DGenerator->getPrecisionOfFloat, 7);
+is (X3DGenerator->getPrecisionOfDouble, 15);
 
 __END__
 

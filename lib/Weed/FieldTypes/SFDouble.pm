@@ -1,10 +1,10 @@
 package Weed::FieldTypes::SFDouble;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed 'SFDouble : X3DField { 0 }';
 
-use base 'Weed::FieldTypes::BaseFieldTypes::Number';
+use base 'Weed::BaseFieldTypes::Scalar';
 
 use Weed::Parse::Double;
 

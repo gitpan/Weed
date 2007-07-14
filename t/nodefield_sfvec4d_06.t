@@ -32,7 +32,7 @@ is $testNode->sfvec4d, "0.5 0.25 0.125 0.5";
 is $testNode->sfvec4d *= 2, "1 0.5 0.25 1";
 is $testNode->sfvec4d, "1 0.5 0.25 1";
 is int $testNode->sfvec4d,     "1 0 0 1";
-isa_ok int $testNode->sfvec4d, 'X3DField';
+isa_ok int $testNode->sfvec4d, 'X3DVec4';
 is $testNode->sfvec4d**2, "1 0.25 0.0625 1";
 
 my $sfvec4d = $testNode->sfvec4d;
@@ -81,10 +81,10 @@ is $sfvec4d, "3 2.5 2.25 3";
 is ++$sfvec4d, "4 3.5 3.25 4";
 is ++$sfvec4d, "5 4.5 4.25 5";
 is $sfvec4d,     "5 4.5 4.25 5";
-isa_ok $sfvec4d, "X3DField";
+isa_ok $sfvec4d, "X3DVec4";
 
 is $sfvec4d += [ 0, 0.5, 0.75, 0 ], "5 5 5 5";
-isa_ok $sfvec4d + [ 0, 0.5, 0.75, 0 ], "X3DField";
+isa_ok $sfvec4d + [ 0, 0.5, 0.75, 0 ], "X3DVec4";
 
 is $testNode->sfvec4d, "6 8 10 6";
 ok $testNode->sfvec4d = [ 1, 2, 3 ];
@@ -113,7 +113,8 @@ is $testNode->sfvec4d->w, 6;
 #ok $testNode->sfvec4d( 1, 2, 3, 4 ) = [ 2, 3, 4, 5 ];
 #is $testNode->sfvec4d, "2 3 4 5";
 
-isa_ok $sfvec4d, "X3DField";
+isa_ok $sfvec4d, "X3DVec4";
 is $sfvec4dId,   $testNode->sfvec4d->getId;
+isa_ok $testNode->sfvec4d, "X3DField";
 1;
 __END__

@@ -1,9 +1,9 @@
-package Weed::Tie::MFNodeValue;
+package Weed::Tie::Value::BaseNodeArray;
 use Weed;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
-use base 'Weed::Tie::ArrayFieldValue';
+use base 'Weed::Tie::Value::Array';
 
 sub storeValue {
 	my ( $this, $value ) = @_;
@@ -50,33 +50,33 @@ sub TIEARRAY {
 }
 
 sub STORE {
-	$_[0]->removeParents( $_[0]->getArray->[ $_[1] ] );
+	$_[0]->removeParents( $_[0]->getValue->[ $_[1] ] );
 	$_[0]->SUPER::STORE( $_[1], $_[2] );
 }
 
 sub STORESIZE {
 
 	return $_[0]->removeParents(
-		splice @{ $_[0]->getArray }, Math::max( 0, $_[1] )
+		splice @{ $_[0]->getValue }, X3DMath::max( 0, $_[1] )
 	) if $_[1] < $_[0]->FETCHSIZE;
 
 	$_[0]->SUPER::STORESIZE( $_[1] );
 }
 
 sub CLEAR {
-	$_[0]->removeParents( @{ $_[0]->getArray } );
+	$_[0]->removeParents( @{ $_[0]->getValue } );
 	return $_[0]->SUPER::CLEAR;
 
 }
 
 sub DELETE {
 	$_[0]->removeParents(
-		delete $_[0]->getArray->[ $_[1] ]
+		delete $_[0]->getValue->[ $_[1] ]
 	);
 }
 
 sub DESTROY {
-	#printf "Weed::Tie::MFNodeValue::DESTROY %s\n", join ", ", map { $_->getReferenceCount } @{ $_[0]->getArray };
+	#printf "Weed::Tie::MFNodeValue::DESTROY %s\n", join ", ", map { $_->getReferenceCount } @{ $_[0]->getValue };
 	0;
 }
 

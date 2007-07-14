@@ -1,34 +1,30 @@
 package Weed::Symbols;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use base 'Exporter';
 
 our @EXPORT = qw(
+  $_open_parenthesis_
+  $_close_parenthesis_
+  $_swung_dash_
+  $_in_
+  $_out_
+
   $_tab_
   $_space_
   $_break_
 
-  $_open_parenthesis_
-  $_close_parenthesis_
   $_open_brace_
   $_close_brace_
   $_open_bracket_
   $_close_bracket_
-  $_open_angle_bracket_
-  $_close_angle_bracket_
 
   $_period_
   $_colon_
   $_comma_
   $_comment_
-
-  $_swung_dash_
-  $_exclamation_mark_
-
-  $_in_
-  $_out_
 
   $_nan_
   $_inf_
@@ -60,33 +56,30 @@ our @EXPORT = qw(
   $_field_
 );
 
+# Concept
+our $_open_parenthesis_    = '(';
+our $_close_parenthesis_   = ')';
+our $_open_angle_bracket_  = '<';
+our $_close_angle_bracket_ = '>';
+our $_swung_dash_          = '~';
+our $_in_                  = 'in';
+our $_out_                 = 'out';
+
 # General
 our $_tab_   = ' ';
 our $_space_ = ' ';
 our $_break_ = "\n";
 
 # Terminal symbols
-our $_open_parenthesis_    = '(';
-our $_close_parenthesis_   = ')';
-our $_open_brace_          = '{';
-our $_close_brace_         = '}';
-our $_open_bracket_        = '[';
-our $_close_bracket_       = ']';
-our $_open_angle_bracket_  = '<';
-our $_close_angle_bracket_ = '>';
+our $_open_brace_    = '{';
+our $_close_brace_   = '}';
+our $_open_bracket_  = '[';
+our $_close_bracket_ = ']';
+our $_period_        = '.';
+our $_colon_         = ':';
+our $_comma_         = ',';
 
-our $_period_  = '.';
-our $_colon_   = ':';
-our $_comma_   = ',';
 our $_comment_ = '#';
-
-#
-our $_exclamation_mark_ = '!';
-our $_swung_dash_       = '~';
-
-# concept
-our $_in_  = 'in';
-our $_out_ = 'out';
 
 # Field Values Symbols
 our $_nan_ = 'nan0x7ffffe00';

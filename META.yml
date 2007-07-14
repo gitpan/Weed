@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Weed
-version:             0.0079
+version:             0.0082
 abstract:            Contains the Abstract that will be displayed on CPAN
 license:             ~
 generated_by:        ExtUtils::MakeMaker version 6.36
@@ -21,14 +21,11 @@ requires:
     Math::Complex:                 0
     Math::Quaternion:              0
     Math::Trig:                    0
-    Object::MultiType:             0
     overload:                      0
     Package::Alias:                0
     POSIX:                         0
     Scalar::Util:                  0
-    Sort::ArbBiLex:                0
     strict:                        0
-    Sub::Signatures:               0
     Test::More:                    0
     Tie::Array:                    0
     Tie::Hash:                     0

@@ -2,12 +2,12 @@ package Weed::Object;
 
 use Weed 'X3DObject { }';
 
-our $VERSION = '0.0078';
-
-sub new { shift->CREATE }
+our $VERSION = '0.0079';
 
 sub CREATE {
-	my $this = shift->NEW;
+	my $self = $_[0];
+	my $type = ref($self) || $self;
+	my $this = bless {}, $type;
 	$this->{comments} = [];
 	$this->{parents}  = new X3DParentHash;
 	return $this;

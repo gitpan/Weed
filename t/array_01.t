@@ -10,12 +10,14 @@ BEGIN {
 	use_ok 'Weed';
 }
 
+X3DGenerator->compact;
+
 ok !new X3DArray [];
 ok new X3DArray [ 1, 2, 3 ];
 is new X3DArray( [ 1, 2, 3 ] ), '[ 1, 2, 3 ]';
-is( X3DArray->new( 1, 2, 3 )->getLength, 3 );
 is( X3DArray->new( [ 1, 2, 3 ] )->getLength, 3 );
-is( X3DArray->new( [ 1, 2, 3 ], [ 1, 2, 3 ] )->getLength, 2 );
+is( X3DArray->new( [ 1, 2, 3 ] )->getLength, 3 );
+is( X3DArray->new( [ [ 1, 2, 3 ], [ 1, 2, 3 ] ] )->getLength, 2 );
 
 ok my $array = new X3DArray [ 1, 2, 3, 4 ];
 is $array, '[ 1, 2, 3, 4 ]';
@@ -23,11 +25,11 @@ is $array->getLength, 4;
 
 ok $array = new X3DArray [ 1 .. 100 ];
 
-ok $array->getValue;
-ok @{ $array->getValue } == 100;
-ok( X3DArray->new( $array->getValue )->getLength == 100 );
+ok @$array;
+ok @$array == 100;
+ok( X3DArray->new( [@$array] )->getLength == 100 );
 ok $array->getClone->getLength == 100;
-ok $array->shuffle->getLength == 100;
+ok $array->random->getLength == 100;
 
 is $array <=> 100, 0;
 is $array <=> 99,  1;
@@ -78,20 +80,19 @@ ok !( $array != $array );
 
 #print $array->shuffle;
 
-ok Math::sum( map {
-		$array != $array->shuffle
+ok X3DMath::sum( map {
+		$array != $array->random
 } 1 .. 1 );
 
-ok Math::sum( map {
-		$array ne $array->shuffle
+ok X3DMath::sum( map {
+		$array ne $array->random
 } 1 .. 100 );
 
-ok $array == $array->shuffle->sort;
-ok $array->shuffle->sort == $array;
+ok $array == $array->random->sort;
+ok $array->random->sort == $array;
 
 is $array->setLength(-23), undef;
 is $array->getLength, 0;
-ok X3DArray::isArray($array);
 
 ok $array = new X3DArray [ 'a10', 'a2', 'a1', 'a4', '1a', '10a', '5a', '2a' ];
 

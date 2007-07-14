@@ -1,38 +1,52 @@
 package Weed::Hash;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.0081';
 
-use Weed 'X3DHash { }';
+use Weed 'X3DHash { }', 'isHash';
 
 use overload
   'bool' => 'getSize',
 
   'int' => 'getSize',
   '0+'  => 'getSize',
+
+  #  '<=>' => sub { warn },
+  #  'cmp' => sub { warn },
   ;
 
-sub new { shift->NEW }
+sub new {
+	my $self = $_[0];
+	my $type = ref($self) || $self;
+	return bless {}, $type;
+}
 
-#sub getClone { $_[0]->new( $_[0]->getValue ) }
+sub getClone {
+	my $clone = $_[0]->new;
+	%$clone = %{ $_[0] };
+	return $clone;
+}
 
 sub getKeys   { new X3DArray [ keys( %{ $_[0] } ) ] }
 sub getValues { new X3DArray [ values( %{ $_[0] } ) ] }
 
-sub exists { exists $_[0]->{ $_[1] } }
+sub getSize { scalar keys %{ $_[0] } }
+
+sub isHash {
+	UNIVERSAL::isa( $_[0], __PACKAGE__ )
+	  or
+	  UNIVERSAL::isa( $_[0], 'HASH' )
+}
 
 sub clear { %{ $_[0] } = () }
-
-sub getSize { scalar keys %{ $_[0] } }
 
 sub toString {
 	my $this = shift;
 
 	my $string = "";
 
-	$string .= X3DGenerator->indent;
 	$string .= X3DGenerator->open_brace;
 
-	if ( keys %$this ) {
+	if (%$this) {
 		$string .= X3DGenerator->tidy_break;
 		X3DGenerator->inc;
 		while ( my ( $key, $value ) = each %$this ) {

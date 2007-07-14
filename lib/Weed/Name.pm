@@ -1,6 +1,6 @@
 package Weed::Name;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Weed 'X3DName ()';
 
@@ -22,8 +22,10 @@ use overload
   ;
 
 sub new {
-	my $this = shift->NEW;
-	$this->setValue(@_);
+	my $self = $_[0];
+	my $type = ref($self) || $self;
+	my $this = bless do { my $scalar; \$scalar }, $type;
+	$this->setValue($_[1]);
 	return $this;
 }
 
@@ -73,7 +75,6 @@ sub clear {
 sub DESTROY {
 	my $this = shift;
 	$this->clear;
-	$this->X3DUniversal::DESTROY;
 }
 
 #use Data::Dumper ();

@@ -9,8 +9,9 @@ BEGIN {
 		'NAME'         => 'Weed',
 		'VERSION_FROM' => 'lib/Weed.pm',    # finds $VERSION
 		'PREREQ_PM'    => {
-			Test::More => 0,
-			Benchmark  => 0,
+			Test::More      => 0,
+			Benchmark       => 0,
+			#Test::Benchmark => 0,
 
 			UNIVERSAL => 0,
 
@@ -23,34 +24,34 @@ BEGIN {
 			warnings => 0,
 
 			#Universal
-			Exporter        => 0,
-			Carp            => 0,
-			Time::HiRes     => 0,
-			Package::Alias  => 0,
-			Class::ISA      => 0,
-			Scalar::Util    => 0,
-			Hash::NoRef     => 0,
-			Want            => 0,
-			Sub::Signatures => 0,
+			Exporter       => 0,
+			Carp           => 0,
+			Time::HiRes    => 0,
+			Package::Alias => 0,
+			Class::ISA     => 0,
+			Scalar::Util   => 0,
+			Hash::NoRef    => 0,
+			Want           => 0,
+			#Sub::Signatures => 0,
 
-			#Fields
-			Tie::Scalar     => 0,
-			Tie::Array      => 0,
-			Tie::Hash       => 0,
-			Unicode::String => 0,
-
-			#Array
-			Algorithm::Numerical::Shuffle => 0,
-			Sort::ArbBiLex                => 0,
-
-			#
-			Object::MultiType => 0,
+			#Concept ArrayHash <>
+			#Object::MultiType => 0,
 
 			#Values
 			POSIX            => 0,
 			Math::Quaternion => 0,
 			Math::Trig       => 0,
 			Math::Complex    => 0,
+
+			#Array
+			Algorithm::Numerical::Shuffle => 0,
+			#Sort::ArbBiLex               => 0,
+
+			#Fields
+			Tie::Scalar     => 0,
+			Tie::Array      => 0,
+			Tie::Hash       => 0,
+			Unicode::String => 0,
 
 			#perl_BUILD
 			File::Temp => 0,
@@ -62,10 +63,11 @@ BEGIN {
 			#Data::Validate::URI => 0,
 		},    # e.g., Module::Name => 1.1
 
-		#ABSTRACT_FROM => 'lib/Math/Color.pm',
+		#ABSTRACT_FROM => 'lib/Weed.pm',
 		ABSTRACT => 'Contains the Abstract that will be displayed on CPAN',
 		AUTHOR   => 'Holger Seelig <holger.seelig@yahoo.de>',
 		#NO_META  => 1,
+		#NORECURS => 0,
 	);
 }
 __END__

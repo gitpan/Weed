@@ -1,7 +1,9 @@
 package Weed::Values::Image;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
+
+use Package::Alias X3DImage => __PACKAGE__;
 
 #use PDL;
 
@@ -100,4 +102,7 @@ sub toString {
 	return $string;
 }
 
+use constant elementCount => 4;
+
 1;
+__END__

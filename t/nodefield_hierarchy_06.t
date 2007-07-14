@@ -27,7 +27,7 @@ isa_ok $testNode->getValue->getField("übe::lst"), 'X3DField';
 
 is $testNode->sfdouble->X3DPackage::toString,
   'SFDouble [
-  Weed::FieldTypes::SFDouble [ Weed::FieldTypes::BaseFieldTypes::Number [] ]
+  Weed::FieldTypes::SFDouble [ Weed::BaseFieldTypes::Scalar [] ]
   X3DField [
     Weed::Field []
     X3DObject [

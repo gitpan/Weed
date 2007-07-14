@@ -114,9 +114,10 @@ is $testNode->sfdouble |= 1, 3;
 is $testNode->sfdouble &= 2, 2;
 is $testNode->sfdouble ^= 3, 1;
 is - $testNode->sfdouble, -1;
-is $testNode->sfdouble = ~$testNode->sfdouble, 4294967294;
+is $testNode->sfdouble = ~$testNode->sfdouble, '4294967294';
 is ++$testNode->sfdouble, 4294967295;
 
+is $testNode->sfdouble = 4294967295, 4294967295;
 is cos( $testNode->sfdouble ), cos(4294967295);
 is sin( $testNode->sfdouble ), sin(4294967295);
 is exp( $testNode->sfdouble ), exp(4294967295);
