@@ -96,7 +96,8 @@ ok $testNode->sfrotation = [ [ 1, 2, 3 ], new SFVec4d( [ 4, 5, 6 ] ) ];
 is $testNode->sfrotation, $r;
 
 eval { $testNode->sfrotation = new MFDouble( 5, 2, 3, 4 ) };
-ok $@ =~ /$0/;
+ok $@;
+#is $testNode->sfrotation, '5 2 3 4';
 
 ok $testNode->sfrotation = [ $r, $r ];
 is $testNode->sfrotation, $r;

@@ -1,7 +1,7 @@
 package Weed::Values::Vec3;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Package::Alias X3DVec3 => __PACKAGE__;
 
@@ -24,6 +24,12 @@ sub getY { $_[0]->[1] }
 
 sub getZ { $_[0]->[2] }
 
+sub x : lvalue { $_[0]->[0] }
+
+sub y : lvalue { $_[0]->[1] }
+
+sub z : lvalue { $_[0]->[2] }
+
 sub negate {
 	my ($a) = @_;
 	return $a->new( [
@@ -35,18 +41,16 @@ sub negate {
 
 sub add {
 	my ( $a, $b ) = @_;
-	return ref $b ?
-	  $a->new( [
-			$a->[0] + $b->[0],
-			$a->[1] + $b->[1],
-			$a->[2] + $b->[2],
-		] )
-	  :
-	  $a->new( [
-			$a->[0] + $b,
-			$a->[1] + $b,
-			$a->[2] + $b,
-	  ] );
+	return
+	  $a->new( [ ref $b ? (
+				$a->[0] + $b->[0],
+				$a->[1] + $b->[1],
+				$a->[2] + $b->[2],
+			  ) : (
+				$a->[0] + $b,
+				$a->[1] + $b,
+				$a->[2] + $b,
+			  ) ] );
 }
 
 use overload '+=' => sub {
@@ -99,18 +103,16 @@ use overload '-=' => sub {
 
 sub multiply {
 	my ( $a, $b ) = @_;
-	return ref $b ?
-	  $a->new( [
-			$a->[0] * $b->[0],
-			$a->[1] * $b->[1],
-			$a->[2] * $b->[2],
-		] )
-	  :
-	  $a->new( [
-			$a->[0] * $b,
-			$a->[1] * $b,
-			$a->[2] * $b,
-	  ] );
+	return
+	  $a->new( [ ref $b ? (
+				$a->[0] * $b->[0],
+				$a->[1] * $b->[1],
+				$a->[2] * $b->[2],
+			  ) : (
+				$a->[0] * $b,
+				$a->[1] * $b,
+				$a->[2] * $b,
+			  ) ] );
 }
 
 use overload '*=' => sub {

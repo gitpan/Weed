@@ -3,7 +3,7 @@ package Weed::Array;
 use Weed 'X3DArray [ ]', 'isArray';
 #Array reference
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Algorithm::Numerical::Shuffle;
 #Set::Array;
@@ -110,22 +110,6 @@ sub toString {
 
 1;
 __END__
-sub length : lvalue {
-	my $this = shift;
-
-	if ( Want::want('RVALUE') ) {
-		Want::rreturn scalar @$this;
-	}
-
-	if ( Want::want('ASSIGN') ) {
-		$#$this = X3DMath::max( 0, Want::want('ASSIGN') ) - 1;
-		Want::lnoreturn;
-	}
-
-	my $length = @$this;
-	$length;
-}
-
 
 # $index = binary_search( \@array, $word )
 #   @array is a list of lowercase strings in alphabetical order.

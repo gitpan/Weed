@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFString;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Weed 'SFString : X3DField { "" }';
 
@@ -9,10 +9,11 @@ use base 'Weed::BaseFieldTypes::Scalar';
 use Unicode::String;
 #Text::Unidecode;
 use overload
-#  '0+' => 'length',
+  #  '0+' => 'length',
   '~' => sub { ~$_[0]->getValue },
- ;
+  ;
 
+#sub getInitialValue { $_[0]->getDefinition->getValue }
 
 sub setValue {
 	my ( $this, $value ) = @_;

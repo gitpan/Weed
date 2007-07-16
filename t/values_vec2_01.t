@@ -30,15 +30,15 @@ is( $v = new X3DVec2( [ 1, 2 ] ), "1 2", "$v new X3DVec2()" );
 is( $v = $v->getClone, "1 2", "$v new X3DVec2()" );
 is( "$v", "1 2", "$v ''" );
 
-is( $v = X3DVec2->new( [ 1, 2 ] )->getX, "1", "$v getX" );
-is( $v = X3DVec2->new( [ 1, 2 ] )->getY, "2", "$v getY" );
+is( $v = X3DVec2->new( [ 1, 2 ] )->x, "1", "$v x" );
+is( $v = X3DVec2->new( [ 1, 2 ] )->y, "2", "$v y" );
 
-is( $v = X3DVec2->new( [ 1, 2 ] )->getX, "1", "$v x" );
-is( $v = X3DVec2->new( [ 1, 2 ] )->getY, "2", "$v y" );
+is( $v = X3DVec2->new( [ 1, 2 ] )->x, "1", "$v x" );
+is( $v = X3DVec2->new( [ 1, 2 ] )->y, "2", "$v y" );
 
 is( $v = new X3DVec2( [ 1, 2 ] ), "1 2", "$v new X3DVec2()" );
-$v->setX(2);
-$v->setY(3);
+$v->x = 2;
+$v->y = 3;
 
 is( $v->[0], "2", "$v [0]" );
 is( $v->[1], "3", "$v [1]" );

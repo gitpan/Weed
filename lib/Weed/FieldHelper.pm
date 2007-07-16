@@ -1,7 +1,7 @@
 package Weed::FieldHelper;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use UNIVERSAL 'isa';
 use overload;
@@ -98,8 +98,8 @@ sub RotVal {
 	else
 	{
 		my $value = NumVal( 6, @_ );
-		return ( [ @$value[ 0, 1, 2 ] ], $value->[3] ) if @$value <= 4;    # Rotation (axis, angle)
-		return ( [ @$value[ 0, 1, 2 ] ], [ @$value[ 3, 4, 5 ] ] );         # Rotation (vector, vector)
+		return $value if @$value < 6;    # Rotation (axis, angle)
+		return ( [ @$value[ 0, 1, 2 ] ], [ @$value[ 3, 4, 5 ] ] );    # Rotation (vector, vector)
 	}
 }
 

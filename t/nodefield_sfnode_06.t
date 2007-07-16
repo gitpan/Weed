@@ -19,6 +19,8 @@ is $testNode->sfnode, 'DEF ' . $testNode->sfnode->getValue->getName . ' TestNode
 ok my $sfnodeId = $testNode->sfnode->getId;
 is $sfnodeId, $testNode->sfnode->getId;
 
+isa_ok $testNode->sfnode, 'SFNode';
+
 is $testNode->getValue->getId, $testNode->getClone->getValue->getId;
 ok $testNode->getId != $testNode->getClone->getId;
 

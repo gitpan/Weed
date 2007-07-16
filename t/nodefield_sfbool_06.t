@@ -27,7 +27,7 @@ is $testNode->sfbool, "FALSE";
 is --$testNode->sfbool, "TRUE";
 is $testNode->sfbool, "TRUE";
 
-is $testNode->sfbool = !$testNode->sfbool, "";
+is $testNode->sfbool = !$testNode->sfbool, '';
 is $testNode->sfbool, "FALSE";
 
 my $sfbool = $testNode->sfbool;

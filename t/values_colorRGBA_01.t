@@ -29,32 +29,35 @@ is( "$v", "0.1 0.2 0.3 0", "$v ''" );
 
 is $v->elementCount, 4;
 
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getX, "0.1", "$v getX" );
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getY, "0.2", "$v getY" );
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getZ, "0.3", "$v getZ" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->x, "0.1", "$v x" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->y, "0.2", "$v y" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->z, "0.3", "$v z" );
 
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getX, "0.1", "$v x" );
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getY, "0.2", "$v y" );
-is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->getZ, "0.3", "$v z" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->x, "0.1", "$v x" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->y, "0.2", "$v y" );
+is( $v = X3DColorRGBA->new( [ 0.1, 0.2, 0.3, 0 ] )->z, "0.3", "$v z" );
 
 is( $v = new X3DColorRGBA( [ 0.1, 0.2, 0.3, 0 ] ), "0.1 0.2 0.3 0", "$v new X3DColorRGBA()" );
-$v->setRed(2);
-$v->setGreen(3);
-$v->setBlue(4);
+$v->r = 2;
+$v->g = 3;
+$v->b = 4;
+$v->a = 4;
 
 is $v->elementCount, 4;
 
-ok( $v->getX == $v->getRed, "$v x" );
-ok( $v->getX == $v->getRed, "$v x" );
-ok( $v->getX == $v->getRed, "$v x" );
+ok( $v->x == $v->r, "$v x" );
+ok( $v->x == $v->r, "$v x" );
+ok( $v->x == $v->r, "$v x" );
 
-ok( $v->getY == $v->getGreen, "$v y" );
-ok( $v->getY == $v->getGreen, "$v y" );
-ok( $v->getY == $v->getGreen, "$v y" );
+ok( $v->y == $v->g, "$v y" );
+ok( $v->y == $v->g, "$v y" );
+ok( $v->y == $v->g, "$v y" );
 
-ok( $v->getZ == $v->getBlue, "$v z" );
-ok( $v->getZ == $v->getBlue, "$v z" );
-ok( $v->getZ == $v->getBlue, "$v z" );
+ok( $v->z == $v->b, "$v z" );
+ok( $v->z == $v->b, "$v z" );
+ok( $v->z == $v->b, "$v z" );
+
+ok( $v->w == $v->a, "$v w" );
 
 is( $v->[0], "2", "$v [0]" );
 is( $v->[1], "3", "$v [1]" );
@@ -155,7 +158,7 @@ ok( $v eq $v1, "$v getHSV" );
 $v1->setValue( [ 1, 2, 3, 4 ] );
 is( $v1, "1 1 1 1", "$v1 setValue" );
 
-$v1->setAlpha(0.8);
+$v1->a = 0.8;
 $v1->setRGB( new X3DColor( [ 0.1, 0.2, 0.3 ] ) );
 
 is( $v1, "0.1 0.2 0.3 0.8", "$v1 v1" );

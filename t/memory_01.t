@@ -21,11 +21,11 @@ BEGIN {
 		is $value->[0]->getReferenceCount, 1;
 		is $value->[0]->getValue->getReferenceCount, 4;
 		
-		is $value->[0]->getValue->getParents->getValues->getLength, 2;
-		is $value->[0]->getValue->getParents->getValues->getLength, 2;
+		is $value->[0]->getValue->getParents->getSize, 2;
+		is $value->[0]->getValue->getParents->getSize, 2;
 
 		ok $this->mfnode = $value;
-		is $value->[0]->getValue->getParents->getValues->getLength, 3;
+		is $value->[0]->getValue->getParents->getSize, 3;
 
 		is $value->[0]->getReferenceCount, 1;
 		is $this->mfnode->[0]->getReferenceCount, 1;

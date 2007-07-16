@@ -33,6 +33,10 @@ ok !( $testNode->sfint32 eq 3 );
 ok !( $testNode->sfint32 ne 2 );
 ok $testNode->sfint32 ne 3;
 
+is $testNode->sfint32 = 0xFFFFFFFF, '4294967295';#'-1'
+is $testNode->sfint32 = 0x7FFFFFFF, '2147483647';
+is $testNode->sfint32 = 2, 2;
+
 ok $testNode->sfint32 == 2;
 ok $testNode->sfint32->getValue == 2;
 
@@ -101,7 +105,7 @@ is - $testNode->sfint32, -1;
 
 is $testNode->sfint32, 1;
 is ~$testNode->sfint32, ~int(1);
-is $testNode->sfint32 = ~$testNode->sfint32, 4294967294;
+is $testNode->sfint32 = ~$testNode->sfint32, 4294967294; #-2
 is ~$testNode->sfint32, 1;
 is ~~$testNode->sfint32, 4294967294;
 

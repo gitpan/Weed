@@ -31,18 +31,18 @@ is( $v = new X3DVec3( [ 1, 2, 3 ] ), "1 2 3", "$v new X3DVec3()" );
 is( $v = $v->getClone, "1 2 3", "$v new X3DVec3()" );
 is( "$v", "1 2 3", "$v ''" );
 
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getX, "1", "$v getX" );
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getY, "2", "$v getY" );
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getZ, "3", "$v getZ" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->x, "1", "$v x" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->y, "2", "$v y" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->z, "3", "$v z" );
 
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getX, "1", "$v x" );
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getY, "2", "$v y" );
-is( $v = X3DVec3->new( [ 1, 2, 3 ] )->getZ, "3", "$v z" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->x, "1", "$v x" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->y, "2", "$v y" );
+is( $v = X3DVec3->new( [ 1, 2, 3 ] )->z, "3", "$v z" );
 
 is( $v = new X3DVec3( [ 1, 2, 3 ] ), "1 2 3", "$v new X3DVec3()" );
-$v->setX(2);
-$v->setY(3);
-$v->setZ(4);
+$v->x = 2;
+$v->y = 3;
+$v->z = 4;
 
 is( $v->[0], "2", "$v [0]" );
 is( $v->[1], "3", "$v [1]" );

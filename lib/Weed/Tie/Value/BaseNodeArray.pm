@@ -1,12 +1,13 @@
 package Weed::Tie::Value::BaseNodeArray;
 use Weed;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use base 'Weed::Tie::Value::Array';
 
 sub storeValue {
 	my ( $this, $value ) = @_;
+
 	my $node = $this->{fieldType}->new($value)->getValue;
 
 	if ($node) {

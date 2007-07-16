@@ -1,7 +1,7 @@
 package Weed::Parse::Int32;
 use Weed::Perl;
 
-our $VERSION = '0.0002';
+our $VERSION = '0.0003';
 
 use Weed::RegularExpressions qw.$_int32.;
 
@@ -12,7 +12,7 @@ our @EXPORT_OK = qw.parseInt int32.;
 sub parseInt { &int32( \$_[0] ) }
 
 sub int32 {
-	return defined $2 ? hex ($1) : $1 if ${$_[0]} =~ m.$_int32.gc;
+	return defined $2 ? hex($1) : 0 + $1 if ${ $_[0] } =~ m.$_int32.gc;
 	return;
 }
 

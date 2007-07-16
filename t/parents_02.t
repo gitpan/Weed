@@ -11,25 +11,53 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode               = new SFNode( new TestNode('T1') );
 
-ok $testNode->sfnode          = new SFNode( new TestNode('T11') );
+print "#" x 20;
+my $testNode = new SFNode( new TestNode('T1') );
+
+$testNode->sfnode = new SFNode( new TestNode('T11') );
+
+ok $testNode->sfnode2 = new SFNode( new TestNode('T12') );
+print "#" x 20;
+$testNode->sfnode2->sfnode = new SFNode( new TestNode('T121') );
+ok $testNode->sfnode2->sfnode;
+
+print $testNode->sfnode2->getValue->getParents;
+
+print "#" x 20;
+print $testNode->getValue->getField('sfnode2')->getValue->getField('sfnode')->getValue->getParents;
+print $testNode->sfnode2->sfnode->getValue->getParents;
+
 ok $testNode->sfnode->sfnode  = new SFNode( new TestNode('T111') );
-ok $testNode->sfnode2         = new SFNode( new TestNode('T12') );
-ok $testNode->sfnode2->sfnode = new SFNode( new TestNode('T121') );
+
+is $testNode->sfnode->getValue->getParents->getSize, 1;
+is $testNode->sfnode->getValue->getParents->getSize, 1;
+is $testNode->getValue->getParents->getSize, 1;
+
+
+print "*" x 20;
+
+ok $testNode->getValue->getField('sfnode')->getValue->getParents eq
+  $testNode->sfnode->getValue->getParents;
 
 ok !$testNode->getParents;
 ok $testNode->sfnode->getName eq 'sfnode';
-ok $testNode->sfnode->getParents == 1, '#10';
+ok $testNode->sfnode->getParents == 1, '#12';
 ok $testNode->sfnode2->getParents == 1;
 ok $testNode->sfnode->sfnode->getName eq 'sfnode';
 ok $testNode->sfnode->sfnode->getParents == 1;
 ok $testNode->sfnode2->sfnode->getParents == 1;
 ok $testNode->sfnode->sfnode->getId != $testNode->sfnode->getId;
 
-print $testNode->sfnode->sfnode->getValue->getParents;
+
+is $testNode->sfnode->getId, $testNode->sfnode->getId;
+is $testNode->sfnode->sfnode->getId, $testNode->sfnode->sfnode->getId;
+ok $testNode->sfnode->sfnode->getId == $testNode->sfnode->sfnode->getId;
+ok $testNode->sfnode->getParents == 1;
 
 print "#" x 20;
+is $testNode->sfnode->getValue->getParents->getSize, 1;
+
 ok $testNode->sfnode->sfnode->getValue->getParents == 1;
 ok $testNode->sfnode->sfnode2 = $testNode->sfnode->sfnode;
 ok $testNode->sfnode->sfnode->getValue->getParents == 2;

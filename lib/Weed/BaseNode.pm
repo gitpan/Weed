@@ -1,7 +1,7 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use Weed::Parse::FieldDescription;
 
@@ -31,15 +31,17 @@ sub new {
 	return $this;
 }
 
-sub getCopy {
+sub getClone {
 	my $this = shift;
 	my $copy = $this->new( $this->getName );
 
-	$copy->getTiedField($_) = $this->getField($_)
+	$copy->{fields}->{$_} = $this->getField($_)
 	  foreach map { $_->getName } $this->getFieldDefinitions;
 
 	return $copy;
 }
+
+sub getCopy { $_[0]->getClone } # should make a deep copy
 
 sub getTypeName { $_[0]->getType }
 
@@ -58,17 +60,19 @@ sub existsField { exists $_[0]->{fields}->{ $_[1] } }
 sub getTiedField : lvalue {
 	my ( $this, $name ) = @_;
 
-	X3DMessage->UnknownField( 2, @_ ), return unless exists $this->{fields}->{$name};
-
-	return ${ tied $this->{fields}->{$name} }
-	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
+	return X3DMessage->UnknownField( 2, @_ )
+	  unless exists $this->{fields}->{$name};
 
 	$this->{fields}->{$name};
 }
 
 sub getField {
 	my ( $this, $name ) = @_;
-	return ${ tied $this->getTiedField($name) };
+
+	return X3DMessage->UnknownField( 2, @_ )
+	  unless exists $this->{fields}->{$name};
+
+	return ${ tied $this->{fields}->{$name} };
 }
 
 sub getFields {

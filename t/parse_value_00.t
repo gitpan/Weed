@@ -25,25 +25,25 @@ is Weed::Parse::FieldValue::sfstringValue( \$s ), '\"a~ha\"';
 
 $s = '.89 54 5';
 isa_ok  $v = Weed::Parse::FieldValue::sfcolorValue( \$s ) , 'X3DColor';
-is $v->[0], '.89';
+is $v->[0], '0.89';
 is $v->[1], '54';
 is $v->[2], '5';
 is scalar @$v, 3;
 
 $s = '.89 54 5 .2';
 isa_ok  $v = Weed::Parse::FieldValue::sfcolorRGBAValue( \$s ) , 'X3DColorRGBA';
-is $v->[0], '.89';
+is $v->[0], '0.89';
 is $v->[1], '54';
 is $v->[2], '5';
-is $v->[3], '.2';
+is $v->[3], '0.2';
 is scalar @$v, 4;
 
 $s = '.89 54 5  .2';
 isa_ok  $v = Weed::Parse::FieldValue::sfrotationValue( \$s ) , 'X3DRotation';
-is $v->getX,         '.89';
+is $v->getX,         '0.89';
 is $v->getY,         '54';
 is $v->getZ,         '5';
-is $v->getAngle,     '.2';
+is $v->getAngle,     '0.2';
 is $v->elementCount, 4;
 
 $s = '1 2';
@@ -114,11 +114,11 @@ is $v->[4], '4323';
 
 $s = '[.89 .54 .5 .432 .4323]';
 isa_ok  $v = Weed::Parse::FieldValue::mffloatValue( \$s ) , 'X3DArray';
-is $v->[0], '.89';
-is $v->[1], '.54';
-is $v->[2], '.5';
-is $v->[3], '.432';
-is $v->[4], '.4323';
+is $v->[0], '0.89';
+is $v->[1], '0.54';
+is $v->[2], '0.5';
+is $v->[3], '0.432';
+is $v->[4], '0.4323';
 
 $s = '[1.89 21.54 12.5 12.432 21.4323]';
 isa_ok  $v = Weed::Parse::FieldValue::mffloatValue( \$s ) , 'X3DArray';

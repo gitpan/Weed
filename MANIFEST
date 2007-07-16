@@ -1,6 +1,5 @@
 lib/weed.pl
 lib/Weed.pm
-lib/Weed/.BaseNode.pm.bck
 lib/Weed/.Values.pm.bck
 lib/Weed/Array.pm
 lib/Weed/ArrayField.pm
@@ -80,10 +79,12 @@ lib/Weed/Tie/WeakHash.pm
 lib/Weed/Time.pm
 lib/Weed/Universal.pm
 lib/Weed/Values.pm
+lib/Weed/Values/.Rotation.pm.bck
 lib/Weed/Values/Color.pm
 lib/Weed/Values/ColorRGBA.pm
 lib/Weed/Values/Image.pm
 lib/Weed/Values/Rotation.pm
+lib/Weed/Values/Tie/Rotation.pm
 lib/Weed/Values/Vec2.pm
 lib/Weed/Values/Vec3.pm
 lib/Weed/Values/Vec4.pm
@@ -106,6 +107,7 @@ t/constants_00.t
 t/environment_01.t
 t/field_01.t
 t/field_02.t
+t/field_03.t
 t/field_05.t
 t/field_sfbool_05.t
 t/field_sfint_05.t
@@ -118,6 +120,7 @@ t/fieldTypes_02.t
 t/generator_01.t
 t/generator_02.t
 t/get_orientation_01.t
+t/get_orientation_02.t
 t/hash_01.t
 t/length_01.t
 t/math_01.t

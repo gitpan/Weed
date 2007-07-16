@@ -35,15 +35,3 @@ is $testNode->mfvec4d->[5], '0 0 0 0';
 
 1;
 __END__
-
-sub xxx {
-	print 'VOID' if Want::want('VOID');
-	print 'ARRAY' if Want::want('ARRAY');
-	print 'OBJECT' if Want::want('OBJECT');
-	[1,2]
-}
-
-&xxx;
-print &xxx->[0];
-#print &xxx->hu;
-

@@ -20,13 +20,14 @@ ok !$mf0->length;
 is $mf0->length, 0;
 is $mf0, '[ ]';
 
-my $mf1 = $MFType->new(new TestNode);
+my $mf1 = $MFType->new(new SFNode(new TestNode));
+print "#" x 20;
 ok $mf1;
 ok $mf1->length;
 is $mf1->length, 1;
 
 
-my $mfb = $MFType->new(new TestNode, new TestNode);
+my $mfb = $MFType->new(new SFNode(new TestNode), new SFNode(new TestNode));
 ok $mfb;
 ok $mfb->length;
 is $mfb->length, 2;

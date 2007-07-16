@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFRotation;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use Weed 'SFRotation : X3DField { 0 0 1 0 }';
 
@@ -22,10 +22,11 @@ use Weed::FieldHelper;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
-	$this->{array} = [];
-	tie @{ $this->{array} }, 'Weed::Tie::Value::Rotation', $this;
+	$this->{array} = new Weed::Tie::Value::Rotation $this;
 	return $this;
 }
+
+sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 
 sub setValue {
 	my $this   = shift;

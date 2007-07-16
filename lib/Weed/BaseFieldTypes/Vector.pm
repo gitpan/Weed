@@ -1,7 +1,7 @@
 package Weed::BaseFieldTypes::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use base 'Weed::BaseFieldTypes::Scalar';
 
@@ -27,10 +27,11 @@ use Weed::FieldHelper;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
-	$this->{array} = [];
-	tie @{ $this->{array} }, 'Weed::Tie::Value::Vector', $this;
+	$this->{array} = new Weed::Tie::Value::Vector $this;
 	return $this;
 }
+
+sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 
 sub setValue {
 	my $this   = shift;

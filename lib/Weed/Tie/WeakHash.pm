@@ -1,7 +1,7 @@
 package Weed::Tie::WeakHash;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.0079';
 
 use Tie::Hash;
 use base 'Tie::StdHash';
@@ -9,7 +9,7 @@ use base 'Tie::StdHash';
 use Scalar::Util 'weaken';
 
 sub new {
-	tie my %hash, shift;
+	tie my (%hash), shift;
 	return \%hash;
 }
 

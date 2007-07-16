@@ -19,7 +19,10 @@ ok my $testNode = new SFNode(new TestNode);
 
 is $testNode->sfbool, 'FALSE';
 
-is $testNode->sfbool = 1, 1;
+is $testNode->sfbool = 1, '1';
+ok my $b = $testNode->sfbool;
+$b--;
+is $testNode->sfbool = 1, '1';
 
 $testNode->sfbool = 1;
 is $testNode->sfbool, 'TRUE';

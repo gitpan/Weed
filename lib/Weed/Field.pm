@@ -1,15 +1,15 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Weed::Parse::FieldValue;
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
 	my $typeName        = $description->{typeName};
-	my $initialValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
-	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $initialValue, '' );
+	my $defaultValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
+	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $defaultValue, '' );
 	$this->X3DPackage::Scalar("DefaultDefinition") = $fieldDefinition;
 }
 
@@ -17,7 +17,10 @@ use Weed 'X3DField : X3DObject { }';
 
 use overload
   '=' => 'getClone',
+
   'bool' => sub { $_[0]->getValue ? YES : NO },
+
+  '${}' => 'getValue',
   ;
 
 sub new {
@@ -33,8 +36,7 @@ sub new_from_definition {
 
 	$this->setDefinition($definition);
 
-	$this->{value} = ref $this->getInitialValue ?
-	  $this->getInitialValue->getClone : $this->getInitialValue;
+	$this->{value} = $this->getInitialValue;
 
 	$this->setTainted(NO);
 
@@ -43,7 +45,7 @@ sub new_from_definition {
 
 sub getClone { $_[0]->new( $_[0]->getValue ) }
 
-sub getCopy { $_[0]->getClone }
+*getCopy = \&getClone;
 
 sub getDefinition { $_[0]->{definition} }
 sub setDefinition { $_[0]->{definition} = $_[1] }

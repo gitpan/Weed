@@ -3,7 +3,7 @@ use Weed::Perl;
 
 #use 5.008008;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.0083';
 
 use warnings::register;
 
@@ -23,7 +23,7 @@ __END__
 
 =head1 NAME
 
-Weed - Don't use it. It's in development. For test purposes only!
+Weed - Don't use it. It's in development. For test purposes only! 
 
 =head1 CAVEATS
 

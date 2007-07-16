@@ -29,30 +29,30 @@ is $v->elementCount, 3;
 
 is( $v = @{ X3DColor->getDefaultValue }, 3, "$v getDefaultValue" );
 
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getX, "0.1", "$v getX" );
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getY, "0.2", "$v getY" );
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getZ, "0.3", "$v getZ" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->x, "0.1", "$v x" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->y, "0.2", "$v y" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->z, "0.3", "$v z" );
 
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getX, "0.1", "$v x" );
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getY, "0.2", "$v y" );
-is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->getZ, "0.3", "$v z" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->x, "0.1", "$v x" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->y, "0.2", "$v y" );
+is( $v = X3DColor->new( [ 0.1, 0.2, 0.3 ] )->z, "0.3", "$v z" );
 
 is( $v = new X3DColor( [ 0.1, 0.2, 0.3 ] ), "0.1 0.2 0.3", "$v new X3DColor()" );
-$v->setRed(2);
-$v->setGreen(3);
-$v->setBlue(4);
+$v->r = 2;
+$v->g = 3;
+$v->b = 4;
 
-ok( $v->getX == $v->getRed, "$v x" );
-ok( $v->getX == $v->getRed, "$v x" );
-ok( $v->getX == $v->getRed, "$v x" );
+ok( $v->x == $v->r, "$v x" );
+ok( $v->x == $v->r, "$v x" );
+ok( $v->x == $v->r, "$v x" );
 
-ok( $v->getY == $v->getGreen, "$v y" );
-ok( $v->getY == $v->getGreen, "$v y" );
-ok( $v->getY == $v->getGreen, "$v y" );
+ok( $v->y == $v->g, "$v y" );
+ok( $v->y == $v->g, "$v y" );
+ok( $v->y == $v->g, "$v y" );
 
-ok( $v->getZ == $v->getBlue, "$v z" );
-ok( $v->getZ == $v->getBlue, "$v z" );
-ok( $v->getZ == $v->getBlue, "$v z" );
+ok( $v->z == $v->b, "$v z" );
+ok( $v->z == $v->b, "$v z" );
+ok( $v->z == $v->b, "$v z" );
 
 is( $v->[0], "2", "$v [0]" );
 is( $v->[1], "3", "$v [1]" );

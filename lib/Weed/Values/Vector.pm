@@ -1,7 +1,7 @@
 package Weed::Values::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.0083';
 
 use Package::Alias X3DVector => __PACKAGE__;
 
@@ -202,7 +202,7 @@ sub elementCount { scalar @{ $_[0]->getDefaultValue } }
 
 sub clear { @{ $_[0] } = @{ $_[0]->getDefaultValue } }
 
-sub toString { join " ", @{ $_[0]->getValue } }
+sub toString { join " ", @{ $_[0]->getValue }[0 .. ( $_[0]->elementCount - 1 )] }
 
 1;
 __END__

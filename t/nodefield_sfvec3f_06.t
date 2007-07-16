@@ -21,6 +21,8 @@ is $testNode->sfvec3f, "1 2 3";
 
 $testNode->sfvec3f = new SFVec3f( 1 / 2, 1 / 4, 1 / 8 );
 is $testNode->sfvec3f, "0.5 0.25 0.125";
+isa_ok $testNode->sfvec3f, 'SFVec3f';
+
 is $testNode->sfvec3f *= 2, "1 0.5 0.25";
 is $testNode->sfvec3f, "1 0.5 0.25";
 is int $testNode->sfvec3f,     "1 0 0";

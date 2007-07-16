@@ -1,7 +1,7 @@
 package Weed::Parse::FieldValue;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed::RegularExpressions;
 
@@ -10,10 +10,7 @@ use Weed::Parse::Float 'float';
 use Weed::Parse::Int32 'int32';
 use Weed::Parse::String 'string';
 
-sub parse {
-	my ( $fieldType, $string ) = @_;
-	return &fieldValue( $fieldType, \$string );
-}
+sub parse { &fieldValue( $_[0], \$_[1] ) }
 
 sub fieldValue {
 	my ( $fieldType, $string ) = @_;

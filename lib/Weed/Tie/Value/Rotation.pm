@@ -1,7 +1,7 @@
 package Weed::Tie::Value::Rotation;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use base 'Weed::Tie::Value::Vector';
 
@@ -11,10 +11,10 @@ sub STORE {
 	my ( $this, $index ) = @_;
 	my $value = double( \"$_[2]" ) || 0;
 
-	return $this->{value}->setAngle($value) if 3 == $index;
-	return $this->{value}->setX($value)     if 0 == $index;
-	return $this->{value}->setY($value)     if 1 == $index;
-	return $this->{value}->setZ($value)     if 2 == $index;
+	return $this->getValue->setAngle($value) if 3 == $index;
+	return $this->getValue->setX($value)     if 0 == $index;
+	return $this->getValue->setY($value)     if 1 == $index;
+	return $this->getValue->setZ($value)     if 2 == $index;
 
 	return X3DMessage->IndexOutOfRange(2, @_);
 }
@@ -22,10 +22,10 @@ sub STORE {
 sub FETCH {
 	my ( $this, $index ) = @_;
 
-	return $this->{value}->getAngle if 3 == $index;
-	return $this->{value}->getX     if 0 == $index;
-	return $this->{value}->getY     if 1 == $index;
-	return $this->{value}->getZ     if 2 == $index;
+	return $this->getValue->getAngle if 3 == $index;
+	return $this->getValue->getX     if 0 == $index;
+	return $this->getValue->getY     if 1 == $index;
+	return $this->getValue->getZ     if 2 == $index;
 
 	return X3DMessage->IndexOutOfRange(2, @_);
 }

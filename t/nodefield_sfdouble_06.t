@@ -136,6 +136,7 @@ $testNode->sfdouble->setValue("xxx");
 is $testNode->sfdouble, 0;
 
 is $testNode->sfdouble = undef, undef;
+is $testNode->sfdouble = 123.456, 123.456;
 is $testNode->sfdouble = "fdsfds", "fdsfds";
 is $testNode->sfdouble, 0;
 

@@ -1,10 +1,9 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Carp ();
-use Want ();
 use Hash::NoRef;
 
 #use Weed::Math;

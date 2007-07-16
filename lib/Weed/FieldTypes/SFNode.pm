@@ -4,6 +4,8 @@ our $VERSION = '0.008';
 
 use Weed 'SFNode : X3DField { NULL }';
 
+use Want ();
+
 use overload
   'int' => sub { $_[0]->getValue ? 1 : 0 },
   '0+'  => sub { $_[0]->getValue ? 1 : 0 },
@@ -34,28 +36,22 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 		Want::lnoreturn;
 	}
 
-	die unless Want::want('LVALUE');
-
-	#$node->getField($name)->setValue(@_) if @_;
+	# die unless Want::want('LVALUE');
 
 	return ${ tied $node->getTiedField($name) }
-	  if Want::want('CODE') || Want::want('OBJECT') || Want::want('ARRAY');
+	  if Want::want('REF');
 
 	$node->getTiedField($name)
 }
 
-sub getClone {
-	my ($this) = @_;
-	my $clone = $this->X3DField::getClone;
-	return $clone;
-}
+#sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 sub getCopy {
-	my ($this) = @_;
-	my $copy = $this->X3DField::getCopy;
-	$copy->setValue( $_[0]->getValue->getCopy ) if $copy;
-	return $copy;
+	my $value = $_[0]->getValue;
+	return $_[0]->new( defined $value ? $value->getCopy : $value );
 }
+
+sub getInitialValue { $_[0]->getDefinition->getValue }
 
 sub setValue {
 	my ( $this, $value ) = @_;
@@ -117,6 +113,7 @@ sub DESTROY {
 	my $this = shift;
 	#print " SFNode::DESTROY " . $this->getName;
 	$this->setValue(undef);
+	#$this->X3DField::DESTROY;
 }
 
 1;

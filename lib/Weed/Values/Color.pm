@@ -1,7 +1,7 @@
 package Weed::Values::Color;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Package::Alias X3DColor => __PACKAGE__;
 
@@ -16,6 +16,12 @@ use base 'X3DVec3';
 
 *setBlue = \&X3DVec3::setZ;
 *getBlue = \&X3DVec3::getZ;
+
+*r = \&X3DVec3::x;
+
+*g = \&X3DVec3::y;
+
+*b = \&X3DVec3::z;
 
 sub getValue { [ map { X3DMath::clamp( $_, 0, 1 ) } @{ $_[0]->SUPER::getValue } ] }
 
@@ -43,7 +49,7 @@ sub setHSV {
 	my ( $i, $f, $p, $q, $t );
 
 	$h /= X3DMath::PI2;    # radiants
-	$h *= 6;            # do not optimize
+	$h *= 6;               # do not optimize
 
 	$i = X3DMath::floor($h);
 	$f = $h - $i;                        # factorial part of h
@@ -92,18 +98,38 @@ sub getHSV {
 	$h += 6 if $h < 0;
 
 	$h /= 6;                              # do not optimize
-	$h *= X3DMath::PI2;                      # radiants
+	$h *= X3DMath::PI2;                   # radiants
 
 	return ( $h, $s, $v );
 }
 
 sub negate {
 	my ($a) = @_;
-	return $a->new( [
-			1 - $a->[0],
+	return $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  1 - $a->[0],
 			1 - $a->[1],
 			1 - $a->[2],
 	] );
+}
+
+sub add {
+	my ( $a, $b, $r ) = @_;
+	return ref $b ?
+	  $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $r ? (
+				$b->[0] + $a->[0],
+				$b->[1] + $a->[1],
+				$b->[2] + $a->[2],
+			  ) : (
+				$a->[0] + $b->[0],
+				$a->[1] + $b->[1],
+				$a->[2] + $b->[2],
+			  ) ] )
+	  : $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $a->[0] + $b,
+			$a->[1] + $b,
+			$a->[2] + $b,
+	  ] );
 }
 
 use overload "+=" => sub {
@@ -114,6 +140,26 @@ use overload "+=" => sub {
 	return $a;
 };
 
+sub subtract {
+	my ( $a, $b, $r ) = @_;
+	return ref $b ?
+	  $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $r ? (
+				$b->[0] - $a->[0],
+				$b->[1] - $a->[1],
+				$b->[2] - $a->[2],
+			  ) : (
+				$a->[0] - $b->[0],
+				$a->[1] - $b->[1],
+				$a->[2] - $b->[2],
+			  ) ] )
+	  : $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $a->[0] - $b,
+			$a->[1] - $b,
+			$a->[2] - $b,
+	  ] );
+}
+
 use overload "-=" => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] = X3DMath::clamp( $a->[0] - $b->[0], 0, 1 );
@@ -121,6 +167,21 @@ use overload "-=" => sub {
 	$a->[2] = X3DMath::clamp( $a->[2] - $b->[2], 0, 1 );
 	return $a;
 };
+
+sub multiply {
+	my ( $a, $b, $r ) = @_;
+	return
+	  $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  ref $b ? (
+				$a->[0] * $b->[0],
+				$a->[1] * $b->[1],
+				$a->[2] * $b->[2],
+			  ) : (
+				$a->[0] * $b,
+				$a->[1] * $b,
+				$a->[2] * $b,
+			  ) ] );
+}
 
 use overload "*=" => sub {
 	my ( $a, $b ) = @_;
@@ -136,6 +197,26 @@ use overload "*=" => sub {
 	return $a;
 };
 
+sub divide {
+	my ( $a, $b, $r ) = @_;
+	return ref $b ?
+	  $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $r ? (
+				$b->[0] / $a->[0],
+				$b->[1] / $a->[1],
+				$b->[2] / $a->[2],
+			  ) : (
+				$a->[0] / $b->[0],
+				$a->[1] / $b->[1],
+				$a->[2] / $b->[2],
+			  ) ] )
+	  : $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $a->[0] / $b,
+			$a->[1] / $b,
+			$a->[2] / $b,
+	  ] );
+}
+
 use overload "/=" => sub {
 	my ( $a, $b ) = @_;
 	if ( ref $b ) {
@@ -149,6 +230,26 @@ use overload "/=" => sub {
 	}
 	return $a;
 };
+
+sub mod {
+	my ( $a, $b, $r ) = @_;
+	return ref $b ?
+	  $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $r ? (
+				X3DMath::fmod( $b->[0], $a->[0] ),
+				X3DMath::fmod( $b->[1], $a->[1] ),
+				X3DMath::fmod( $b->[2], $a->[2] ),
+			  ) : (
+				X3DMath::fmod( $a->[0], $b->[0] ),
+				X3DMath::fmod( $a->[1], $b->[1] ),
+				X3DMath::fmod( $a->[2], $b->[2] ),
+			  ) ] )
+	  : $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  X3DMath::fmod( $a->[0], $b ),
+			X3DMath::fmod( $a->[1],   $b ),
+			X3DMath::fmod( $a->[2],   $b ),
+	  ] );
+}
 
 use overload "%=" => sub {
 	my ( $a, $b ) = @_;
@@ -164,6 +265,21 @@ use overload "%=" => sub {
 	return $a;
 };
 
+sub pow {
+	my ( $a, $b, $r ) = @_;
+	return $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $r ? (
+				$b**$a->[0],
+				$b**$a->[1],
+				$b**$a->[2],
+			  ) : (
+				$a->[0]**$b,
+				$a->[1]**$b,
+				$a->[2]**$b,
+			  )
+	] );
+}
+
 use overload "**=" => sub {
 	my ( $a, $b ) = @_;
 	$a->[0] = X3DMath::clamp( $a->[0]**$b, 0, 1 );
@@ -171,6 +287,20 @@ use overload "**=" => sub {
 	$a->[2] = X3DMath::clamp( $a->[2]**$b, 0, 1 );
 	return $a;
 };
+
+sub cross {
+	my ( $a, $b, $r ) = @_;
+	( $a, $b ) = ( $b, $a ) if $r;
+
+	my ( $a0, $a1, $a2 ) = @$a;
+	my ( $b0, $b1, $b2 ) = @$b;
+
+	return $a->new( [ map { X3DMath::clamp( $_, 0, 1 ) }
+			  $a1 * $b2 - $a2 * $b1,
+			$a2 * $b0 - $a0 * $b2,
+			$a0 * $b1 - $a1 * $b0,
+	] );
+}
 
 use overload "x=" => sub {
 	my ( $a, $b ) = @_;
@@ -184,5 +314,15 @@ use overload "x=" => sub {
 
 	return $a;
 };
+
+use overload 'cos' => sub { $_[0]->new( [ map { X3DMath::clamp( CORE::cos($_), 0, 1 ) } @{ $_[0] } ] ) };
+use overload 'sin' => sub { $_[0]->new( [ map { X3DMath::clamp( CORE::sin($_), 0, 1 ) } @{ $_[0] } ] ) };
+
+sub tan ($) { $_[0]->new( [ map { X3DMath::clamp( Math::Trig::tan($_), 0, 1 ) } @{ $_[0] } ] ) }
+
+use overload 'exp' => sub { $_[0]->new( [ map { X3DMath::clamp( CORE::exp($_), 0, 1 ) } @{ $_[0] } ] ) };
+use overload 'log' => sub { $_[0]->new( [ map { X3DMath::clamp( CORE::log($_), 0, 1 ) } @{ $_[0] } ] ) };
+
+use overload 'sqrt' => sub { $_[0]->new( [ map { X3DMath::clamp( CORE::sqrt($_), 0, 1 ) } @{ $_[0] } ] ) };
 
 1;

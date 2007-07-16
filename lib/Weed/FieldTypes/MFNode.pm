@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFNode;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed 'MFNode : X3DArrayField { [] }';
 
@@ -8,8 +8,10 @@ use Weed::Tie::Value::BaseNodeArray;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);
-	tie @{ $this->getValue }, 'Weed::Tie::Value::BaseNodeArray', $this;
-	tie $this->length, 'Weed::Tie::ArrayLength', $this->getValue;
+
+	$this->{array} = new Weed::Tie::Value::BaseNodeArray $this;
+	tie $this->{length}, 'Weed::Tie::ArrayLength', $this->{array};
+
 	return $this;
 }
 
@@ -49,18 +51,18 @@ sub dispose {
 	my ( $this, $node ) = @_;
 	return;
 
-# 	for ( my $i = $#$this ; $i > -1 ; $i-- ) {
-# 		delete $this->[$i] if $this->[$i] == $node;
-# 	}
-# 
-# 	print "MFNode::dispose";
-# 	foreach my $parent ( @{ $this->getParents->getValues } ) {
-# 		#		printf "MFNode::dispose: %s\n", ref $parent;
-# 		unless ( $parent == $node ) {
-# 			$parent->dispose($node);
-# 		}
-# 
-# 	}
+	# 	for ( my $i = $#$this ; $i > -1 ; $i-- ) {
+	# 		delete $this->[$i] if $this->[$i] == $node;
+	# 	}
+	#
+	# 	print "MFNode::dispose";
+	# 	foreach my $parent ( @{ $this->getParents->getValues } ) {
+	# 		#		printf "MFNode::dispose: %s\n", ref $parent;
+	# 		unless ( $parent == $node ) {
+	# 			$parent->dispose($node);
+	# 		}
+	#
+	# 	}
 }
 
 sub DESTROY {

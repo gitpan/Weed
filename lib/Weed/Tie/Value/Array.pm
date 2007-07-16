@@ -1,17 +1,23 @@
 package Weed::Tie::Value::Array;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use base 'Tie::Array';
 
 #use Contextual::Return;
 use Scalar::Util 'weaken';
 
-sub getValue  { $_[0]->{value} }
+sub new {
+	tie my (@array), $_[0], $_[1];
+	return \@array;
+}
+
+sub getValue  { $_[0]->{parent}->getValue }
 sub getParent { $_[0]->{parent} }
 
 sub storeValue {
+	#UNIVERSAL::isa( $_[1], 'X3DField' ) ? $_[1]->getValue : $_[1];
 	$_[0]->{fieldType}->new( $_[1] )->getValue;
 }
 
@@ -35,7 +41,6 @@ sub removeValues {
 
 sub TIEARRAY {
 	my $this = bless {
-		value     => [ @{ $_[1]->getValue } ], # weg machen tie tie in array oben in arrayfield
 		parent    => $_[1],
 		fieldType => $_[1]->getFieldType,
 	  },
@@ -46,26 +51,25 @@ sub TIEARRAY {
 	return $this;
 }
 
-sub STORE { $_[0]->{value}->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
+sub STORE { $_[0]->getValue->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
 
 sub FETCH {
-	#print 'ARRAY' if Want::want('ARRAY');
-	return if $_[1] > $#{ $_[0]->{value} };
+	return if $_[1] > $#{ $_[0]->getValue };
 
-	$_[0]->fetchValue( $_[0]->{value}->[ $_[1] ] );
+	$_[0]->fetchValue( $_[0]->getValue->[ $_[1] ] );
 }
 
-sub FETCHSIZE { scalar @{ $_[0]->{value} } }
-sub EXISTS    { exists $_[0]->{value}->[ $_[1] ] }
+sub FETCHSIZE { scalar @{ $_[0]->getValue } }
+sub EXISTS    { exists $_[0]->getValue->[ $_[1] ] }
 
-sub STORESIZE { $#{ $_[0]->{value} } = $_[1] - 1 }
-sub CLEAR { @{ $_[0]->{value} } = () }
-sub DELETE { delete $_[0]->{value}->[ $_[1] ] }
+sub STORESIZE { $#{ $_[0]->getValue } = $_[1] - 1 }
+sub CLEAR { @{ $_[0]->getValue } = () }
+sub DELETE { delete $_[0]->getValue->[ $_[1] ] }
 
-sub POP     { $_[0]->removeValues( pop( @{ $_[0]->{value} } ) ) }
-sub PUSH    { my $this = shift; my $o = $this->{value}; push( @$o, $this->insertValues(@_) ) }
-sub SHIFT   { $_[0]->removeValues( shift( @{ $_[0]->{value} } ) ) }
-sub UNSHIFT { my $this = shift; my $o = $this->{value}; unshift( @$o, $this->insertValues(@_) ) }
+sub POP     { $_[0]->removeValues( pop( @{ $_[0]->getValue } ) ) }
+sub PUSH    { my $this = shift; my $o = $this->getValue; push( @$o, $this->insertValues(@_) ) }
+sub SHIFT   { $_[0]->removeValues( shift( @{ $_[0]->getValue } ) ) }
+sub UNSHIFT { my $this = shift; my $o = $this->getValue; unshift( @$o, $this->insertValues(@_) ) }
 
 sub SPLICE {
 	my $this = shift;
@@ -73,7 +77,7 @@ sub SPLICE {
 	my $off  = @_ ? shift : 0;
 	$off += $sz if $off < 0;
 	my $len = @_ ? shift : $sz - $off;
-	return $this->removeValues( splice( @{ $this->{value} }, $off, $len, @_ ) );
+	return $this->removeValues( splice( @{ $this->getValue }, $off, $len, @_ ) );
 }
 
 sub UNTIE { $_[0]->CLEAR }

@@ -1,7 +1,7 @@
 package Weed::Values::Vec4;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Package::Alias X3DVec4 => __PACKAGE__;
 
@@ -30,6 +30,14 @@ sub getZ { $_[0]->[2] }
 
 sub getW { $_[0]->[3] }
 
+sub x : lvalue { $_[0]->[0] }
+
+sub y : lvalue { $_[0]->[1] }
+
+sub z : lvalue { $_[0]->[2] }
+
+sub w : lvalue { $_[0]->[3] }
+
 sub negate {
 	my ($a) = @_;
 	return $a->new( [
@@ -42,20 +50,18 @@ sub negate {
 
 sub add {
 	my ( $a, $b ) = @_;
-	return ref $b ?
-	  $a->new( [
-			$a->[0] + $b->[0],
-			$a->[1] + $b->[1],
-			$a->[2] + $b->[2],
-			$a->[3] + $b->[3],
-		] )
-	  :
-	  $a->new( [
-			$a->[0] + $b,
-			$a->[1] + $b,
-			$a->[2] + $b,
-			$a->[3] + $b,
-	  ] );
+	return
+	  $a->new( [ ref $b ? (
+				$a->[0] + $b->[0],
+				$a->[1] + $b->[1],
+				$a->[2] + $b->[2],
+				$a->[3] + $b->[3],
+			  ) : (
+				$a->[0] + $b,
+				$a->[1] + $b,
+				$a->[2] + $b,
+				$a->[3] + $b,
+			  ) ] );
 }
 
 use overload '+=' => sub {
@@ -115,20 +121,18 @@ use overload '-=' => sub {
 
 sub multiply {
 	my ( $a, $b ) = @_;
-	return ref $b ?
-	  $a->new( [
-			$a->[0] * $b->[0],
-			$a->[1] * $b->[1],
-			$a->[2] * $b->[2],
-			$a->[3] * $b->[3],
-		] )
-	  :
-	  $a->new( [
-			$a->[0] * $b,
-			$a->[1] * $b,
-			$a->[2] * $b,
-			$a->[3] * $b,
-	  ] );
+	return
+	  $a->new( [ ref $b ? (
+				$a->[0] * $b->[0],
+				$a->[1] * $b->[1],
+				$a->[2] * $b->[2],
+				$a->[3] * $b->[3],
+			  ) : (
+				$a->[0] * $b,
+				$a->[1] * $b,
+				$a->[2] * $b,
+				$a->[3] * $b,
+			  ) ] );
 }
 
 use overload '*=' => sub {
@@ -290,15 +294,15 @@ use overload "x=" => sub {
 	return $a;
 };
 
-# sub length {
-# 	my ($a) = @_;
-# 	return sqrt(
-# 		$a->[0] * $a->[0] +
-# 		  $a->[1] * $a->[1] +
-# 		  $a->[2] * $a->[2] +
-# 		  $a->[3] * $a->[3]
-# 	);
-# }
+sub length {
+ my ($a) = @_;
+ return sqrt(
+	 $a->[0] * $a->[0] +
+		$a->[1] * $a->[1] +
+		$a->[2] * $a->[2] +
+		$a->[3] * $a->[3]
+ );
+}
 
 use constant elementCount => 4;
 
