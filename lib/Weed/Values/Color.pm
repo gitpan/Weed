@@ -1,7 +1,7 @@
 package Weed::Values::Color;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use Package::Alias X3DColor => __PACKAGE__;
 
@@ -31,11 +31,11 @@ sub setValue {
 	return;
 }
 
-sub set1Value {
-	my ( $this, $index, $value ) = @_;
-	return $this->[$index] = X3DMath::clamp( $value, 0, 1 ) if exists $this->[$index];
-	return;
-}
+# sub set1Value {
+# 	my ( $this, $index, $value ) = @_;
+# 	return $this->[$index] = X3DMath::clamp( $value, 0, 1 ) if exists $this->[$index];
+# 	return;
+# }
 
 sub setHSV {
 	my ( $this, $h, $s, $v ) = @_;

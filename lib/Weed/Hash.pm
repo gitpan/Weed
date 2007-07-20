@@ -1,6 +1,6 @@
 package Weed::Hash;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use Weed 'X3DHash { }', 'isHash';
 
@@ -17,7 +17,7 @@ use overload
 sub new {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
-	return bless {}, $type;
+	return bless $_[1] || {}, $type;
 }
 
 sub getClone {
@@ -55,7 +55,7 @@ sub toString {
 			$string .= X3DGenerator->space;
 			$string .= '=>';
 			$string .= X3DGenerator->space;
-			$string .= $value;
+			$string .= "$value";
 			$string .= X3DGenerator->tidy_break;
 		}
 		X3DGenerator->dec;

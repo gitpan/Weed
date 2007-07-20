@@ -1,7 +1,7 @@
 package Weed::Values::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0083';
+our $VERSION = '0.0084';
 
 use Package::Alias X3DVector => __PACKAGE__;
 
@@ -19,9 +19,9 @@ use overload
   '!=' => sub { "$_[0]" ne $_[1] },
   '<=>' => sub { $_[2] ? $_[1] <=> $_[0]->length : $_[0]->length <=> $_[1] },
 
-  'eq' => sub { "$_[0]" eq $_[1] },
-  'ne' => sub { "$_[0]" ne $_[1] },
-  'cmp' => sub { $_[2] ? $_[1] cmp $_[0]->length : $_[0]->length cmp $_[1] },
+  'eq' => sub { "$_[0]" eq "$_[1]" },
+  'ne' => sub { "$_[0]" ne "$_[1]" },
+  'cmp' => sub { $_[2] ? "$_[1]" cmp "$_[0]" : "$_[0]" cmp "$_[1]" },
 
   '~' => sub { $_[0]->new( [ map { ~$_ } @{ $_[0] } ] ) },
 
@@ -58,7 +58,7 @@ use overload
   ;
 
 sub new {
-	my $self  = $_[0];
+	my $self = $_[0];
 	my $class = ref($self) || $self;
 	return bless $_[1] || [ @{ $class->getDefaultValue } ], $class;
 }
@@ -67,10 +67,10 @@ sub getClone { $_[0]->new( [ @{ $_[0] } ] ) }
 
 sub getValue { [ @{ $_[0] } ] }
 
-sub get1Value {
-	return $_[0]->[ $_[1] ] if exists $_[0]->[ $_[1] ];
-	return;
-}
+# sub get1Value {
+# 	return $_[0]->[ $_[1] ] if exists $_[0]->[ $_[1] ];
+# 	return;
+# }
 
 sub setValue {
 	$_[0]->[$_] = $_[1]->[$_]
@@ -78,10 +78,10 @@ sub setValue {
 	return;
 }
 
-sub set1Value {
-	return $_[0]->[ $_[1] ] = $_[2] if exists $_[0]->[ $_[1] ];
-	return;
-}
+# sub set1Value {
+# 	return $_[0]->[ $_[1] ] = $_[2] if exists $_[0]->[ $_[1] ];
+# 	return;
+# }
 
 use overload "&" => sub {
 	my ( $a, $b, $r ) = @_;
@@ -167,7 +167,7 @@ sub rotate {
 	my $n = -$_[1] % $_[0]->elementCount;
 
 	if ($n) {
-		my $vec = $_[0]->getValue;
+		my $vec = [ @{ $_[0] } ];
 		splice @$vec, $_[0]->elementCount - $n, $n, splice( @$vec, 0, $n );
 		return $_[0]->new($vec);
 	}
@@ -202,7 +202,7 @@ sub elementCount { scalar @{ $_[0]->getDefaultValue } }
 
 sub clear { @{ $_[0] } = @{ $_[0]->getDefaultValue } }
 
-sub toString { join " ", @{ $_[0]->getValue }[0 .. ( $_[0]->elementCount - 1 )] }
+sub toString { join " ", @{ $_[0] }[ 0 .. ( $_[0]->elementCount - 1 ) ] }
 
 1;
 __END__

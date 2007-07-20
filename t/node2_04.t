@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'Weed';
 }
 
-X3DGenerator->tidy_fields(NO);
+X3DGenerator->setTidyFields(NO);
 ok my $node1 = new X3DBaseNode("node");
 print $node1;
 

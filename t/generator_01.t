@@ -26,11 +26,9 @@ can_ok 'X3DGenerator', 'dec';
 can_ok 'X3DGenerator', 'tidy_space';
 can_ok 'X3DGenerator', 'tidy_break';
 
-can_ok 'X3DGenerator', 'tidy';
-can_ok 'X3DGenerator', 'clean';
-
 is (X3DGenerator->getPrecisionOfFloat, 7);
 is (X3DGenerator->getPrecisionOfDouble, 15);
+is (X3DGenerator->getOutputStyle, "TIDY");
 
 __END__
 

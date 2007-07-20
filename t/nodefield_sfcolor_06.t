@@ -112,7 +112,7 @@ is $testNode->sfcolor->getValue->[2] = 3, '3';
 is $testNode->sfcolor->getValue->[0], '1';
 is $testNode->sfcolor->getValue->[1], '2';
 is $testNode->sfcolor->getValue->[2], '3';
-is $testNode->sfcolor, "1 1 1";
+is $testNode->sfcolor, "1 2 3";
 
 is ref $testNode->sfcolor->getValue->[0], '';
 is ref $testNode->sfcolor->getValue->[1], '';

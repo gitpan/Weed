@@ -1,7 +1,7 @@
 package Weed::Tie::Value::Vector;
 use Weed;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.0083';
 
 use base 'Tie::Array';
 
@@ -30,8 +30,7 @@ sub TIEARRAY {
 }
 
 sub STORE {
-	return X3DMessage->IndexOutOfRange( 3, @_ )
-	  unless defined $_[0]->getValue->set1Value( $_[1], double( \"$_[2]" ) || 0 );
+	$_[0]->getValue->[ $_[1] ] = double( \"$_[2]" ) || 0;
 }
 
 sub FETCH {

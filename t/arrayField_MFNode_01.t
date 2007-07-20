@@ -11,7 +11,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 my $MFType = "MFNode";
 
 my $mf0 = $MFType->new();

@@ -80,8 +80,8 @@ ok $testNode->sfnode->sfnode2->getValue->getParents == 2;
 
 print $testNode->sfnode->sfnode2->getValue->getParents;
 
-X3DGenerator->tidy_fields(NO);
-X3DGenerator->tidy_fields(YES);
+X3DGenerator->setTidyFields(NO);
+X3DGenerator->setTidyFields(YES);
 print $testNode;
 
 use Data::Dumper;

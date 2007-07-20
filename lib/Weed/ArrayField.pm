@@ -1,7 +1,7 @@
 package Weed::ArrayField;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
@@ -11,14 +11,15 @@ sub SET_DESCRIPTION {
 
 use Weed 'X3DArrayField : X3DField { [] }';
 
-use base 'Weed::Array';
+use base 'X3DArray';
 
 use Weed::Tie::Value::Array;
 use Weed::Tie::ArrayLength;
 
 use overload '@{}' => 'getArray';
 
-sub new { shift->X3DField::new(@_) }
+#sub new { shift->X3DField::new(@_) }
+*new = \&X3DField::new;
 
 sub new_from_definition {    # also in MFNode
 	my $this = shift->X3DField::new_from_definition(@_);
@@ -36,7 +37,7 @@ sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 
 sub getFieldType { $_[0]->X3DPackage::Scalar("FieldType") }
 
-sub getArray { $_[0]->{array} }
+sub getArray { ${ $_[0] }->{array} }
 
 sub setValue {
 	my $this  = shift;

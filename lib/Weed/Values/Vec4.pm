@@ -1,7 +1,7 @@
 package Weed::Values::Vec4;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Package::Alias X3DVec4 => __PACKAGE__;
 
@@ -262,7 +262,7 @@ sub dot {
 	  $a->[1] * $b->[1] +
 	  $a->[2] * $b->[2] +
 	  $a->[3] * $b->[3]
-	  : ( $r ? $b . "$a" : "$a" . "$b" )
+	  : ( $r ? $b . "$a" : "$a" . $b )
 	  ;
 }
 

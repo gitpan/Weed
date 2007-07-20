@@ -11,8 +11,8 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-X3DGenerator->compact;
-X3DGenerator->tidy_fields(NO);
+X3DGenerator->setOutputStyle("COMPACT");
+X3DGenerator->setTidyFields(NO);
 
 ok ! (my $nullNode = new SFNode);
 ok my $testNode = new SFNode(new TestNode);

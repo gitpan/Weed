@@ -57,6 +57,7 @@ is $sfnode->doubles->[0], 1.2;
 is $doubles->[0], 1234567;
 
 #timethis( 1_00_000, sub { $sfnode->sfbool = YES } ); #29044.44/s
+#timethis( 1_00_000, sub { $sfnode->sfbool = YES } ); #29044.44/s5913.66/s
 
 1;
 __END__

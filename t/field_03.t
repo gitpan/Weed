@@ -18,7 +18,7 @@ use Weed 'Node : X3DBaseNode {
 }';
 
 package main;
-use Benchmark ':hireswallclock';
+#use Benchmark ':hireswallclock';
 
 my $sfnode = new SFNode(new Node);
 
@@ -28,7 +28,7 @@ my $sfvec3f = $sfnode->sfvec3f;
 
 #timethis( 1_000_000, sub { $sfnode->getValue } ); #134952.77/s
 
-timethis( 1_0_000, sub { $sfnode->sfvec3f++ } ); #2500.02/s
+#timethis( 1_0_000, sub { $sfnode->sfvec3f++ } ); #2500.02/s
 #timethis( 1_000_000, sub { $sfvec3f++ } ); #134952.77/s
 
 #is $sfnode->sfvec3f, '10001 10001 10001';

@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed::Parse::FieldValue;
 
@@ -13,14 +13,11 @@ sub SET_DESCRIPTION {
 	$this->X3DPackage::Scalar("DefaultDefinition") = $fieldDefinition;
 }
 
-use Weed 'X3DField : X3DObject { }';
+use Weed 'X3DField : X3DObject { }', 'new';
 
 use overload
   '=' => 'getClone',
-
   'bool' => sub { $_[0]->getValue ? YES : NO },
-
-  '${}' => 'getValue',
   ;
 
 sub new {
@@ -36,7 +33,7 @@ sub new_from_definition {
 
 	$this->setDefinition($definition);
 
-	$this->{value} = $this->getInitialValue;
+	$$this->{value} = $this->getInitialValue;
 
 	$this->setTainted(NO);
 
@@ -47,8 +44,8 @@ sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 *getCopy = \&getClone;
 
-sub getDefinition { $_[0]->{definition} }
-sub setDefinition { $_[0]->{definition} = $_[1] }
+sub getDefinition { ${ $_[0] }->{definition} }
+sub setDefinition { ${ $_[0] }->{definition} = $_[1] }
 
 sub getDefaultValue { $_[0]->X3DPackage::Scalar("DefaultDefinition")->getValue }
 sub getInitialValue { $_[0]->getDefinition->getValue }
@@ -62,20 +59,20 @@ sub isWritable { $_[0]->getAccessType & X3DConstants->inputOnly }
 
 sub getName { $_[0]->getDefinition->getName }
 
-sub getValue { $_[0]->{value} }
-
-sub setValue {
-	my ( $this, $value ) = @_;
-
-	$this->{value} = $value;
-
-	return;
-}
-
 sub setTainted {
 	# 	my ( $this, $value ) = @_;
 	# 	$this->{tainted} = $value;
 	# 	return;
+}
+
+sub getValue { ${ $_[0] }->{value} }
+
+sub setValue {
+	my ( $this, $value ) = @_;
+
+	$$this->{value} = $value;
+
+	return;
 }
 
 sub toString { sprintf "%s", $_[0]->getValue }

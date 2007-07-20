@@ -36,15 +36,15 @@ is $sfnode3->getInitialValue, undef;
 
 print $node1;
 
-X3DGenerator->compact;
-X3DGenerator->tidy_fields(NO);
+X3DGenerator->setOutputStyle("COMPACT");
+X3DGenerator->setTidyFields(NO);
 is $node1, 'DEF '.$node1->getName.' X3DNode { metadata NULL }';
 
-X3DGenerator->clean;
-X3DGenerator->tidy_fields(NO);
+X3DGenerator->setOutputStyle("CLEAN");
+X3DGenerator->setTidyFields(NO);
 is $node1, 'DEF '.$node1->getName.' X3DNode{metadata NULL}';
 
-X3DGenerator->tidy_fields(YES);
+X3DGenerator->setTidyFields(YES);
 is $node1, 'DEF '.$node1->getName.' X3DNode{}';
 
 print $node1;

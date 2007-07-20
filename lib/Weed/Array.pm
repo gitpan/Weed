@@ -3,7 +3,7 @@ package Weed::Array;
 use Weed 'X3DArray [ ]', 'isArray';
 #Array reference
 
-our $VERSION = '0.0081';
+our $VERSION = '0.0082';
 
 use Algorithm::Numerical::Shuffle;
 #Set::Array;
@@ -75,7 +75,7 @@ sub random { $_[0]->new( scalar Algorithm::Numerical::Shuffle::shuffle( [ @{ $_[
 sub clear { @{ $_[0] } = () }
 
 sub toString {
-	my $this = shift;
+	my ($this) = @_;
 
 	my $string = '';
 

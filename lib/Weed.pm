@@ -1,9 +1,9 @@
 package Weed;
 use Weed::Perl;
 
-#use 5.008008;
+use 5.008008;
 
-our $VERSION = '0.0083';
+our $VERSION = '0.0084';
 
 use warnings::register;
 
@@ -23,7 +23,7 @@ __END__
 
 =head1 NAME
 
-Weed - Don't use it. It's in development. For test purposes only! 
+Weed - Don't use it. It's in development. For test purposes only!
 
 =head1 CAVEATS
 
@@ -58,6 +58,8 @@ Type list ...
 
 	package BasePackage;
 	
+	use Weed 'Object';
+	
 	use Weed 'Scalar ()';
 	use Weed 'Array []';
 	use Weed 'Hash {}';
@@ -70,6 +72,18 @@ Creates a new type in each case and binds this to the base package.
 	sub new { shift->NEW }
 	
 	my $object = new Type;
+
+=head2 FUNCTION IMPORT
+
+In some cases you need a function directly in your type.
+
+	package BasePackage;
+	
+	use Weed 'Type ()', 'new', ...;
+	
+	sub new { ... }
+
+Get's Type a &new method.
 
 =head2 INTERFACE
 

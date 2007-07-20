@@ -1,7 +1,7 @@
 package Weed::BaseFieldTypes::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.0083';
 
 use base 'Weed::BaseFieldTypes::Scalar';
 
@@ -16,7 +16,7 @@ use overload
 
   'neg' => sub { -$_[0]->getValue },
 
-  '.' => sub { $_[0]->getValue . $_[1] },
+  '.' => sub { $_[2] ? $_[1] . $_[0]->getValue : $_[0]->getValue . $_[1] },
   'x' => sub { $_[2] ? $_[1] x $_[0]->getValue : $_[0]->getValue x $_[1] },
 
   '@{}' => sub { $_[0]->{array} },
@@ -24,6 +24,8 @@ use overload
 
 use Weed::Tie::Value::Vector;
 use Weed::FieldHelper;
+
+#*new = \&X3DField::new;
 
 sub new_from_definition {
 	my $this = shift->X3DField::new_from_definition(@_);

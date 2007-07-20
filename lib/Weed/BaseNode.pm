@@ -1,7 +1,7 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.0083';
 
 use Weed::Parse::FieldDescription;
 
@@ -14,19 +14,19 @@ sub SET_DESCRIPTION {
 
 use Weed 'X3DBaseNode : X3DObject { }';
 
+use overload
+  '@{}' => sub { ${ $_[0] }->{fields}->getArray },
+  '%{}' => sub { ${ $_[0] }->{fields}->getHash },
+  ;
+
 sub new {
 	my $this = shift->CREATE;
 	my $name = shift;
 
 	$this->setName($name);
-
 	$this->setCloneCount(0);
 
-	tie $this->{fields}->{ $_->getName }, 'Weed::Tie::Field', $_->createField($this)
-	  foreach $this->getFieldDefinitions;
-
-	# $this->{fields}->{sf[color|colorrgba|...]} *= 2 needs ref
-	map { ref $this->{fields}->{ $_->getName } } $this->getFieldDefinitions;
+	$$this->{fields} = new X3DFieldSet( scalar $this->getFieldDefinitions, $this );
 
 	return $this;
 }
@@ -35,61 +35,52 @@ sub getClone {
 	my $this = shift;
 	my $copy = $this->new( $this->getName );
 
-	$copy->{fields}->{$_} = $this->getField($_)
+	$$copy->{fields}->{$_} = $this->getField($_)
 	  foreach map { $_->getName } $this->getFieldDefinitions;
 
 	return $copy;
 }
 
-sub getCopy { $_[0]->getClone } # should make a deep copy
+sub getCopy { $_[0]->getClone }    # should make a deep copy
 
 sub getTypeName { $_[0]->getType }
 
-sub setName { $_[0]->{name} = new X3DName( $_[1] ) }
-sub getName { $_[0]->{name}->toString }
+sub setName { ${ $_[0] }->{name} = new X3DName( $_[1] ) }
+sub getName { ${ $_[0] }->{name}->toString }
 
 # Clones
-sub addClone      { $_[0]->{clones}++ }
-sub removeClone   { $_[0]->{clones}-- }
-sub getCloneCount { $_[0]->{clones} }
-sub setCloneCount { $_[0]->{clones} = $_[1] }
+sub addClone      { ${ $_[0] }->{clones}++ }
+sub removeClone   { ${ $_[0] }->{clones}-- }
+sub getCloneCount { ${ $_[0] }->{clones} }
+sub setCloneCount { ${ $_[0] }->{clones} = $_[1] }
 
 # Fields
-sub existsField { exists $_[0]->{fields}->{ $_[1] } }
-
 sub getTiedField : lvalue {
 	my ( $this, $name ) = @_;
 
 	return X3DMessage->UnknownField( 2, @_ )
-	  unless exists $this->{fields}->{$name};
+	  unless exists $$this->{fields}->{$name};
 
-	$this->{fields}->{$name};
+	$$this->{fields}->{$name};
 }
 
-sub getField {
-	my ( $this, $name ) = @_;
+sub getField { ${ $_[0] }->{fields}->getField( $_[1], $_[0] ) }
 
-	return X3DMessage->UnknownField( 2, @_ )
-	  unless exists $this->{fields}->{$name};
-
-	return ${ tied $this->{fields}->{$name} };
-}
-
-sub getFields {
-	my ( $this, $tidy ) = @_;
-	my $fields = [];
-
-	foreach ( $this->getFieldDefinitions ) {
-		my $field = $this->getField( $_->getName );
-
-		push @$fields, $field
-		  unless
-		  ( $_->isIn ^ $_->isOut ) ||
-		  ( $tidy && ( $_ eq $field ) );
-	}
-
-	return wantarray ? @$fields : $fields;
-}
+# sub getFields {
+# 	my ( $this, $tidy ) = @_;
+# 	my $fields = [];
+#
+# 	foreach ( $this->getFieldDefinitions ) {
+# 		my $field = $this->getField( $_->getName );
+#
+# 		push @$fields, $field
+# 		  unless
+# 		  ( $_->isIn ^ $_->isOut ) ||
+# 		  ( $tidy && ( $_ eq $field ) );
+# 	}
+#
+# 	return wantarray ? @$fields : $fields;
+# }
 
 sub getFieldDefinitions {
 	wantarray ?
@@ -99,7 +90,8 @@ sub getFieldDefinitions {
 
 # Basenode
 sub toString {
-	my $this   = shift;
+	my ($this) = @_;
+
 	my $string = "";
 
 	if ( $this->getName ) {
@@ -111,7 +103,6 @@ sub toString {
 
 	$string .= $this->getTypeName;
 	$string .= X3DGenerator->tidy_space;
-	$string .= X3DGenerator->open_brace;
 
 	if ( @{ $this->getComments } ) {
 		$string .= X3DGenerator->tidy_break;
@@ -126,25 +117,7 @@ sub toString {
 		$string .= X3DGenerator->indent;
 	}
 
-	my $fields = $this->getFields( X3DGenerator->tidy_fields );
-	if (@$fields) {
-		$string .= X3DGenerator->tidy_break;
-		X3DGenerator->inc;
-		foreach (@$fields) {
-			$string .= X3DGenerator->indent;
-			$string .= $_->getName;
-			$string .= X3DGenerator->space;
-			$string .= $_->isa('SFString') ? sprintf X3DGenerator->STRING, $_ : $_;
-			$string .= X3DGenerator->tidy_break;
-		}
-		X3DGenerator->dec;
-		$string .= X3DGenerator->indent;
-	}
-	else {
-		$string .= X3DGenerator->tidy_space;
-	}
-
-	$string .= X3DGenerator->close_brace;
+	$string .= $$this->{fields};
 
 	return $string;
 }

@@ -1,7 +1,7 @@
 package Weed::Values::Vec2;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Package::Alias X3DVec2 => __PACKAGE__;
 
@@ -190,7 +190,7 @@ sub dot {
 	return ref $b ?
 	  $a->[0] * $b->[0] +
 	  $a->[1] * $b->[1]
-	  : ( $r ? $b . "$a" : "$a" . "$b" )
+	  : ( $r ? $b . "$a" : "$a" . $b )
 	  ;
 }
 

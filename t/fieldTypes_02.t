@@ -124,7 +124,7 @@ is scalar @$value, 1;
 is $value = new MFVec4f( new SFVec4f ), '0 0 0 0';
 is scalar @$value, 1;
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 
 is new MFBool( new SFBool, new SFBool ), '[ FALSE, FALSE ]';
 is new MFColor( new SFColor, new SFColor ), '[ 0 0 0, 0 0 0 ]';

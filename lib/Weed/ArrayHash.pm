@@ -1,6 +1,6 @@
 package Weed::ArrayHash;
 
-our $VERSION = '0.0004';
+our $VERSION = '0.0005';
 
 use Weed 'X3DArrayHash : X3DArray X3DHash ()';
 
@@ -21,8 +21,8 @@ sub new {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
 	my $this = bless \{}, $type;
-	$$this->{array} = new X3DArray;
-	$$this->{hash}  = new X3DHash;
+	$$this->{array} = new X3DArray $_[1];
+	$$this->{hash}  = new X3DHash $_[2];
 	return $this;
 }
 

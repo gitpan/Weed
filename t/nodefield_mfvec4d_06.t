@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 ok my $testNode = new SFNode( new TestNode );
 
 ok my $mfvec4dId = $testNode->mfvec4d->getId;

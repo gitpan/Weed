@@ -11,7 +11,7 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 ok my $weed = new SFNode(new Weed);
 ok my $id   = $weed->size->getId;
 ok my $size = $weed->size;

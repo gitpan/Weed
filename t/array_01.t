@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'Weed';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 
 ok !new X3DArray [];
 ok new X3DArray [ 1, 2, 3 ];

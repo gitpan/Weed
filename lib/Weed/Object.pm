@@ -2,20 +2,23 @@ package Weed::Object;
 
 use Weed 'X3DObject { }';
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
+
+use overload
+  '%{}' => sub { ${ $_[0] } };
 
 sub CREATE {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
-	my $this = bless {}, $type;
-	$this->{comments} = [];
-	$this->{parents}  = new X3DParentHash;
+	my $this = bless \{}, $type;
+	$$this->{comments} = [];
+	$$this->{parents}  = new X3DParentHash;
 	return $this;
 }
 
-sub getComments { wantarray ? @{ $_[0]->{comments} } : $_[0]->{comments} }
+sub getComments { wantarray ? @{ ${ $_[0] }->{comments} } : ${ $_[0] }->{comments} }
 
-sub getParents { $_[0]->{parents} }
+sub getParents { ${ $_[0] }->{parents} }
 
 sub toString {
 	my ($this) = @_;

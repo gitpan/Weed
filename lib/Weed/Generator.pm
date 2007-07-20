@@ -1,10 +1,12 @@
 package Weed::Generator;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.008';
 
 use Weed 'X3DGenerator';
 
 use Weed::Symbols;
+
+our $OutputStyle;
 
 our $TSPACE;
 our $TBREAK;
@@ -50,19 +52,14 @@ use constant comment => $_comment_;
 use constant in  => $_in_;
 use constant out => $_out_;
 
-sub tidy_space  { $TSPACE }
-sub tidy_break  { $TBREAK }
-sub tidy_comma  { $TCOMMA }
-sub tidy_fields { $#_ ? $TidyFields = $_[1] : $TidyFields }
+sub tidy_space { $TSPACE }
+sub tidy_break { $TBREAK }
+sub tidy_comma { $TCOMMA }
 
 sub INT32  { $INT32 }
 sub FLOAT  { $FLOAT }
 sub DOUBLE { $DOUBLE }
 sub STRING { $STRING }
-
-sub getPrecisionOfFloat  { $PRECISION - 1 }
-sub getPrecisionOfDouble { $DPRECISION - 1 }
-
 # indent
 sub _INDENT { $INDENT_CHAR x $INDENT_INDEX }
 
@@ -88,23 +85,10 @@ sub dec {
 	$INDENT = &_INDENT;
 }
 
-# precision
-use constant maxPrecision         => 17;
-use constant minPrecisionOfFloat  => 6;
-use constant minPrecisionOfDouble => 14;
-
-sub setPrecisionOfFloat {
-	$PRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
-	$FLOAT = "%0.${PRECISION}g";
-}
-
-sub setPrecisionOfDouble {
-	$DPRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
-	$DOUBLE = "%0.${DPRECISION}g";
-}
-
 # output
-sub tidy {
+sub set_tidy {
+	$OutputStyle = "TIDY";
+
 	$TSPACE = &space;
 	$TBREAK = &break;
 	$TCOMMA = &comma;
@@ -113,7 +97,9 @@ sub tidy {
 	_INDENT_CHAR &space x 2;
 }
 
-sub compact {
+sub set_compact {
+	$OutputStyle = "COMPACT";
+
 	$TSPACE = &space;
 	$TBREAK = &space;
 	$TCOMMA = &comma;
@@ -122,7 +108,9 @@ sub compact {
 	_INDENT_CHAR NO;
 }
 
-sub clean {
+sub set_clean {
+	$OutputStyle = "CLEAN";
+
 	$TSPACE = NO;
 	$TBREAK = NO;
 	$TCOMMA = &space;
@@ -131,10 +119,41 @@ sub clean {
 	_INDENT_CHAR NO;
 }
 
+sub getTidyFields { $TidyFields }
+sub setTidyFields { $TidyFields = $_[1] }
+
+# precision
+use constant maxPrecision         => 17;
+use constant minPrecisionOfFloat  => 6;
+use constant minPrecisionOfDouble => 14;
+
+sub getPrecisionOfFloat { $PRECISION - 1 }
+
+sub setPrecisionOfFloat {
+	$PRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
+	$FLOAT = "%0.${PRECISION}g";
+}
+
+sub getPrecisionOfDouble { $DPRECISION - 1 }
+
+sub setPrecisionOfDouble {
+	$DPRECISION = X3DMath::min( maxPrecision, $_[1] + 1 );
+	$DOUBLE = "%0.${DPRECISION}g";
+}
+
+sub getOutputStyle { $OutputStyle }
+
+sub setOutputStyle {
+	&set_tidy    if $_[1] eq "TIDY";
+	&set_compact if $_[1] eq "COMPACT";
+	&set_clean   if $_[1] eq "CLEAN";
+}
+
 # STANDARD
 __PACKAGE__->setPrecisionOfFloat(7);
 __PACKAGE__->setPrecisionOfDouble(15);
-__PACKAGE__->tidy;
+__PACKAGE__->setOutputStyle("CLEAN");
+__PACKAGE__->setOutputStyle("TIDY");
 
 1;
 __END__

@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.008';
+our $VERSION = '0.0081';
 
 use Weed 'SFNode : X3DField { NULL }';
 
@@ -11,11 +11,13 @@ use overload
   '0+'  => sub { $_[0]->getValue ? 1 : 0 },
 
   '==' => sub { $_[0]->getValue ? $_[0]->getValue == $_[1] : !$_[1] },
-  '!=' => sub { $_[0]->getValue ? $_[0]->getValue != $_[1] : $_[1] ? YES: NO },
+  '!=' => sub { $_[0]->getValue ? $_[0]->getValue != $_[1] : $_[1] ? YES : NO },
 
   'eq' => sub { "$_[0]" eq $_[1] },
   'ne' => sub { "$_[0]" ne $_[1] },
 
+  #'@{}' => sub { $_[0]->getValue },
+  #'%{}' => sub { $_[0]->getValue },
   ;
 
 sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
@@ -36,11 +38,12 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 		Want::lnoreturn;
 	}
 
-	# die unless Want::want('LVALUE');
-
 	return ${ tied $node->getTiedField($name) }
 	  if Want::want('REF');
 
+# 	tie my $tied, 'Weed::Tie::Field', $node->getField($name);
+# 	scalar $tied;
+# 	$tied
 	$node->getTiedField($name)
 }
 
@@ -78,7 +81,7 @@ sub setValue {
 	}
 	else
 	{
-		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode(1, $this, $value);
+		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode( 1, $this, $value );
 	}
 
 	return;
@@ -86,27 +89,26 @@ sub setValue {
 
 sub toString { sprintf "%s", $_[0]->getValue || X3DGenerator->NULL }
 
-sub dispose { #print " SFNode::dispose ", $_[0]->getName;
+sub dispose {    #print " SFNode::dispose ", $_[0]->getName;
 	my ( $this, $node ) = @_;
 
 	return;
- 	
- 
-# 	if ( $this == $node ) {
-# 		$this->setValue(undef);
-# 		return YES;
-# 	}
-# 
-# 	return;
-# 
-# 	my $parent = $this->getParent;
-# 	return unless $parent;
-# 
-# 	$parent->getParents or return;
-# 
-# 	if ( $parent != $node ) {
-# 		$parent->dispose($node) or return;
-# 	}
+
+	# 	if ( $this == $node ) {
+	# 		$this->setValue(undef);
+	# 		return YES;
+	# 	}
+	#
+	# 	return;
+	#
+	# 	my $parent = $this->getParent;
+	# 	return unless $parent;
+	#
+	# 	$parent->getParents or return;
+	#
+	# 	if ( $parent != $node ) {
+	# 		$parent->dispose($node) or return;
+	# 	}
 }
 
 sub DESTROY {

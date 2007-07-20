@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'Weed';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 my $MFType = "MFDouble";
 
 my $mf0 = $MFType->new();

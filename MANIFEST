@@ -12,6 +12,7 @@ lib/Weed/Environment.pm
 lib/Weed/Field.pm
 lib/Weed/FieldDefinition.pm
 lib/Weed/FieldHelper.pm
+lib/Weed/FieldSet.pm
 lib/Weed/FieldTypes.pm
 lib/Weed/FieldTypes/.SFBool.pm.bck
 lib/Weed/FieldTypes/MFBool.pm
@@ -122,6 +123,7 @@ t/generator_02.t
 t/get_orientation_01.t
 t/get_orientation_02.t
 t/hash_01.t
+t/hierarchy_01.t
 t/length_01.t
 t/math_01.t
 t/memory_01.t
@@ -180,6 +182,7 @@ t/seed_01.t
 t/test_01.t
 t/testnode2_05.t
 t/testnode_05.t
+t/testnode_06.t
 t/TestNodeFields.pm
 t/TestNodeWeed.pm
 t/TestType.pm

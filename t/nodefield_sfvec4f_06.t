@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-X3DGenerator->compact;
+X3DGenerator->setOutputStyle("COMPACT");
 ok my $testNode = new SFNode( new TestNode );
 is $testNode->sfvec4f, "0 0 0 0";
 is $testNode->doubles, "[ 1.2, 3.4, 5.6 ]";

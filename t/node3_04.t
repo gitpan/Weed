@@ -19,9 +19,9 @@ ok $weed ;
 printf "%s\n", $weed;
 is $weed, "DEF ".$weed->getName." Weed { }";
 
-X3DGenerator->tidy_fields(1);
+X3DGenerator->setTidyFields(YES);
 printf "%s\n", $weed;
-X3DGenerator->tidy_fields(0);
+X3DGenerator->setTidyFields(NO);
 printf "%s\n", $weed;
 print $_ foreach $weed->getFieldDefinitions;
 

@@ -8,51 +8,57 @@ BEGIN {
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
 	use_ok 'Weed';
+	use_ok 'TestNodeFields';
 }
 
-use Weed::Perl;
+my $n = new TestNode();
+my $s = new SFNode($n);
 
-ok my $node1 = new X3DBaseNode;
-ok $node1->isa("UNIVERSAL");
-ok $node1->isa("Weed::Universal");
-#ok $node1->isa("X3DUniversal");
-ok $node1->isa("Weed::Object");
-ok $node1->isa("X3DUniversal");
-ok $node1->isa("X3DObject");
-ok $node1->isa("X3DBaseNode");
+print $s->[29]++;
+print $s->{sfvec2f}--;
 
-ok $node1 = new X3DBaseNode('namedernode');
-ok $node1->getName =~ /^namedernode/;
+print $n->getField('sfvec2f');
 
-#printf "*** %s\n", join ", ", $_ foreach @{ $node1->getFieldDefinitions };
+X3DGenerator->setTidyFields(NO);
+print $n;
 
-print $_ foreach $node1->X3DPackage::getSelfAndSuperpath;
-print '';
+$s->sfvec2f += 2;
+is $s->sfvec2f, '2 2';
+$n->[29] += 2;
+is $s->sfvec2f, '4 4';
 
-my @path = $node1->X3DPackage::getSelfAndSuperpath;
-is shift @path, 'X3DBaseNode';
-is shift @path, 'Weed::BaseNode';
-is shift @path, 'X3DObject';
-is shift @path, 'Weed::Object';
-is shift @path, 'X3DUniversal';
-is shift @path, 'Weed::Universal';
-is shift @path, undef;
+print $n->[29]++;
+print $n->[29]++;
 
-@path = $node1->X3DPackage::getSuperpath;
-is shift @path, 'Weed::BaseNode';
-is shift @path, 'X3DObject';
-is shift @path, 'Weed::Object';
-is shift @path, 'X3DUniversal';
-is shift @path, 'Weed::Universal';
-is shift @path, undef;
+print $n->[0];
+print $n->[29]++;
+print $n->[29]++;
+isa_ok $n->[19], 'SFColorRGBA';
+isa_ok $n->[29], 'SFVec2f';
 
-print $_ foreach $node1->X3DPackage::getSupertypes;
-print '';
+print $_, ref $n->[$_] foreach 0 .. $#$n;
 
-my @supertypes = $node1->X3DPackage::getSupertypes;
-is shift @supertypes, 'Weed::BaseNode';
-is shift @supertypes, 'X3DObject';
-is shift @supertypes, undef;
+print $n->{sfvec3f}++;
+print $n->{sfvec3f}++;
 
+use Benchmark ':hireswallclock';
+
+$n->{sfvec3f}++;
+
+ok tied $n->{sfvec3f};
+
+#timethis( 100_000, sub { $n->[29]++ } );    #29044.44/s
+#timethis( 10_000, sub { $n->{sfvec2f}++ } ); #29044.44/s
+#timethis( 100_000, sub { $s->sfvec2f++ } ); #29044.44/s
+
+#timethis( 100_000, sub { $s->sfbool = YES } ); #29044.44/s
+#timethis( -15, sub { $n->{sfbool} = YES } ); #110411.07/s
+#timethis( -15, sub { $n->[17] = YES } ); #110444.85/s
+
+# timethis( -10, sub { $n->{sffloat} = 1 } ); #110444.85/s
+# timethis( -10, sub { $n->[21] = 1 } ); #110444.85/s
+# timethis( -10, sub { $s->{sffloat} = 1 } ); #110444.85/s
+# timethis( -10, sub { $s->[21] = 1 } ); #110444.85/s
+1;
 __END__
 
