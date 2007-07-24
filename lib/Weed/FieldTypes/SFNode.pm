@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed 'SFNode : X3DField { NULL }';
 
@@ -38,13 +38,10 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 		Want::lnoreturn;
 	}
 
-	return ${ tied $node->getTiedField($name) }
+	return $node->getFields->getField($name)
 	  if Want::want('REF');
 
-# 	tie my $tied, 'Weed::Tie::Field', $node->getField($name);
-# 	scalar $tied;
-# 	$tied
-	$node->getTiedField($name)
+	$node->getFields->getTiedField($name)
 }
 
 #sub getClone { $_[0]->new( $_[0]->getValue ) }
@@ -62,8 +59,7 @@ sub setValue {
 	my $node = $this->getValue;
 	if ($node) {
 		$node->getParents->remove($this);
-		$node->removeClone;
-		$node->dispose;
+		#$node->dispose;
 	}
 
 	$value = $value->getValue
@@ -72,7 +68,6 @@ sub setValue {
 	if ( UNIVERSAL::isa( $value, 'X3DBaseNode' ) )
 	{
 		$value->getParents->add($this);
-		$value->addClone;
 		$this->X3DField::setValue($value);
 	}
 	elsif ( !defined $value )
@@ -90,32 +85,15 @@ sub setValue {
 sub toString { sprintf "%s", $_[0]->getValue || X3DGenerator->NULL }
 
 sub dispose {    #print " SFNode::dispose ", $_[0]->getName;
-	my ( $this, $node ) = @_;
+	my ( $this ) = @_;
 
 	return;
-
-	# 	if ( $this == $node ) {
-	# 		$this->setValue(undef);
-	# 		return YES;
-	# 	}
-	#
-	# 	return;
-	#
-	# 	my $parent = $this->getParent;
-	# 	return unless $parent;
-	#
-	# 	$parent->getParents or return;
-	#
-	# 	if ( $parent != $node ) {
-	# 		$parent->dispose($node) or return;
-	# 	}
 }
 
 sub DESTROY {
 	my $this = shift;
-	#print " SFNode::DESTROY " . $this->getName;
 	$this->setValue(undef);
-	#$this->X3DField::DESTROY;
+	return;
 }
 
 1;

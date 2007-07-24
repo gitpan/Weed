@@ -1,7 +1,7 @@
 package Weed::ArrayField;
 use Weed;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;

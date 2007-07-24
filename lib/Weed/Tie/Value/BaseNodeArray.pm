@@ -1,7 +1,7 @@
 package Weed::Tie::Value::BaseNodeArray;
 use Weed;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use base 'Weed::Tie::Value::Array';
 
@@ -18,7 +18,6 @@ sub storeValue {
 			$this->{nodes}->{$id} = 1;
 			$node->getParents->add( $this->getParent );
 		}
-		$node->addClone;
 	}
 
 	return $node;
@@ -38,8 +37,6 @@ sub removeParents {
 		unless ( --$this->{nodes}->{$id} ) {
 			delete $this->{nodes}->{$id};
 			$node->getParents->remove( $this->getParent );
-			$node->removeClone;
-			$node->dispose;
 		}
 	}
 }

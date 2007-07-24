@@ -1,7 +1,7 @@
 package Weed::Tie::WeakHash;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Tie::Hash;
 use base 'Tie::StdHash';

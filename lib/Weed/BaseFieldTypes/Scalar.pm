@@ -1,9 +1,9 @@
 package Weed::BaseFieldTypes::Scalar;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use overload
-  '0+' => sub { 0 + $_[0]->getValue },
+  '0+' => sub { 0+ $_[0]->getValue },
 
   '!' => sub { !$_[0]->getValue },
 

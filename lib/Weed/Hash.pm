@@ -1,6 +1,6 @@
 package Weed::Hash;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.009';
 
 use Weed 'X3DHash { }', 'isHash';
 
@@ -9,9 +9,10 @@ use overload
 
   'int' => 'getSize',
   '0+'  => 'getSize',
-
   #  '<=>' => sub { warn },
   #  'cmp' => sub { warn },
+
+  '@{}' => 'getValues',
   ;
 
 sub new {

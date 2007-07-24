@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed::Parse::FieldValue;
 
@@ -24,6 +24,7 @@ sub new {
 	my $type = shift;
 	my $this = $type->new_from_definition( $type->X3DPackage::Scalar("DefaultDefinition") );
 	$this->setValue(@_) if @_;
+	$this->setTainted(NO);
 	return $this;
 }
 
@@ -34,8 +35,6 @@ sub new_from_definition {
 	$this->setDefinition($definition);
 
 	$$this->{value} = $this->getInitialValue;
-
-	$this->setTainted(NO);
 
 	return $this;
 }
@@ -54,27 +53,23 @@ sub getParent { shift @{ $_[0]->getParents->getValues } if $_[0]->getParents }
 
 sub getAccessType { $_[0]->getDefinition->getAccessType }
 
-sub isReadable { $_[0]->getAccessType != X3DConstants->inputOnly }
-sub isWritable { $_[0]->getAccessType & X3DConstants->inputOnly }
+#sub isReadable { $_[0]->getAccessType != X3DConstants->inputOnly }
+#sub isWritable { $_[0]->getAccessType & X3DConstants->inputOnly }
 
 sub getName { $_[0]->getDefinition->getName }
-
-sub setTainted {
-	# 	my ( $this, $value ) = @_;
-	# 	$this->{tainted} = $value;
-	# 	return;
-}
 
 sub getValue { ${ $_[0] }->{value} }
 
 sub setValue {
 	my ( $this, $value ) = @_;
-
+	
 	$$this->{value} = $value;
+	$this->setTainted(time);
 
 	return;
 }
 
+#
 sub toString { sprintf "%s", $_[0]->getValue }
 
 1;

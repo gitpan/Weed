@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFInt32;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed 'SFInt32 : X3DField { 0 }';
 
@@ -21,3 +21,4 @@ sub toString {
 
 1;
 __END__
+Data::Integer

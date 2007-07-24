@@ -1,7 +1,7 @@
 package Weed::FieldHelper;
 use Weed::Perl;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.009';
 
 use UNIVERSAL 'isa';
 use overload;

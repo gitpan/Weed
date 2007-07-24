@@ -1,7 +1,7 @@
 package Weed::Values;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed::Values::Color;
 use Weed::Values::ColorRGBA;

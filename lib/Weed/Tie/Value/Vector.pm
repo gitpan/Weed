@@ -1,7 +1,7 @@
 package Weed::Tie::Value::Vector;
 use Weed;
 
-our $VERSION = '0.0083';
+our $VERSION = '0.009';
 
 use base 'Tie::Array';
 

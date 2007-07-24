@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFColorRGBA;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'SFColorRGBA : X3DField { 0 0 0 0 }';
 

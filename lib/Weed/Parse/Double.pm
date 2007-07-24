@@ -1,7 +1,7 @@
 package Weed::Parse::Double;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use Weed::RegularExpressions qw.$_double $_nan $_inf.;
 

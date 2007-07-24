@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFVec2d;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'MFVec2d : X3DArrayField { [] }';
 

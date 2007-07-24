@@ -1,7 +1,7 @@
 package Weed::Tie::Field;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use Tie::Scalar;
 use base 'Tie::StdScalar';

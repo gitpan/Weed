@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFTime;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'MFTime : X3DArrayField { [] }';
 

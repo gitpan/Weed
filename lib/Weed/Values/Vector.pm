@@ -1,7 +1,7 @@
 package Weed::Values::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0084';
+our $VERSION = '0.009';
 
 use Package::Alias X3DVector => __PACKAGE__;
 

@@ -1,6 +1,6 @@
 package Weed::Constants;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'X3DConstants';
 

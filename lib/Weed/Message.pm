@@ -1,19 +1,34 @@
 package Weed::Message;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'X3DMessage';
 
 use Carp ();
 
-sub subroutine { ( caller(2) )[3] }
-sub subname { substr( $_[0], rindex( $_[0], ':' ) + 1 ) }
+sub caller_filename   { ( caller(2) )[1] }
+sub caller_line       { ( caller(2) )[2] }
+sub caller_subroutine { ( caller(2) )[3] }
+
+sub field_name { substr( $_[0], rindex( $_[0], ':' ) + 1 ) }
 
 sub warn {
 	shift;
 	$Carp::CarpLevel = shift;
 	Weed->warnings::warn(@_);
 	return;
+}
+
+sub Debug {
+	#	return unless $DEBUG;
+	shift;
+
+	return print sprintf
+	  "D: %s->%s(%s) called at %s line %s",
+	  ref(shift),
+	  &field_name(&caller_subroutine),
+	  @_ ? join( ", ", @_ ) : '',
+	  &caller_filename, &caller_line;
 }
 
 sub die {
@@ -59,7 +74,7 @@ sub IndexOutOfRange {
 sub UnknownField {
 	shift->die( shift,
 		sprintf "Unknown field '%s' in class '%s' named '%s'",
-		subname( $_[1] ),
+		field_name( $_[1] ),
 		$_[0]->getType,
 		$_[0]->getName
 	);
@@ -94,24 +109,7 @@ sub filename   { ( caller(get_toplevel) )[1] }
 sub line       { ( caller(get_toplevel) )[2] }
 sub subroutine { ( caller(get_toplevel) )[3] }
 
-sub caller_line       { ( caller(2) )[2] }
 sub caller_subroutine { ( caller(2) )[3] }
-
-sub Debug {
-	return unless $DEBUG;
-	shift;
-
-	return print sprintf
-	  "DEBUG: %s
-  sub: %s at line %s
- file: %s at line %s",
-	  join( ", ", @_ ),
-	  caller_subroutine, caller_line,
-	  filename,          line
-	  if @_;
-
-	return print sprintf "Something is wrong %s at line %s.", filename, line;
-}
 
 sub Warning {
 	shift;

@@ -1,7 +1,7 @@
 package Weed::Values::Rotation;
 use Weed::Perl;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.009';
 
 use Package::Alias X3DRotation => __PACKAGE__;
 

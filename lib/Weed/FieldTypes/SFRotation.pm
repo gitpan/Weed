@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFRotation;
 
-our $VERSION = '0.0082';
+our $VERSION = '0.009';
 
 use Weed 'SFRotation : X3DField { 0 0 1 0 }';
 

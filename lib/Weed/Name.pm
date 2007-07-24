@@ -1,6 +1,6 @@
 package Weed::Name;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'X3DName ()';
 

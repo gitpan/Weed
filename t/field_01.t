@@ -31,8 +31,8 @@ is $sfnode1->getType,       "SFNode";
 is $sfnode1->getName,       '';
 is $sfnode1->getValue,      undef;
 is $sfnode1->getAccessType, X3DConstants->inputOutput;
-ok $sfnode1->isReadable;
-ok $sfnode1->isWritable;
+#ok $sfnode1->isReadable;
+#ok $sfnode1->isWritable;
 
 #$sfnode1->setAccessType( X3DConstants->initializeOnly );
 #is $sfnode1->getAccessType, X3DConstants->initializeOnly;
@@ -75,8 +75,8 @@ printf "getHierarchy: %s\n", join ", ", $field1->getHierarchy;
 
 ok !( my $field2 = $fieldDefinition1->createField($baseNode) );
 is $field2->getAccessType, X3DConstants->inputOutput;
-ok $field2->isReadable;
-ok $field2->isWritable;
+#ok $field2->isReadable;
+#ok $field2->isWritable;
 
 is $field1 != $field2, NO;
 is $field1 ne $field2, NO;

@@ -1,10 +1,14 @@
 package Weed::ParentHash;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'X3DParentHash : X3DObjectHash {}';    # weak hash symbol ~{}
 
 use Weed::Tie::WeakHash;
+
+use overload
+  '@{}' => sub { $_[0]->getValues },
+  ;
 
 sub new {
 	my $self = $_[0];

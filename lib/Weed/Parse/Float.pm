@@ -1,7 +1,7 @@
 package Weed::Parse::Float;
 use Weed::Perl;
 
-our $VERSION = '0.0003';
+our $VERSION = '0.001';
 
 use Weed::RegularExpressions qw.$_float $_nan $_inf.;
 

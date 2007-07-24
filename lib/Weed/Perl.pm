@@ -3,7 +3,7 @@ use strict;
 use warnings;
 #no warnings 'redefined';
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use base 'Exporter';
 

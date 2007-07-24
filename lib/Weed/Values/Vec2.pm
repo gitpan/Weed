@@ -1,7 +1,7 @@
 package Weed::Values::Vec2;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Package::Alias X3DVec2 => __PACKAGE__;
 

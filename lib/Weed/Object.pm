@@ -2,7 +2,9 @@ package Weed::Object;
 
 use Weed 'X3DObject { }';
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
+
+use Weed::Callbacks;
 
 use overload
   '%{}' => sub { ${ $_[0] } };
@@ -11,11 +13,53 @@ sub CREATE {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
 	my $this = bless \{}, $type;
-	$$this->{comments} = [];
+
+	$$this->{tainted}   = NO;
+	$$this->{callbacks} = new X3DCallbacks;
+
 	$$this->{parents}  = new X3DParentHash;
+	$$this->{comments} = new X3DArray;
+
 	return $this;
 }
 
+sub getTainted { ${ $_[0] }->{tainted} }
+
+sub setTainted {    #X3DMessage->Debug(@_);
+	my ( $this, $value ) = @_;
+	return if $$this->{tainted} == $value;
+
+	$$this->{tainted} = $value;
+
+	if ($value) {
+		if ( $this->getParents ) {
+			$_->setTainted($value) foreach @{ $this->getParents };
+		}
+	}
+}
+
+sub processEvents {
+	my ( $this, $time ) = @_;
+
+	$$this->{callbacks}->process( $this, defined $time ? $time : time )
+	  while $this->getTainted
+	  ;
+
+	return;
+}
+
+#
+sub addCallback {
+	my ( $this, $object, $callback ) = @_;
+	return $$this->{callbacks}->add( $object, $callback );
+}
+
+sub removeCallback {
+	my ( $this, $object, $callback ) = @_;
+	return $$this->{callbacks}->remove( $object, $callback );
+}
+
+#
 sub getComments { wantarray ? @{ ${ $_[0] }->{comments} } : ${ $_[0] }->{comments} }
 
 sub getParents { ${ $_[0] }->{parents} }

@@ -1,6 +1,6 @@
 package Weed::ArrayHash;
 
-our $VERSION = '0.0005';
+our $VERSION = '0.002';
 
 use Weed 'X3DArrayHash : X3DArray X3DHash ()';
 

@@ -3,7 +3,7 @@ use Weed::Perl;
 
 use 5.008008;
 
-our $VERSION = '0.0084';
+our $VERSION = '0.009';
 
 use warnings::register;
 

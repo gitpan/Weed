@@ -2,7 +2,7 @@ package Weed::ObjectHash;
 
 use Weed 'X3DObjectHash : X3DHash { }';
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 sub add {
 	my $this = shift;

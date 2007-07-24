@@ -21,8 +21,13 @@ ok exists $testNode->sfvec4d->[0];
 ok exists $testNode->sfvec4d->[1];
 ok exists $testNode->sfvec4d->[2];
 ok exists $testNode->sfvec4d->[3];
-ok ! exists $testNode->sfvec4d->[4];
+ok !exists $testNode->sfvec4d->[4];
 
+is $testNode->sfvec4d, '0 0 0 0';
+is $testNode->sfvec4d->[-1] = 12, 12;
+is $testNode->sfvec4d, '0 0 0 12';
+is $testNode->sfvec4d->[-2] = 14, 14;
+is $testNode->sfvec4d, '0 0 14 12';
 
 $testNode->sfvec4d = new SFVec4d( 1, 2, 3, 4 );
 is $testNode->sfvec4d, "1 2 3 4";
@@ -95,7 +100,7 @@ ok $testNode->sfvec4d = 5;
 is $testNode->sfvec4d, "5 4 3 6";
 
 ok $testNode->sfvec4d = [ 3, 4, 5, 6 ];
-is $testNode->sfvec4d->length, sqrt( 3*3 + 4*4 + 5*5 + 6*6 );
+is $testNode->sfvec4d->length, sqrt( 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 );
 
 is $testNode->sfvec4d->[0], 3;
 is $testNode->sfvec4d->[1], 4;
@@ -106,7 +111,6 @@ is $testNode->sfvec4d->x, 3;
 is $testNode->sfvec4d->y, 4;
 is $testNode->sfvec4d->z, 5;
 is $testNode->sfvec4d->w, 6;
-
 
 #ok $testNode->sfvec4d( 1, 2, 3, 4 );
 #is $testNode->sfvec4d, "1 2 3 4";

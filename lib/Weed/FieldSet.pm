@@ -2,42 +2,68 @@ package Weed::FieldSet;
 
 use Weed 'X3DFieldSet : X3DArrayHash { }';
 
-our $VERSION = '0.0002';
+our $VERSION = '0.001';
+
+use Weed::Tie::Field;
 
 sub new {
 	my ( $self, $fieldDefinitions, $parent ) = @_;
 
 	my @fields;
 	my %fields;
+	my %tiedFields;
 
 	for ( my $i = 0 ; $i < @$fieldDefinitions ; $i++ ) {
 		my $fieldDefinition = $fieldDefinitions->[$i];
+		my $name            = $fieldDefinition->getName;
 		my $field           = $fieldDefinition->createField($parent);
 
-		tie $fields{ $fieldDefinition->getName }, 'Weed::Tie::Field', $field;
-		tie $fields[$i], 'Weed::Tie::Field', $field;
+		$fields[$i] = $field;
+		$fields{$name} = $field;
 
-		scalar $fields[$i];
-		scalar $fields{ $fieldDefinition->getName };
+		tie $tiedFields{$name}, 'Weed::Tie::Field', $field;
+		scalar $tiedFields{$name};    # make perl know that this is a ref
 	}
 
 	my $this = $self->X3DArrayHash::new( \@fields, \%fields );
+	$$this->{tiedFields} = new X3DHash \%tiedFields;
 
 	return $this;
 }
 
-sub getField {
-	return ${ tied $_[0]->{ $_[1] } }
-	  if exists $_[0]->{ $_[1] };
+# sub getClone {
+# 	my $this = shift;
+# 	my $copy = $this->new( $this->getName );
+#
+# 	$$copy->{fields}->{$_}->setValue( $this->getField($_) )
+# 	  foreach map { $_->getName } $this->getFieldDefinitions;
+#
+# 	return $copy;
+# }
 
-	X3DMessage->UnknownField( 2, @_[ 2, 1 ] )
+sub getField : lvalue {
+	my ( $this, $name ) = @_;
+
+	X3DMessage->UnknownField( 2, @_[ 2, 1 ] ), return
+	  unless exists $this->{$name};
+
+	$this->{$name}
+}
+
+sub getTiedField : lvalue {
+	my ( $this, $name ) = @_;
+
+	X3DMessage->UnknownField( 2, @_[ 2, 1 ] ), return
+	  unless exists $this->{$name};
+
+	$$this->{tiedFields}->{$name}
 }
 
 sub getPrintableFields {
 	my ( $this, $tidy ) = @_;
 	my $fields = [];
 
-	foreach ( map { ${ tied $_ } } @$this ) {
+	foreach (@$this) {
 		my $fieldDefiniton = $_->getDefinition;
 
 		push @$fields, $_

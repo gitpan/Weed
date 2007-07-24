@@ -1,7 +1,7 @@
 package Weed::Values::Vec3;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Package::Alias X3DVec3 => __PACKAGE__;
 
@@ -30,19 +30,21 @@ sub y : lvalue { $_[0]->[1] }
 
 sub z : lvalue { $_[0]->[2] }
 
-#getClosestAxis()
-# {
-#   SbVec3d closest(0.0, 0.0, 0.0);
-#   double xabs = (double)fabs(this->vec[0]);
-#   double yabs = (double)fabs(this->vec[1]);
-#   double zabs = (double)fabs(this->vec[2]);
-# 
-#   if (xabs>=yabs && xabs>=zabs) closest[0] = (this->vec[0] > 0.0) ? 1.0 : -1.0;
-#   else if (yabs>=zabs) closest[1] = (this->vec[1] > 0.0) ? 1.0 : -1.0;
-#   else closest[2] = (this->vec[2] > 0.0) ? 1.0 : -1.0;
-# 
-#   return closest;
-# }
+sub getClosestAxis {
+	my ($this) = @_;
+
+	my $closest = [ 0, 0, 0 ];
+
+	my $xabs = abs( $this->[0] );
+	my $yabs = abs( $this->[1] );
+	my $zabs = abs( $this->[2] );
+
+	if ( $xabs >= $yabs && $xabs >= $zabs ) { $closest->[0] = $this->[0] > 0 ? 1 : -1 }
+	elsif ( $yabs >= $zabs ) { $closest->[1] = $this->[1] > 0 ? 1 : -1 }
+	else                     { $closest->[2] = $this->[2] > 0 ? 1 : -1 }
+
+	return new X3DVec3 $closest;
+}
 
 sub negate {
 	my ($a) = @_;

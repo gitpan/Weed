@@ -1,7 +1,7 @@
 package Weed::Tie::Value::Rotation;
 use Weed;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use base 'Weed::Tie::Value::Vector';
 

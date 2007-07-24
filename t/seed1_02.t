@@ -20,7 +20,7 @@ ok my $seed1 = CREATE X3DObject;
 
 ok $seed1->getId;
 is $seed1->getType, "X3DObject";
-is ref $seed1->getComments, 'ARRAY';
+is ref $seed1->getComments, 'X3DArray';
 is join( ', ', $seed1->getHierarchy ), "X3DObject, X3DUniversal";
 is $seed1->X3DPackage::getName,      "X3DObject";
 is $seed1->X3DPackage::getSupertype, "Weed::Object";

@@ -1,7 +1,7 @@
 package Weed::Parse::Int32;
 use Weed::Perl;
 
-our $VERSION = '0.0003';
+our $VERSION = '0.001';
 
 use Weed::RegularExpressions qw.$_int32.;
 
@@ -9,6 +9,7 @@ use Exporter 'import';
 
 our @EXPORT_OK = qw.parseInt int32.;
 
+#parseInt(s, [radix])
 sub parseInt { &int32( \$_[0] ) }
 
 sub int32 {

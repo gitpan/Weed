@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFColor;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'SFColor : X3DField { 0 0 0 }';
 

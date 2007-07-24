@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFRotation;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'MFRotation : X3DArrayField { [] }';
 

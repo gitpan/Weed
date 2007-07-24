@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFDouble;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed 'SFDouble : X3DField { 0 }';
 

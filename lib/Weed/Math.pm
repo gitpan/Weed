@@ -1,7 +1,7 @@
 package Weed::Math;
 use Weed::Perl;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use Package::Alias X3DMath => __PACKAGE__;
 

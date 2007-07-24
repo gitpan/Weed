@@ -1,9 +1,8 @@
 package Weed::Array;
 
 use Weed 'X3DArray [ ]', 'isArray';
-#Array reference
 
-our $VERSION = '0.0082';
+our $VERSION = '0.009';
 
 use Algorithm::Numerical::Shuffle;
 #Set::Array;
@@ -13,7 +12,21 @@ use overload
 
   'int' => 'getLength',
   '0+'  => 'getLength',
+
+  '<>' => sub { shift @{ $_[0] } },
   ;
+
+sub new {
+	my $self = $_[0];
+	my $type = ref($self) || $self;
+	return bless $_[1] || [], $type;
+}
+
+sub getClone {
+	my $clone = $_[0]->new;
+	@$clone = @{ $_[0] };
+	return $clone;
+}
 
 use overload '<=>' => sub {
 	my ( $a, $b, $r, $c ) = @_;
@@ -47,18 +60,6 @@ use overload 'cmp' => sub {
 	return 0;
 };
 
-sub new {
-	my $self = $_[0];
-	my $type = ref($self) || $self;
-	return bless $_[1] || [], $type;
-}
-
-sub getClone {
-	my $clone = $_[0]->new;
-	@$clone = @{ $_[0] };
-	return $clone;
-}
-
 sub getLength { scalar @{ $_[0] } }
 sub setLength { $#{ $_[0] } = $_[1] - 1; return }
 
@@ -83,16 +84,16 @@ sub toString {
 		if ($#$this) {
 			$string .= X3DGenerator->open_bracket;
 			X3DGenerator->inc;
-			$string .= X3DGenerator->tidy_break;
-			$string .= X3DGenerator->indent;
+			$string .= X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space;
+			$string .= X3DGenerator->tidy_indent;
 			$string .= join
 			  X3DGenerator->tidy_comma .
-			  X3DGenerator->tidy_break .
-			  X3DGenerator->indent,
+			  ( X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space ) .
+			  X3DGenerator->tidy_indent,
 			  @$this;
 			X3DGenerator->dec;
-			$string .= X3DGenerator->tidy_break;
-			$string .= X3DGenerator->indent;
+			$string .= X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space;
+			$string .= X3DGenerator->tidy_indent;
 			$string .= X3DGenerator->close_bracket;
 		}
 		else {

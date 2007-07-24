@@ -1,6 +1,6 @@
 package Weed::Generator;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use Weed 'X3DGenerator';
 
@@ -23,6 +23,8 @@ our $DPRECISION;
 our $INDENT;
 our $INDENT_CHAR;
 our $INDENT_INDEX = 0;
+our $TINDENT_CHAR;
+our $TINDENT;
 
 our $TidyFields = YES;
 
@@ -61,31 +63,58 @@ sub FLOAT  { $FLOAT }
 sub DOUBLE { $DOUBLE }
 sub STRING { $STRING }
 # indent
-sub _INDENT { $INDENT_CHAR x $INDENT_INDEX }
+sub _INDENT  { $INDENT_CHAR x $INDENT_INDEX }
+sub _TINDENT { $TINDENT_CHAR x $INDENT_INDEX }
 
-sub _INDENT_INDEX {
-	$INDENT_INDEX = $_[0];
-	$INDENT       = &_INDENT;
-}
+# sub _INDENT_INDEX {
+# 	$INDENT_INDEX = $_[0];
+# 	$INDENT       = &_INDENT;
+# 	$TINDENT      = &_TINDENT;
+# }
 
 sub _INDENT_CHAR {
 	$INDENT_CHAR = $_[0];
 	$INDENT      = &_INDENT;
 }
 
-sub indent { $INDENT }
+sub _TINDENT_CHAR {
+	$TINDENT_CHAR = $_[0];
+	$TINDENT      = &_TINDENT;
+}
+
+sub indent      { $INDENT }
+sub tidy_indent { $TINDENT }
 
 sub inc {
 	++$INDENT_INDEX;
-	$INDENT = &_INDENT;
+	$INDENT  = &_INDENT;
+	$TINDENT = &_TINDENT;
 }
 
 sub dec {
 	--$INDENT_INDEX;
-	$INDENT = &_INDENT;
+	$INDENT  = &_INDENT;
+	$TINDENT = &_TINDENT;
 }
 
+sub getTidyFields { $TidyFields }
+sub setTidyFields { $TidyFields = $_[1] }
+
 # output
+sub set_all {
+	$OutputStyle = "ALL";
+
+	$TSPACE = &space;
+	$TBREAK = &break;
+	$TCOMMA = &comma;
+
+	#_INDENT_INDEX 0;
+	_INDENT_CHAR &space x 2;
+	_TINDENT_CHAR &space x 2;
+
+	__PACKAGE__->setTidyFields(NO);
+}
+
 sub set_tidy {
 	$OutputStyle = "TIDY";
 
@@ -93,19 +122,25 @@ sub set_tidy {
 	$TBREAK = &break;
 	$TCOMMA = &comma;
 
-	_INDENT_INDEX 0;
+	#_INDENT_INDEX 0;
 	_INDENT_CHAR &space x 2;
+	_TINDENT_CHAR &space x 2;
+
+	__PACKAGE__->setTidyFields(YES);
 }
 
 sub set_compact {
 	$OutputStyle = "COMPACT";
 
 	$TSPACE = &space;
-	$TBREAK = &space;
+	$TBREAK = &break;
 	$TCOMMA = &comma;
 
-	_INDENT_INDEX 0;
-	_INDENT_CHAR NO;
+	#_INDENT_INDEX 0;
+	_INDENT_CHAR &space x 2;
+	_TINDENT_CHAR NO;
+
+	__PACKAGE__->setTidyFields(YES);
 }
 
 sub set_clean {
@@ -115,12 +150,12 @@ sub set_clean {
 	$TBREAK = NO;
 	$TCOMMA = &space;
 
-	_INDENT_INDEX 0;
+	#_INDENT_INDEX 0;
 	_INDENT_CHAR NO;
-}
+	_TINDENT_CHAR NO;
 
-sub getTidyFields { $TidyFields }
-sub setTidyFields { $TidyFields = $_[1] }
+	__PACKAGE__->setTidyFields(YES);
+}
 
 # precision
 use constant maxPrecision         => 17;
@@ -144,6 +179,7 @@ sub setPrecisionOfDouble {
 sub getOutputStyle { $OutputStyle }
 
 sub setOutputStyle {
+	&set_all     if $_[1] eq "ALL";
 	&set_tidy    if $_[1] eq "TIDY";
 	&set_compact if $_[1] eq "COMPACT";
 	&set_clean   if $_[1] eq "CLEAN";

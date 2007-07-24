@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFFloat;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed 'SFFloat : X3DField { 0 }';
 
@@ -19,3 +19,4 @@ sub toString { sprintf X3DGenerator->FLOAT, $_[0]->getValue }
 
 1;
 __END__
+Data::Float 

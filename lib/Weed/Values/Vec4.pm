@@ -1,7 +1,7 @@
 package Weed::Values::Vec4;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Package::Alias X3DVec4 => __PACKAGE__;
 
@@ -267,7 +267,8 @@ sub dot {
 }
 
 sub cross {
-	my ( $a, $b ) = @_;
+	my ( $a, $b, $r ) = @_;
+	( $a, $b ) = ( $b, $a ) if $r;
 
 	my ( $a0, $a1, $a2, $a3 ) = @$a;
 	my ( $b0, $b1, $b2, $b3 ) = @$b;
@@ -295,13 +296,13 @@ use overload "x=" => sub {
 };
 
 sub length {
- my ($a) = @_;
- return sqrt(
-	 $a->[0] * $a->[0] +
-		$a->[1] * $a->[1] +
-		$a->[2] * $a->[2] +
-		$a->[3] * $a->[3]
- );
+	my ($a) = @_;
+	return sqrt(
+		$a->[0] * $a->[0] +
+		  $a->[1] * $a->[1] +
+		  $a->[2] * $a->[2] +
+		  $a->[3] * $a->[3]
+	);
 }
 
 use constant elementCount => 4;

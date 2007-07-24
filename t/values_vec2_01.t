@@ -24,6 +24,9 @@ $v->setValue( [1] ); is( $v, "1 0", "$v new X3DVec2()" );
 $v->setValue( [ 1, 1 ] ); is( $v, "1 1", "$v new X3DVec2()" );
 $v->setValue( [ 1, 1, 1 ] ); is( $v, "1 1", "$v new X3DVec2()" );
 
+is sprintf( "%.6g", $v ), '1.41421';
+is sprintf( "%.6g", 1234.5678 ), '1234.57';
+
 is( $v = new X3DVec2(), "0 0", "$v new X3DVec2()" );
 is( $v = new X3DVec2( [ 1, 2 ] ), "1 2", "$v new X3DVec2()" );
 is( $v = new X3DVec2( [ 1, 2 ] ), "1 2", "$v new X3DVec2()" );

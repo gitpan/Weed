@@ -1,7 +1,7 @@
 package Weed::Parse::Id;
 use Weed::Perl;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed::RegularExpressions qw.$_Id $_RestrictedId.;
 

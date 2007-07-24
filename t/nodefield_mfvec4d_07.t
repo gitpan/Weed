@@ -16,6 +16,7 @@ ok my $testNode = new SFNode( new TestNode );
 
 $testNode->mfvec4d->[0] = [ 1, 2, 3, 4 ];
 is $testNode->mfvec4d->[0]->x++, '1';
+is $testNode->mfvec4d->[0]->x, '1';
 #is $testNode->mfvec4d->[0]->x++, '2';
 #is $testNode->mfvec4d->[0]->[0]++, '3';
 #is $testNode->mfvec4d->[0]->[0]++, '4';

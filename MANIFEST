@@ -7,6 +7,7 @@ lib/Weed/ArrayHash.pm
 lib/Weed/BaseFieldTypes/Scalar.pm
 lib/Weed/BaseFieldTypes/Vector.pm
 lib/Weed/BaseNode.pm
+lib/Weed/Callbacks.pm
 lib/Weed/Constants.pm
 lib/Weed/Environment.pm
 lib/Weed/Field.pm
@@ -145,6 +146,7 @@ t/nodefield_06.t
 t/nodefield_hierarchy_06.t
 t/nodefield_mfvec4d_06.t
 t/nodefield_mfvec4d_07.t
+t/nodefield_mfvec4d_08.t
 t/nodefield_sfbool_06.t
 t/nodefield_sfcolor_06.t
 t/nodefield_sfcolorrgba_06.t
@@ -183,6 +185,8 @@ t/test_01.t
 t/testnode2_05.t
 t/testnode_05.t
 t/testnode_06.t
+t/TestNodeCallback1.pm
+t/testNodeCallback1_01.t
 t/TestNodeFields.pm
 t/TestNodeWeed.pm
 t/TestType.pm

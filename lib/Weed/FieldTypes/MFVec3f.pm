@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFVec3f;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'MFVec3f : MFVec3d { [] }';
 

@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFNode;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Weed 'MFNode : X3DArrayField { [] }';
 

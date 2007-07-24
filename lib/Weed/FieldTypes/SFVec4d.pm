@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFVec4d;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'SFVec4d : X3DField { 0 0 0 0 }';
 

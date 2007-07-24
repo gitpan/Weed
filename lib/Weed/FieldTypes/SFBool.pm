@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFBool;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed 'SFBool : X3DField { FALSE }';
 

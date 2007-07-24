@@ -1,7 +1,7 @@
 package Weed::BaseFieldTypes::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.0083';
+our $VERSION = '0.009';
 
 use base 'Weed::BaseFieldTypes::Scalar';
 
@@ -15,6 +15,10 @@ use overload
   '^' => sub { $_[2] ? $_[1] ^ $_[0]->getValue : $_[0]->getValue ^ $_[1] },
 
   'neg' => sub { -$_[0]->getValue },
+
+  #'++' => sub { my $value = $_[0]->getValue; ++$value; $_[0] },
+  #'+=' => sub { print "+="; $_[0]->getValue->setValue($_[0]->getValue + $_[1]); $_[0] },
+  #'-=' => sub { print "-="; $_[2] ? $_[1] - $_[0]->getValue : $_[0]->getValue - $_[1] },
 
   '.' => sub { $_[2] ? $_[1] . $_[0]->getValue : $_[0]->getValue . $_[1] },
   'x' => sub { $_[2] ? $_[1] x $_[0]->getValue : $_[0]->getValue x $_[1] },
@@ -38,7 +42,7 @@ sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 sub setValue {
 	my $this   = shift;
 	my $vector = $this->getValue;
-	$vector->setValue( @_ ? Weed::FieldHelper::NumVal(scalar @$vector, @_) : $this->getDefaultValue );
+	$vector->setValue( @_ ? Weed::FieldHelper::NumVal( scalar @$vector, @_ ) : $this->getDefaultValue );
 	$this->X3DField::setValue($vector);
 }
 

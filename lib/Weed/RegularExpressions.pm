@@ -1,7 +1,7 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
-our $VERSION = '0.0079';
+our $VERSION = '0.009';
 
 use Weed::Symbols;
 

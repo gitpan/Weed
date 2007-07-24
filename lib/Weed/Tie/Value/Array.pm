@@ -1,11 +1,10 @@
 package Weed::Tie::Value::Array;
 use Weed;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use base 'Tie::Array';
 
-#use Contextual::Return;
 use Scalar::Util 'weaken';
 
 sub new {
@@ -17,16 +16,12 @@ sub getValue  { $_[0]->{parent}->getValue }
 sub getParent { $_[0]->{parent} }
 
 sub storeValue {
-	#UNIVERSAL::isa( $_[1], 'X3DField' ) ? $_[1]->getValue : $_[1];
-	$_[0]->{fieldType}->new( $_[1] )->getValue;
+	return $_[0]->{fieldType}->new( $_[1] )->getValue;
 }
 
 sub fetchValue {
 	my ( $this, $value ) = @_;
-
-	$this->{fieldType}->new(
-		defined $value ? $value : $this->{fieldType}->getDefaultValue
-	);
+	return $this->{fieldType}->new($value);
 }
 
 sub insertValues {
@@ -54,9 +49,12 @@ sub TIEARRAY {
 sub STORE { $_[0]->getValue->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
 
 sub FETCH {
-	return if $_[1] > $#{ $_[0]->getValue };
+	#return $_[0]->getValue->[ $_[1] ] if want('REF');
 
-	$_[0]->fetchValue( $_[0]->getValue->[ $_[1] ] );
+	return $_[0]->fetchValue( $_[0]->getValue->[ $_[1] ] )
+	  if $_[1] < @{ $_[0]->getValue };
+
+	return;
 }
 
 sub FETCHSIZE { scalar @{ $_[0]->getValue } }
@@ -66,10 +64,21 @@ sub STORESIZE { $#{ $_[0]->getValue } = $_[1] - 1 }
 sub CLEAR { @{ $_[0]->getValue } = () }
 sub DELETE { delete $_[0]->getValue->[ $_[1] ] }
 
-sub POP     { $_[0]->removeValues( pop( @{ $_[0]->getValue } ) ) }
-sub PUSH    { my $this = shift; my $o = $this->getValue; push( @$o, $this->insertValues(@_) ) }
-sub SHIFT   { $_[0]->removeValues( shift( @{ $_[0]->getValue } ) ) }
-sub UNSHIFT { my $this = shift; my $o = $this->getValue; unshift( @$o, $this->insertValues(@_) ) }
+sub POP { $_[0]->removeValues( pop( @{ $_[0]->getValue } ) ) }
+
+sub PUSH {
+	my $this = shift;
+	my $o    = $this->getValue;
+	push @$o, $this->insertValues(@_);
+}
+
+sub SHIFT { $_[0]->removeValues( shift( @{ $_[0]->getValue } ) ) }
+
+sub UNSHIFT {
+	my $this = shift;
+	my $o    = $this->getValue;
+	return unshift @$o, $this->insertValues(@_);
+}
 
 sub SPLICE {
 	my $this = shift;

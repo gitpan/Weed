@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package testnode_06
+#package testNodeCallback1_01
 use Test::More no_plan;
 use strict;
 
@@ -11,13 +11,17 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-#X3DGenerator->setOutputStyle("COMPACT");
+X3DGenerator->setOutputStyle("COMPACT");
 
 ok my $testNode = new TestNode;
+ok my $sfnode = new SFNode($testNode);
+
+#is new X3DHash( \%$sfnode ), '{ }';
+print new X3DHash \%$sfnode ;
 
 X3DGenerator->setTidyFields(NO);
 
-print $$testNode->{fields};
+#print $$testNode->{fields};
 
 print $testNode;
 

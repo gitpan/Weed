@@ -1,6 +1,6 @@
 package Weed::FieldDefinition;
 
-our $VERSION = '0.0078';
+our $VERSION = '0.009';
 
 use Weed 'X3DFieldDefinition : X3DObject { }';
 
@@ -77,7 +77,7 @@ sub toString {
 	}
 	else {
 		if ( $type eq 'SFBool' ) {
-			$string .= $value ? X3DGenerator->TRUE: X3DGenerator->FALSE;
+			$string .= $value ? X3DGenerator->TRUE : X3DGenerator->FALSE;
 		}
 		elsif ( $type eq 'SFString' ) {
 			$string .= sprintf X3DGenerator->STRING, $value;

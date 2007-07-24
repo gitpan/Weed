@@ -16,8 +16,8 @@ ok !(new MFNode);
 ok !(my $sfnode1 = new SFNode);
 is $sfnode1->getType, "SFNode";
 is $sfnode1->getAccessType, X3DConstants->inputOutput;
-ok $sfnode1->isReadable;
-ok $sfnode1->isWritable;
+#ok $sfnode1->isReadable;
+#ok $sfnode1->isWritable;
 
 __END__
 

@@ -1,7 +1,7 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.0081';
+our $VERSION = '0.009';
 
 use Carp ();
 use Hash::NoRef;
@@ -29,7 +29,7 @@ sub import {
 }
 
 BEGIN {
-	X3DPackage::createType( __PACKAGE__, 'X3DUniversal', 'X3DUniversal { }', 'getReferenceCount' );
+	X3DPackage::createType( __PACKAGE__, 'X3DUniversal', 'X3DUniversal { }', 'getId getReferenceCount' );
 }
 
 sub _new {
@@ -39,7 +39,7 @@ sub _new {
 
 sub getType { ref $_[0] }
 
-*getId = \&Scalar::Util::refaddr;
+sub getId { Scalar::Util::refaddr $_[0] }
 
 *getReferenceCount = \&Hash::NoRef::SvREFCNT;
 

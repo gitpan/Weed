@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFString;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 use Weed 'SFString : X3DField { "" }';
 
