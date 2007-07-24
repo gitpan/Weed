@@ -66,3 +66,18 @@ sub shutdown {
 
 1;
 __END__
+
+  ONE initialize
+  TWO initialize
+  ONE prepareEvents
+  TWO prepareEvents
+  ONE set_sfstring2 two
+  ONE set_sfstring1 DIRECT 1185290050.0810003
+  ONE set_sfstring3 set 3 von 2 1185290050.0810003
+  ONE set_sfstring1 IN3 1185290050.0810003
+  TWO set_sfstring2 two
+  TWO set_sfstring1 DIRECT 1185290050.0810003
+  TWO set_sfstring3 set 3 von 2 1185290050.0810003
+  TWO set_sfstring1 IN3 1185290050.0810003
+  ONE eventsProcessed
+  TWO eventsProcessed

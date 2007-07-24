@@ -1,7 +1,7 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Carp ();
 use Hash::NoRef;
@@ -13,7 +13,8 @@ use Weed::Package;
 use overload
   'bool' => sub { YES },
 
-  'int' => sub { &getId( $_[0] ) },
+  '0+'  => 'getId',
+  'int' => 'getId',
 
   '<=>' => sub { $_[2] ? int( $_[1] ) <=> int( $_[0] ) : int( $_[0] ) <=> int( $_[1] ) },    #???
 
@@ -39,7 +40,7 @@ sub _new {
 
 sub getType { ref $_[0] }
 
-sub getId { Scalar::Util::refaddr $_[0] }
+sub getId { Scalar::Util::refaddr( $_[0] ) }
 
 *getReferenceCount = \&Hash::NoRef::SvREFCNT;
 

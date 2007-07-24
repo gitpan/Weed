@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.009';
+our $VERSION = '0.011';
 
 use Weed 'SFNode : X3DField { NULL }';
 

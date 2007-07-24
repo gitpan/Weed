@@ -12,17 +12,23 @@ BEGIN {
 }
 
 #print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-ok my $sfnode1 = new SFNode( new TestNode );
-ok my $sfnode2 = new SFNode( new TestNode );
+ok my $sfnode1 = new SFNode( new TestNode("ONE") );
+ok my $sfnode2 = new SFNode( new TestNode("TWO") );
 $sfnode1->set_sfstring2->addCallback( $sfnode2, $sfnode2->getValue->can("set_sfstring2") );
 
-#$sfnode->processEvents(time);
 ok not $sfnode1->set_sfstring1->getTainted;
 ok not $sfnode1->set_sfstring2->getTainted;
 ok not $sfnode1->set_sfstring3->getTainted;
 ok not $sfnode1->set_sfstring4->getTainted;
 ok not $sfnode1->getValue->getTainted;
 ok not $sfnode1->getTainted;
+
+ok not $sfnode2->set_sfstring1->getTainted;
+ok not $sfnode2->set_sfstring2->getTainted;
+ok not $sfnode2->set_sfstring3->getTainted;
+ok not $sfnode2->set_sfstring4->getTainted;
+ok not $sfnode2->getValue->getTainted;
+ok not $sfnode2->getTainted;
 
 #$sfnode->set_sfstring1 = "one";
 #print new X3DHash($$sfnode);
@@ -53,3 +59,18 @@ set_sfstring3 DEF _137748208 TestNode { } set 3 von 2 1185219930.47489
 set_sfstring1 DEF _137748208 TestNode { } IN3 1185219930.47547
 set_sfstring3 DEF _137748208 TestNode { } set 3 von 1 1185219930.47601
 #
+
+  ONE initialize
+  TWO initialize
+  ONE prepareEvents
+  TWO prepareEvents
+  ONE set_sfstring2 two
+  ONE set_sfstring1 DIRECT 1185290050.0810003
+  ONE set_sfstring3 set 3 von 2 1185290050.0810003
+  ONE set_sfstring1 IN3 1185290050.0810003
+  TWO set_sfstring2 two
+  TWO set_sfstring1 DIRECT 1185290050.0810003
+  TWO set_sfstring3 set 3 von 2 1185290050.0810003
+  TWO set_sfstring1 IN3 1185290050.0810003
+  ONE eventsProcessed
+  TWO eventsProcessed

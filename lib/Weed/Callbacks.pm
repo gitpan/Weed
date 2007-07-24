@@ -1,6 +1,6 @@
 package Weed::Callbacks;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 use Weed 'X3DCallbacks : X3DArrayHash ()';
 
@@ -9,10 +9,15 @@ sub add {
 
 	return unless UNIVERSAL::isa( $callback, 'CODE' );
 
-	my $value = new X3DArray [ $object, $callback ];
+	my $objectId   = X3DUniversal::getId($object);
+	my $callbackId = X3DUniversal::getId($callback);
 
-	my $id = $value->getId;
-	push @$this, $this->{$id} = $value;
+	return if exists $this->{$objectId}->{$callbackId};
+
+	my $value = [ $object, $callback ];
+	my $id = X3DUniversal::getId($value);
+
+	push @$this, $this->{$objectId}->{$callbackId} = $value;
 
 	return $id;
 
@@ -21,17 +26,24 @@ sub add {
 sub remove {
 	my ( $this, $id ) = @_;
 
-	return unless delete $this->{$id};
-	splice @$this, $this->index($id), 1;
+	my $index = $this->index($id);
+	return if $index < 0;
+
+	my $value = splice @$this, $this->getIndex($id), 1;
+
+	my $objectId   = X3DUniversal::getId( $value->[0] );
+	my $callbackId = X3DUniversal::getId( $value->[1] );
+	
+	delete $this->{$objectId}->{$callbackId};
 
 	return;
 }
 
-sub index {
+sub getIndex {
 	my ( $this, $id ) = @_;
 	my $i = 0;
 	for ( my $count = $#$this ; $i > -1 ; --$i ) {
-		return $i if $this->[$i]->getId eq $id;
+		return $i if $this->[$i]->getId == $id;
 	}
 	return -1;
 }

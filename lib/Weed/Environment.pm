@@ -1,7 +1,7 @@
 package Weed::Environment;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::Math;
 use Weed::Universal;
@@ -15,7 +15,6 @@ use Weed::ArrayHash;
 
 use Weed::Name;
 
-use Weed::ObjectHash;
 use Weed::ParentHash;
 
 use Weed::Values;

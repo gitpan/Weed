@@ -2,7 +2,7 @@ package Weed::Object;
 
 use Weed 'X3DObject { }';
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::Callbacks;
 
@@ -60,9 +60,9 @@ sub removeCallback {
 }
 
 #
-sub getComments { wantarray ? @{ ${ $_[0] }->{comments} } : ${ $_[0] }->{comments} }
-
 sub getParents { ${ $_[0] }->{parents} }
+
+sub getComments { wantarray ? @{ ${ $_[0] }->{comments} } : ${ $_[0] }->{comments} }
 
 sub toString {
 	my ($this) = @_;

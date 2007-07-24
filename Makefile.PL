@@ -6,11 +6,12 @@ BEGIN {
 	# See lib/ExtUtils/MakeMaker.pm for Details of how to influence
 	# the Contents of the Makefile that is written.
 	WriteMakefile(
-		'NAME'         => 'Weed',
-		'VERSION_FROM' => 'lib/Weed.pm',    # finds $VERSION
+		'NAME' => 'Weed',
+		#'VERSION'   => 0.009,    # finds $VERSION
+		'VERSION_FROM' => 'lib/Weed.pm',
 		'PREREQ_PM'    => {
-			Test::More      => 0,
-			Benchmark       => 0,
+			Test::More => 0,
+			Benchmark  => 0,
 			#Test::Benchmark => 0,
 
 			UNIVERSAL => 0,

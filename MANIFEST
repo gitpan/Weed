@@ -1,6 +1,5 @@
 lib/weed.pl
 lib/Weed.pm
-lib/Weed/.Values.pm.bck
 lib/Weed/Array.pm
 lib/Weed/ArrayField.pm
 lib/Weed/ArrayHash.pm
@@ -15,7 +14,6 @@ lib/Weed/FieldDefinition.pm
 lib/Weed/FieldHelper.pm
 lib/Weed/FieldSet.pm
 lib/Weed/FieldTypes.pm
-lib/Weed/FieldTypes/.SFBool.pm.bck
 lib/Weed/FieldTypes/MFBool.pm
 lib/Weed/FieldTypes/MFColor.pm
 lib/Weed/FieldTypes/MFColorRGBA.pm
@@ -56,7 +54,6 @@ lib/Weed/Math.pm
 lib/Weed/Message.pm
 lib/Weed/Name.pm
 lib/Weed/Object.pm
-lib/Weed/ObjectHash.pm
 lib/Weed/Package.pm
 lib/Weed/ParentHash.pm
 lib/Weed/Parse/Concept.pm
@@ -81,7 +78,6 @@ lib/Weed/Tie/WeakHash.pm
 lib/Weed/Time.pm
 lib/Weed/Universal.pm
 lib/Weed/Values.pm
-lib/Weed/Values/.Rotation.pm.bck
 lib/Weed/Values/Color.pm
 lib/Weed/Values/ColorRGBA.pm
 lib/Weed/Values/Image.pm

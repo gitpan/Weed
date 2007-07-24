@@ -1,8 +1,8 @@
 package Weed::ParentHash;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
-use Weed 'X3DParentHash : X3DObjectHash {}';    # weak hash symbol ~{}
+use Weed 'X3DParentHash : X3DHash {}';
 
 use Weed::Tie::WeakHash;
 
@@ -17,6 +17,18 @@ sub new {
 }
 
 sub getValues { new X3DArray [ grep { $_ } values( %{ $_[0] } ) ] }
+
+sub add {
+	my $this = shift;
+	$this->{ $_->getId } = $_ foreach @_;
+	return;
+}
+
+sub remove {
+	my $this = shift;
+	delete $this->{ $_->getId } foreach @_;
+	return;
+}
 
 1;
 __END__
