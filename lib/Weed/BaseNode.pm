@@ -1,7 +1,7 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::Parse::FieldDescription;
 
@@ -22,7 +22,7 @@ use overload
   ;
 
 sub new {
-	my $this = shift->CREATE;
+	my $this = shift->X3DObject::new;
 	my $name = shift;
 
 	$this->setName($name);

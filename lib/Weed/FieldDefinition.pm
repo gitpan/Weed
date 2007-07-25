@@ -1,6 +1,6 @@
 package Weed::FieldDefinition;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'X3DFieldDefinition : X3DObject { }';
 
@@ -11,7 +11,7 @@ use overload 'eq' => sub {
 };
 
 sub new {
-	my $this = shift->CREATE;
+	my $this = shift->X3DObject::new;
 	@$this{qw'type in out name value range'} = @_;
 	return $this;
 }

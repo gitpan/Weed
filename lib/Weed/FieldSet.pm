@@ -1,8 +1,8 @@
 package Weed::FieldSet;
 
-use Weed 'X3DFieldSet : X3DArrayHash { }';
+use Weed 'X3DFieldSet : X3DArrayHash ()';
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 use Weed::Tie::Field;
 

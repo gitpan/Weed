@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::Parse::FieldValue;
 
@@ -29,7 +29,7 @@ sub new {
 }
 
 sub new_from_definition {
-	my $this       = shift->CREATE;
+	my $this       = shift->X3DObject::new;
 	my $definition = shift;
 
 	$this->setDefinition($definition);

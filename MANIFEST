@@ -1,3 +1,4 @@
+276_Fear_Medley_(Importe-12_Mp-307a).mp3
 lib/weed.pl
 lib/Weed.pm
 lib/Weed/Array.pm
@@ -164,6 +165,8 @@ t/o/dispose_01.t
 t/o/dispose_02.t
 t/o/dispose_03.t
 t/o/memory_04.t
+t/object_01.t
+t/object_02.t
 t/parents_01.t
 t/parents_02.t
 t/parents_03.t
@@ -175,8 +178,6 @@ t/parse_value_00.t
 t/parseFieldDescription_04.t
 t/perl_01.t
 t/pod_00.t
-t/seed1_02.t
-t/seed_01.t
 t/test_01.t
 t/testnode2_05.t
 t/testnode_05.t

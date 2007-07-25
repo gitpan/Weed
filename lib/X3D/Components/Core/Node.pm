@@ -1,6 +1,6 @@
 package X3D::Components::Core::Node;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 use Weed '
 X3DNode : X3DBaseNode {
@@ -43,30 +43,3 @@ sub eventsProcessed { }
 
 1;
 __END__
-sub new {
-	my $this = shift->CREATE;
-	my $name = shift;
-
-	$this->setName($name);
-	$this->setCloneCount(0);
-
-	$this->setFields( new X3DFieldSet( scalar $this->getFieldDefinitions, $this ) );
-
-	#
-	$$this->{self} = new SFNode($this);
-
-	$this->addCallback( $$this->{self}, $this->can("prepareEvents") );
-	$this->addCallback( $$this->{self}, $this->can("processEvent") );
-	$this->addCallback( $$this->{self}, $this->can("eventsProcessed") );
-
-	$this->can("processEvent")->( $$this->{self}, $this );
-	$this->setTainted(NO);
-
-	$_->addCallback( $$this->{self}, UNIVERSAL::can( $this, $_->getName ) )
-	  foreach grep { $_->getDefinition->isIn } @$this;
-
-	$this->can("initialize")->( $$this->{self}, $this );
-	#
-
-	return $this;
-}

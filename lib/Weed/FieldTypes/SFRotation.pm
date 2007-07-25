@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFRotation;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'SFRotation : X3DField { 0 0 1 0 }';
 
@@ -44,7 +44,7 @@ sub angle : lvalue { $_[0]->{array}->[3] }
 
 sub getAxis { $_[0]->getValue->getAxis }
 
-sub inverse { }
+sub inverse { $_[0]->getValue->inverse }
 
 sub multiply { $_[2] ? $_[1] * $_[0]->getValue : $_[0]->getValue * $_[1] }
 

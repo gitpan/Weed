@@ -1,15 +1,15 @@
 package Weed::Object;
 
-use Weed 'X3DObject { }';
+use Weed 'X3DObject ()';
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::Callbacks;
 
 use overload
   '%{}' => sub { ${ $_[0] } };
 
-sub CREATE {
+sub new {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
 	my $this = bless \{}, $type;
