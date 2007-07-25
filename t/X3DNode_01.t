@@ -51,6 +51,4 @@ is $node1, 'DEF '.$node1->getName.' X3DNode{}';
 
 print $node1;
 
-ok 0;
-
 __END__

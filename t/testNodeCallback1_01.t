@@ -15,6 +15,7 @@ BEGIN {
 ok my $sfnode1 = new SFNode( new TestNode("ONE") );
 ok my $sfnode2 = new SFNode( new TestNode("TWO") );
 $sfnode1->set_sfstring2->addCallback( $sfnode2, $sfnode2->getValue->can("set_sfstring2") );
+#new X3DRoute($sfnode1, "set_sfstring2", $sfnode2, "set_sfstring2");
 
 ok not $sfnode1->set_sfstring1->getTainted;
 ok not $sfnode1->set_sfstring2->getTainted;

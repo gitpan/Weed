@@ -1,4 +1,3 @@
-276_Fear_Medley_(Importe-12_Mp-307a).mp3
 lib/weed.pl
 lib/Weed.pm
 lib/Weed/Array.pm
@@ -92,6 +91,7 @@ lib/X3D.pm
 lib/X3D/Components/Core/Node.pm
 Makefile.PL
 MANIFEST			This list of files
+t/AAA_01.t
 t/array_01.t
 t/array_02.t
 t/arrayField_MFDouble_01.t
@@ -204,4 +204,5 @@ t/weed_01.t
 t/weed_02.t
 t/X3D_01.t
 t/X3DNode_01.t
+t/ZZZ_01.t
 META.yml                                 Module meta-data (added by MakeMaker)
