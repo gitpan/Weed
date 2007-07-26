@@ -19,10 +19,75 @@ is( X3DArray->new( [ 1, 2, 3 ] )->getLength, 3 );
 is( X3DArray->new( [ 1, 2, 3 ] )->getLength, 3 );
 is( X3DArray->new( [ [ 1, 2, 3 ], [ 1, 2, 3 ] ] )->getLength, 2 );
 
-ok my $array = new X3DArray [ 1, 2, 3, 4 ];
-is $array, '[ 1, 2, 3, 4 ]';
-is $array->getLength, 4;
+################################################################################
+ok not my $array = new X3DArray;
+X3DGenerator->setOutputStyle("CLEAN");
+is $array, '[]';
+X3DGenerator->setOutputStyle("COMPACT");
+is $array, '[ ]';
+X3DGenerator->setOutputStyle("TIDY");
+is $array, '[ ]';
+X3DGenerator->setOutputStyle("ALL");
+is $array, '[ ]';
+is $array->getLength, 0;
+################################################################################
 
+################################################################################
+ok $array = new X3DArray [ 1 ];
+X3DGenerator->setOutputStyle("CLEAN");
+is $array, '1';
+X3DGenerator->setOutputStyle("COMPACT");
+is $array, '1';
+X3DGenerator->setOutputStyle("TIDY");
+is $array, '1';
+X3DGenerator->setOutputStyle("ALL");
+is $array, '1';
+is $array->getLength, 1;
+################################################################################
+
+################################################################################
+ok $array = new X3DArray [ 1, 2 ];
+X3DGenerator->setOutputStyle("CLEAN");
+is $array, '[1 2]';
+X3DGenerator->setOutputStyle("COMPACT");
+is $array, '[ 1, 2 ]';
+X3DGenerator->setOutputStyle("TIDY");
+is $array, '[
+  1,
+  2
+]';
+X3DGenerator->setOutputStyle("ALL");
+is $array, '[
+  1,
+  2
+]';
+is $array->getLength, 2;
+################################################################################
+
+################################################################################
+ok $array = new X3DArray [ 1, 2, 3, 4 ];
+X3DGenerator->setOutputStyle("CLEAN");
+is $array, '[1 2 3 4]';
+X3DGenerator->setOutputStyle("COMPACT");
+is $array, '[ 1, 2, 3, 4 ]';
+X3DGenerator->setOutputStyle("TIDY");
+is $array, '[
+  1,
+  2,
+  3,
+  4
+]';
+X3DGenerator->setOutputStyle("ALL");
+is $array, '[
+  1,
+  2,
+  3,
+  4
+]';
+is $array->getLength, 4;
+################################################################################
+
+#
 ok $array = new X3DArray [ 1 .. 100 ];
 
 ok @$array;

@@ -12,12 +12,12 @@ BEGIN {
 }
 
 ok my $weed = new Weed;
-isa_ok $weed, $_ foreach $weed->X3DPackage::getSuperpath;
+isa_ok $weed, $_ foreach @{ $weed->X3DPackage::getPath };
 ok $weed ;
-isa_ok $weed, $_ foreach $weed->getHierarchy;
+isa_ok $weed, $_ foreach @{  $weed->getHierarchy };
 ok $weed ;
 printf "%s\n", $weed;
-is $weed, "DEF ".$weed->getName." Weed { }";
+is $weed, "DEF " . $weed->getName . " Weed { }";
 
 X3DGenerator->setTidyFields(YES);
 printf "%s\n", $weed;

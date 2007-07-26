@@ -2,7 +2,7 @@ package Weed::Array;
 
 use Weed 'X3DArray [ ]', 'isArray';
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Algorithm::Numerical::Shuffle;
 #Set::Array;
@@ -91,8 +91,8 @@ sub toString {
 			  ( X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space ) .
 			  X3DGenerator->tidy_indent,
 			  @$this;
-			X3DGenerator->dec;
 			$string .= X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space;
+			X3DGenerator->dec;
 			$string .= X3DGenerator->tidy_indent;
 			$string .= X3DGenerator->close_bracket;
 		}

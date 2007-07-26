@@ -167,6 +167,9 @@ t/o/dispose_03.t
 t/o/memory_04.t
 t/object_01.t
 t/object_02.t
+t/object_03.t
+t/package_01.t
+t/package_02.t
 t/parents_01.t
 t/parents_02.t
 t/parents_03.t
@@ -201,7 +204,6 @@ t/values_vec2_01.t
 t/values_vec3_01.t
 t/values_vec4_01.t
 t/weed_01.t
-t/weed_02.t
 t/X3D_01.t
 t/X3DNode_01.t
 t/ZZZ_01.t

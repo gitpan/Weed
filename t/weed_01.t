@@ -7,14 +7,17 @@ BEGIN {
 	$| = 1;
 	chdir 't' if -d 't';
 	unshift @INC, '../lib';
-	use_ok('Weed');
 }
+package main;
 
 use_ok 'Weed' for 1 .. 10;
 
 do { use Weed } for 1 .. 10;
 
 ok 'Weed'->VERSION;
+
+eval { new main };
+ok not @!;
 
 __END__
 

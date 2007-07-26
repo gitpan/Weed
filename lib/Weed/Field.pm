@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::Parse::FieldValue;
 
@@ -10,7 +10,7 @@ sub SET_DESCRIPTION {
 	my $typeName        = $description->{typeName};
 	my $defaultValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
 	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $defaultValue, '' );
-	$this->X3DPackage::Scalar("DefaultDefinition") = $fieldDefinition;
+	$this->X3DPackage::Scalar("X3DDefaultDefinition") = $fieldDefinition;
 }
 
 use Weed 'X3DField : X3DObject { }', 'new';
@@ -22,7 +22,7 @@ use overload
 
 sub new {
 	my $type = shift;
-	my $this = $type->new_from_definition( $type->X3DPackage::Scalar("DefaultDefinition") );
+	my $this = $type->new_from_definition( $type->X3DPackage::Scalar("X3DDefaultDefinition") );
 	$this->setValue(@_) if @_;
 	$this->setTainted(NO);
 	return $this;
@@ -46,7 +46,7 @@ sub getClone { $_[0]->new( $_[0]->getValue ) }
 sub getDefinition { ${ $_[0] }->{definition} }
 sub setDefinition { ${ $_[0] }->{definition} = $_[1] }
 
-sub getDefaultValue { $_[0]->X3DPackage::Scalar("DefaultDefinition")->getValue }
+sub getDefaultValue { $_[0]->X3DPackage::Scalar("X3DDefaultDefinition")->getValue }
 sub getInitialValue { $_[0]->getDefinition->getValue }
 
 sub getParent { shift @{ $_[0]->getParents->getValues } if $_[0]->getParents }

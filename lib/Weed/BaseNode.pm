@@ -1,7 +1,7 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::Parse::FieldDescription;
 
@@ -9,7 +9,7 @@ sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
 	my $fieldDescriptions = Weed::Parse::FieldDescription::parse @{ $description->{body} };
 	my $fieldDefinitions = [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ];
-	$this->X3DPackage::Scalar("FieldDefinitions") = $fieldDefinitions;
+	$this->X3DPackage::Scalar("X3DFieldDefinitions") = $fieldDefinitions;
 }
 
 use Weed 'X3DBaseNode : X3DObject { }';
@@ -57,8 +57,8 @@ sub getField { ${ $_[0] }->{fields}->getField( $_[1], $_[0] ) }
 
 sub getFieldDefinitions {
 	wantarray ?
-	  @{ $_[0]->X3DPackage::Scalar("FieldDefinitions") } :
-	  $_[0]->X3DPackage::Scalar("FieldDefinitions")
+	  @{ $_[0]->X3DPackage::Scalar("X3DFieldDefinitions") } :
+	  $_[0]->X3DPackage::Scalar("X3DFieldDefinitions")
 }
 
 # Basenode

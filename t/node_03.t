@@ -24,12 +24,12 @@ printf "isa %s\n", join ", ", @X3DBaseNode::ISA;
 printf "isa %s\n", join ", ", @Weed::BaseNode::ISA;
 
 printf "\n";
-printf "%s\n", join ", ", $node1->getHierarchy;
+printf "%s\n", join ", ", @{ $node1->getHierarchy };
 
-isa_ok $node1, $_ foreach $node1->getHierarchy;
+isa_ok $node1, $_ foreach @{ $node1->getHierarchy };
 
-is join( ", ", $node1->getHierarchy ), "X3DBaseNode, X3DObject, X3DUniversal"; # 8
-print map { "ISA:  $_\n" } $node1->X3DPackage::getSuperpath;
+is join( ", ", @{ $node1->getHierarchy } ), "X3DBaseNode, X3DObject, X3DUniversal"; # 8
+print map { "ISA:  $_\n" } @{ $node1->X3DPackage::getPath };
 print map { "Super:  $_\n" } ref $node1;
 ok $node1->isa("X3DBaseNode");
 

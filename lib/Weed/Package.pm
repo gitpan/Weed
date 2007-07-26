@@ -1,7 +1,7 @@
 package Weed::Package;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
@@ -73,17 +73,54 @@ sub createType {
 
 sub getName { ref( $_[0] ) || $_[0] }
 
-sub getSuperpath        { Class::ISA::super_path( X3DPackage::getName(shift) ) }
-sub getSelfAndSuperpath { Class::ISA::self_and_super_path( X3DPackage::getName(shift) ) }
+#sub getPath { [ Class::ISA::self_and_super_path( X3DPackage::getName( $_[0] ) ) ] }
+sub getPath {
+	my $package = $_[0];
 
-#&\w(\w|::)*>|<\w(\w|::)*(?=\s*[\(\);])
+	Carp::croak "Package '$package' does not exists."
+	  unless X3DPackage::exists($package);
 
-sub getSupertype {
-	my @path = Class::ISA::super_path( X3DPackage::getName(shift) );
-	return shift @path;
+	unless ( defined $package->X3DPackage::Scalar('X3DPath') )
+	{
+		my @path;
+		my @supertypes = ( X3DPackage::getName($package) );
+
+		while (@supertypes) {
+			$_ = shift @supertypes;
+			unshift @path,       $_;
+			unshift @supertypes, @{ X3DPackage::getSupertypes($_) };
+		}
+
+		my $type;
+		my $path;
+		foreach (@path) {
+			unshift @$path, $_ unless exists $type->{$_};
+			$type->{$_} = 1;
+		}
+
+		$package->X3DPackage::Scalar('Path') = $path;
+	}
+
+	return $package->X3DPackage::Scalar('Path');
 }
 
-sub getSupertypes { X3DPackage::Array( shift, 'ISA' ) }
+#sub getSuperpath {
+#	my $package = X3DPackage::getName( $_[0] );
+#	[ Class::ISA::super_path($package) ]
+#}
+
+sub getSupertype {
+	my $package = $_[0];
+
+	Carp::croak "Package '$package' does not exists."
+	  unless X3DPackage::exists($package);
+
+	my $isa = \X3DPackage::Array( $_[0], 'ISA' );
+
+	return $isa->[0] if @$isa;
+}
+
+sub getSupertypes { [ X3DPackage::Array( $_[0], 'ISA' ) ] }
 
 sub setSupertypes {
 	my $package = shift;
@@ -245,43 +282,41 @@ sub get_rename_string {
 
 ##
 
-no strict 'refs';
-no warnings;
-
 sub Scalar : lvalue {
 	my ( $this, $name ) = @_;
 	my $property = sprintf '%s::%s', $this->X3DPackage::getName, $name;
+	no strict 'refs';
+	no warnings;
 	$$property;
 }
-
-use warnings;
 
 sub Array : lvalue {
 	my ( $this, $name ) = @_;
 	my $property = sprintf '%s::%s', $this->X3DPackage::getName, $name;
+	no strict 'refs';
 	@$property;
 }
 
 sub Hash : lvalue {
 	my ( $this, $name ) = @_;
 	my $property = sprintf '%s::%s', $this->X3DPackage::getName, $name;
+	no strict 'refs';
 	%$property;
 }
 
-# sub can {
-# 	my ( $this, $name ) = @_;
-# 	my $property = sprintf "%s::%s::can::%s", __PACKAGE__, $this->X3DPackage::getName, $name;
-#
-# 	unless ( defined $$property ) {
-# 		$$property = [];
-# 		push @$$property, map { \&{"${_}::${name}"} }
-# 		  grep { exists &{"${_}::${name}"} } X3DPackage::getSelfAndSuperpath($this);
-# 	}
-#
-# 	return @$$property;
-# }
+sub getSubroutine {
+	my ( $this, $name ) = @_;
+	my $property = sprintf "%s::X3DSubroutine::%s", $this->X3DPackage::getName, $name;
 
-use strict 'refs';
+	no strict 'refs';
+	unless ( defined $$property ) {
+		$$property = [];
+		push @$$property, map { \&{"${_}::${name}"} }
+		  grep { exists &{"${_}::${name}"} } @{ X3DPackage::getPath($this) };
+	}
+
+	return $$property;
+}
 
 #sub call {
 #	my ( $this, $name ) = ( shift, shift );
@@ -300,9 +335,8 @@ sub toString {
 	my $level   = shift || 1;
 	my $string  = '';
 
-	unless ( X3DPackage::exists($package) ) {
-		Carp::croak "Package $package does not exists.";
-	}
+	Carp::croak "Package '$package' does not exists."
+	  unless X3DPackage::exists($package);
 
 	$string .= $package->X3DPackage::getName;
 

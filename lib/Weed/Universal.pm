@@ -1,7 +1,7 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Carp ();
 use Hash::NoRef;
@@ -44,7 +44,7 @@ sub getId { Scalar::Util::refaddr( $_[0] ) }
 
 *getReferenceCount = \&Hash::NoRef::SvREFCNT;
 
-sub getHierarchy { grep /$_supertype/, X3DPackage::getSelfAndSuperpath( $_[0] ) }
+sub getHierarchy { [ grep /$_supertype/, @{ X3DPackage::getPath( $_[0] ) } ] }
 
 *toString = \&overload::StrVal;
 

@@ -21,10 +21,10 @@ ok my $object1 = new X3DObject;
 ok $object1->getId;
 is $object1->getType, "X3DObject";
 is ref $object1->getComments, 'X3DArray';
-is join( ', ', $object1->getHierarchy ), "X3DObject, X3DUniversal";
+is join( ', ', @{ $object1->getHierarchy } ), "X3DObject, X3DUniversal";
 is $object1->X3DPackage::getName,      "X3DObject";
 is $object1->X3DPackage::getSupertype, "Weed::Object";
-is join( ' ', $object1->X3DPackage::getSuperpath ), "Weed::Object X3DUniversal Weed::Universal";
+is join( ' ', @{ $object1->X3DPackage::getPath } ), "X3DObject Weed::Object X3DUniversal Weed::Universal";
 ok $object1->toString;
 
 is ref \$object1->X3DPackage::Scalar('xxx'), "SCALAR";

@@ -1,6 +1,6 @@
 package Weed::Callbacks;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 use Weed 'X3DCallbacks : X3DArrayHash ()';
 
@@ -33,8 +33,19 @@ sub remove {
 
 	my $objectId   = X3DUniversal::getId( $value->[0] );
 	my $callbackId = X3DUniversal::getId( $value->[1] );
-	
+
 	delete $this->{$objectId}->{$callbackId};
+
+	return;
+}
+
+sub processEvents {
+	my ( $this, $value, $time ) = @_;
+
+	while ( $value->getTainted ) {
+		$value->setTainted(NO);
+		$_->[1]->( $_->[0], $value, $time ) foreach @$this;
+	}
 
 	return;
 }
@@ -46,12 +57,6 @@ sub getIndex {
 		return $i if $this->[$i]->getId == $id;
 	}
 	return -1;
-}
-
-sub process {
-	my ( $this, $object, $time ) = @_;
-	$object->setTainted(NO);
-	$_->[1]->( $_->[0], $object, $time ) foreach @$this;
 }
 
 1;
