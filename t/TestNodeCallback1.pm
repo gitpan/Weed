@@ -7,10 +7,7 @@ BEGIN {
 	unshift @INC, '../lib';
 }
 
-use Weed;
-use X3D::Components::Core::Node;
-	
-use Weed 'TestNode : X3DNode {
+use X3D 'TestNode : X3DNode {
   SFString  [in]      set_sfstring1
   SFString  [in]      set_sfstring2
   SFString  [in]      set_sfstring3
@@ -29,6 +26,7 @@ sub prepareEvents {
 sub set_sfstring1 {
 	my ( $this, $value, $time ) = @_;
 	print "set_sfstring1 @_",;
+	$this->set_sfstring3 = "magic";
 	$this->set_sfstring3 = "set 3 von 1";
 }
 
@@ -38,6 +36,7 @@ sub set_sfstring2 {
 	print "set_sfstring2 @_",;
 	set_sfstring1( $this, "DIRECT", $time );
 	$this->set_sfstring3 = "set 3 von 2";
+	$this->set_sfstring4 = "set 4 von 2";
 
 	$this->set_sfstring1 = "IN1";
 	$this->set_sfstring1 = "IN2";
@@ -48,6 +47,7 @@ sub set_sfstring3 {
 	my ( $this, $value, $time ) = @_;
 
 	print "set_sfstring3 @_",;
+	$this->set_sfstring4 = $value;
 }
 
 sub set_sfstring4 {

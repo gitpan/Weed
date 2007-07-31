@@ -29,10 +29,13 @@ $testNode->mfvec4d->[1]->w = 4;
 
 is $testNode->mfvec4d->[6], undef;
 
-$testNode->mfvec4d->[6] = [6,7,8,9];
+$testNode->mfvec4d->[6] = [ 6, 7, 8, 9 ];
 is $testNode->mfvec4d->[6], '6 7 8 9';
 is $testNode->mfvec4d->length, 7;
 is $testNode->mfvec4d->[5], '0 0 0 0';
+
+is $testNode->mfvec4d,  '[ 1 2 3 4, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 6 7 8 9 ]';
+is $testNode->mfvec4d2, '[ ]';
 
 1;
 __END__

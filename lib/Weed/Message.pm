@@ -1,11 +1,12 @@
 package Weed::Message;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'X3DMessage';
 
 use Carp ();
 
+sub caller_package    { ( caller(1) )[0] }
 sub caller_filename   { ( caller(2) )[1] }
 sub caller_line       { ( caller(2) )[2] }
 sub caller_subroutine { ( caller(2) )[3] }
@@ -22,10 +23,11 @@ sub warn {
 sub Debug {
 	#	return unless $DEBUG;
 	shift;
+	my $type = ref(shift) || &caller_package;
 
 	return print sprintf
 	  "D: %s->%s(%s) called at %s line %s",
-	  ref(shift),
+	  $type,
 	  &field_name(&caller_subroutine),
 	  @_ ? join( ", ", @_ ) : '',
 	  &caller_filename, &caller_line;

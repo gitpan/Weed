@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFRotation;
 
-our $VERSION = '0.01';
+our $VERSION = '0.012';
 
 use Weed 'SFRotation : X3DField { 0 0 1 0 }';
 
@@ -20,17 +20,16 @@ use overload
 use Weed::Tie::Value::Rotation;
 use Weed::FieldHelper;
 
-sub new_from_definition {
-	my $this = shift->X3DField::new_from_definition(@_);
+sub create {
+	my ($this) = @_;
+	$this->{value} = $this->getInitialValue->getClone;
 	$this->{array} = new Weed::Tie::Value::Rotation $this;
-	return $this;
+	return;
 }
-
-sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 
 sub setValue {
 	my $this   = shift;
-	my $vector = $this->getValue;
+	my $vector = $this->{value};
 
 	$vector->setValue( @_ ? Weed::FieldHelper::RotVal(@_) : $this->getDefaultValue );
 

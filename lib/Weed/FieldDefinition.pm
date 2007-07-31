@@ -1,6 +1,6 @@
 package Weed::FieldDefinition;
 
-our $VERSION = '0.01';
+our $VERSION = '0.012';
 
 use Weed 'X3DFieldDefinition : X3DObject { }';
 
@@ -33,11 +33,12 @@ sub getRange { $_[0]->{range} }
 sub createField {
 	my ( $this, $node ) = @_;
 
-	my $field = $this->getType->new_from_definition($this);
+	my $field = $this->getType->X3DObject::new;
 
 	$field->getParents->add($node);
+	$field->setDefinition($this);
 
-	$field->setValue( $this->getValue );
+	$field->create;
 
 	return $field;
 }

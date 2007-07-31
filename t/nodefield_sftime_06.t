@@ -109,6 +109,9 @@ is - $testNode->sftime, 1.3;
 my $sftime = $testNode->sftime;
 isa_ok $sftime, 'X3DField';
 
+is $testNode->sftime, '-1.3';
+is $testNode->time, '0';
+
 is $sftimeId, $testNode->sftime->getId;
 1;
 __END__

@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package testNodeCallback1_01
+#package testNodeCallback1_02
 use Test::More no_plan;
 use strict;
 
@@ -14,6 +14,11 @@ BEGIN {
 {
 	#print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 	ok my $sfnode1 = new SFNode( new TestNode("ONE") );
+	ok my $sfnode2 = new SFNode( new TestNode("TWO") );
+	#$sfnode1->set_sfstring2->getCallbacks->add( $sfnode2, $sfnode2->getValue->can("set_sfstring2") );
+	#my $route = new X3DRoute($sfnode1, "set_sfstring2", $sfnode2, "set_sfstring2");
+	#ok $route;
+	#print $route;
 
 	ok not $sfnode1->set_sfstring1->getTainted;
 	ok not $sfnode1->set_sfstring2->getTainted;
@@ -21,6 +26,13 @@ BEGIN {
 	ok not $sfnode1->set_sfstring4->getTainted;
 	ok not $sfnode1->getValue->getTainted;
 	ok not $sfnode1->getTainted;
+
+	ok not $sfnode2->set_sfstring1->getTainted;
+	ok not $sfnode2->set_sfstring2->getTainted;
+	ok not $sfnode2->set_sfstring3->getTainted;
+	ok not $sfnode2->set_sfstring4->getTainted;
+	ok not $sfnode2->getValue->getTainted;
+	ok not $sfnode2->getTainted;
 
 	#$sfnode->set_sfstring1 = "one";
 	#print new X3DHash($$sfnode);
@@ -37,8 +49,11 @@ BEGIN {
 	$sfnode1->set_sfstring2 = "two";
 
 	$sfnode1->getValue->prepareEvents;
+	$sfnode2->getValue->prepareEvents;
 	$sfnode1->getValue->processEvents;
+	$sfnode2->getValue->processEvents;
 	$sfnode1->getValue->eventsProcessed;
+	$sfnode2->getValue->eventsProcessed;
 
 	#print new X3DHash($$sfnode);
 	#ok not $sfnode->getTainted;
@@ -51,10 +66,19 @@ BEGIN {
 	ok not $sfnode1->getValue->getTainted;
 	#ok not $sfnode1->getTainted;
 
+	ok not $sfnode2->set_sfstring1->getTainted;
+	ok not $sfnode2->set_sfstring2->getTainted;
+	ok not $sfnode2->set_sfstring3->getTainted;
+	ok not $sfnode2->set_sfstring4->getTainted;
+	ok not $sfnode2->getValue->getTainted;
+	#ok not $sfnode2->getTainted;
 }
 
 1;
 __END__
+
+(in cleanup) Can't call method "remove" on an undefined value at ../lib/Weed/FieldTypes/SFNode.pm line 62 during global destruction.
+wegen #44217
 
   ONE initialize
   TWO initialize
@@ -70,10 +94,3 @@ __END__
   TWO set_sfstring1 IN3 1185290050.0810003
   ONE eventsProcessed
   TWO eventsProcessed
-  
-prepareEvents
-set_sfstring2 DEF ONE_137755912 TestNode { } two 1185790648.50981
-set_sfstring1 DEF ONE_137755912 TestNode { } DIRECT 1185790648.50981
-set_sfstring1 DEF ONE_137755912 TestNode { } IN3 1185790648.50981
-set_sfstring3 DEF ONE_137755912 TestNode { } set 3 von 1 1185790648.50981
-eventsProcessed

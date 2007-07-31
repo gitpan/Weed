@@ -1,6 +1,6 @@
 package Weed::Generator;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'X3DGenerator';
 
@@ -36,6 +36,9 @@ use constant FALSE => $_FALSE_;
 use constant NULL  => $_NULL_;
 
 use constant DEF => $_DEF_;
+
+use constant ROUTE => $_ROUTE_;
+use constant TO    => $_TO_;
 
 use constant tab   => $_tab_;
 use constant space => $_space_;

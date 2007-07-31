@@ -2,34 +2,31 @@ package Weed::Object;
 
 use Weed 'X3DObject ()';
 
-our $VERSION = '0.012';
+our $VERSION = '0.013';
 
 use Weed::Callbacks;
-
-use overload
-  '%{}' => sub { ${ $_[0] } };
 
 sub new {
 	my $self = $_[0];
 	my $type = ref($self) || $self;
-	my $this = bless \{}, $type;
+	my $this = bless {}, $type;
 
-	$$this->{tainted}   = NO;
-	$$this->{callbacks} = new X3DCallbacks;
+	$this->{tainted}   = NO;
+	$this->{callbacks} = new X3DCallbacks;
 
-	$$this->{parents}  = new X3DParentHash;
-	$$this->{comments} = new X3DArray;
+	$this->{parents}  = new X3DParentHash;
+	$this->{comments} = new X3DArray;
 
 	return $this;
 }
 
-sub getTainted { ${ $_[0] }->{tainted} }
+sub getTainted { $_[0]->{tainted} }
 
 sub setTainted {    #X3DMessage->Debug(@_);
 	my ( $this, $value ) = @_;
-	return if $$this->{tainted} == $value;
+	return if $this->{tainted} == $value;
 
-	$$this->{tainted} = $value;
+	$this->{tainted} = $value;
 
 	if ($value) {
 		if ( $this->getParents ) {
@@ -38,18 +35,18 @@ sub setTainted {    #X3DMessage->Debug(@_);
 	}
 }
 
-sub getCallbacks { ${ $_[0] }->{callbacks} }
+sub getCallbacks { $_[0]->{callbacks} }
 
 sub processEvents {
 	my ( $this, $time ) = @_;
-	$$this->{callbacks}->processEvents( $this, defined $time ? $time : time );
+	$this->{callbacks}->processEvents( $this, defined $time ? $time : time );
 	return;
 }
 
 #
-sub getParents { ${ $_[0] }->{parents} }
+sub getParents { $_[0]->{parents} }
 
-sub getComments { wantarray ? @{ ${ $_[0] }->{comments} } : ${ $_[0] }->{comments} }
+sub getComments { wantarray ? @{ $_[0]->{comments} } : $_[0]->{comments} }
 
 sub toString {
 	my ($this) = @_;

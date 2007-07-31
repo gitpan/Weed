@@ -3,7 +3,7 @@ use Weed::Perl;
 
 use 5.008008;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use warnings::register;
 
@@ -127,6 +127,5 @@ Same as overload::StrVal. A new type should specify its own 'toString' method.
 
 =cut
 
-PROBS
-
-BaseNode createFields; have to do a ref() to the tied fields
+#44217
+#return copy of value instead copy of object

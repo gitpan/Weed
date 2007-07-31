@@ -1,7 +1,7 @@
 package Weed::Environment;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::Math;
 use Weed::Universal;
@@ -29,6 +29,7 @@ use Weed::FieldTypes;
 
 use Weed::Constants;
 
+use Weed::Route;
 use Weed::BaseNode;
 
 1;

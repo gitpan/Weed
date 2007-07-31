@@ -2,7 +2,7 @@ package Weed::FieldSet;
 
 use Weed 'X3DFieldSet : X3DArrayHash ()';
 
-our $VERSION = '0.002';
+our $VERSION = '0.004';
 
 use Weed::Tie::Field;
 
@@ -22,7 +22,9 @@ sub new {
 		$fields{$name} = $field;
 
 		tie $tiedFields{$name}, 'Weed::Tie::Field', $field;
-		scalar $tiedFields{$name};    # make perl know that this is a ref
+
+		#44217; make perl know that this is a ref
+		scalar $tiedFields{$name};
 	}
 
 	my $this = $self->X3DArrayHash::new( \@fields, \%fields );

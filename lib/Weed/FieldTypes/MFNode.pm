@@ -1,18 +1,20 @@
 package Weed::FieldTypes::MFNode;
 
-our $VERSION = '0.009';
+our $VERSION = '0.011';
 
 use Weed 'MFNode : X3DArrayField { [] }';
 
 use Weed::Tie::Value::BaseNodeArray;
 
-sub new_from_definition {
-	my $this = shift->X3DField::new_from_definition(@_);
+sub create {
+	my ($this) = @_;
 
+	$this->{value} = $this->getInitialValue->getClone;
 	$this->{array} = new Weed::Tie::Value::BaseNodeArray $this;
+
 	tie $this->{length}, 'Weed::Tie::ArrayLength', $this->{array};
 
-	return $this;
+	return;
 }
 
 sub toString {

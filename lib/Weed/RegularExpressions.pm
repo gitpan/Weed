@@ -1,14 +1,13 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::Symbols;
 
 use base 'Exporter';
 
 our @EXPORT = qw(
-  $_supertype
   $_RestrictedId
   $_colon
   $_colon_test
@@ -83,7 +82,6 @@ our $open_parenthesis    = '\\' . $_open_parenthesis_;
 our $close_parenthesis   = '\\' . $_close_parenthesis_;
 our $colon               = '\\' . $_colon_;
 our $swung_dash          = '\\' . $_swung_dash_;
-our $_supertype          = qr.^(?!Weed::|main).so;
 
 # General
 our $space      = "[\x20\t]";

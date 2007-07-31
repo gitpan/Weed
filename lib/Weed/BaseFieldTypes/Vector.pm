@@ -1,20 +1,20 @@
 package Weed::BaseFieldTypes::Vector;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.011';
 
 use base 'Weed::BaseFieldTypes::Scalar';
 
 use overload
   '0+' => 'length',
 
-  '~' => sub { ~$_[0]->getValue },
+  '~' => sub { ~$_[0]->{value} },
 
   '&' => sub { $_[2] ? $_[1] & $_[0]->getValue : $_[0]->getValue & $_[1] },
   '|' => sub { $_[2] ? $_[1] | $_[0]->getValue : $_[0]->getValue | $_[1] },
   '^' => sub { $_[2] ? $_[1] ^ $_[0]->getValue : $_[0]->getValue ^ $_[1] },
 
-  'neg' => sub { -$_[0]->getValue },
+  'neg' => sub { -$_[0]->{value} },
 
   #'++' => sub { my $value = $_[0]->getValue; ++$value; $_[0] },
   #'+=' => sub { print "+="; $_[0]->getValue->setValue($_[0]->getValue + $_[1]); $_[0] },
@@ -31,13 +31,12 @@ use Weed::FieldHelper;
 
 #*new = \&X3DField::new;
 
-sub new_from_definition {
-	my $this = shift->X3DField::new_from_definition(@_);
+sub create {
+	my ($this) = @_;
+	$this->{value} = $this->getInitialValue->getClone;
 	$this->{array} = new Weed::Tie::Value::Vector $this;
-	return $this;
+	return;
 }
-
-sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
 
 sub setValue {
 	my $this   = shift;

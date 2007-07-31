@@ -1,7 +1,7 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 use Weed::Parse::FieldDescription;
 
@@ -13,13 +13,6 @@ sub SET_DESCRIPTION {
 }
 
 use Weed 'X3DBaseNode : X3DObject { }';
-
-our $Notify = YES;
-
-use overload
-  '@{}' => sub { ${ $_[0] }->{fields}->getArray },
-  '%{}' => sub { ${ $_[0] }->{fields}->getHash },
-  ;
 
 sub new {
 	my $this = shift->X3DObject::new;
@@ -36,7 +29,7 @@ sub getClone {
 	my $this = shift;
 	my $copy = $this->new( $this->getName );
 
-	$$copy->{fields}->{$_}->setValue( $this->getField($_) )
+	$copy->{fields}->{$_}->setValue( $this->getField($_) )
 	  foreach map { $_->getName } $this->getFieldDefinitions;
 
 	return $copy;
@@ -46,14 +39,14 @@ sub getCopy { $_[0]->getClone }    # should make a deep copy
 
 sub getTypeName { $_[0]->getType }
 
-sub setName { ${ $_[0] }->{name} = new X3DName( $_[1] ) }
-sub getName { ${ $_[0] }->{name}->toString }
+sub setName { $_[0]->{name} = new X3DName( $_[1] ) }
+sub getName { $_[0]->{name}->toString }
 
 # Fields
-sub setFields { ${ $_[0] }->{fields} = $_[1] }
-sub getFields { ${ $_[0] }->{fields} }
+sub setFields { $_[0]->{fields} = $_[1] }
+sub getFields { $_[0]->{fields} }
 
-sub getField { ${ $_[0] }->{fields}->getField( $_[1], $_[0] ) }
+sub getField { $_[0]->{fields}->getField( $_[1], $_[0] ) }
 
 sub getFieldDefinitions {
 	wantarray ?
@@ -90,7 +83,7 @@ sub toString {
 		$string .= X3DGenerator->indent;
 	}
 
-	$string .= $$this->{fields};
+	$string .= $this->{fields};
 
 	return $string;
 }

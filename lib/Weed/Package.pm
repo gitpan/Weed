@@ -1,7 +1,7 @@
 package Weed::Package;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
@@ -311,17 +311,18 @@ sub getSubroutine {
 	no strict 'refs';
 	unless ( defined $$property ) {
 		$$property = [];
-		push @$$property, map { \&{"${_}::${name}"} }
+		push @$$property, reverse map { \&{"${_}::${name}"} }
 		  grep { exists &{"${_}::${name}"} } @{ X3DPackage::getPath($this) };
 	}
 
 	return $$property;
 }
 
-#sub call {
-#	my ( $this, $name ) = ( shift, shift );
-#	return map { &$_( $this, @_ ) } X3DPackage::can( $this, $name );
-#}
+sub Call {
+	my ( $this, $name ) = ( shift, shift );
+	$_->( $this, @_ ) foreach @{ $this->X3DPackage::getSubroutine($name) };
+	return;
+}
 
 #sub reverse_call {
 #	my ( $this, $name ) = ( shift, shift );

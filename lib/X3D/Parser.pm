@@ -1,7 +1,7 @@
 package Weed::Parser;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Carp qw(croak);
 

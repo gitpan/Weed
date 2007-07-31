@@ -9,7 +9,7 @@ BEGIN {
 
 use Weed 'TestType {}';
 
-sub new { shift->_new }
+sub new { shift->X3DUniversal::new }
 
 1;
 __END__

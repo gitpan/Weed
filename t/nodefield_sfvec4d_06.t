@@ -117,6 +117,9 @@ is $testNode->sfvec4d->w, 6;
 #ok $testNode->sfvec4d( 1, 2, 3, 4 ) = [ 2, 3, 4, 5 ];
 #is $testNode->sfvec4d, "2 3 4 5";
 
+is $testNode->sfvec4d, "3 4 5 6";
+is $testNode->sfvec4d2, "0 0 0 0";
+
 isa_ok $sfvec4d, "X3DVec4";
 is $sfvec4dId,   $testNode->sfvec4d->getId;
 isa_ok $testNode->sfvec4d, "X3DField";

@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.011';
+our $VERSION = '0.014';
 
 use Weed::Parse::FieldValue;
 
@@ -21,35 +21,35 @@ use overload
   ;
 
 sub new {
-	my $type = shift;
-	my $this = $type->new_from_definition( $type->X3DPackage::Scalar("X3DDefaultDefinition") );
-	$this->setValue(@_) if @_;
-	$this->setTainted(NO);
+	my $this = shift->X3DObject::new;
+
+	$this->setDefinition( $this->X3DPackage::Scalar("X3DDefaultDefinition") );
+
+	$this->create;
+
+	if (@_) {
+		$this->setValue(@_);
+		$this->setTainted(NO);
+	}
+
 	return $this;
 }
 
-sub new_from_definition {
-	my $this       = shift->X3DObject::new;
-	my $definition = shift;
-
-	$this->setDefinition($definition);
-
-	$$this->{value} = $this->getInitialValue;
-
-	return $this;
+sub create {
+	my ($this) = @_;
+	$this->{value} = $this->getInitialValue;
+	return;
 }
 
 sub getClone { $_[0]->new( $_[0]->getValue ) }
 
 *getCopy = \&getClone;
 
-sub getDefinition { ${ $_[0] }->{definition} }
-sub setDefinition { ${ $_[0] }->{definition} = $_[1] }
+sub getDefinition { $_[0]->{definition} }
+sub setDefinition { $_[0]->{definition} = $_[1] }
 
 sub getDefaultValue { $_[0]->X3DPackage::Scalar("X3DDefaultDefinition")->getValue }
 sub getInitialValue { $_[0]->getDefinition->getValue }
-
-sub getParent { shift @{ $_[0]->getParents->getValues } if $_[0]->getParents }
 
 sub getAccessType { $_[0]->getDefinition->getAccessType }
 
@@ -58,19 +58,43 @@ sub getAccessType { $_[0]->getDefinition->getAccessType }
 
 sub getName { $_[0]->getDefinition->getName }
 
-sub getValue { ${ $_[0] }->{value} }
+sub getValue { $_[0]->{value} }
 
 sub setValue {
 	my ( $this, $value ) = @_;
-	
-	$$this->{value} = $value;
+
+	$this->{value} = $value;
 	$this->setTainted(time);
 
 	return;
 }
 
+#*
+#sub addFieldCallback {
+#	my ( $this, $destinationField ) = @_;
+#	X3DMessage->Debug;
+
+
+# 	return $this->{fieldCallbacks}->{ X3DUniversal::getId($object) . $callbackName } =
+# 	  [ $object, $callbackName ]
+# 	  if $object->isa("SFNode")
+# 	  and ref $object->getValue->getField($callbackName);
+
+#	return;
+#}
+
+#*
+#sub removeFieldCallback {
+#	my ( $this, $callbackName, $object ) = @_;
+#	delete $this->{fieldCallbacks}->{ X3DUniversal::getId($object) . $callbackName };
+#	return;
+#}
+
 #
 sub toString { sprintf "%s", $_[0]->getValue }
+
+#sub DESTROY { X3DMessage->Debug($_[0]);
+#}
 
 1;
 __END__

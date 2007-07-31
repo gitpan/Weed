@@ -1,7 +1,7 @@
 package Weed::ArrayField;
 use Weed;
 
-our $VERSION = '0.009';
+our $VERSION = '0.011';
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
@@ -16,32 +16,30 @@ use base 'X3DArray';
 use Weed::Tie::Value::Array;
 use Weed::Tie::ArrayLength;
 
-use overload '@{}' => 'getArray';
+use overload '@{}' => sub { $_[0]->{array} };
 
 #sub new { shift->X3DField::new(@_) }
 *new = \&X3DField::new;
 
-sub new_from_definition {    # also in MFNode
-	my $this = shift->X3DField::new_from_definition(@_);
+sub create {    # also in MFNode
+	my ($this) = @_;
 
+	$this->{value} = $this->getInitialValue->getClone;
 	$this->{array} = new Weed::Tie::Value::Array $this;
+
 	tie $this->{length}, 'Weed::Tie::ArrayLength', $this->{array};
 
-	return $this;
+	return;
 }
 
 #sub getClone { $_[0]->X3DField::getClone }
 #sub getCopy  { $_[0]->X3DField::getCopy }
 
-sub getInitialValue { $_[0]->getDefinition->getValue->getClone }
-
 sub getFieldType { $_[0]->X3DPackage::Scalar("FieldType") }
-
-sub getArray { ${ $_[0] }->{array} }
 
 sub setValue {
 	my $this  = shift;
-	my $array = $this->getArray;
+	my $array = $this->{array};
 
 	if ( 0 == @_ ) {
 		@$array = ();
@@ -64,13 +62,9 @@ sub setValue {
 	$this->X3DField::setValue( $this->getValue );
 }
 
-sub set1Value {
-	warn;
-}
+#sub set1Value { $_[0]->[ $_[1] ] = $_[2] }
 
-sub get1Value {
-	warn;
-}
+#sub get1Value { $_[0]->[ $_[1] ] }
 
 sub length : lvalue { $_[0]->{length} }
 

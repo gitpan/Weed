@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.011';
+our $VERSION = '0.013';
 
 use Weed 'SFNode : X3DField { NULL }';
 
@@ -15,9 +15,6 @@ use overload
 
   'eq' => sub { "$_[0]" eq $_[1] },
   'ne' => sub { "$_[0]" ne $_[1] },
-
-  #'@{}' => sub { $_[0]->getValue },
-  #'%{}' => sub { $_[0]->getValue },
   ;
 
 sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
@@ -25,7 +22,8 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 	my $name = substr our $AUTOLOAD, rindex( $AUTOLOAD, ':' ) + 1;
 
 	my $node = $this->getValue;
-	X3DMessage->UnknownField( 1, $this, $AUTOLOAD ) unless ref $node;
+	X3DMessage->UnknownField( 1, $this, $AUTOLOAD ), return unless ref $node;
+	#X3DMessage->DirectOutputIsFALSE, return unless $node->{directOutput};
 
 	if ( Want::want('RVALUE') ) {
 		my $field = $node->getField($name);
@@ -41,8 +39,11 @@ sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
 	return $node->getFields->getField($name)
 	  if Want::want('REF');
 
-	$node->getFields->getTiedField($name)
+	$node->getFields->getTiedField($name) # für: += ++ ...
 }
+
+#sub new {  X3DMessage->Debug;
+#shift->X3DField::new(@_) }
 
 #sub getClone { $_[0]->new( $_[0]->getValue ) }
 
@@ -85,13 +86,14 @@ sub setValue {
 sub toString { sprintf "%s", $_[0]->getValue || X3DGenerator->NULL }
 
 sub dispose {    #print " SFNode::dispose ", $_[0]->getName;
-	my ( $this ) = @_;
+	my ($this) = @_;
 
 	return;
 }
 
-sub DESTROY {
+sub DESTROY {    #X3DMessage->Debug(undef, $_[0]->getId, $_[0]->getName);
 	my $this = shift;
+	#print new X3DHash $$this;
 	$this->setValue(undef);
 	return;
 }

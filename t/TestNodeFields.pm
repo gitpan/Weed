@@ -163,7 +163,11 @@ use Weed 'TestNode : X3DBaseNode {
 	MFDouble		[in,out] doubles2    []
 
 	SFNode		[in,out] sfnode2	   NULL
-	MFNode		[in,out] mfnode2	   []
+	MFNode		[in,out] mfnode2	   []	
+	
+	SFVec4d		[in,out] sfvec4d2	   0 0 0 0
+	MFVec4d		[in,out] mfvec4d2	   []
+
 
 #	MFNode		[in,out] mfnull	   [ NULL ]
 }

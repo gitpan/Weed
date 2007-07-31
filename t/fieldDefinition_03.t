@@ -21,5 +21,34 @@ ok $fieldDefinition = new X3DFieldDefinition( "MFNode", YES, NO, "name2", [], "[
 ok $fieldDefinition = new X3DFieldDefinition( "SFNode", NO, YES, "name2", '', "[X3DNode]" );
 ok $fieldDefinition = new X3DFieldDefinition( "MFNode", NO, NO, "name2", [], "[X3DNode]" );
 
+ok $fieldDefinition = new X3DFieldDefinition( "SFVec2f", NO, NO, "", new X3DVec2, "" );
+
+my $node   = new X3DBaseNode;
+my $vec2_1 = $fieldDefinition->createField($node);
+my $vec2_2 = $fieldDefinition->createField($node);
+
+is $vec2_1, "0 0";
+is $vec2_2, "0 0";
+
+$vec2_1->setValue( 1, 2 );
+$vec2_2->setValue( 2, 3 );
+
+is $vec2_1, "1 2";
+is $vec2_2, "2 3";
+
+my %tiedFields;
+
+tie $tiedFields{v1}, 'Weed::Tie::Field', $vec2_2;
+print "x"x23;
+{
+print $tiedFields{v1};
+}
+print "x"x23;
+print $tiedFields{v1} *= 2;
+
+sub l : lvalue { $tiedFields{v1} }
+print ++l;
+print l;
+
 __END__
 
