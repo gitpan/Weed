@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sffloatId = $testNode->sffloat->getId;
 is $sffloatId, $testNode->sffloat->getId;
 
@@ -47,7 +47,7 @@ is $testNode->sffloat -= 18, 2;
 is $testNode->sffloat**= 4, 16;
 is 2**$testNode->sffloat, 65536;
 is $testNode->sffloat %= 3, 1;
-is $testNode->sffloat /= 3, '0.33333333';
+is $testNode->sffloat /= 3, 1/3;
 is 1 / $testNode->sffloat, 3;
 
 is $testNode->sffloat = 0.3, 0.3;
@@ -91,7 +91,7 @@ is $testNode->sffloat ^= 3, 1;
 is - $testNode->sffloat, -1;
 is $testNode->sffloat = ~$testNode->sffloat, '4294967294';
 ok $testNode->sffloat = 4294967294;
-is ++$testNode->sffloat, '4.2949673e+09';
+is ++$testNode->sffloat, 4294967295;
 
 is cos( $testNode->sffloat ), cos(4294967295);
 is sin( $testNode->sffloat ), sin(4294967295);
@@ -105,7 +105,7 @@ is !$testNode->sffloat, !1;
 is - $testNode->sffloat, 1.3;
 
 my $sffloat = $testNode->sffloat;
-isa_ok $sffloat, 'X3DField';
+is ref $sffloat, '';
 
 is $sffloatId, $testNode->sffloat->getId;
 1;

@@ -11,28 +11,28 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode = new TestNode;
 ok my $sfboolId = $testNode->sfbool->getId;
 is $sfboolId, $testNode->sfbool->getId;
 
 is $testNode->sfbool = 0, 0;
-is $testNode->sfbool, "FALSE";
+is $testNode->sfbool, NO;
 is $testNode->sfbool = 1, 1;
-is $testNode->sfbool, "TRUE";
+is $testNode->sfbool, YES;
 
-is ++$testNode->sfbool, "TRUE";
-is ++$testNode->sfbool, "TRUE";
-is $testNode->sfbool, "TRUE";
-is --$testNode->sfbool, 'FALSE';
-is $testNode->sfbool, "FALSE";
-is --$testNode->sfbool, "TRUE";
-is $testNode->sfbool, "TRUE";
+is ++$testNode->sfbool, YES;
+is ++$testNode->sfbool, YES;
+is $testNode->sfbool, YES;
+is --$testNode->sfbool, NO;
+is $testNode->sfbool, NO;
+is --$testNode->sfbool, YES;
+is $testNode->sfbool, YES;
 
 is $testNode->sfbool = !$testNode->sfbool, '';
-is $testNode->sfbool, "FALSE";
+is $testNode->sfbool, NO;
 
 my $sfbool = $testNode->sfbool;
-isa_ok $sfbool, 'X3DField';
+is ref $sfbool, '';
 
 is $sfboolId, $testNode->sfbool->getId;
 1;

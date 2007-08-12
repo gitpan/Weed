@@ -1,19 +1,20 @@
 package Weed::FieldTypes;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
+# ScalarFieldTypes
 use Weed::FieldTypes::SFBool;
-use Weed::FieldTypes::SFColor;
-use Weed::FieldTypes::SFColorRGBA;
 use Weed::FieldTypes::SFDouble;
 use Weed::FieldTypes::SFFloat;
-use Weed::FieldTypes::SFImage;
 use Weed::FieldTypes::SFInt32;
-use Weed::FieldTypes::SFNode;
-use Weed::FieldTypes::SFRotation;
 use Weed::FieldTypes::SFString;
 use Weed::FieldTypes::SFTime;
+
+# VectorFieldTypes
+use Weed::FieldTypes::SFColor;
+use Weed::FieldTypes::SFColorRGBA;
+use Weed::FieldTypes::SFRotation;
 use Weed::FieldTypes::SFVec2d;
 use Weed::FieldTypes::SFVec2f;
 use Weed::FieldTypes::SFVec3d;
@@ -21,6 +22,11 @@ use Weed::FieldTypes::SFVec3f;
 use Weed::FieldTypes::SFVec4d;
 use Weed::FieldTypes::SFVec4f;
 
+# SpecialFieldTypes
+use Weed::FieldTypes::SFImage;
+use Weed::FieldTypes::SFNode;
+
+# MultiFieldTypes
 use Weed::FieldTypes::MFBool;
 use Weed::FieldTypes::MFColor;
 use Weed::FieldTypes::MFColorRGBA;

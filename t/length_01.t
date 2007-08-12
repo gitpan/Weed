@@ -12,10 +12,10 @@ BEGIN {
 }
 
 {
-	ok my $testNode = new SFNode( new TestNode('TestName') );
+	ok my $testNode = new TestNode('TestName');
 	is my $length = $testNode->mfnode->length, 0;
 	is $testNode->mfnode->length, 0;
-	
+
 	ok tied $testNode->mfnode->length;
 	is scalar $testNode->mfnode, '[ ]';
 
@@ -59,7 +59,7 @@ BEGIN {
 		my ( $this, $value, $i ) = @_;
 		$this->mfnode = $value;
 		$this->mfnode->[$i] = $value->[0];
-		my $node = $value->[0]->getValue;
+		my $node = $value->[0];
 	}
 
 	set_children( $testNode, new MFNode( new TestNode('TestName') ), $_ ) foreach 1 .. 1;

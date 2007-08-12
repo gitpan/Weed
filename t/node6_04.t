@@ -12,10 +12,10 @@ BEGIN {
 }
 
 X3DGenerator->setOutputStyle("COMPACT");
-ok my $weed = new SFNode(new Weed);
+ok my $weed = new Weed;
 ok my $id   = $weed->size->getId;
 ok my $size = $weed->size;
-ok $weed->size->getId != $size->getId;
+#ok $weed->size->getId != $size->getId;
 
 is $weed->size, 1;
 is $size, 1;
@@ -63,8 +63,8 @@ is $size -= 2, 3;
 is $size -= 4, -1;
 #print $size->getId;
 
-is ($size = $size +0, -1);
-is ($size = 0+ $size, -1);
+is( $size = $size + 0, -1 );
+is( $size = 0 + $size, -1 );
 #isa_ok $size, 'SFFloat';
 
 is $s, 1;
@@ -74,7 +74,7 @@ $weed->size = 16;
 
 is $weed->size, 16;
 
-isa_ok $weed->size, 'SFFloat';
+#isa_ok $weed->size, '';
 is $weed->size += 3, 19;
 
 is $weed->size += 3, 22;
@@ -103,7 +103,7 @@ is $weed->size, 17;
 
 is $weed->size, 17;
 is $weed->size += 3, 20;
-is $weed->size,  20;
+is $weed->size, 20;
 
 is $weed->size += 3, 23;
 is $weed->size += 3, 26;
@@ -115,7 +115,7 @@ is $weed->size -= 3, 20;
 is $weed->size -= 3, 17;
 is $weed->size, 17;
 
-is $size,     -1;
+is $size, -1;
 #isa_ok $size, 'SFFloat';
 #ok $weed->size->getId != $size->getId;
 
@@ -123,12 +123,17 @@ is $weed->floats, '[ 1, 2, 3 ]';
 #$weed->floats->[2] = 3;
 #is $weed->floats, '[ 1, 2, 3 ]';
 
-is $weed->getValue->getField('size'),     17;
-isa_ok $weed->getValue->getField('size'), 'SFFloat';
-is $weed->getValue->getField('size'),     $weed->size;
-is $weed->getValue->getField('size')->getId, $weed->size->getId;
-is $weed->getValue->getField('size')->getId, $id;
+print "x" x 23;
+
+is $weed->getField('size'),     17;
+isa_ok $weed->getField('size'), 'SFFloat';
+is $weed->getField('size'),     $weed->size;
+is $weed->getField('size')->getId, $weed->size->getId;
+is $weed->getField('size')->getId, $id;
 is $weed->size->getId, $id;
+
+eval { $weed->getValue };
+ok $@;
 
 1;
 __END__

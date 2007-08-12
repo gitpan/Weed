@@ -1,19 +1,20 @@
 package Weed::Environment;
 use Weed::Perl;
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 use Weed::Math;
-use Weed::Universal;
 
+use Weed::Package;
+use Weed::Namespace;
+
+use Weed::Universal;
 use Weed::Generator;
 use Weed::Message;
 
 use Weed::Array;
 use Weed::Hash;
 use Weed::ArrayHash;
-
-use Weed::Name;
 
 use Weed::ParentHash;
 
@@ -29,8 +30,11 @@ use Weed::FieldTypes;
 
 use Weed::Constants;
 
-use Weed::Route;
+use Weed::Name;
 use Weed::BaseNode;
+use Weed::Route;
+
+use Weed::ExecutionContext;
 
 1;
 __END__

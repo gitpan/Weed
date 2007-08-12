@@ -1,7 +1,7 @@
 package Weed::ArrayField;
 use Weed;
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
@@ -23,6 +23,8 @@ use overload '@{}' => sub { $_[0]->{array} };
 
 sub create {    # also in MFNode
 	my ($this) = @_;
+
+	die $this->getDefinition unless defined $this->getInitialValue;
 
 	$this->{value} = $this->getInitialValue->getClone;
 	$this->{array} = new Weed::Tie::Value::Array $this;

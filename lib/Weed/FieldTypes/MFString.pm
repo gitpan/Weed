@@ -1,30 +1,37 @@
 package Weed::FieldTypes::MFString;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'MFString : X3DArrayField { [] }';
 
 sub sort { $_[0]->new( [ sort { $a cmp $b } @{ $_[0] } ] ) }
 
 sub toString {
-	my $this = shift;
-	my $value = $this->getValue;
+	my ($this) = @_;
 
 	my $string = '';
 
-	if (@$value) {
-		if ($#$value) {
+	if (@$this) {
+		if ($#$this) {
 			$string .= X3DGenerator->open_bracket;
-			$string .= X3DGenerator->tidy_space;
-			$string .= join X3DGenerator->comma . X3DGenerator->tidy_space,
-				map { sprintf X3DGenerator->STRING, $_ } @$value;
-			$string .= X3DGenerator->tidy_space;
+			X3DGenerator->inc;
+			$string .= X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space;
+			$string .= X3DGenerator->tidy_indent;
+			$string .= join
+			  X3DGenerator->tidy_comma .
+			  ( X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space ) .
+			  X3DGenerator->tidy_indent,
+			  map { sprintf X3DGenerator->STRING, $_ } @$this;
+			$string .= X3DGenerator->tidy_indent ? X3DGenerator->tidy_break : X3DGenerator->tidy_space;
+			X3DGenerator->dec;
+			$string .= X3DGenerator->tidy_indent;
 			$string .= X3DGenerator->close_bracket;
 		}
 		else {
-			$string .= sprintf X3DGenerator->STRING, $value->[0];
+			$string .= sprintf X3DGenerator->STRING, $this->[0];
 		}
-	} else {
+	}
+	else {
 		$string .= X3DGenerator->open_bracket;
 		$string .= X3DGenerator->tidy_space;
 		$string .= X3DGenerator->close_bracket;

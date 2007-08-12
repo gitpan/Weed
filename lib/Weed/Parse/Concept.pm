@@ -1,7 +1,7 @@
 package Weed::Parse::Concept;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Carp (); $Carp::CarpLevel = 1;
 
@@ -55,27 +55,6 @@ sub conceptStatement {
 					supertypes => $supertypes,
 					new        => sub { bless {}, shift },
 					body       => $body,
-				};
-
-			}
-			else {
-				Carp::croak "Expected '}'";
-			}
-
-		}
-		elsif ( $$string =~ m.$_week_hash.gc ) {
-
-			my $body = &body($string);
-
-			if ( $$string =~ m.$_close_brace.gc ) {
-
-				return {
-					typeName   => $name,
-					supertypes => $supertypes,
-					new        => sub {
-						bless Weed::Tie::WeakHash->new, shift;
-					},
-					body => $body,
 				};
 
 			}

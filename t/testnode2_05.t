@@ -11,22 +11,23 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-my $testNode = new SFNode(new TestNode);
-isa_ok $testNode, 'Weed::Universal';
-ok $testNode->getValue->isa('X3DBaseNode');
+my $testNode = new TestNode;
+ok UNIVERSAL::isa( $testNode, 'Weed::Universal' );
+ok $testNode->UNIVERSAL::isa('X3DBaseNode');
+
+is $testNode->isa, '1 2';
 
 #isa_ok $testNode->isa, '';
 #isa_ok $testNode->can, '';
 
-is $testNode, 'DEF '.$testNode->getValue->getName.' TestNode { }';
+is $testNode, 'DEF ' . $testNode->getName . ' TestNode { }';
 
 my $hash = {};
 ok 0 == scalar keys %$hash;
-ok ! %$hash;
+ok !%$hash;
 print scalar %$hash;
 
 ok my $parents = $testNode->sfbool->getParents;
-
 
 ok $testNode->sfbool->getParents == 1;
 

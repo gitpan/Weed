@@ -1,17 +1,17 @@
 package Weed::Constants;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'X3DConstants';
+
+sub NULL ()  { new SFNode(undef) }
+sub FALSE () { new SFBool(NO) }
+sub TRUE ()  { new SFBool(YES) }
 
 use constant initializeOnly => 0;
 use constant inputOnly      => 1;
 use constant outputOnly     => 2;
 use constant inputOutput    => 3;
-
-sub NULL ()  { new SFNode(undef) }
-sub FALSE () { new SFBool(NO) }
-sub TRUE ()  { new SFBool(YES) }
 
 1;
 __END__

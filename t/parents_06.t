@@ -13,7 +13,7 @@ BEGIN {
 
 foreach ( 1 .. 1 ) {
 	my $testNode = new MFNode( new TestNode('T1') , new TestNode('T1') );
-	my $node     = $testNode->[0]->getValue;
+	my $node     = $testNode->[0];
 	$testNode->setValue( $testNode->[0] );
 	$testNode->setValue( $testNode->getValue );
 	$testNode->setValue( new TestNode('T1') );

@@ -19,7 +19,7 @@ is new SFImage(),     '0 0 0';
 is new SFInt32(),     '0';
 is new SFNode(),      'NULL';
 is new SFRotation(),  '0 0 1 0';
-is new SFString(),    '';
+is new SFString(),    '""';
 is new SFTime(),      '0';
 is new SFVec2d(),     '0 0';
 is new SFVec2f(),     '0 0';
@@ -39,7 +39,7 @@ is new SFImage( 2, 2, 3, [ 0xffffff, 0, 0xffffff, 0 ] ), '2 2 3
 is new SFInt32(123.123), '123';
 is new SFNode, 'NULL';
 is new SFRotation( 0.267261241912424, 0.534522483824849, 0.801783725737273, 0.4 ), '0.267261241912424 0.534522483824849 0.801783725737273 0.4';
-is new SFString("abcdefg"),      'abcdefg';
+is new SFString("abcdefg"),      '"abcdefg"';
 is new SFTime(123.123456789123), '123.123456789123';
 is new SFVec2d( 1.23, 2.34 ), '1.23 2.34';
 is new SFVec2f( 2.23, 3.34 ), '2.23 3.34';

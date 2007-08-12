@@ -8,6 +8,7 @@ lib/Weed/BaseNode.pm
 lib/Weed/Callbacks.pm
 lib/Weed/Constants.pm
 lib/Weed/Environment.pm
+lib/Weed/ExecutionContext.pm
 lib/Weed/Field.pm
 lib/Weed/FieldDefinition.pm
 lib/Weed/FieldHelper.pm
@@ -52,6 +53,7 @@ lib/Weed/Hash.pm
 lib/Weed/Math.pm
 lib/Weed/Message.pm
 lib/Weed/Name.pm
+lib/Weed/Namespace.pm
 lib/Weed/Object.pm
 lib/Weed/Package.pm
 lib/Weed/ParentHash.pm
@@ -87,6 +89,7 @@ lib/Weed/Values/Vec3.pm
 lib/Weed/Values/Vec4.pm
 lib/Weed/Values/Vector.pm
 lib/X3D.pm
+lib/X3D/Component.pm
 lib/X3D/Components/Core.pm
 lib/X3D/Components/Core/BindableNode.pm
 lib/X3D/Components/Core/ChildNode.pm
@@ -101,7 +104,9 @@ lib/X3D/Components/Core/Nodes/MetadataString.pm
 lib/X3D/Components/Core/Nodes/WorldInfo.pm
 lib/X3D/Components/Core/PrototypeInstance.pm
 lib/X3D/Components/Core/SensorNode.pm
+lib/X3D/Namespace.pm
 lib/X3D/Parser.pm
+lib/X3D/Scene.pm
 Makefile.PL
 MANIFEST			This list of files
 t/AAA_01.t
@@ -113,6 +118,7 @@ t/arrayField_MFDouble_03.t
 t/arrayField_MFNode_01.t
 t/arrayhash_01.t
 t/benchmark_01.t
+t/benchmark_02.t
 t/concept_00.t
 t/constants1_00.t
 t/constants_00.t
@@ -142,6 +148,7 @@ t/name_01.t
 t/name_02.t
 t/name_03.t
 t/namespace_01.t
+t/namespace_02.t
 t/node2_03.t
 t/node2_04.t
 t/node3_04.t
@@ -196,15 +203,20 @@ t/parse_value_00.t
 t/parseFieldDescription_04.t
 t/perl_01.t
 t/pod_00.t
+t/scene_00.t
 t/sfnode_01.t
 t/test_01.t
 t/testnode2_05.t
 t/testnode_05.t
+t/testNode_06.t
 t/testnode_06.t
+t/testNode_07.t
 t/TestNodeCallback1.pm
 t/testNodeCallback1_01.t
 t/testNodeCallback1_02.t
 t/testNodeCallback1_03.t
+t/testNodeCallback1_04.t
+t/testNodeCallback1_05.t
 t/TestNodeFields.pm
 t/TestNodeWeed.pm
 t/TestType.pm

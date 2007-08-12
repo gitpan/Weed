@@ -18,8 +18,8 @@ use Weed 'Weed : X3DBaseNode {
   SFBool   []       leftToRight TRUE
   SFFloat  []       size        1.0     (0,\u221e)
   SFFloat  []       spacing     1.0     [0,\u221e)
-  SFString [out]    style       "BOLD" ["PLAIN"|"BOLD"|"ITALIC"|"BOLDITALIC"|""]
-  SFBool   [in]     topToBottom TRUE
+  SFString [in,out]    style       "BOLD" ["PLAIN"|"BOLD"|"ITALIC"|"BOLDITALIC"|""]
+  SFBool   [in]     topToBottom
 }
 ';
 

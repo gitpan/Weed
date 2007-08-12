@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sfint32Id = $testNode->sfint32->getId;
 is $sfint32Id, $testNode->sfint32->getId;
 
@@ -109,8 +109,11 @@ is $testNode->sfint32 = ~$testNode->sfint32, 4294967294; #-2
 is ~$testNode->sfint32, 1;
 is ~~$testNode->sfint32, 4294967294;
 
+#is 0xFFFFFFFF, 4294967295;
+#is 0xEFFFFFFF, 4026531839;
+
 $testNode->sfint32 = 4294967294;
-is ++$testNode->sfint32, -1;
+is ++$testNode->sfint32, 4294967295;
 
 is cos( $testNode->sfint32 ), cos(4294967295);
 is sin( $testNode->sfint32 ), sin(4294967295);
@@ -125,7 +128,7 @@ is $testNode->sfint32, -1;
 is - $testNode->sfint32, 1;
 
 my $sfint32 = $testNode->sfint32;
-isa_ok $sfint32, 'X3DField';
+is ref $sfint32, '';
 
 $testNode->sfint32 = 0b10110;
 is $testNode->sfint32 & 0b10011, 0b10010;

@@ -11,20 +11,20 @@ BEGIN {
 }
 
 {
-	ok my $node1 = new X3DNode("node");
-	ok my $node2 = new X3DNode("node2");
-	is $node1, 'DEF ' . $node1->getName . ' X3DNode { }';
+	ok my $node1 = new SFNode( new X3DNode("node") );
+	ok my $node2 = new SFNode( new X3DNode("node2") );
+	is $node1, 'DEF ' . $node1->getValue->getName . ' X3DNode { }';
 
-	is $node1->getField('metadata'), X3DGenerator->NULL;
-	is $node1->getField('metadata')->getType,       'SFNode';
-	is $node1->getField('metadata')->getAccessType, X3DConstants->inputOutput;
-	#is $node1->getField('metadata')->isReadable,      YES;
-	#is $node1->getField('metadata')->isWritable,      YES;
-	is $node1->getField('metadata')->getName,         'metadata';
-	is $node1->getField('metadata')->getValue,        undef;
-	is $node1->getField('metadata')->getInitialValue, undef;
+	is $node1->getValue->getField('metadata'), X3DGenerator->NULL;
+	is $node1->getValue->getField('metadata')->getType,       'SFNode';
+	is $node1->getValue->getField('metadata')->getAccessType, X3DConstants->inputOutput;
+	#is $node1->getValue->getField('metadata')->isReadable,      YES;
+	#is $node1->getValue->getField('metadata')->isWritable,      YES;
+	is $node1->getValue->getField('metadata')->getName,         'metadata';
+	is $node1->getValue->getField('metadata')->getValue,        undef;
+	is $node1->getValue->getField('metadata')->getInitialValue, undef;
 
-	ok !( my $sfnode3 = $node1->getField('metadata')->getClone );
+	ok !( my $sfnode3 = $node1->getValue->getField('metadata')->getClone );
 	ok ref $sfnode3;
 	is $sfnode3->getType,       'SFNode';
 	is $sfnode3->getAccessType, X3DConstants->inputOutput;
@@ -38,16 +38,16 @@ BEGIN {
 
 	X3DGenerator->setOutputStyle("COMPACT");
 	X3DGenerator->setTidyFields(NO);
-	is $node1, 'DEF ' . $node1->getName . ' X3DNode {
+	is $node1, 'DEF ' . $node1->getValue->getName . ' X3DNode {
   metadata NULL
 }';
 
 	X3DGenerator->setOutputStyle("CLEAN");
 	X3DGenerator->setTidyFields(NO);
-	is $node1, 'DEF ' . $node1->getName . ' X3DNode{metadata NULL}';
+	is $node1, 'DEF ' . $node1->getValue->getName . ' X3DNode{metadata NULL}';
 
 	X3DGenerator->setTidyFields(YES);
-	is $node1, 'DEF ' . $node1->getName . ' X3DNode{}';
+	is $node1, 'DEF ' . $node1->getValue->getName . ' X3DNode{}';
 
 	print $node1;
 	X3DGenerator->setOutputStyle("ALL");

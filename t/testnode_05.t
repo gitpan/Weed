@@ -15,9 +15,9 @@ X3DGenerator->setOutputStyle("COMPACT");
 X3DGenerator->setTidyFields(NO);
 
 ok ! (my $nullNode = new SFNode);
-ok my $testNode = new SFNode(new TestNode);
+ok my $testNode = new TestNode;
 
-is $testNode->sfbool, 'FALSE';
+is $testNode->sfbool, NO;
 
 is $testNode->sfbool = 1, '1';
 ok my $b = $testNode->sfbool;
@@ -25,13 +25,13 @@ $b--;
 is $testNode->sfbool = 1, '1';
 
 $testNode->sfbool = 1;
-is $testNode->sfbool, 'TRUE';
+is $testNode->sfbool, YES;
 
 $testNode->sfbool = 0;
-is $testNode->sfbool, 'FALSE';
+is $testNode->sfbool, NO;
 
 is $nullNode, 'NULL';
-is $testNode->sfbool, 'FALSE';
+is $testNode->sfbool, NO;
 
 is $testNode->doubles, '[ 1.2, 3.4, 5.6 ]';
 is $testNode->doubles->[0], 1.2;

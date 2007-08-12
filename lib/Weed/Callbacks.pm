@@ -1,8 +1,10 @@
 package Weed::Callbacks;
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 use Weed 'X3DCallbacks : X3DArrayHash ()';
+
+use Scalar::Util ();
 
 sub add {
 	my ( $this, $object, $callback ) = @_;
@@ -18,6 +20,8 @@ sub add {
 	my $id = X3DUniversal::getId($value);
 
 	push @$this, $this->{$objectId}->{$callbackId} = $value;
+	
+	Scalar::Util::weaken($value->[0]);
 
 	return $id;
 

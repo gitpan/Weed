@@ -1,10 +1,8 @@
 package Weed::FieldTypes::SFNode;
 
-our $VERSION = '0.013';
+our $VERSION = '0.016';
 
 use Weed 'SFNode : X3DField { NULL }';
-
-use Want ();
 
 use overload
   'int' => sub { $_[0]->getValue ? 1 : 0 },
@@ -17,29 +15,36 @@ use overload
   'ne' => sub { "$_[0]" ne $_[1] },
   ;
 
-sub AUTOLOAD : lvalue {    #X3DMessage->Debug(@_);
+use Want ();
+
+sub AUTOLOAD : lvalue {    #X3DMessage->Debug( @_, our $AUTOLOAD );
 	my $this = shift;
 	my $name = substr our $AUTOLOAD, rindex( $AUTOLOAD, ':' ) + 1;
 
-	my $node = $this->getValue;
-	X3DMessage->UnknownField( 1, $this, $AUTOLOAD ), return unless ref $node;
-	#X3DMessage->DirectOutputIsFALSE, return unless $node->{directOutput};
+	$this = $this->getValue;
+	X3DMessage->UnknownField( 1, $this, $AUTOLOAD ), return unless ref $this;
+
+	#X3DMessage->DirectOutputIsFALSE, return unless $this->{directOutput};
 
 	if ( Want::want('RVALUE') ) {
-		my $field = $node->getField($name);
+		my $field = $this->getField($name);
 		Want::rreturn $field if Want::want 'ARRAY';
-		Want::rreturn $field->getClone;
+		Want::rreturn $field->getClone->getValue;
 	}
 
 	if ( Want::want('ASSIGN') ) {
-		$node->getField($name)->setValue( Want::want('ASSIGN') );
+		$this->getField($name)->setValue( Want::want('ASSIGN') );
 		Want::lnoreturn;
 	}
 
-	return $node->getFields->getField($name)
-	  if Want::want('REF');
+	if ( Want::want('CODE') ) {
+		my $value = $this->getField($name)->getClone->getValue;
+		return $value;
+	}
 
-	$node->getFields->getTiedField($name) # für: += ++ ...
+	return $this->getFields->getField( $name, $this ) if Want::want('REF');
+
+	$this->getFields->getTiedField( $name, $this )    # für: += ++ ...
 }
 
 #sub new {  X3DMessage->Debug;
@@ -58,10 +63,7 @@ sub setValue {
 	my ( $this, $value ) = @_;
 
 	my $node = $this->getValue;
-	if ($node) {
-		$node->getParents->remove($this);
-		#$node->dispose;
-	}
+	$node->getParents->remove($this) if ref $node;
 
 	$value = $value->getValue
 	  if UNIVERSAL::isa( $value, 'SFNode' );
@@ -80,20 +82,15 @@ sub setValue {
 		X3DMessage->ValueHasToBeAtLeastOfTypeX3DNode( 1, $this, $value );
 	}
 
+	$node->dispose if ref $node;
 	return;
 }
 
 sub toString { sprintf "%s", $_[0]->getValue || X3DGenerator->NULL }
 
-sub dispose {    #print " SFNode::dispose ", $_[0]->getName;
-	my ($this) = @_;
-
-	return;
-}
-
 sub DESTROY {    #X3DMessage->Debug(undef, $_[0]->getId, $_[0]->getName);
 	my $this = shift;
-	#print new X3DHash $$this;
+	#print new X3DHash $this;
 	$this->setValue(undef);
 	return;
 }

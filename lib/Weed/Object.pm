@@ -2,7 +2,7 @@ package Weed::Object;
 
 use Weed 'X3DObject ()';
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 use Weed::Callbacks;
 
@@ -60,6 +60,8 @@ sub toString {
 
 	return $string;
 }
+
+sub dispose { }
 
 #sub DESTROY {
 #	my $this = shift;

@@ -11,10 +11,10 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
-ok my $weed = new SFNode(new Weed);
+ok my $weed = new Weed;
 ok my $id = $weed->size->getId;
 ok my $size = $weed->size;
-ok $weed->size->getId != $size->getId;
+#ok $weed->size->getId != $size->getId;
 is $weed->size, 1;
 is $size, 1;
 is $weed->size, $size;

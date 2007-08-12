@@ -10,25 +10,28 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sfstringId = $testNode->sfstring->getId;
 is $sfstringId, $testNode->sfstring->getId;
 
-$testNode->sfstring = "a~ha";
-is $testNode->sfstring, "a~ha";
-is ~$testNode->sfstring, ~"a~ha";
-is $testNode->sfstring .$testNode->sfstring , "a~haa~ha";
+$testNode->sfstring = 'a~ha';
+ok $testNode->sfstring eq 'a~ha';
+is scalar $testNode->sfstring, 'a~ha';
+is ~$testNode->sfstring, ~'a~ha';
+is $testNode->sfstring .$testNode->sfstring , 'a~haa~ha';
 
 $testNode->sfstring =~ s/~/-/;
-is $testNode->sfstring, "a-ha";
+ok $testNode->sfstring eq 'a-ha';
+is scalar $testNode->sfstring, 'a-ha';
 $testNode->sfstring =~ s/-/~/;
-is $testNode->sfstring, "a~ha";
+ok $testNode->sfstring eq 'a~ha';
+is scalar $testNode->sfstring, 'a~ha';
 
 my $sfstring = $testNode->sfstring;
-isa_ok $sfstring, 'X3DField';
+is ref $sfstring, '';
 
-isa_ok $testNode->sfstring, 'X3DField';
+is ref $testNode->sfstring, '';
 is $sfstringId, $testNode->sfstring->getId;
+
 1;
 __END__
-

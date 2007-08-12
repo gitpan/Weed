@@ -38,37 +38,38 @@ is $mfX->length, 30;
 is scalar @$mfX, 30;
 is $#$mfX, 29;
 
-ok my $tn = new SFNode( new TestNode );
+ok my $tn = new TestNode;
 is ref tied $tn->doubles, 'Weed::Tie::Field';
 is ref tied @{ $tn->doubles }, 'Weed::Tie::Value::Array';
-is ref $tn->doubles, 'MFDouble';
+is ref $tn->doubles, 'X3DArray';
 ok my $doubles = $tn->doubles;
 is $tn->doubles, '[ 1.2, 3.4, 5.6 ]';
 is $doubles, '[ 1.2, 3.4, 5.6 ]';
 is $tn->doubles->[0] = 123, 123;
 is my $d = $tn->doubles->[0], 123;
 is $tn->doubles->[0], 123;
-$d->setValue(1);
-is $d, 1;
+#$d->setValue(1);
+#is $d, 1;
 is $tn->doubles->[0], 123;
 
-is $tn->doubles->[0] = 11, 11;
+is $tn->doubles->[0] = 11,  11;
 is $tn->doubles->[0] = 123, 123;
-is $d, 1;
+#is $d, 1;
 
 my $sd = $tn->sfdouble;
 is $sd, 0;
 is $tn->sfdouble, 0;
-is ref $sd, 'SFDouble';
-$sd->setValue(1);
+is ref $sd, '';
+#$sd->setValue(1);
 is $tn->sfdouble, 0;
-is $sd, 1;
+#is $sd, 1;
 
-is $doubles->getParents, "{ }";
-is $tn->doubles->[0]->getParents, "{ }";
+#is $doubles->getParents, "{ }";
+#is $tn->doubles->[0]->getParents, "{ }";
+is $tn->getField('doubles')->getParents->getSize, 1;
 
-is ref $tn->sfdouble, 'SFDouble';
-is ref $tn->doubles->[0], 'SFDouble';
+is ref $tn->sfdouble, '';
+is ref $tn->doubles->[0], '';
 
 is $tn->doubles, '[ 123, 3.4, 5.6 ]';
 is $doubles, '[ 1.2, 3.4, 5.6 ]';
@@ -83,7 +84,7 @@ is ++$tn->doubles->[0], 129;
 is ++$tn->doubles->[0], 130;
 is $tn->doubles, '[ 130, 3.4, 5.6 ]';
 
-is $d, 1;
+#is $d, 1;
 
 1;
 __END__

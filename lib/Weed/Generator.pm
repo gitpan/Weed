@@ -1,6 +1,6 @@
 package Weed::Generator;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed 'X3DGenerator';
 
@@ -190,10 +190,8 @@ sub setOutputStyle {
 
 # STANDARD
 __PACKAGE__->setPrecisionOfFloat(7);
-__PACKAGE__->setPrecisionOfDouble(15);
-__PACKAGE__->setOutputStyle("CLEAN");
+__PACKAGE__->setPrecisionOfDouble(14);
 __PACKAGE__->setOutputStyle("TIDY");
 
 1;
 __END__
-#__PACKAGE__->CLEAN;

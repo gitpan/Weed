@@ -8,10 +8,12 @@ BEGIN {
 }
 
 use X3D 'TestNode : X3DNode {
-  SFString  [in]      set_sfstring1
-  SFString  [in]      set_sfstring2
-  SFString  [in]      set_sfstring3
-  SFString  [in]      set_sfstring4
+  SFString  [in,out]      set_sfstring1 ""
+  SFString  [in,out]      set_sfstring2 ""
+  SFString  [in,out]      set_sfstring3 ""
+  SFString  [in,out]      set_sfstring4 ""
+  
+  MFString  [in,out]      set_mfstring  []
 }
 ';
 
@@ -54,6 +56,12 @@ sub set_sfstring4 {
 	my ( $this, $value, $time ) = @_;
 
 	print "set_sfstring4 @_",;
+}
+
+sub set_mfstring {
+	my ( $this, $value, $time ) = @_;
+
+	print "set_mfstring @_",;
 }
 
 sub eventsProcessed {

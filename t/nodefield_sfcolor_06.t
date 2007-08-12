@@ -10,10 +10,10 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sfcolorId = $testNode->sfcolor->getId;
 is $sfcolorId, $testNode->sfcolor->getId;
-isa_ok $testNode->sfcolor, 'SFColor';
+isa_ok $testNode->sfcolor, 'X3DColor';
 
 ok !$testNode->sfcolor;
 
@@ -30,7 +30,6 @@ $testNode->sfcolor = [ -0.2, 0.2, 0.4 ] +$testNode->sfcolor;
 is $testNode->sfcolor, "0.8 0.4 0.4";
 
 isa_ok $testNode->sfcolor + [ 1, 0, 0 ], 'X3DColor';
-
 
 #$this->{fields}->{$name};
 #print ref $testNode->getValue->{fields}->{sfcolor};
@@ -49,32 +48,32 @@ $testNode->sfcolor += [ 0.1, 0.1, 0.1 ];
 is $testNode->sfcolor, "0.207142857142857 0.185714285714286 0.185714285714286";
 
 my $sfcolor = $testNode->sfcolor;
-isa_ok $sfcolor, 'X3DField';
-isa_ok $testNode->sfcolor, 'SFColor';
+isa_ok $sfcolor, 'X3DColor';
+isa_ok $testNode->sfcolor, 'X3DColor';
 
-$testNode->sfcolor = new SFColor(1/2, 1/4, 1/8);
+$testNode->sfcolor = new SFColor( 1 / 2, 1 / 4, 1 / 8 );
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
-$testNode->sfcolor = new SFVec3f(1/4, 1/2, 1/8);
+$testNode->sfcolor = new SFVec3f( 1 / 4, 1 / 2, 1 / 8 );
 is $testNode->sfcolor, "0.25 0.5 0.125";
 
-$testNode->sfcolor = new SFVec3d(1/2, 1/4, 1/8);
+$testNode->sfcolor = new SFVec3d( 1 / 2, 1 / 4, 1 / 8 );
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
-$testNode->sfcolor = new SFVec2d(1/2, 1/4);
+$testNode->sfcolor = new SFVec2d( 1 / 2, 1 / 4 );
 isa_ok $testNode->sfcolor->getValue, 'X3DColor';
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
-$testNode->sfcolor = new SFVec2f(1/4, 1/2);
+$testNode->sfcolor = new SFVec2f( 1 / 4, 1 / 2 );
 is $testNode->sfcolor, "0.25 0.5 0.125";
 
-$testNode->sfcolor = [1/2, 1/4, 1/8];
+$testNode->sfcolor = [ 1 / 2, 1 / 4, 1 / 8 ];
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
-$testNode->sfcolor = [1/2, 1/4];
+$testNode->sfcolor = [ 1 / 2, 1 / 4 ];
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
-$testNode->sfcolor = [1/2];
+$testNode->sfcolor = [ 1 / 2 ];
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
 $testNode->sfcolor = 0.3;
@@ -83,49 +82,55 @@ is $testNode->sfcolor, "0.3 0.25 0.125";
 $testNode->sfcolor = new SFDouble(0.6);
 is $testNode->sfcolor, "0.6 0.25 0.125";
 
-$testNode->sfcolor = [1/2, 1/4];
+$testNode->sfcolor = [ 1 / 2, 1 / 4 ];
 is $testNode->sfcolor, "0.5 0.25 0.125";
 
 $testNode->sfcolor = new SFDouble(0.6);
 is $testNode->sfcolor, "0.6 0.25 0.125";
 
-
-$testNode->sfcolor = new SFVec2f [1/16, 1/8];
+$testNode->sfcolor = new SFVec2f [ 1 / 16, 1 / 8 ];
 is $testNode->sfcolor, "0.0625 0.125 0.125";
 
 print new SFRotation;
-print "#"x23;
+print "#" x 23;
 $testNode->sfcolor = new SFRotation;
-print "#"x23;
+print "#" x 23;
 is $testNode->sfcolor, "0 0 1";
-$testNode->sfcolor = new SFRotation(1, 0, 0, 1);
+$testNode->sfcolor = new SFRotation( 1, 0, 0, 1 );
 is $testNode->sfcolor, "0 0 1";
 
-$testNode->sfcolor = new SFRotation(1, 2, 3, 1);
+$testNode->sfcolor = new SFRotation( 1, 2, 3, 1 );
 is $testNode->sfcolor, '1 1 1';
 
 is ref $testNode->sfcolor->getValue->[0], '';
 
-is $testNode->sfcolor->getValue->[0] = 1, '1';
-is $testNode->sfcolor->getValue->[1] = 2, '2';
-is $testNode->sfcolor->getValue->[2] = 3, '3';
-is $testNode->sfcolor->getValue->[0], '1';
-is $testNode->sfcolor->getValue->[1], '2';
-is $testNode->sfcolor->getValue->[2], '3';
-is $testNode->sfcolor, "1 2 3";
+is $testNode->sfcolor->getValue->[0] = .1, '0.1';
+is $testNode->sfcolor->getValue->[1] = .2, '0.2';
+is $testNode->sfcolor->getValue->[2] = 2,  '2';
+is $testNode->sfcolor->getValue->[0], '0.1';
+is $testNode->sfcolor->getValue->[1], '0.2';
+is $testNode->sfcolor->getValue->[2], '2';
+is $testNode->sfcolor, "0.1 0.2 1";
+
+is $testNode->sfcolor->[0] = .2, '0.2';
+is $testNode->sfcolor->[1] = .3, '0.3';
+is $testNode->sfcolor->[2] = 2, '2';
+is $testNode->sfcolor->[0], '0.2';
+is $testNode->sfcolor->[1], '0.3';
+is $testNode->sfcolor->[2], '2';
+is $testNode->sfcolor, "0.2 0.3 1";
 
 is ref $testNode->sfcolor->getValue->[0], '';
 is ref $testNode->sfcolor->getValue->[1], '';
 is ref $testNode->sfcolor->getValue->[2], '';
 
-$testNode->sfcolor = SFVec3f->new(1, 2, 3) / 10;
+$testNode->sfcolor = SFVec3f->new( 1, 2, 3 ) / 10;
 is $testNode->sfcolor->[0], '0.1';
 is $testNode->sfcolor->[1], '0.2';
 is $testNode->sfcolor->[2], '0.3';
 is $testNode->sfcolor->r, '0.1';
 is $testNode->sfcolor->g, '0.2';
 is $testNode->sfcolor->b, '0.3';
-
 
 is $sfcolorId, $testNode->sfcolor->getId;
 

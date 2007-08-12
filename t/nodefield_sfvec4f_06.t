@@ -11,7 +11,7 @@ BEGIN {
 }
 
 X3DGenerator->setOutputStyle("COMPACT");
-ok my $testNode = new SFNode( new TestNode );
+ok my $testNode = new TestNode;
 is $testNode->sfvec4f, "0 0 0 0";
 is $testNode->doubles, "[ 1.2, 3.4, 5.6 ]";
 
@@ -32,7 +32,7 @@ isa_ok int $testNode->sfvec4f, 'X3DVec4';
 is $testNode->sfvec4f**2, "1 0.25 0.0625 1";
 
 my $sfvec4f = $testNode->sfvec4f;
-isa_ok $sfvec4f, 'X3DField';
+isa_ok $sfvec4f, 'X3DVec4';
 
 ok $testNode->sfvec4f == $sfvec4f;
 ok $sfvec4f == $testNode->sfvec4f;
@@ -48,8 +48,8 @@ ok $testNode->sfvec4f = [ 1, 2, 3, 1 ];
 is $testNode->sfvec4f, "1 2 3 1";
 is $testNode->sfvec4f += [ 1, 2, 3, 1 ], "2 4 6 2";
 
-isa_ok $testNode->sfvec4f += [ 1, 2, 3, 1 ], "X3DField";
-isa_ok $testNode->sfvec4f -= [ 1, 2, 3, 1 ], "X3DField";
+isa_ok $testNode->sfvec4f += [ 1, 2, 3, 1 ], "X3DVec4";
+isa_ok $testNode->sfvec4f -= [ 1, 2, 3, 1 ], "X3DVec4";
 
 is $testNode->sfvec4f, "2 4 6 2";
 is ++$testNode->sfvec4f, "3 5 7 3";
@@ -59,7 +59,7 @@ my $v = $testNode->sfvec4f++;
 is $testNode->sfvec4f++, "5 7 9 5";
 is $v, "4 6 8 4";
 is $testNode->sfvec4f, "6 8 10 6";
-isa_ok $v, 'X3DField';
+isa_ok $v, 'X3DVec4';
 is $v,     "4 6 8 4";
 is --$testNode->sfvec4f, "5 7 9 5";
 is $v, "4 6 8 4";

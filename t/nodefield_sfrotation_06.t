@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode     = new SFNode( new TestNode );
+ok my $testNode     = new TestNode;
 ok my $sfrotationId = $testNode->sfrotation->getId;
 is $sfrotationId, $testNode->sfrotation->getId;
 
@@ -103,7 +103,7 @@ ok $testNode->sfrotation = [ $r, $r ];
 is $testNode->sfrotation, $r;
 
 my $sfrotation = $testNode->sfrotation;
-isa_ok $sfrotation, 'X3DField';
+isa_ok $sfrotation, 'X3DRotation';
 
 is $sfrotationId, $testNode->sfrotation->getId;
 

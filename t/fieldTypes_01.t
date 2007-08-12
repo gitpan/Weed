@@ -19,7 +19,7 @@ is new SFImage,     '0 0 0';
 is new SFInt32,     '0';
 is new SFNode,      'NULL';
 is new SFRotation,  '0 0 1 0';
-is new SFString,    '';
+is new SFString,    '""';
 is new SFTime,      '0';
 is new SFVec2d,     '0 0';
 is new SFVec2f,     '0 0';

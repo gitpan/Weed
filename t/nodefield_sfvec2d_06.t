@@ -15,7 +15,7 @@ BEGIN {
 #print SFVec2f->X3DPackage::toString;
 print MFVec2f->X3DPackage::toString;
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sfvec2dId = $testNode->sfvec2d->getId;
 is $sfvec2dId, $testNode->sfvec2d->getId;
 
@@ -24,7 +24,7 @@ ok !$testNode->sfvec2d;
 is $testNode->sfvec2d ? YES : NO, NO;
 
 ok $testNode->sfvec2d = [ 3, 4 ];
-is $testNode->sfvec2d->length, sqrt( 3*3 + 4*4 );
+is $testNode->sfvec2d->length, sqrt( 3 * 3 + 4 * 4 );
 
 is $testNode->sfvec2d, '3 4';
 ok $testNode->sfvec2d;
@@ -36,12 +36,11 @@ is $testNode->sfvec2d->[1], 4;
 is $testNode->sfvec2d->x, 3;
 is $testNode->sfvec2d->y, 4;
 
-
-$testNode->sfvec2d = new SFVec2d(1/2, 1/4);
+$testNode->sfvec2d = new SFVec2d( 1 / 2, 1 / 4 );
 is $testNode->sfvec2d, "0.5 0.25";
 
 my $sfvec2d = $testNode->sfvec2d;
-isa_ok $sfvec2d, 'X3DField';
+isa_ok $sfvec2d, 'X3DVec2';
 
 is $sfvec2dId, $testNode->sfvec2d->getId;
 

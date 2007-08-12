@@ -13,13 +13,12 @@ BEGIN {
 
 {
 	#print "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-	ok my $sfnode1 = new SFNode( new TestNode("ONE") );
+	ok my $sfnode1 = new TestNode("ONE");
 
 	ok not $sfnode1->set_sfstring1->getTainted;
 	ok not $sfnode1->set_sfstring2->getTainted;
 	ok not $sfnode1->set_sfstring3->getTainted;
 	ok not $sfnode1->set_sfstring4->getTainted;
-	ok not $sfnode1->getValue->getTainted;
 	ok not $sfnode1->getTainted;
 
 	#$sfnode->set_sfstring1 = "one";
@@ -36,9 +35,9 @@ BEGIN {
 	#$sfnode1->set_sfstring2 = "owt";
 	$sfnode1->set_sfstring2 = "two";
 
-	$sfnode1->getValue->prepareEvents;
-	$sfnode1->getValue->processEvents;
-	$sfnode1->getValue->eventsProcessed;
+	$sfnode1->prepareEvents;
+	$sfnode1->processEvents;
+	$sfnode1->eventsProcessed;
 
 	#print new X3DHash($$sfnode);
 	#ok not $sfnode->getTainted;
@@ -48,7 +47,7 @@ BEGIN {
 	ok not $sfnode1->set_sfstring2->getTainted;
 	ok not $sfnode1->set_sfstring3->getTainted;
 	ok not $sfnode1->set_sfstring4->getTainted;
-	ok not $sfnode1->getValue->getTainted;
+	ok not $sfnode1->getTainted;
 	#ok not $sfnode1->getTainted;
 
 }

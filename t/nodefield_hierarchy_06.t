@@ -10,16 +10,16 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode = new SFNode( new TestNode );
+ok my $testNode = new TestNode;
 #$testNode->sfdouble(123);
 
-isa_ok $testNode->sfdouble,   'X3DField';
-isa_ok $testNode->say,        'X3DField';
-isa_ok $testNode->time,       'X3DField';
-isa_ok $testNode->parseFloat, 'X3DField';
-isa_ok $testNode->parseInt,   'X3DField';
-isa_ok $testNode->getValue->getField("übelst"), 'X3DField';
-isa_ok $testNode->getValue->getField("übe::lst"), 'X3DField';
+isa_ok $testNode->getField("sfdouble"),    'X3DField';
+isa_ok $testNode->getField("say"),         'X3DField';
+isa_ok $testNode->getField("time"),        'X3DField';
+isa_ok $testNode->getField("parseFloat"), 'X3DField';
+isa_ok $testNode->getField("parseInt"),    'X3DField';
+isa_ok $testNode->getField("übelst"),      'X3DField';
+isa_ok $testNode->getField("übe::lst"),    'X3DField';
 #isa_ok $testNode->getValue->getField("3übe::lst"), 'X3DField';
 
 #is $testNode->YES, YES;
@@ -39,13 +39,13 @@ is $testNode->sfdouble->X3DPackage::toString,
 
 ################################################################################
 my $tw = 20;
-my $m = $tw;
+my $m  = $tw;
 $m = ++$m + $m++;
 $testNode->sfdouble = $tw;
 is ++$testNode->sfdouble + $testNode->sfdouble++, $m;
 
-$m = $tw;
-$m = ++$m + $m++;
+$m                 = $tw;
+$m                 = ++$m + $m++;
 $testNode->sffloat = $tw;
 is ++$testNode->sffloat + $testNode->sffloat++, $m;
 

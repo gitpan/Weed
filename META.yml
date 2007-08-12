@@ -26,6 +26,7 @@ requires:
     POSIX:                         0
     Scalar::Util:                  0
     strict:                        0
+    Sub::Name:                     0
     Test::More:                    0
     Tie::Array:                    0
     Tie::Hash:                     0

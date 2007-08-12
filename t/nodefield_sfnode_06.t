@@ -10,18 +10,29 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode = new SFNode( new TestNode('TestNodeFields') );
+ok my $testNode = new TestNode('TestNodeFields');
 ok $testNode;
-ok $testNode->sfnode = new SFNode( new TestNode('TestNodeFieldsIn') );
+ok $testNode->sfnode = new TestNode('TestNodeFieldsIn');
 ok $testNode->sfnode;
+is $testNode->sfnode->sfnode,        undef;
+is $testNode->sfnode->sfvec3f,       '0 0 0';
+is $testNode->sfnode->getName,       'sfnode';
+is $testNode->sfnode->getAccessType, X3DConstants->inputOutput;
+is $testNode->sfnode->sfnode->getName,       'sfnode';
+is $testNode->sfnode->sfnode->getAccessType, X3DConstants->inputOutput;
+
 is $testNode->sfnode, 'DEF ' . $testNode->sfnode->getValue->getName . ' TestNode { }';
 
 ok my $sfnodeId = $testNode->sfnode->getId;
 is $sfnodeId, $testNode->sfnode->getId;
 
-isa_ok $testNode->sfnode, 'SFNode';
+ok UNIVERSAL::isa($testNode->sfnode, 'TestNode');
+#isa_ok $testNode->sfnode, 'TestNode'; # zauber schlägt zauber
+#   Failed test 'The object isa TestNode'
+#   at /home/holger/cpan/Weed/t/nodefield_sfnode_06.t line 29.
+#     The object isn't a 'TestNode' it's a 'TestNode'
 
-is $testNode->getValue->getId, $testNode->getClone->getValue->getId;
+#is $testNode->getId, $testNode->getClone->getId;
 ok $testNode->getId != $testNode->getClone->getId;
 
 ok $testNode->getId != $testNode->getCopy->getId;
@@ -32,34 +43,35 @@ ok $testNode ne $testNode->getCopy;
 ok my $clone = $testNode->getClone;
 ok my $copy  = $testNode->getCopy;
 
-ok $clone->sfnode->getId == $testNode->sfnode->getId;
+ok $clone->sfnode->getId != $testNode->sfnode->getId;
 ok $clone->sfnode->getValue->getId == $testNode->sfnode->getValue->getId;
 
 ok $copy->sfnode->getId != $testNode->sfnode->getId;
 ok $copy->sfnode->getValue->getId == $testNode->sfnode->getValue->getId;
 
-ok $clone->getValue->getField( $_->getName )->getId == $testNode->getValue->getField( $_->getName )->getId
-  foreach @{ $testNode->getValue->getFieldDefinitions };
-ok $clone->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $_->getName )
-  foreach @{ $testNode->getValue->getFieldDefinitions };
+ok $clone->getField( $_->getName )->getId != $testNode->getField( $_->getName )->getId
+  foreach @{ $testNode->getFieldDefinitions };
+ok $clone->getField( $_->getName ) eq $testNode->getField( $_->getName )
+  foreach @{ $testNode->getFieldDefinitions };
 
-ok $copy->getValue->getField( $_->getName )->getId != $testNode->getValue->getField( $_->getName )->getId
-  foreach @{ $testNode->getValue->getFieldDefinitions };
+ok $copy->getField( $_->getName )->getId != $testNode->getField( $_->getName )->getId
+  foreach @{ $testNode->getFieldDefinitions };
 is X3DMath::sum( map {
-		$copy->getValue->getField( $_->getName ) eq $testNode->getValue->getField( $_->getName )
-	  } @{ $testNode->getValue->getFieldDefinitions } ),
-  scalar @{ $testNode->getValue->getFieldDefinitions };
+		$copy->getField( $_->getName ) eq $testNode->getField( $_->getName )
+	  } @{ $testNode->getFieldDefinitions } ),
+  scalar @{ $testNode->getFieldDefinitions };
 
 print $testNode;
 print $clone;
 print $copy;
 
 my $sfnode = $testNode->sfnode;
-isa_ok $sfnode, 'X3DField';
+#isa_ok $sfnode, 'X3DBaseNode';
+ok UNIVERSAL::isa($sfnode, 'X3DBaseNode');
 
-ok $testNode == $clone;
+ok $testNode != $clone;
 ok $testNode != $copy;
-ok $testNode eq $clone;
+ok $testNode ne $clone;
 ok $testNode ne $copy;
 
 is $sfnodeId, $testNode->sfnode->getId;

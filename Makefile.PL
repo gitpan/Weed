@@ -33,6 +33,7 @@ BEGIN {
 			Scalar::Util   => 0,
 			Hash::NoRef    => 0,
 			Want           => 0,
+			Sub::Name      => 0, #0.02
 			#Sub::Signatures => 0,
 
 			#Concept ArrayHash <>

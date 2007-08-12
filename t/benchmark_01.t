@@ -49,7 +49,7 @@ ok my $r1 = new X3DRotation [ 2, 3, 1 ], [ 5, 4, 8 ];
 #timethis( 1_000_000, sub { $r1->xx  = 4 } );    #
 #timethis( 1_000_000, sub { $r1->xxx = 4 } );    #
 
-ok my $sfnode = new SFNode( new TestNode );
+ok my $sfnode = new TestNode;
 
 my $doubles = $sfnode->doubles;
 $doubles->[0] = 1234567;

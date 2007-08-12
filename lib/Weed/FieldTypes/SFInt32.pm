@@ -1,17 +1,18 @@
 package Weed::FieldTypes::SFInt32;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'SFInt32 : X3DField { 0 }';
 
-use base 'Weed::BaseFieldTypes::Scalar';
+use integer;
 
-use Weed::Parse::Int32;
+use base 'Weed::BaseFieldTypes::Scalar';
 
 sub setValue {
 	my ( $this, $value ) = @_;
+	
 	$this->X3DField::setValue(
-		defined $value ? Weed::Parse::Int32::int32( \"$value" ) || 0 : $this->getDefaultValue
+		defined $value ? eval { no warnings; int($value) } || 0 : $this->getDefaultValue
 	);
 }
 

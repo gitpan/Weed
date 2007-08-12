@@ -1,7 +1,7 @@
 package Weed::Tie::Value::Array;
 use Weed;
 
-our $VERSION = '0.009';
+our $VERSION = '0.011';
 
 use base 'Tie::Array';
 
@@ -21,7 +21,7 @@ sub storeValue {
 
 sub fetchValue {
 	my ( $this, $value ) = @_;
-	return $this->{fieldType}->new($value);
+	return $this->{fieldType}->new($value)->getValue;
 }
 
 sub insertValues {
@@ -46,7 +46,9 @@ sub TIEARRAY {
 	return $this;
 }
 
-sub STORE { $_[0]->getValue->[ $_[1] ] = $_[0]->storeValue( $_[2] ) }
+sub STORE {
+	$_[0]->getValue->[ $_[1] ] = $_[0]->storeValue( $_[2] );
+}
 
 sub FETCH {
 	#return $_[0]->getValue->[ $_[1] ] if want('REF');
@@ -60,11 +62,21 @@ sub FETCH {
 sub FETCHSIZE { scalar @{ $_[0]->getValue } }
 sub EXISTS    { exists $_[0]->getValue->[ $_[1] ] }
 
-sub STORESIZE { $#{ $_[0]->getValue } = $_[1] - 1 }
-sub CLEAR { @{ $_[0]->getValue } = () }
-sub DELETE { delete $_[0]->getValue->[ $_[1] ] }
+sub STORESIZE {
+	$#{ $_[0]->getValue } = $_[1] - 1;
+}
 
-sub POP { $_[0]->removeValues( pop( @{ $_[0]->getValue } ) ) }
+sub CLEAR {
+	@{ $_[0]->getValue } = ();
+}
+
+sub DELETE {
+	delete $_[0]->getValue->[ $_[1] ];
+}
+
+sub POP {
+	$_[0]->removeValues( pop( @{ $_[0]->getValue } ) );
+}
 
 sub PUSH {
 	my $this = shift;

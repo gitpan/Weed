@@ -1,6 +1,6 @@
 package Weed::FieldTypes::MFNode;
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 use Weed 'MFNode : X3DArrayField { [] }';
 
@@ -69,6 +69,8 @@ sub dispose {
 
 sub DESTROY {
 	my $this = shift;
+	#print $this->getName if defined $this;
+	#$this->X3DArrayField::DESTROY;
 	$this->setValue( [] );
 }
 

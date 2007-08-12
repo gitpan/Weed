@@ -18,13 +18,83 @@ use Weed 'Node : X3DBaseNode {
 }';
 
 package main;
-#use Benchmark ':hireswallclock';
 
-my $sfnode = new SFNode(new Node);
+my $sfnode = new Node;
 
+#is $sfnode->sfdouble, '0';
 is $sfnode->sfvec3f++, '0 0 0';
 is $sfnode->sfvec3f, '1 1 1';
 my $sfvec3f = $sfnode->sfvec3f;
+
+sub proto ($) { ref $_[0] }
+sub nop       { ref $_[0] }
+sub two       { ref $_[1] }
+
+$sfnode->sfvec3f->getValue->[0] = 4;
+$sfnode->sfvec3f->x = 4;
+
+print "1" x 23;
+$sfnode->sfvec3f->x = 2;
+# wantref:  OBJECT
+# SCALAR
+# REF
+# OBJECT
+# COUNT
+# LVALUE
+
+print "2" x 23;
+is $sfnode->sfvec3f->x, 2;
+# wantref:  OBJECT
+# SCALAR
+# REF
+# OBJECT
+# COUNT
+# LVALUE
+
+print "3" x 23;
+$sfnode->sfvec3f->[0] = 1;    #
+
+print "4" x 23;
+is $sfnode->sfvec3f->[0], 1;    #
+
+print "5" x 23;
+is $sfnode->sfdouble, 0;
+# wantref:  CODE
+# SCALAR
+# REF
+# CODE
+# COUNT
+# LVALUE
+
+print "6" x 23;
+is proto( $sfnode->sfdouble ), '';
+# wantref:  CODE
+# SCALAR
+# REF
+# CODE
+# COUNT
+# LVALUE
+
+print "7" x 23;
+is nop( $sfnode->sfdouble ), '';
+# wantref:  CODE
+# REF
+# CODE
+# LIST
+# Infinity
+# LVALUE
+
+print "8" x 23;
+is two( undef, $sfnode->sfdouble ), '';
+# wantref:  CODE
+# REF
+# CODE
+# LIST
+# Infinity
+# LVALUE
+
+print "9" x 23;
+is ref $sfnode->sfdouble, '';
 
 #timethis( 1_000_000, sub { $sfnode->getValue } ); #134952.77/s
 

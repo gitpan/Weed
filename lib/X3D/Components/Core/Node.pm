@@ -1,6 +1,6 @@
 package X3D::Components::Core::Node;
 
-our $VERSION = '0.006';
+our $VERSION = '0.009';
 
 use X3D '
 X3DNode : X3DBaseNode {
@@ -11,14 +11,12 @@ X3DNode : X3DBaseNode {
 sub new {
 	my $this = shift->X3DBaseNode::new(@_);
 
-	$this->{self} = new SFNode($this);
-	#$this->getParents->remove( $this->{self} );
+	$this->getCallbacks->add( $this, $this->can("processEvent") );
 
-	$this->getCallbacks->add( $this->{self}, $this->can("processEvent") );
-	$this->setTainted(NO);
+	#$this->setTainted(NO);
 
-	$_->getCallbacks->add( $this->{self}, UNIVERSAL::can( $this, $_->getName ) )
-	  foreach grep { $_->getDefinition->isIn } @{ $this->{fields} };
+	$_->getCallbacks->add( $this, UNIVERSAL::can( $this, $_->getName ) )
+	  foreach grep { $_->getDefinition->isIn } @{ $this->getFields };
 
 	#$this->can("initialize")->( $$this->{self}, $this );
 
@@ -30,12 +28,19 @@ sub initialize { }
 
 sub processEvent {
 	my ( $self, $this, $time ) = @_;
-	$_->processEvents($time) foreach @{ $this->{fields} };
+	$_->processEvents($time) foreach @{ $this->getFields };
 	return;
 }
 
 sub prepareEvents   { }
 sub eventsProcessed { }
+
+sub dispose {
+	my ($this) = @_;
+	#return unless $this->getParents == 1;
+	#$this->{self}->setValue(undef);
+	return;
+}
 
 1;
 __END__

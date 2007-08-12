@@ -11,6 +11,7 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
+ok new SFNode( new Weed );
 ok my $weed = new Weed;
 isa_ok $weed->getField('style'),   'X3DField';
 isa_ok $weed->getField('spacing'), 'X3DField';
@@ -18,14 +19,14 @@ isa_ok $weed->getField('string'),  'X3DField';
 
 my $style = $weed->getField('style');
 
-is $style, 'BOLD';
-is $weed->getField('style'), 'BOLD';
+is $style, '"BOLD"';
+is $weed->getField('style'), '"BOLD"';
 
 $weed->getField('style')->setValue('PLAIN');
-is $weed->getField('style'), 'PLAIN';
+is $weed->getField('style'), '"PLAIN"';
 
 $weed->getField('style')->setValue('BOLD');
-is $weed->getField('style'), 'BOLD';
+is $weed->getField('style'), '"BOLD"';
 
 isa_ok $weed->getField('style'),   'X3DField';
 isa_ok $weed->getField('spacing'), 'X3DField';
@@ -47,14 +48,13 @@ is $weed->getField('string'),  $weed->getField('string');
 is $weed->getField('size'), 1;
 my $field = $weed->getField('size');
 ok $weed->getField('size')->getId == $field->getId;
- 
+
 is $field, 1;
 is ++$field, 2;
 is $field++, 2;
 is $field, 3;
 is $weed->getField('size'), 1;
 #ok $weed->getField('size')->getId != $field->getId;
-
 
 1;
 __END__

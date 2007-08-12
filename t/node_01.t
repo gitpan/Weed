@@ -15,7 +15,8 @@ BEGIN {
 	my $n = new TestNode();
 	my $s = new SFNode($n);
 
-	$n->{xxx} = 123;
+	eval { $n->{xxx} = 123 };
+	ok not $@;
 	#print new X3DHash \%$n;
 
 	print $n->getField('sfvec2f');
@@ -26,21 +27,21 @@ BEGIN {
 	my %h;
 	is int( \%h ), int( \%h );
 
-	$s->sfvec2f = [ 1, 1 ];
-	is $s->sfvec2f, '1 1';
-	$s->sfvec2f = [ 2, 2 ];
-	is $s->sfvec2f, '2 2';
-	is $s->sfvec2f += 1, '3 3';
-	is $s->sfvec2f, '3 3';
+	$n->sfvec2f = [ 1, 1 ];
+	is $n->sfvec2f, '1 1';
+	$n->sfvec2f = [ 2, 2 ];
+	is $n->sfvec2f, '2 2';
+	is $n->sfvec2f += 1, '3 3';
+	is $n->sfvec2f, '3 3';
 
 	#print ref ${ $s->getValue->getFields }->{tiedFields}->{'sfvec2f'};
 	${ $s->getValue->getFields }->{tiedFields}->{'sfvec2f'} -= 1;
-	is $s->sfvec2f, '2 2';
+	is $n->sfvec2f, '2 2';
 
 	#is $s->sfvec2f -= 1, '2 2';
 	#is $s->sfvec2f, '2 2';
-	is $s->sfvec2f += 1, '3 3';
-	is $s->sfvec2f, '3 3';
+	is $n->sfvec2f += 1, '3 3';
+	is $n->sfvec2f, '3 3';
 
 	#isa_ok $n->[19], 'SFColorRGBA';
 	#isa_ok $n->[29], 'SFVec2f';

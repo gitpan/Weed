@@ -64,13 +64,13 @@ ok $testNode->sfnode->sfnode->getValue->getParents == 2;
 ok $testNode->sfnode->sfnode2->getValue->getParents == 2;
 
 my $clone = $testNode->sfnode->sfnode;
-ok !$clone->getParents;
+is $clone->getParents->getSize, 2;
 
 print "#" x 20;
-ok $testNode->sfnode->sfnode->getValue->getParents == 3;
+ok $testNode->sfnode->sfnode->getValue->getParents == 2;
 ok $testNode->sfnode->sfnode2 = $testNode->sfnode->sfnode;
-ok $testNode->sfnode->sfnode->getValue->getParents == 3;
-ok $testNode->sfnode->sfnode2->getValue->getParents == 3;
+ok $testNode->sfnode->sfnode->getValue->getParents == 2;
+ok $testNode->sfnode->sfnode2->getValue->getParents == 2;
 
 print $testNode->sfnode->sfnode2->getValue->getParents;
 

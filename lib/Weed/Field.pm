@@ -1,7 +1,7 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 use Weed::Parse::FieldValue;
 
@@ -74,7 +74,6 @@ sub setValue {
 #	my ( $this, $destinationField ) = @_;
 #	X3DMessage->Debug;
 
-
 # 	return $this->{fieldCallbacks}->{ X3DUniversal::getId($object) . $callbackName } =
 # 	  [ $object, $callbackName ]
 # 	  if $object->isa("SFNode")
@@ -93,7 +92,7 @@ sub setValue {
 #
 sub toString { sprintf "%s", $_[0]->getValue }
 
-#sub DESTROY { X3DMessage->Debug($_[0]);
+#sub DESTROY { X3DMessage->Debug($_[0], X3DUniversal::getId($_[0]));
 #}
 
 1;

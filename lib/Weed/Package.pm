@@ -1,7 +1,7 @@
 package Weed::Package;
 use Weed::Perl;
 
-our $VERSION = '0.011';
+our $VERSION = '0.013';
 
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
@@ -15,6 +15,8 @@ use Weed::Parse::Concept;
 
 our $_space     = qr/\s+/so;
 our $_type_name = qr/^([\$\@%&*]?)(.*)/so;
+
+our $Namespace = "";
 
 sub import {
 	my $to = shift;
@@ -43,26 +45,27 @@ sub exists { UNIVERSAL::can( $_[0], 'can' ) ? YES : NO }
 sub createType {
 	my ( $package, $base, $declaration, @imports ) = @_;
 
-	#printf "X3DUniversal createType %s %s\n", $package, $base;
-
 	my $description = Weed::Parse::Concept::parse($declaration);
 	if ( ref $description ) {
 
 		my $typeName = $description->{typeName};
 
-		X3DPackage::setBase( $typeName, $package, @imports );
-		X3DPackage::setSupertypes( $typeName,
+		my $packageName = $Namespace ? "$Namespace\::$typeName" : $typeName;
+		#printf "X3DUniversal createType %s %s %s %s\n", $package, $base, $typeName, $packageName;
+
+		X3DPackage::setBase( $packageName, $package, @imports );
+		X3DPackage::setSupertypes( $packageName,
 			@{ $description->{supertypes} } ?
 			  @{ $description->{supertypes} } :
 			  $base
 		);
-		X3DPackage::setBase( $typeName, $description->{base} );
+		#X3DPackage::setBase( $typeName, $description->{base} );
 
 		#printf "X3DUniversal createType %s : %s %s\n", $typeName, $package, $base;
-		X3DPackage::Scalar( $typeName, "Description" ) = $description;
+		X3DPackage::Scalar( $packageName, "Description" ) = $description;
 
-		$typeName->SET_DESCRIPTION($description)
-		  if $typeName->can('SET_DESCRIPTION');
+		$packageName->SET_DESCRIPTION($description)
+		  if $packageName->can('SET_DESCRIPTION');
 
 	} else {
 		Carp::croak "Error Parse::Concept: '$declaration'\n", $@ if $@;
@@ -72,6 +75,9 @@ sub createType {
 }
 
 sub getName { ref( $_[0] ) || $_[0] }
+
+sub getNamespace { $Namespace }
+sub setNamespace { $Namespace = $_[1] || '' }
 
 #sub getPath { [ Class::ISA::self_and_super_path( X3DPackage::getName( $_[0] ) ) ] }
 sub getPath {
@@ -302,6 +308,13 @@ sub Hash : lvalue {
 	my $property = sprintf '%s::%s', $this->X3DPackage::getName, $name;
 	no strict 'refs';
 	%$property;
+}
+
+sub Glob : lvalue {
+	my ( $this, $name ) = @_;
+	my $property = sprintf '%s::%s', $this->X3DPackage::getName, $name;
+	no strict 'refs';
+	*$property;
 }
 
 sub getSubroutine {

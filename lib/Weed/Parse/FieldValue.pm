@@ -1,7 +1,7 @@
 package Weed::Parse::FieldValue;
 use Weed;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::RegularExpressions;
 
@@ -799,7 +799,7 @@ sub sfenumValues {
 sub null {
 	my ($string) = @_;
 	return undef if $$string =~ m/$_NULL/gc;
-	warn __PACKAGE__ . " could not pare NULL";
+	die "Could not parse NULL";
 	return;
 }
 

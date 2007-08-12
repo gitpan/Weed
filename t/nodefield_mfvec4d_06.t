@@ -11,7 +11,7 @@ BEGIN {
 }
 
 X3DGenerator->setOutputStyle("COMPACT");
-ok my $testNode = new SFNode( new TestNode );
+ok my $testNode = new TestNode;
 
 ok my $mfvec4dId = $testNode->mfvec4d->getId;
 is $mfvec4dId, $testNode->mfvec4d->getId;
@@ -56,12 +56,12 @@ is $testNode->mfvec4d, "[ ]";
 
 $testNode->mfvec4d = [ [ 1, 2, 3, 4 ], [ 2, 3, 4, 5 ] ];
 is $testNode->mfvec4d->length, 2;
-isa_ok $testNode->mfvec4d->[0], 'SFVec4d';
-isa_ok $testNode->mfvec4d->[1], 'SFVec4d';
+isa_ok $testNode->mfvec4d->[0], 'X3DVec4';
+isa_ok $testNode->mfvec4d->[1], 'X3DVec4';
 is $testNode->mfvec4d->[2],     undef;
 is $testNode->mfvec4d->[333],   undef;
 $testNode->mfvec4d->[2] = [ 3, 4, 5, 6 ];
-isa_ok $testNode->mfvec4d->[2], 'SFVec4d';
+isa_ok $testNode->mfvec4d->[2], 'X3DVec4';
 is $testNode->mfvec4d->[3],     undef;
 is $testNode->mfvec4d->length, 3;
 
@@ -88,9 +88,9 @@ is scalar keys %$h, 0;
 is scalar values %$h, 0;
 
 my $mfvec4d = $testNode->mfvec4d;
-isa_ok $mfvec4d, 'X3DField';
+isa_ok $mfvec4d, 'X3DArray';
 
-isa_ok $mfvec4d, "X3DField";
+isa_ok $mfvec4d, "X3DArray";
 is $mfvec4dId,   $testNode->mfvec4d->getId;
 1;
 __END__

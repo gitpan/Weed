@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode  = new TestNode;
 ok my $sfvec2fId = $testNode->sfvec2f->getId;
 is $sfvec2fId, $testNode->sfvec2f->getId;
 
@@ -24,7 +24,7 @@ $testNode->sfvec2f = new SFVec2f(1/2, 1/4);
 is $testNode->sfvec2f, "0.5 0.25";
 
 my $sfvec2f = $testNode->sfvec2f;
-isa_ok $sfvec2f, 'X3DField';
+isa_ok $sfvec2f, 'X3DVec2';
 
 is $sfvec2fId, $testNode->sfvec2f->getId;
 1;

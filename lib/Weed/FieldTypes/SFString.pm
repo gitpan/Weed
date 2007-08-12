@@ -1,6 +1,6 @@
 package Weed::FieldTypes::SFString;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed 'SFString : X3DField { "" }';
 
@@ -17,10 +17,11 @@ use overload
 
 sub setValue {
 	my ( $this, $value ) = @_;
+	$value = $value->getValue if UNIVERSAL::isa($value, 'SFString');
 	$this->X3DField::setValue( defined $value ? "$value" : $this->getDefaultValue );
 }
 
-sub toString { sprintf "%s", $_[0]->getValue }
+sub toString { sprintf X3DGenerator->STRING, $_[0]->getValue }
 
 1;
 __END__

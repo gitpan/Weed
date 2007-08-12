@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 #package AAA_01
+#the line above does not have to interest you
 use Test::More no_plan;
 use strict;
 

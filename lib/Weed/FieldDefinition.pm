@@ -1,8 +1,11 @@
 package Weed::FieldDefinition;
 
-our $VERSION = '0.012';
+our $VERSION = '0.013';
 
 use Weed 'X3DFieldDefinition : X3DObject { }';
+
+use Want      ();
+use Sub::Name ();
 
 use overload 'eq' => sub {
 	return YES if !defined( $_[0]->getValue ) && !defined( $_[1]->getValue );
@@ -41,6 +44,39 @@ sub createField {
 	$field->create;
 
 	return $field;
+}
+
+sub createFieldClosure {
+	my $this    = shift;
+	my $name    = $this->getName;
+	my $package = $this->getName;
+
+	return Sub::Name::subname "$package\::$name" => sub  : lvalue {
+		#X3DMessage->Debug( $_[0], caller(0) );
+		my $this = shift;
+
+		#X3DMessage->DirectOutputIsFALSE, return unless $this->{directOutput};
+
+		if ( Want::want('RVALUE') ) {
+			my $field = $this->getField($name);
+			Want::rreturn $field if Want::want 'ARRAY';
+			Want::rreturn $field->getClone->getValue;
+		}
+
+		if ( Want::want('ASSIGN') ) {
+			$this->getField($name)->setValue( Want::want('ASSIGN') );
+			Want::lnoreturn;
+		}
+
+		if ( Want::want('CODE') ) {
+			my $value = $this->getField($name)->getClone->getValue;
+			return $value;
+		}
+
+		return $this->getFields->getField( $name, $this ) if Want::want('REF');
+
+		$this->getFields->getTiedField( $name, $this )    # für: += ++ ...
+	  }
 }
 
 #	MFNode   [in,out] children       []       [X3DChildNode]

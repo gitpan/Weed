@@ -1,7 +1,7 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::Symbols;
 
@@ -11,7 +11,6 @@ our @EXPORT = qw(
   $_RestrictedId
   $_colon
   $_colon_test
-  $_week_hash
   $_open_parenthesis
   $_close_parenthesis
   $_FieldDefinition
@@ -124,7 +123,6 @@ our $Id          = "$IdFirstChar$IdRestChars*";
 our $RestrictedIdFirstChar = '[^\x30-\x39\x00-\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d-\x7f()]{1}';
 our $RestrictedId          = "$RestrictedIdFirstChar$IdRestChars*";
 our $_space_break_space    = qr.$space*$break$space*.so;
-our $_week_hash            = qr.\G$whitespace*$swung_dash$open_brace.so;
 our $_in                   = qr.\G$whitespace*$_in_.so;
 our $_out                  = qr.\G$whitespace*$_out_.so;
 
@@ -135,7 +133,7 @@ our $_out                  = qr.\G$whitespace*$_out_.so;
 our $_break      = qr.$break.so;
 our $_header     = qr.\A$header.so;
 our $_comment    = qr.\G$whitespace*$comment.so;
-our $_whitespace = qr.$whitespace+.so;
+our $_whitespace = qr.\G$whitespace*.so;
 
 # concept
 

@@ -4,14 +4,16 @@ use Weed 'X3D : Weed';
 
 use 5.008008;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 use warnings::register;
 
 use X3D::Components::Core;
+use X3D::Scene;
 
 1;
 __END__
+
 package SbColor;
 1;
 package SbColorRGBA;

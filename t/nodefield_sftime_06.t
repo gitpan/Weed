@@ -10,7 +10,7 @@ BEGIN {
 	use_ok 'TestNodeFields';
 }
 
-ok my $testNode  = new SFNode( new TestNode );
+ok my $testNode = new TestNode;
 ok my $sftimeId = $testNode->sftime->getId;
 is $sftimeId, $testNode->sftime->getId;
 
@@ -107,10 +107,10 @@ is !$testNode->sftime, !1;
 is - $testNode->sftime, 1.3;
 
 my $sftime = $testNode->sftime;
-isa_ok $sftime, 'X3DField';
+is ref $sftime, '';
 
 is $testNode->sftime, '-1.3';
-is $testNode->time, '0';
+is $testNode->time,   '0';
 
 is $sftimeId, $testNode->sftime->getId;
 1;

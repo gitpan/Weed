@@ -1,7 +1,7 @@
 package Weed::Universal;
 use Weed::Perl;
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 use Carp ();
 use Hash::NoRef;
@@ -22,11 +22,11 @@ use overload
   '""' => 'toString',
   ;
 
-sub import {
-	shift;
-	return unless @_;
-	X3DPackage::createType( scalar caller, 'X3DUniversal', @_ );
-}
+#sub import {
+#	my $namespace = shift;
+#	return unless @_;
+#	X3DPackage::createType( $namespace, scalar caller, 'X3DUniversal', @_ );
+#}
 
 BEGIN {
 	X3DPackage::createType( __PACKAGE__, 'X3DUniversal', 'X3DUniversal { }', 'getId getReferenceCount' );
@@ -39,7 +39,7 @@ sub new {
 
 sub getId { Scalar::Util::refaddr( $_[0] ) }
 
-sub getType { ref $_[0] }
+sub getType { $_[0]->X3DPackage::Scalar("Description")->{typeName} }
 
 sub getHierarchy { my $i = 0; X3DArray->new( [ grep { X3DMath::even( $i++ ) } @{ X3DPackage::getPath( $_[0] ) } ] ) }
 

@@ -1,7 +1,7 @@
 package Weed::Parser;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Carp qw(croak);
 
@@ -84,13 +84,13 @@ sub scene {
 sub getError {
 	my ($this) = @_;
 
-	$this->{string} =~ m/\G$_whitespace*$/sgco;    # spaces at end of string$
+	$this->{string} =~ m/$_whitespace$/gc;    # spaces at end of string$
 	my $pos = pos( $this->{string} ) || 0;
 
 	return unless length( $this->{string} ) - $pos;
 
 	unless ($@) {
-		$this->{string} =~ m/\G$_whitespace*/sgco;
+		$this->{string} =~ m/$_whitespace/gc;
 		$pos = pos( $this->{string} ) || 0;
 	}
 

@@ -2,7 +2,7 @@ package Weed::FieldSet;
 
 use Weed 'X3DFieldSet : X3DArrayHash ()';
 
-our $VERSION = '0.004';
+our $VERSION = '0.006';
 
 use Weed::Tie::Field;
 
@@ -21,10 +21,10 @@ sub new {
 		$fields[$i] = $field;
 		$fields{$name} = $field;
 
+		# make this a real tied hash later
 		tie $tiedFields{$name}, 'Weed::Tie::Field', $field;
-
 		#44217; make perl know that this is a ref
-		scalar $tiedFields{$name};
+		scalar $tiedFields{$name};    #
 	}
 
 	my $this = $self->X3DArrayHash::new( \@fields, \%fields );
@@ -32,16 +32,6 @@ sub new {
 
 	return $this;
 }
-
-# sub getClone {
-# 	my $this = shift;
-# 	my $copy = $this->new( $this->getName );
-#
-# 	$$copy->{fields}->{$_}->setValue( $this->getField($_) )
-# 	  foreach map { $_->getName } $this->getFieldDefinitions;
-#
-# 	return $copy;
-# }
 
 sub getField : lvalue {
 	my ( $this, $name ) = @_;
@@ -93,7 +83,7 @@ sub toString {
 			$string .= X3DGenerator->indent;
 			$string .= $_->getName;
 			$string .= X3DGenerator->space;
-			$string .= $_->isa('SFString') ? sprintf X3DGenerator->STRING, $_ : $_;
+			$string .= $_;
 			$string .= X3DGenerator->tidy_break;
 		}
 		X3DGenerator->dec;

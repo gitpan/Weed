@@ -1,8 +1,8 @@
 package X3D::Components::Core::Nodes::MetadataInteger;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
-use Weed 'MetadataInteger : X3DNode, X3DMetadataObject { 
+use X3D 'MetadataInteger : X3DNode, X3DMetadataObject { 
   SFNode   [in,out] metadata  NULL [X3DMetadataObject]
   SFString [in,out] name      ""
   SFString [in,out] reference ""
