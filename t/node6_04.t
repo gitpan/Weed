@@ -12,7 +12,7 @@ BEGIN {
 }
 
 X3DGenerator->setOutputStyle("COMPACT");
-ok my $weed = new Weed;
+ok my $weed = new WeedTest;
 ok my $id   = $weed->size->getId;
 ok my $size = $weed->size;
 #ok $weed->size->getId != $size->getId;

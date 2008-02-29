@@ -35,7 +35,7 @@ X3DGenerator->setOutputStyle("ALL");
 	print $scene->rootNodes;
 	print $scene->routes;
 }
-print new X3D::MetadataDouble();
+print new X3D::NodeTypes::MetadataDouble();
 
 1;
 __END__

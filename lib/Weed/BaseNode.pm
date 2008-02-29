@@ -1,27 +1,20 @@
 package Weed::BaseNode;
 use Weed;
 
-our $VERSION = '0.015';
+our $VERSION = '0.016';
+
+use Want      ();
+use Sub::Name ();
 
 use Weed::Parse::FieldDescription;
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
-	my $fieldDescriptions = Weed::Parse::FieldDescription::parse @{ $description->{body} };
+	print $this;
+	my $fieldDescriptions = Weed::Parse::FieldDescription::parse $description->{body};
 	my $fieldDefinitions = [ map { new X3DFieldDefinition(@$_) } @$fieldDescriptions ];
-	$this->setFieldDefinitions($fieldDefinitions);
-}
-
-sub setFieldDefinitions {
-	my ( $this, $fieldDefinitions ) = @_;
-	my $package = $this->X3DPackage::getName;
-
-	$this->X3DPackage::Scalar("X3DFieldDefinitions") = $fieldDefinitions;
-
-	$package->X3DPackage::Glob( $_->getName ) = $_->createFieldClosure($package)
-	  foreach @$fieldDefinitions;
-
-	return;
+	$this->X3DPackage::Scalar("X3DFieldDefinitions") = [];
+	$this->setFieldDefinitions($fieldDefinitions) if @$fieldDefinitions;
 }
 
 use Weed 'X3DBaseNode : X3DObject { }';
@@ -34,11 +27,13 @@ sub new {
 
 	$this->setFields( new X3DFieldSet( $this->getFieldDefinitions, $this ) );
 
+	$this->getCallbacks->add( $this->can("processEvent") );
+
 	return $this;
 }
 
 sub getClone {
-	my $this = shift;
+	my ($this) = @_;
 	my $copy = $this->new( $this->getName );
 
 	$copy->getField( $_->getName )->setValue( $_->getValue )
@@ -55,12 +50,101 @@ sub setName { $_[0]->{name} = new X3DName( $_[1] ) }
 sub getName { $_[0]->{name}->toString }
 
 # Fields
-sub setFields { $_[0]->{fields} = $_[1] }
+sub setFields {
+	my ( $this, $fields ) = @_;
+	$this->{fields} = $fields;
+}
 sub getFields { $_[0]->{fields} }
 
 sub getField { $_[0]->getFields->getField( $_[1], $_[0] ) }
 
+sub setFieldDefinitions {
+	my ( $this, $fieldDefinitions ) = @_;
+
+	$this->X3DPackage::Scalar("X3DFieldDefinitions") = $fieldDefinitions;
+	$this->createFieldClosures($fieldDefinitions);
+	$this->createFieldCallbacks($fieldDefinitions);
+
+	return;
+}
 sub getFieldDefinitions { $_[0]->X3DPackage::Scalar("X3DFieldDefinitions") }
+
+sub processEvent {
+	my ( $this, $value, $time ) = @_;
+	#X3DMessage->Debug(@_);
+
+	$_->getDefinition->processEvents( $this, $_, $time )
+	  foreach @{ $this->getFields };
+
+	return;
+}
+
+sub createFieldCallbacks {
+	my ( $this, $fieldDefinitions ) = @_;
+
+	my $sypertype = $this->X3DPackage::getSupertype;
+
+	foreach ( grep { $_->isIn } @$fieldDefinitions )
+	{
+		#X3DMessage->Debug( $this, $sypertype->UNIVERSAL::can( $_->getName ) );
+
+		$_->getCallbacks->add( $sypertype->UNIVERSAL::can( $_->getName ) )
+		  if $_->getAccessType == X3DConstants->inputOnly;
+
+		$_->getCallbacks->add( $sypertype->UNIVERSAL::can( "set_" . $_->getName ) )
+	}
+
+	return;
+}
+
+sub createFieldClosures {
+	my ( $this, $fieldDefinitions ) = @_;
+
+	my $package = $this->X3DPackage::getName;
+
+	foreach my $fieldDefinition (@$fieldDefinitions) {
+		my $name = $fieldDefinition->getName;
+		my $fieldClosure = $this->createFieldClosure( $package, $name );
+		$package->X3DPackage::Glob($name) = $fieldClosure;
+
+		$package->X3DPackage::Glob( "set_" . $name ) =
+		  $package->X3DPackage::Glob( $name . "_changed" ) = $fieldClosure
+		  if $fieldDefinition->getAccessType == X3DConstants->inputOutput;
+	}
+
+	return;
+}
+
+sub createFieldClosure {
+	my ( $this, $package, $name ) = @_;
+
+	return Sub::Name::subname $package . "::" . $name => sub  : lvalue {
+		#X3DMessage->Debug( $_[0], caller(0) );
+		my $this = shift;
+
+		#X3DMessage->DirectOutputIsFALSE, return unless $this->{directOutput};
+
+		if ( Want::want('RVALUE') ) {
+			my $field = $this->getField($name);
+			Want::rreturn $field if Want::want 'ARRAY';
+			Want::rreturn $field->getClone->getValue;
+		}
+
+		if ( Want::want('ASSIGN') ) {
+			$this->getField($name)->setValue( Want::want('ASSIGN') );
+			Want::lnoreturn;
+		}
+
+		if ( Want::want('CODE') ) {
+			my $value = $this->getField($name)->getClone->getValue;
+			return $value;
+		}
+
+		return $this->getFields->getField( $name, $this ) if Want::want('REF');
+
+		$this->getFields->getTiedField( $name, $this )    # für: += ++ ...
+	};
+}
 
 # Basenode
 sub toString {
@@ -96,18 +180,10 @@ sub toString {
 	return $string;
 }
 
-#sub DESTROY {
-#	my $this = shift;
-#print "BaseNode::DESTROY";
-#print "BaseNode::DESTROY ", $this->getName;
-#printf "BaseNode::DESTROY: %d\n", $this->getReferenceCount;
-#print  "BaseNode::Clones:  ", $this->{clones};
-#}
-
-sub DESTROY {
-	# X3DMessage->Debug( $_[0] );
-	return;
-}
+# sub DESTROY {
+# 	X3DMessage->Debug( $_[0] );
+# 	return;
+# }
 
 1;
 __END__

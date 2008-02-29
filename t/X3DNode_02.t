@@ -13,7 +13,7 @@ BEGIN {
 {
 	X3DGenerator->setOutputStyle("ALL");
 
-	ok my $node1 = new X3D::MetadataString("node");
+	ok my $node1 = new X3D::NodeTypes::MetadataString("node");
 	ok not $node1->getTainted;
 
 	$node1->value->[0] = "node0";

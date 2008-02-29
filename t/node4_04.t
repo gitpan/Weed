@@ -11,8 +11,8 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
-ok new SFNode( new Weed );
-ok my $weed = new Weed;
+ok new SFNode( new WeedTest );
+ok my $weed = new WeedTest;
 isa_ok $weed->getField('style'),   'X3DField';
 isa_ok $weed->getField('spacing'), 'X3DField';
 isa_ok $weed->getField('string'),  'X3DField';

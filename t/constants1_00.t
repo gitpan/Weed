@@ -44,9 +44,9 @@ ok $bool2 ? 0 : 1;
 is "$bool2", "FALSE";
 is $bool2, FALSE;
 is TRUE, 'TRUE';
-
 is my $sfnode = NULL, NULL;
 is $sfnode, 'NULL';
+print "x"x23;
 $sfnode->setValue( new X3DBaseNode );
 
 ok $sfnode;

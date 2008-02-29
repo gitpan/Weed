@@ -3,9 +3,11 @@ use Weed::Perl;
 
 use 5.008008;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use warnings::register;
+
+use Filter::EOF;
 
 sub import {
 	shift;
@@ -13,13 +15,18 @@ sub import {
 	warnings::import;
 	#warnings::unimport('redefine');
 	Weed::Perl->export_to_level(1);
-	Weed::Package::createType( scalar caller, 'X3DUniversal', @_ );
+
+	my $package = scalar caller;
+
+	Weed::Package::createType( $package, 'X3DUniversal', @_ );
+	Filter::EOF->on_eof_call( sub { $package->Weed::Package::initializeType; } );
 }
 
 use Weed::Environment;
 
 1;
 __END__
+no warnings 'redefine';
 
 =head1 NAME
 
@@ -127,5 +134,5 @@ Same as overload::StrVal. A new type should specify its own 'toString' method.
 
 =cut
 
-#44217
-#return copy of value instead copy of object
+# 44217
+# return copy of value instead copy of object

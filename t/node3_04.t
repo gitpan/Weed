@@ -11,13 +11,13 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
-ok my $weed = new Weed;
+ok my $weed = new WeedTest;
 isa_ok $weed, $_ foreach @{ $weed->X3DPackage::getPath };
 ok $weed ;
 isa_ok $weed, $_ foreach @{  $weed->getHierarchy };
 ok $weed ;
 printf "%s\n", $weed;
-is $weed, "DEF " . $weed->getName . " Weed { }";
+is $weed, "DEF " . $weed->getName . " WeedTest { }";
 
 X3DGenerator->setTidyFields(YES);
 printf "%s\n", $weed;

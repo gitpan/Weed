@@ -1,30 +1,30 @@
 package Weed::Parse::FieldDescription;
 use Weed;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::RegularExpressions;
 use Weed::Parse::Id qw.Ids Id.;
+use Weed::Parse::Comment qw.comment.;
 
 # Definition
 # SFNode [in,out] metadata NULL [X3DMetadataObject]
 
 sub parse {
-	my $statement = eval { &fieldDescriptions(@_) };
+	my $statement = eval { &fieldDescriptions( \$_[0] ) };
 	Carp::croak $@ if $@;
 	return $statement;
 }
 
-sub fieldDescriptions (\@) {
-	my (@string) = @_;
+sub fieldDescriptions {
+	my ($string) = @_;
 
+	my $fieldDescription  = &fieldDescription($string);
 	my $fieldDescriptions = [];
 
-	foreach (@string) {
-		my $fieldDescription = &fieldDescription( \$_ );
-		if ( ref $fieldDescription ) {
-			push @$fieldDescriptions, $fieldDescription;
-		}
+	while ( defined $fieldDescription ) {
+		push @$fieldDescriptions, $fieldDescription;
+		$fieldDescription = &fieldDescription($string);
 	}
 
 	return $fieldDescriptions;
@@ -32,10 +32,13 @@ sub fieldDescriptions (\@) {
 
 sub fieldDescription {
 	my ($string) = @_;
+
+	1 while &comment($string);
+
 	my $type = &Id($string);
-
-	if ( defined $type ) {
-
+	if ( defined $type )
+	{
+		#print $type;
 		if ( $$string =~ m.$_open_bracket.gc )
 		{
 			my $in  = &in($string);
@@ -78,9 +81,9 @@ sub fieldDescription {
 		}
 
 	} else {
-		die "Unknown event or field type in field description \n ", $$string, "\n"
-		  unless $$string =~ m.$_whitespace.gc;
-
+		#print substr ($$string, pos($$string)||0);
+		die "Unknown event or field type in field description\n", substr( $$string, pos($$string) || 0 ), "\n"
+		  if $$string !~ m.$_whitespace$.gc && ( pos($$string) || 0 ) < length($$string);
 	}
 
 	return;
@@ -98,8 +101,8 @@ sub out {
 
 sub range {
 	my ($string) = @_;
-	$$string =~ m.$_whitespace.gc;
-	return substr $$string, pos($$string);
+	return $1 if $$string =~ m.$_FieldRange.gc;
+	return;
 }
 
 1;

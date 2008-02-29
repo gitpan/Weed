@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-#package concept_00
+#package parse_concept_00
 use Test::More no_plan;
 use strict;
 
@@ -35,29 +35,45 @@ ok !Weed::Parse::Concept::parse('a : {}');
 ok !Weed::Parse::Concept::parse('b :a {}');
 ok Weed::Parse::Concept::parse('b : a {}');
 
+ok not Weed::Parse::Concept::parse('b : a {0}s');
 ok Weed::Parse::Concept::parse('b : a {0}');
-ok Weed::Parse::Concept::parse('b : a { 0 }')->{body}->[0] eq '0';
-is Weed::Parse::Concept::parse('b : a {0}')->{body}->[0],   '0';
-is Weed::Parse::Concept::parse('b : a {0 }')->{body}->[0],  '0';
-is Weed::Parse::Concept::parse('b : a { 0 }')->{body}->[0], '0';
-is Weed::Parse::Concept::parse('b : a { 0}')->{body}->[0],  '0';
+ok Weed::Parse::Concept::parse('b : a { 0 }')->{body} eq '0';
+is Weed::Parse::Concept::parse('b : a {0}')->{body},   '0';
+is Weed::Parse::Concept::parse('b : a {0 }')->{body},  '0';
+is Weed::Parse::Concept::parse('b : a { 0 }')->{body}, '0';
+is Weed::Parse::Concept::parse('b : a { 0}')->{body},  '0';
 
-is Weed::Parse::Concept::parse('b : a { 0 0}')->{body}->[0],  '0 0';
-is Weed::Parse::Concept::parse('b : a { 0 0 }')->{body}->[0], '0 0';
-is Weed::Parse::Concept::parse('b : a {0 0 }')->{body}->[0],  '0 0';
-is Weed::Parse::Concept::parse("b : a {0 0 }")->{body}->[0],  "0 0";
-is Weed::Parse::Concept::parse("b : a {0 0 0}")->{body}->[0], "0 0 0";
-is Weed::Parse::Concept::parse("b : a {1 2 3}")->{body}->[0], "1 2 3";
+is Weed::Parse::Concept::parse('b : a { 0 0}')->{body},  '0 0';
+is Weed::Parse::Concept::parse('b : a { 0 0 }')->{body}, '0 0';
+is Weed::Parse::Concept::parse('b : a {0 0 }')->{body},  '0 0';
+is Weed::Parse::Concept::parse("b : a {0 0 }")->{body},  "0 0";
+is Weed::Parse::Concept::parse("b : a {0 0 0}")->{body}, "0 0 0";
+is Weed::Parse::Concept::parse("b : a {1 2 3}")->{body}, "1 2 3";
 
 is Weed::Parse::Concept::parse( "b : a {
 0 0 0
-}" )->{body}->[0], "0 0 0";
+}" )->{body}, "0 0 0";
+
+is Weed::Parse::Concept::parse( "b : a {
+
+	0
+
+}" )->{body}, "0";
+
+is Weed::Parse::Concept::parse( 'b : a {
+
+	"\"{string}\""
+
+}' )->{body}, '"\"{string}\""';
 
 is Weed::Parse::Concept::parse( "b : a {
   SFNode [in,out] metadata NULL [X3DMetadataObject]
   SFNode [in,out] metadata NULL [X3DMetadataObject]
-}" )->{body}->[0],
-  "SFNode [in,out] metadata NULL [X3DMetadataObject]";
+}" )->{body},
+
+  "SFNode [in,out] metadata NULL [X3DMetadataObject]
+  SFNode [in,out] metadata NULL [X3DMetadataObject]"
+  ;
 
 is Weed::Parse::Concept::parse( '
 Anchor : X3DGroupingNode { 
@@ -71,8 +87,18 @@ Anchor : X3DGroupingNode {
   SFVec3f  []       bboxCenter     0 0 0    (-\u221e,\u221e)
   SFVec3f  []       bboxSize       -1 -1 -1 [0,\u221e) or \u22121 \u22121 \u22121 
 }
-')->{body}->[8],
-  'SFVec3f  []       bboxSize       -1 -1 -1 [0,\u221e) or \u22121 \u22121 \u22121';
+' )->{body},
+
+  'MFNode   [in]     addChildren
+  MFNode   [in]     removeChildren
+  MFNode   [in,out] children       []       [X3DChildNode]
+  SFString [in,out] description    ""
+  SFNode   [in,out] metadata       NULL     [X3DMetadataObject]
+  MFString [in,out] parameter      []
+  MFString [in,out] url            []       [url or urn]
+  SFVec3f  []       bboxCenter     0 0 0    (-\u221e,\u221e)
+  SFVec3f  []       bboxSize       -1 -1 -1 [0,\u221e) or \u22121 \u22121 \u22121'
+  ;
 
 __END__
 

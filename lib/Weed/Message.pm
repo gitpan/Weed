@@ -1,6 +1,6 @@
 package Weed::Message;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed 'X3DMessage';
 
@@ -29,7 +29,7 @@ sub Debug {
 	  "D: %s->%s(%s) called at %s line %s",
 	  $type,
 	  &field_name(&caller_subroutine),
-	  @_ ? join( ", ", @_ ) : '',
+	  @_ ? join( ", ", map { $_ or '' } @_ ) : '',
 	  &caller_filename, &caller_line;
 }
 

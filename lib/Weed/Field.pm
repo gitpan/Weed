@@ -1,14 +1,14 @@
 package Weed::Field;
 use Weed;
 
-our $VERSION = '0.015';
+our $VERSION = '0.016';
 
 use Weed::Parse::FieldValue;
 
 sub SET_DESCRIPTION {
 	my ( $this, $description ) = @_;
 	my $typeName        = $description->{typeName};
-	my $defaultValue    = Weed::Parse::FieldValue::parse( $typeName, @{ $description->{body} } );
+	my $defaultValue    = Weed::Parse::FieldValue::parse( $typeName, $description->{body} );
 	my $fieldDefinition = new X3DFieldDefinition( $typeName, YES, YES, '', $defaultValue, '' );
 	$this->X3DPackage::Scalar("X3DDefaultDefinition") = $fieldDefinition;
 }

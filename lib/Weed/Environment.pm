@@ -1,7 +1,7 @@
 package Weed::Environment;
 use Weed::Perl;
 
-our $VERSION = '0.012';
+our $VERSION = '0.013';
 
 use Weed::Math;
 
@@ -35,6 +35,8 @@ use Weed::BaseNode;
 use Weed::Route;
 
 use Weed::ExecutionContext;
+
+sub import { X3DPackage::initializeTypes }
 
 1;
 __END__

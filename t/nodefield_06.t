@@ -11,7 +11,7 @@ BEGIN {
 	use_ok 'TestNodeWeed';
 }
 
-ok my $weed    = new Weed;
+ok my $weed    = new WeedTest;
 ok my $styleId = $weed->style->getId;
 is $styleId, $weed->style->getId;
 is $weed->metadata, undef;
@@ -158,7 +158,7 @@ $field = $weed->size;                        #25 # $weed->size->clone
 #$field->setValue(123);
 
 ok $weed->size = 2;                             #33
-is $weed, 'DEF '.$weed->getName.' Weed {
+is $weed, 'DEF '.$weed->getName.' WeedTest {
   size 2
 }';                                             #34
 
@@ -171,7 +171,7 @@ is $weed->size++, 7;
 is $weed->size++, 8;
 is $weed->size, 9;
 
-is $weed, 'DEF '.$weed->getName.' Weed {
+is $weed, 'DEF '.$weed->getName.' WeedTest {
   size 9
 }';
 

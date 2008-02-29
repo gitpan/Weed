@@ -2,12 +2,12 @@ package Weed::FieldSet;
 
 use Weed 'X3DFieldSet : X3DArrayHash ()';
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 use Weed::Tie::Field;
 
 sub new {
-	my ( $self, $fieldDefinitions, $parent ) = @_;
+	my ( $self, $fieldDefinitions, $node ) = @_;
 
 	my @fields;
 	my %fields;
@@ -16,19 +16,19 @@ sub new {
 	for ( my $i = 0 ; $i < @$fieldDefinitions ; $i++ ) {
 		my $fieldDefinition = $fieldDefinitions->[$i];
 		my $name            = $fieldDefinition->getName;
-		my $field           = $fieldDefinition->createField($parent);
+		my $field           = $fieldDefinition->createField($node);
 
 		$fields[$i] = $field;
 		$fields{$name} = $field;
 
-		# make this a real tied hash later
+		# make this a real tied hash later, maybe
 		tie $tiedFields{$name}, 'Weed::Tie::Field', $field;
-		#44217; make perl know that this is a ref
+		# ticket 44217; make perl know that this is a ref
 		scalar $tiedFields{$name};    #
 	}
 
 	my $this = $self->X3DArrayHash::new( \@fields, \%fields );
-	$$this->{tiedFields} = new X3DHash \%tiedFields;
+	$$this->{tiedFields} = \%tiedFields;
 
 	return $this;
 }

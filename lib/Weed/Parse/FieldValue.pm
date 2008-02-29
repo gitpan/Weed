@@ -1,7 +1,7 @@
 package Weed::Parse::FieldValue;
-use Weed;
+use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Weed::RegularExpressions;
 

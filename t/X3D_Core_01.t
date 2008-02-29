@@ -11,7 +11,7 @@ BEGIN {
 }
 
 {
-	ok my $set = new SFNode(new X3D::MetadataSet("Set"));
+	ok my $set = new SFNode(new X3D::NodeTypes::MetadataSet("Set"));
 	print $set->X3DPackage::toString;
 	print $set->getHierarchy;
 

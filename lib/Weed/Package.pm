@@ -1,7 +1,7 @@
 package Weed::Package;
 use Weed::Perl;
 
-our $VERSION = '0.013';
+our $VERSION = '0.014';
 
 #use Package::Generator;
 #Symbol::delete_package wipes out a whole package namespace. Note this routine is not exported by default--you may want to import it explicitly.
@@ -17,6 +17,7 @@ our $_space     = qr/\s+/so;
 our $_type_name = qr/^([\$\@%&*]?)(.*)/so;
 
 our $Namespace = "";
+our $Types     = [];
 
 sub import {
 	my $to = shift;
@@ -51,6 +52,7 @@ sub createType {
 		my $typeName = $description->{typeName};
 
 		my $packageName = $Namespace ? "$Namespace\::$typeName" : $typeName;
+		return if X3DPackage::exists($packageName);
 		#printf "X3DUniversal createType %s %s %s %s\n", $package, $base, $typeName, $packageName;
 
 		X3DPackage::setBase( $packageName, $package, @imports );
@@ -59,19 +61,37 @@ sub createType {
 			  @{ $description->{supertypes} } :
 			  $base
 		);
-		#X3DPackage::setBase( $typeName, $description->{base} );
 
 		#printf "X3DUniversal createType %s : %s %s\n", $typeName, $package, $base;
 		X3DPackage::Scalar( $packageName, "Description" ) = $description;
 
-		$packageName->SET_DESCRIPTION($description)
-		  if $packageName->can('SET_DESCRIPTION');
+		#printf "X3DUniversal createType %s\n", $packageName;
+
+		if ( defined $Types ) {
+			push @$Types, $packageName;
+		} else {
+			$packageName->X3DPackage::initializeType;
+		}
 
 	} else {
 		Carp::croak "Error Parse::Concept: '$declaration'\n", $@ if $@;
 	}
 
 	return;
+}
+
+sub initializeTypes {
+	$_->X3DPackage::initializeType foreach @$Types;
+	$Types = undef;
+}
+
+sub initializeType {
+	my ($package) = @_;
+	#printf "X3DUniversal initializeType %s %s\n", $package, X3DPackage::Scalar( $package, "Description" );
+
+	$package->SET_DESCRIPTION( X3DPackage::Scalar( $package, "Description" ) )
+	  if $package->can('SET_DESCRIPTION');
+
 }
 
 sub getName { ref( $_[0] ) || $_[0] }
@@ -163,18 +183,6 @@ sub setBase {
 	return YES;
 }
 
-# sub constants {
-# 	my $package   = X3DPackage::getName(shift);
-# 	my %constants = @_;
-# 	no strict 'refs';
-# 	while ( my ( $name, $value ) = each %constants ) {
-# 		my $full_name = "${package}::$name";
-# 		*$full_name = sub () { $value };
-# 	}
-# }
-
-#*alias = \&base;
-
 sub expression {
 	my $alias    = shift;
 	my $original = shift;
@@ -216,7 +224,7 @@ sub _import {
 		$expression .= X3DPackage::statements( $original, @_ );
 	}
 
-	printf "%s\n", $expression;
+	#printf "%s\n", $expression;
 	eval $expression;
 
 	if ($@) {

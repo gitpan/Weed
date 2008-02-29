@@ -2,7 +2,7 @@ package Weed::Object;
 
 use Weed 'X3DObject ()';
 
-our $VERSION = '0.014';
+our $VERSION = '0.015';
 
 use Weed::Callbacks;
 
@@ -38,8 +38,13 @@ sub setTainted {    #X3DMessage->Debug(@_);
 sub getCallbacks { $_[0]->{callbacks} }
 
 sub processEvents {
-	my ( $this, $time ) = @_;
-	$this->{callbacks}->processEvents( $this, defined $time ? $time : time );
+	my ( $this, $self, $value, $time ) = @_;
+	#X3DMessage->Debug($this);
+
+	while ( $value->getTainted ) {
+		$value->setTainted(NO);
+		$this->getCallbacks->processEvents( $self, $value, $time );
+	}
 	return;
 }
 

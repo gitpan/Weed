@@ -1,27 +1,21 @@
 package Weed::Callbacks;
 
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 use Weed 'X3DCallbacks : X3DArrayHash ()';
 
-use Scalar::Util ();
-
 sub add {
-	my ( $this, $object, $callback ) = @_;
+	my ( $this, $callback ) = @_;
 
 	return unless UNIVERSAL::isa( $callback, 'CODE' );
 
-	my $objectId   = X3DUniversal::getId($object);
 	my $callbackId = X3DUniversal::getId($callback);
 
-	return if exists $this->{$objectId}->{$callbackId};
+	return if exists $this->{$callbackId};
 
-	my $value = [ $object, $callback ];
-	my $id = X3DUniversal::getId($value);
+	my $id = X3DUniversal::getId($callback);
 
-	push @$this, $this->{$objectId}->{$callbackId} = $value;
-	
-	Scalar::Util::weaken($value->[0]);
+	push @$this, $this->{$callbackId} = $callback;
 
 	return $id;
 
@@ -44,13 +38,8 @@ sub remove {
 }
 
 sub processEvents {
-	my ( $this, $value, $time ) = @_;
-
-	while ( $value->getTainted ) {
-		$value->setTainted(NO);
-		$_->[1]->( $_->[0], $value, $time ) foreach @$this;
-	}
-
+	my ( $this, @values ) = @_;
+	$_->( @values ) foreach @$this;
 	return;
 }
 

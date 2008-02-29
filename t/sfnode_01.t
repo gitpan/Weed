@@ -12,8 +12,8 @@ BEGIN {
 }
 
 #X3DGenerator->setOutputStyle("COMPACT");
-ok my $sfnode1 = new SFNode(new Weed);
-ok my $sfnode2 = new SFNode(new Weed);
+ok my $sfnode1 = new SFNode(new WeedTest);
+ok my $sfnode2 = new SFNode(new WeedTest);
 
 1;
 __END__

@@ -1,24 +1,13 @@
 package Weed::RegularExpressions;
 use Weed::Perl;
 
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 use Weed::Symbols;
 
 use base 'Exporter';
 
 our @EXPORT = qw(
-  $_RestrictedId
-  $_colon
-  $_colon_test
-  $_open_parenthesis
-  $_close_parenthesis
-  $_FieldDefinition
-  $_space_break_space
-  $_in
-  $_out
-
-  $_break
   $_header
   $_whitespace
   $_comment
@@ -67,27 +56,33 @@ our @EXPORT = qw(
   $_nan
   $_inf
 
-  $_Body
-
   $_NodeTypeId
   $_ScriptNodeInterface_IS
 
   $_CosmoWorlds
   $_enum
-);
 
-#Concept
-our $open_parenthesis    = '\\' . $_open_parenthesis_;
-our $close_parenthesis   = '\\' . $_close_parenthesis_;
-our $colon               = '\\' . $_colon_;
-our $swung_dash          = '\\' . $_swung_dash_;
+  $_RestrictedId
+  $_colon
+  $_colon_test
+  $_open_parenthesis
+  $_close_parenthesis
+
+  $_ConceptBody
+
+  $_in
+  $_out
+
+  $_FieldRange
+
+);
 
 # General
 our $space      = "[\x20\t]";
 our $break      = "[\n\r]";
 our $header     = "#VRML V2.0 (utf8)([\x20\t]+(.*?)){0,1}[\n\r]";
 our $whitespace = '[\x20\n,\t\r]';
-our $comment    = '#(.*?)\n';
+our $comment    = '\x23(.*?)(?:[\n\r]|$)';
 
 # Field Values Symbols
 our $hex    = '0[xX][\da-fA-F]+';
@@ -119,21 +114,11 @@ our $IdFirstChar = '[^\x30-\x39\x00-\x20\x22\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d
 our $IdRestChars = '[^\x00-\x20\x22\x23\x27\x2c\x2e\x5b\x5c\x5d\x7b\x7d\x7f]';
 our $Id          = "$IdFirstChar$IdRestChars*";
 
-#Concept
-our $RestrictedIdFirstChar = '[^\x30-\x39\x00-\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d-\x7f()]{1}';
-our $RestrictedId          = "$RestrictedIdFirstChar$IdRestChars*";
-our $_space_break_space    = qr.$space*$break$space*.so;
-our $_in                   = qr.\G$whitespace*$_in_.so;
-our $_out                  = qr.\G$whitespace*$_out_.so;
-
-#our $FieldName  = "[a-z]{1}[a-zA-Z_]*";
-#our $_FieldName = qr.\G($FieldName).so;
-
 # General
-our $_break      = qr.$break.so;
-our $_header     = qr.\A$header.so;
-our $_comment    = qr.\G$whitespace*$comment.so;
+our $_header = qr.\A$header.so;
+#our $_break      = qr.$break.so;
 our $_whitespace = qr.\G$whitespace*.so;
+our $_comment    = qr.\G$whitespace*$comment.so;
 
 # concept
 
@@ -172,22 +157,13 @@ our $_close_bracket    = qr.\G$whitespace*$close_bracket.so;
 our $_period           = qr.\G$period.so;
 our $_brackets         = qr.\G$whitespace*$open_bracket$whitespace*$close_bracket.so;    # []
 
-#Concept
-our $_open_parenthesis    = qr.\G$whitespace*$open_parenthesis.so;
-our $_close_parenthesis   = qr.\G$whitespace*$close_parenthesis.so;
-our $_colon               = qr.\G$whitespace*$colon.so;
-our $_colon_test          = qr.\G$whitespace+$colon$whitespace+.so;
-
 # Other Symbols
-our $_Id           = qr.\G$whitespace*($Id).so;
-our $_RestrictedId = qr.\G$whitespace*($RestrictedId).so;
-our $_double       = qr.\G$whitespace*($double).so;
-our $_fieldType    = qr.\G$whitespace*($fieldType).so;
-our $_float        = qr.\G$whitespace*($float).so;
-our $_int32        = qr.\G$whitespace*($int32).so;
-our $_string       = qr.\G$whitespace*"($string?)(?<!\\)".so;
-
-our $_Body = qr.\G$whitespace*($string?)$whitespace*(?=$close_brace).so;
+our $_Id        = qr.\G$whitespace*($Id).so;
+our $_double    = qr.\G$whitespace*($double).so;
+our $_fieldType = qr.\G$whitespace*($fieldType).so;
+our $_float     = qr.\G$whitespace*($float).so;
+our $_int32     = qr.\G$whitespace*($int32).so;
+our $_string    = qr.\G$whitespace*"($string?)(?<!\\)".so;
 
 our $_NodeTypeId = qr.\G$whitespace*($Id)(?=$whitespace*$open_brace).so;
 our $_ScriptNodeInterface_IS = qr.\G$whitespace*($_eventIn_|$_eventOut_|$_field_)$whitespace+($fieldType)$whitespace+($Id)$whitespace+$_IS_.so;
@@ -201,12 +177,33 @@ our $_enum        = qr.\G$whitespace*($enum).so;
 our $_nan = qr.\G$whitespace*($_nan_).so;
 our $_inf = qr.\G$whitespace*($_inf_).so;
 
-# Field type
+#Concept
+our $open_parenthesis  = '\\' . $_open_parenthesis_;
+our $close_parenthesis = '\\' . $_close_parenthesis_;
+our $colon             = '\\' . $_colon_;
+#our $swung_dash        = '\\' . $_swung_dash_;
+
+our $RestrictedIdFirstChar = '[^\x30-\x39\x00-\x23\x27\x2b\x2c\x2d\x2e\x5b\x5c\x5d\x7b\x7d-\x7f()]{1}';
+our $RestrictedId          = "$RestrictedIdFirstChar$IdRestChars*";
+our $_space_break_space    = qr.$space*$break$space*.so;
+
+our $_RestrictedId = qr.\G$whitespace*($RestrictedId).so;
+our $_in           = qr.\G$whitespace*$_in_.so;
+our $_out          = qr.\G$whitespace*$_out_.so;
+
+#our $FieldName  = "[a-z]{1}[a-zA-Z_]*";
+#our $_FieldName = qr.\G($FieldName).so;
+
+our $_colon             = qr.\G$whitespace*$colon.so;
+our $_colon_test        = qr.\G$whitespace+$colon$whitespace+.so;
+our $_open_parenthesis  = qr.\G$whitespace*$open_parenthesis.so;
+our $_close_parenthesis = qr.\G$whitespace*$close_parenthesis.so;
+our $_ConceptBody       = qr.\G$whitespace*($string?)$whitespace*(?=$close_brace$whitespace*$).so;
 
 our $in  = "(?:in)";
 our $out = "(?:out)";
 
-our $_FieldDefinition = qr.^\G$whitespace*($Id)$whitespace*$open_bracket($in?)$whitespace*($out?)$close_bracket$whitespace*($Id)$whitespace+($string).so;
+our $_FieldRange = qr.\G$space*($string?)$space*($break+|$).so;
 
 1;
 __END__

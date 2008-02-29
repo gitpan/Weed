@@ -1,15 +1,14 @@
 package X3D;
 
-use Weed 'X3D : Weed';
+use base 'Weed';
 
 use 5.008008;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 use warnings::register;
 
-use X3D::Components::Core;
-use X3D::Scene;
+use X3D::Environment;
 
 1;
 __END__

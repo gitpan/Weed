@@ -1,7 +1,7 @@
 package Weed::Parse::Id;
 use Weed::Perl;
 
-our $VERSION = '0.009';
+our $VERSION = '0.01';
 
 use Weed::RegularExpressions qw.$_Id $_RestrictedId.;
 
@@ -21,7 +21,7 @@ sub Ids {
 }
 
 sub Id {
-	my $string = shift;
+	my ($string) = @_;
 	return $1 if $$string =~ m.$_Id.gc;
 	return;
 }
@@ -38,7 +38,7 @@ sub RestrictedIds {
 }
 
 sub RestrictedId {
-	my $string = shift;
+	my ($string) = @_;
 	return $1 if $$string =~ m.$_RestrictedId.gc;
 	return;
 }

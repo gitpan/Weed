@@ -1,7 +1,7 @@
 package Weed::Parse::Concept;
 use Weed::Perl;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 use Carp (); $Carp::CarpLevel = 1;
 
@@ -17,7 +17,7 @@ sub parse {
 	my ($string) = @_;
 	return unless defined $string;
 	my $statement = eval { &conceptStatement( \$string ) };
-	#Carp::croak "Error Parse::Concept: '$string'\n", $@ if $@;
+	#die "Error Parse::Concept: '$string'\n", $@ if $@;
 	return $statement;
 }
 
@@ -34,14 +34,14 @@ sub conceptStatement {
 
 			$supertypes = &RestrictedIds($string);
 
-			Carp::croak "No supertypes after ':'" unless @$supertypes;
+			die "No supertypes after ':'" unless @$supertypes;
 
 		}
 		else {
 
 			$supertypes = [];
 
-			Carp::croak "Expected ' : '" if $$string =~ m.$_colon.gc;
+			die "Expected ' : '" if $$string =~ m.$_colon.gc;
 		}
 
 		if ( $$string =~ m.$_open_brace.gc ) {
@@ -53,13 +53,13 @@ sub conceptStatement {
 				return {
 					typeName   => $name,
 					supertypes => $supertypes,
-					new        => sub { bless {}, shift },
+					new        => sub { bless {}, $_[0] },
 					body       => $body,
 				};
 
 			}
 			else {
-				Carp::croak "Expected '}'";
+				die "Expected '}'";
 			}
 
 		}
@@ -79,7 +79,7 @@ sub conceptStatement {
 
 			}
 			else {
-				Carp::croak "Expected ']'";
+				die "Expected ']'";
 			}
 		}
 		elsif ( $$string =~ m.$_open_parenthesis.gc ) {
@@ -93,28 +93,28 @@ sub conceptStatement {
 				return {
 					typeName   => $name,
 					supertypes => $supertypes,
-					new        => sub { my $scalar = $value; bless \$scalar, shift },
+					new        => sub { bless \$value, $_[0] },
 					#body  	  => $body,
 				};
 			}
 			else {
-				Carp::croak "Expected ')'";
+				die "Expected ')'";
 			}
 		}
 
 		return {
 			typeName   => $name,
 			supertypes => $supertypes,
-			new        => sub () { Carp::croak "Package 'does not have a default value"; },
+			new        => sub () { die "Package 'does not have a default value"; },
 			#body  	  => $body,
 		} unless $@;
 		#		else {
-		#			Carp::croak "Expected '{' or '['";
+		#			die "Expected '{' or '['";
 		#		}
 
 	}
 	else {
-		Carp::croak "Expected a package name\n";
+		die "Expected a package name\n";
 	}
 
 	return;
@@ -123,11 +123,12 @@ sub conceptStatement {
 sub body {
 	my ($string) = @_;
 
-	return [] if $$string =~ m.$_close_brace_test.gc;
+	return '' if $$string =~ m.$_close_brace_test.gc;
 
-	return [ split $_space_break_space, $1 ] if $$string =~ m.$_Body.gc;
+	return $1 if $$string =~ m.$_ConceptBody.gc;
 
-	Carp::croak "Expected '}'";
+	die "Expected '{ ... }'";
+	#die "Expected '}'";
 	return;
 }
 

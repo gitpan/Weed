@@ -1,4 +1,4 @@
-package TestType;
+package TestTypeBase;
 
 BEGIN {
 	$| = 1;
